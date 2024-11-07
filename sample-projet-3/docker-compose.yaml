@@ -1,0 +1,45 @@
+networks:
+  sample-projet.net:
+    driver: bridge
+
+services:
+
+  rabbitmq:
+    image: 'rabbitmq:latest'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - sample-projet.net
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 2s
+      timeout: 10s
+      retries: 5
+
+      
+  api.sample-projet:
+    build:
+      context: build
+      dockerfile: node.Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - sample-projet.net
+    volumes:
+      - ./build/api:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  exec.java.sample-projet:
+    build:
+      context: build/javaDockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - sample-projet.net
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
