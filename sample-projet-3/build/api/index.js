@@ -68,57 +68,19 @@ app.use('/java', async (req, res, next) => {
         Aliases: [`java_exec_${idUser}`]
       }
     });
-
-    // Utiliser le middleware de proxy pour rediriger les requêtes vers le conteneur
-    const proxy = createProxyMiddleware({
-      target: `http://${containerName}:8000`,
-      changeOrigin: true,
-      onProxyReq: (proxyReq, req, res) => {
-        console.log(`Proxy request headers: ${JSON.stringify(proxyReq.getHeaders())}`);
-      },
-      onProxyRes: async (proxyRes, req, res) => {
-        console.log(`Proxy response status: ${proxyRes.statusCode}`);
-        if (proxyRes.statusCode === 200) {
-          // Arrêter, déconnecter et supprimer le conteneur après avoir reçu le résultat
-          await container.stop();
-          await docker.getNetwork('sample-projet-3_sample-projet.net').disconnect({
-            Container: container.id
-          });
-          await container.remove();
-          console.log(`Container ${containerName} stopped, disconnected from network, and removed`);
-        }
-      },
-      onError: async (err, req, res) => {
-        console.error(`Proxy error: ${err.message}`);
-        if (container) {
-          await container.stop();
-          await docker.getNetwork('sample-projet-3_sample-projet.net').disconnect({
-            Container: container.id
-          });
-          await container.remove();
-        }
-        res.status(500).json({ error: 'Proxy error', details: err.message });
-      }
-    });
-
-    proxy(req, res, next);
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
-    if (container) {
-      try {
-        await container.stop();
-        await docker.getNetwork('sample-projet-3_sample-projet.net').disconnect({
-          Container: container.id
-        });
-        await container.remove();
-        console.log(`Container stopped, disconnected from network, and removed due to error`);
-      } catch (removeErr) {
-        console.error(`Error removing container: ${removeErr.message}`);
-      }
-    }
-    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
+
+app.use('/java', createProxyMiddleware({
+  target: `http://java_exec_${idUser}:8000`,
+  changeOrigin: true,
+  pathRewrite: {
+    '^/java': ''
+  }
+}));
+    
 
 app.listen(PORT, () => {
   console.log(`API Gateway running on port 3000`);
