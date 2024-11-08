@@ -27,19 +27,9 @@ services:
     networks:
       - sample-projet.net
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./build/api:/usr/src/app
       - /usr/src/app/node_modules
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-
-  exec.java.sample-projet:
-    build:
-      context: build/javaDockerfile
-    ports:
-      - '8080:8080'
-    networks:
-      - sample-projet.net
     depends_on:
       rabbitmq:
         condition: service_healthy
