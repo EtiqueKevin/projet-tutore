@@ -68,20 +68,57 @@ app.use('/java', async (req, res, next) => {
         Aliases: [`java_exec_${idUser}`]
       }
     });
+
+    // Listen for the response to finish and remove the container
+    res.on('finish', async () => {
+      try {
+        await container.stop();
+        await container.remove();
+        console.log(`Container java_exec_${idUser} stopped and removed`);
+      } catch (error) {
+        console.error(`Failed to stop and remove container java_exec_${idUser}:`, error);
+      }
+    });
+
+    // Store idUser in the request object to use it in the proxy middleware
+    req.idUser = idUser;
+
+    // Pass the request to the next middleware (proxy)
+    next();
+
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
 });
 
-app.use('/java', createProxyMiddleware({
-  target: `http://java_exec_${idUser}:8000`,
-  changeOrigin: true,
-  pathRewrite: {
-    '^/java': ''
+app.use('/java', (req, res, next) => {
+  const idUser = req.idUser;
+  if (!idUser) {
+    return res.status(400).json({ error: 'Bad Request', details: 'idUser is required' });
   }
-}));
-    
+
+  const targetUrl = `http://java_exec_${idUser}:8000`;
+  const proxy = createProxyMiddleware({
+    target: targetUrl,
+    changeOrigin: true,
+    ws: true,
+    LogLevel: 'debug',
+    timeout: 10000, 
+    onProxyReq: (proxyReq, req, res) => {
+      console.log(`Proxy request for user ${idUser} to ${proxyReq.path}`);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      console.log(`Proxy response received for user ${idUser} with status ${proxyRes.statusCode}`);
+    },
+    onError: (err, req, res) => {
+      console.error(`Proxy error for user ${idUser}:`, err);
+      res.status(500).json({ error: 'Proxy Error', details: err.message });
+    }
+  });
+
+  proxy(req, res, next);
+});
 
 app.listen(PORT, () => {
-  console.log(`API Gateway running on port 3000`);
+  console.log(`API Gateway running on port ${PORT}`);
 });

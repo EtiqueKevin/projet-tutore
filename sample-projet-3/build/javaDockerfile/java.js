@@ -12,7 +12,8 @@ const JUNIT_JAR = path.join(__dirname, 'junit-4.12.jar');
 const HAMCREST_JAR = path.join(__dirname, 'hamcrest-core-1.3.jar');
 
 
-app.post('/validate', (req, res) => {
+app.post('/java/validate', (req, res) => {
+    console.log('ta grand mere la pute');
     const { code, testCode } = req.body;
     res.json({ message: 'Code is correct', output: 'Hello World' });
 
