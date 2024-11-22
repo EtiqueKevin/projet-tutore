@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 const apiProxy = httpProxy.createProxyServer();
 const docker = new Docker();
@@ -47,7 +48,6 @@ amqp.connect('amqp://rabbitmq', (error0, connection) => {
   });
 });
 
-
 app.use('/java', async (req, res, next) => {
   const idUser = req.body.idUser;
   if (!idUser) {
@@ -69,6 +69,13 @@ app.use('/java', async (req, res, next) => {
       }
     });
 
+    let bool = false; 
+    while (!bool) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const containers = await docker.listContainers({ all: true });
+      bool = containers.some(c => c.Names.includes(`/java_exec_${idUser}`));
+    }
+
     // Listen for the response to finish and remove the container
     res.on('finish', async () => {
       try {
@@ -81,7 +88,7 @@ app.use('/java', async (req, res, next) => {
     });
 
     // Store idUser in the request object to use it in the proxy middleware
-    req.idUser = idUser;
+    //req.idUser = idUser;
 
     // Pass the request to the next middleware (proxy)
     next();
@@ -92,7 +99,8 @@ app.use('/java', async (req, res, next) => {
 });
 
 app.use('/java', (req, res, next) => {
-  const idUser = req.idUser;
+  console.log(req.body);
+  const idUser = 'caca';
   if (!idUser) {
     return res.status(400).json({ error: 'Bad Request', details: 'idUser is required' });
   }
@@ -102,10 +110,12 @@ app.use('/java', (req, res, next) => {
     target: targetUrl,
     changeOrigin: true,
     ws: true,
-    LogLevel: 'debug',
-    timeout: 10000, 
+    logLevel: 'debug',
+    timeout: 10000, // Ajoutez un délai d'attente de 10 secondes
+    proxyTimeout: 10000, // Ajoutez un délai d'attente de 10 secondes pour le proxy
     onProxyReq: (proxyReq, req, res) => {
       console.log(`Proxy request for user ${idUser} to ${proxyReq.path}`);
+      console.log(`url à appeler : ${targetUrl}`);
     },
     onProxyRes: (proxyRes, req, res) => {
       console.log(`Proxy response received for user ${idUser} with status ${proxyRes.statusCode}`);
