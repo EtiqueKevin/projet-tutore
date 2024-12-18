@@ -76,20 +76,6 @@ app.use('/java', async (req, res, next) => {
       bool = containers.some(c => c.Names.includes(`/java_exec_${idUser}`));
     }
 
-    // Listen for the response to finish and remove the container
-    res.on('finish', async () => {
-      try {
-        await container.stop();
-        await container.remove();
-        console.log(`Container java_exec_${idUser} stopped and removed`);
-      } catch (error) {
-        console.error(`Failed to stop and remove container java_exec_${idUser}:`, error);
-      }
-    });
-
-    // Store idUser in the request object to use it in the proxy middleware
-    //req.idUser = idUser;
-
     // Pass the request to the next middleware (proxy)
     next();
 
