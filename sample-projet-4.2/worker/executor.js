@@ -1,6 +1,4 @@
 const { spawn } = require('child_process');
-const path = require('node:path');
-const fs = require('node:fs');
 
 function createFiles(langage, req) {
     let fileCreationCommands = '';
@@ -70,9 +68,11 @@ async function execDocker(dockerImage, langage, req) {
                 let output = '';
                 let errorOutput = '';
 
+                //recuperation des sorties
                 dockerProcess.stdout.on('data', (data) => output += data.toString());
                 dockerProcess.stderr.on('data', (data) => errorOutput += data.toString());
 
+                //envoie des sorties a la fermeture
                 dockerProcess.on('close', (code) => {
                     if (code === 0) {
                         console.log(`✅ Exécution réussie en ${langage}`);
