@@ -1,3 +1,13 @@
+# Ignore package-lock.json files
 package-lock.json
-node_modules
+
+# Ignore node_modules directories
+node_modules/
+
+# Ignore .env files
 .env
+
+# Ignore editor directories and files
+.vscode/
+.idea/
+.DS_Store
