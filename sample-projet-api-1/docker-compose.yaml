@@ -1,23 +1,33 @@
-version: '3.8'
-
+# Les volumes
+volumes:
+  pgdata:
+    
+# Les services
 services:
   node:
-    image: node:14
-    working_dir: /app
+    image: "node:20"
+    working_dir: /usr/src/app
+    # environment:
+    #    - NODE_ENV=production
     volumes:
-      - .:/app
+      - ./api:/usr/src/app
     ports:
-      - "3000:3000"
-    depends_on:
-      - db
+      - "8888:8888"
+    command: sh -c "npm install && npm start"
 
   db:
-    image: postgres:13
+    image: postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
       POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d/
+
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
