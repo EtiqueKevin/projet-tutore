@@ -1,0 +1,36 @@
+{
+  "name": "sample-front",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix"
+  },
+  "dependencies": {
+    "@codingame/monaco-languageclient": "^0.17.4",
+    "@tailwindcss/typography": "^0.5.15",
+    "marked": "^15.0.4",
+    "monaco-editor": "^0.52.2",
+    "normalize-url": "^8.0.1",
+    "reconnecting-websocket": "^4.4.0",
+    "vscode": "npm:@codingame/monaco-vscode-api@~8.0.4",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-ws-jsonrpc": "^3.3.2",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "vite": "^6.0.3",
+    "vite-plugin-vue-devtools": "^7.6.8"
+  }
+}

@@ -1,0 +1,86 @@
+<script setup>
+import Console from '@/components/editor/Console.vue';
+import Editor from '@/components/editor/teacher/TeacherEditor.vue';
+import MarkdownArea from '@/components/editor/MarkdownArea.vue';
+import { ref, defineEmits, defineProps, onMounted } from 'vue';
+
+const props = defineProps({
+  sujet: String,
+  files: Array
+});
+
+const sujet = ref(null);
+const files = ref([]);
+
+const consoleResults = ref('');
+const isWriting = ref(true);
+
+const emit = defineEmits(['save', 'cancel']);
+
+const saveExercice = () => {
+  if (!sujet.value) {
+  window.alert('Le sujet de l\'exercice ne peut pas être vide');
+    return;
+  }
+
+  if (files.value.length === 0) {
+    window.alert('Vous devez ajouter des fichiers à l\'exercice');
+    return;
+  }
+
+  const hasTestFile = files.value.some(file => file.type === 'test');
+  const hasFile = files.value.some(file => file.type === 'file');
+
+  if (!hasTestFile || !hasFile) {
+    window.alert('Vous devez ajouter au moins un fichier de type "test" et un fichier de type "file"');
+    return;
+  }
+
+  emit('save', {
+    type: 'exercice',
+    statement: sujet.value,
+    files: files.value,
+  });
+};
+
+const cancel = () => {
+  emit('cancel');
+};
+
+onMounted(() => {
+  sujet.value = props.sujet;
+  files.value = props.files;
+});
+</script>
+
+<template>
+<main class="flex-grow flex">
+    <div class="flex flex-col flex-1 border-r-2 dark:border-gray-300 border-slate-800">
+        <div class="flex p-2 pt-0 gap-2 border-b-2 dark:border-gray-300 border-slate-800">
+            <button @click="isWriting = true"  :class="['button', isWriting ? 'selected' : '']">Sujet</button>
+            <button @click="isWriting = false" :class="['button', !isWriting ? 'selected' : '']">Markdown</button>
+        </div>
+        <textarea v-if="isWriting" v-model="sujet" class="flex-1 p-2 dark:bg-main-dark dark:text-white" placeholder="Ecrire le sujet de l'éxercice ici"></textarea>
+        <MarkdownArea v-else :markdown-text="sujet" class="flex-1"/>
+        <div class="flex p-2 gap-2 border-t-2 dark:border-gray-300 border-slate-800">
+          <button @click="saveExercice" class="menu-button">Valider Exercice</button>
+          <button @click="cancel" class="menu-button">Annuler</button>
+        </div>
+    </div>
+    <Editor :files="files" class="flex-2 border-r-2 dark:border-gray-300 border-slate-800"/>
+    <Console :results="consoleResults" class="flex-1"/>
+</main>
+</template>
+
+<style scoped>
+.button {
+    @apply px-4 py-2 rounded-b-lg transition-colors bg-gray-800 text-white border-none cursor-pointer flex gap-2;
+}
+.button.selected {
+    @apply bg-primary-dark text-white;
+}
+
+.menu-button {
+  @apply px-4 py-2 cursor-pointer bg-primary-dark hover:bg-primary-light rounded text-white;
+}
+</style>
