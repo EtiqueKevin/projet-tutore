@@ -1,0 +1,10 @@
+{
+  "name": "sample-projet",
+  "version": "1.0.0",
+  "description": "api de commnication avec les conteneurs d'exécution de code",
+  "dependencies": {
+    "amqplib": "^0.10.5",
+    "dockerode": "^4.0.2",
+    "express": "^4.17.1"
+  }
+}
