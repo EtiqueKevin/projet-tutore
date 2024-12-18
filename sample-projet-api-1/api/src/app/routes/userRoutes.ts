@@ -1,6 +1,6 @@
 import express from 'express';
-import { getAllUserAction } from '../actions/getAllUserAction';
-import { getUserByIdAction } from '../actions/getUserByIdAction';
+import { getAllUserAction } from '@actions/getAllUserAction';
+import { getUserByIdAction } from '@actions/getUserByIdAction';
 
 const router = express.Router();
 
