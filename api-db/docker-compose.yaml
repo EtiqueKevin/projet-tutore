@@ -1,0 +1,34 @@
+services:
+  api.db:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+
+    volumes:
+      - ./app:/var/php
+
+    working_dir: /var/php
+
+    ports:
+      - "8889:8889"
+
+    command: php -S 0.0.0.0:8889 -t /var/php/public
+
+  db:
+    image: 'postgres:latest'
+
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: jeancademydb
+
+    volumes:
+      - ./app/sql:/docker-entrypoint-initdb.d
+      - ./sql_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  adminer:
+    image: adminer
+    ports:
+      - "5433:8080"
