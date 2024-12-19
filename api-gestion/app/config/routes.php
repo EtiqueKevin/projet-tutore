@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use apiGestion\application\actions\GetUserId;
 use apiGestion\application\actions\HomeAction;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -17,6 +18,7 @@ return function( App $app): App {
         });
 */
     $app->get('/', HomeAction::class);
+    $app->get('/user/{id}[/]', GetUserId::class);
 
 
     return $app;

@@ -2,7 +2,7 @@
 
 namespace apiGestion\core\repositoryInterface;
 
-interface PDOrepositoryInterfaceUsers{
+interface UserRepositoryInterface{
 
     function getUserByID($userID): User;
 
