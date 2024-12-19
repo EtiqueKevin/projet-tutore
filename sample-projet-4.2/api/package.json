@@ -4,7 +4,13 @@
   "description": "api de commnication avec les conteneurs d'exécution de code",
   "dependencies": {
     "amqplib": "^0.10.5",
+    "axios": "^1.7.9",
+    "concurrently": "^9.1.0",
+    "dockerode": "^4.0.2",
     "express": "^4.17.1",
     "uuid": "^11.0.3"
+  },
+  "scripts": {
+    "start": "concurrently \"node index.js\" \"node monitoring_Docker.js\""
   }
 }

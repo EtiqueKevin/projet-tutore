@@ -1,10 +1,25 @@
-FROM openjdk:20-jdk-slim
+FROM node:18
 
-# Définir le répertoire de travail dans le conteneur
-WORKDIR /code
+# Installer OpenJDK (par exemple OpenJDK 11)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-17-jdk \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY hamcrest-core-1.3.jar ./
-COPY junit-4.12.jar ./
+# Définir le répertoire de travail
+WORKDIR /usr/src/worker
 
-# Installer les dépendances nécessaires (par exemple, bash)
-RUN apt update && apt install -y bash default-jdk jq
+# Copier les fichiers nécessaires au Worker
+COPY package*.json ./
+COPY ./packageTest/hamcrest-core-1.3.jar ./
+COPY ./packageTest/junit-4.12.jar ./
+
+RUN npm install
+COPY .. .
+
+# Vérifier l'installation de Java
+RUN java -version
+
+# Démarrer le Worker
+CMD ["node", "index.js"]
+
+EXPOSE 4000
