@@ -8,7 +8,7 @@ use apiDB\core\dto\user\UserDTO;
 class User extends Entity{
     protected string $name;
     protected string $surname;
-    protected string $role;
+    protected int $role;
     protected string $linkpic;
     protected string $email;
     protected string $datesignup;
