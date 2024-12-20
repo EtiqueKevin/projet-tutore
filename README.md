@@ -4,8 +4,8 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 
 ## Sommaire
 
-- [Membres du groupe](#Membres_du_groupe)
-- [Urls](#Urls)
+- [Membres du groupe](#membres-du-groupe)
+- [Urls](#urls)
 
 ## Membres du groupe
 - Brito Clément
