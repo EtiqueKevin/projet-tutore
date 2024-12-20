@@ -5,7 +5,7 @@ services:
     container_name: rabbitmq
     ports:
       - "15672:15672" # Port pour l'interface de gestion Web de RabbitMQ
-      - "5672:5672"   # Port AMQP
+      - "5672:5672"  # Port AMQP
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
@@ -20,20 +20,23 @@ services:
       - "3000:3000" # Port de l'API
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - rabbitmq
     networks:
       - code-execution-net
 
-  # Service Worker
-  worker:
-    build: ./worker # Dockerfile dans le dossier ./worker
-    container_name: worker
+  # Service Java
+  java:
+    build: ./worker/java
+    container_name: java
+    ports:
+      - "4000:4000"
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq
     volumes:
-      - ./worker:/usr/src/worker
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./worker/java:/usr/src/worker
     depends_on:
       - rabbitmq
     networks:
