@@ -18,6 +18,12 @@ const props = defineProps({
 
 const emit = defineEmits(['update:value']);
 
+const editorContainer = ref(null);
+let editor = null;
+let resizeObserver = null;
+
+const getTheme = () => document.body.classList.contains('dark') ? 'vs-dark' : 'vs-light';
+
 self.MonacoEnvironment = {
   getWorker(_, label) {
     if (label === 'json') {
@@ -36,11 +42,7 @@ self.MonacoEnvironment = {
   }
 };
 
-const editorContainer = ref(null);
-let editor = null;
-let resizeObserver = null;
 
-const getTheme = () => document.body.classList.contains('dark') ? 'vs-dark' : 'vs-light';
 
 onMounted(() => {
   if (editorContainer.value) {

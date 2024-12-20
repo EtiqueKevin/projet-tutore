@@ -108,12 +108,16 @@ const deleteItem = (index) => {
     cours.value.content.splice(index, 1);
 };
 
+const isMobile = computed(() => {
+    return window.innerWidth <= 768;
+});
+
 </script>
 
 <template>
-    <main v-if="!(mode==3)" class="flex-grow flex p-4 gap-4">
+    <main v-if="!(mode==3)" class="flex-grow flex p-4 gap-4" :class="{'flex-col': isMobile, 'flex-row': !isMobile}">
         <!-- Left column -->
-        <div id="left-column" class="w-1/4 p-4 dark:bg-gray-800 bg-slate-200">
+        <div id="left-column" class="w-full md:w-1/4 p-4 dark:bg-gray-800 bg-slate-200">
             <button @click="mode=0" :class="{'button': true, 'selected': mode == 0}">Titre et description</button>
             <button @click="mode=1" :class="{'button': true, 'selected': mode == 1}">Contenu</button>
             <button @click="mode=2" :class="{'button': true, 'selected': mode == 2}">Aperçu</button>
@@ -138,7 +142,7 @@ const deleteItem = (index) => {
         </div>
 
         <!-- Right column -->
-        <div id="right-column" class="w-3/4 h-full dark:bg-gray-800 bg-slate-200">
+        <div id="right-column" class="w-full md:w-3/4 h-full dark:bg-gray-800 bg-slate-200">
             <div v-if="mode==0" class="p-4">
                 <h1 class="text-2xl mb-4 text-black dark:text-white">Création d'un cours</h1>
                 <input type="text" v-model="cours.title" placeholder="Titre du cours" class="w-full mb-4 p-2 border text-black">
