@@ -15,3 +15,7 @@ docker compose up -d
 
 - java : sur le port XXXX
 - python : sur le port XXXX
+
+## AUTRES INFORMATIONS
+
+**CA MARCHE PAS**
