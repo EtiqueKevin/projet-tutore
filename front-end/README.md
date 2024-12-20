@@ -1,35 +1,20 @@
-# sample-front
+# Front-end de l'application
 
-This template should help get you started developing with Vue 3 in Vite.
+Ce répertoire contient le code source du front-end de l'application web. L'application est construite avec Vue.js et utilise plusieurs outils et bibliothèques pour offrir une expérience utilisateur riche et interactive.
 
-## Recommended IDE Setup
+## Technologies 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Ce front-end est fait avec :
+- [Vuejs 3](https://vuejs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Monaco Editor](https://microsoft.github.io/monaco-editor/)
 
-## Customize configuration
+## Installation
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
+1. Clonez le répertoire du projet :
 
 ```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+    cd front-end
+    npm install
+    npm run dev
 ```
