@@ -2,13 +2,15 @@
 import Console from '@/components/editor/Console.vue';
 import Editor from '@/components/editor/teacher/TeacherEditor.vue';
 import MarkdownArea from '@/components/editor/MarkdownArea.vue';
-import { ref, defineEmits, defineProps, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const props = defineProps({
   sujet: String,
   files: Array
 });
 
+// 0 = sujet, 1 = editor, 2 = console
+const page = ref(0);
 const sujet = ref(null);
 const files = ref([]);
 
@@ -51,11 +53,17 @@ onMounted(() => {
   sujet.value = props.sujet;
   files.value = props.files;
 });
+const isMobile = computed(() => window.innerWidth < 768);
 </script>
 
 <template>
-<main class="flex-grow flex">
-    <div class="flex flex-col flex-1 border-r-2 dark:border-gray-300 border-slate-800">
+<main :class="['flex-grow flex', isMobile ? 'flex-col' : '']">
+    <div v-if="isMobile" class="flex justify-around border-b-2">
+      <button @click="page=0" :class="['button-mobile', page==0?'selected':'']">Markdown</button>
+      <button @click="page=1" :class="['button-mobile', page==1?'selected':'']">Editor</button>
+      <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
+    </div>
+    <div class="flex flex-col flex-1 border-r-2 dark:border-gray-300 border-slate-800" v-if="!isMobile || page === 0">
         <div class="flex p-2 pt-0 gap-2 border-b-2 dark:border-gray-300 border-slate-800">
             <button @click="isWriting = true"  :class="['button', isWriting ? 'selected' : '']">Sujet</button>
             <button @click="isWriting = false" :class="['button', !isWriting ? 'selected' : '']">Markdown</button>
@@ -67,8 +75,8 @@ onMounted(() => {
           <button @click="cancel" class="menu-button">Annuler</button>
         </div>
     </div>
-    <Editor :files="files" class="flex-2 border-r-2 dark:border-gray-300 border-slate-800"/>
-    <Console :results="consoleResults" class="flex-1"/>
+    <Editor :files="files" class="flex-2 border-r-2 dark:border-gray-300 border-slate-800" v-if="!isMobile || page === 1"/>
+    <Console :results="consoleResults" class="flex-1" v-if="!isMobile || page === 2"/>
 </main>
 </template>
 
@@ -82,5 +90,13 @@ onMounted(() => {
 
 .menu-button {
   @apply px-4 py-2 cursor-pointer bg-primary-dark hover:bg-primary-light rounded text-white;
+}
+
+.button-mobile {
+  @apply px-4 py-2 bg-primary-dark text-white flex-1;
+}
+
+.button-mobile.selected {
+  @apply bg-primary-light;
 }
 </style>

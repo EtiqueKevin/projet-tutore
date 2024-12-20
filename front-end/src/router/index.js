@@ -17,7 +17,17 @@ const router = createRouter({
       path: '/cours/create',
       name: 'cours-create',
       component: () => import('@/views/CoursCreateView.vue'),
-    }
+    },
+    {
+      path: '/exercise/create',
+      name: 'exercise-create',
+      component: () => import('@/views/ExerciceCreateView.vue'),
+    },
+    {
+      path: '/user/connect',
+      name: 'user-connect',
+      component: () => import('@/views/ConnexionView.vue'),
+    },
   ],
 })
 

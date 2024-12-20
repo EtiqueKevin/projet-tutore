@@ -1,0 +1,12 @@
+services:
+  pylsp:
+    build:
+      context: ./pylsp
+    ports:
+      - "3000:3000"
+
+  jdtls:
+    build:
+      context: ./jdtls
+    ports:
+      - "3001:3001"

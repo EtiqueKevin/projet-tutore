@@ -8,7 +8,7 @@ const type = ref('file');
 const emit = defineEmits(['fileAdded', 'close']);
 
 const addFile = () => {
-    const extension = language.value === 'java' ? '.java' : '.js';
+    const extension = language.value === 'java' ? '.java' : '.py';
     
     const firstPart = name.value.split('.')[0];
     
@@ -32,7 +32,7 @@ const addFile = () => {
                 <label for="file-language">Language</label>
                 <select id="file-language" v-model="language" class="border rounded p-2 text-black">
                     <option value="java">Java</option>
-                    <option value="javascript">Javascript</option>
+                    <option value="javascript">Python</option>
                 </select>
                 <label for="file-type">Type de fichier</label>
                 <select id="file-type" v-model="type" class="border rounded p-2 text-black">

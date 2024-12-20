@@ -22,6 +22,9 @@ import MenuList from '@/components/list/MenuList.vue';
         <Boutton :to="'/cours/create'" :background="''">
           Create Cours
         </Boutton>
+        <Boutton :to="'/user/connect'" :background="''">
+          Connection
+        </Boutton>
       </MenuList>
     </div>
   </header>
