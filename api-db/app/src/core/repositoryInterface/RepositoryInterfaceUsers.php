@@ -2,7 +2,9 @@
 
 namespace apiDB\core\repositoryInterface;
 
-interface PDOrepositoryInterfaceUsers{
+use apiDB\core\domain\entities\user\User;
+
+interface RepositoryInterfaceUsers{
 
     function getUsersById(string $id) : User;
 
