@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 // Utilisation de promisify pour rendre exec asynchrone avec await
 const execPromise = util.promisify(exec);
 
-async function createDir(res) {
+async function createDir() {
     try {
         // Exécution de la commande mktemp -d pour créer un répertoire temporaire
         const { stdout, stderr } = await execPromise('mktemp -d');
@@ -12,18 +12,17 @@ async function createDir(res) {
         // Vérification de l'erreur standard
         if (stderr) {
             console.error(`Erreur standard: ${stderr}`);
-            return res.status(500).json({ error: 'Erreur lors de la création du répertoire temporaire.' });
+            throw new Error('Erreur lors de la création du répertoire temporaire.');
         }
 
         // Traitement du stdout pour obtenir le répertoire
-        let newDir = stdout.trim();  // trim() pour enlever les espaces ou les nouvelles lignes
+        let newDir = stdout.trim(); // trim() pour enlever les espaces ou les nouvelles lignes
         console.log(`Répertoire temporaire créé: ${newDir}`);
         return newDir;
-
     } catch (error) {
         // Gestion des erreurs d'exécution
         console.error(`Erreur d'exécution: ${error.message}`);
-        return res.status(500).json({ error: 'Erreur lors de la création du répertoire temporaire.' });
+        throw new Error('Erreur lors de la création du répertoire temporaire.');
     }
 }
 

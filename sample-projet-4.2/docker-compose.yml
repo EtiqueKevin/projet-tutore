@@ -31,8 +31,6 @@ services:
   java:
     build: ./worker/java
     container_name: java
-    ports:
-      - "4000:4000"
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq
     volumes:
