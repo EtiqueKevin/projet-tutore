@@ -2,6 +2,7 @@
 
 namespace apiGestion\core\services\lesson;
 
+use apiGestion\core\dto\lesson\LessonDTO;
 use apiGestion\core\repositoryInterface\LessonRepositoryInterface;
 
 class LessonService implements LessonServiceInterface
@@ -23,5 +24,11 @@ class LessonService implements LessonServiceInterface
           $tabLessonDTO[] = $lesson->toDTO();
         }
         return $tabLessonDTO;
+    }
+
+    public function getLessonById(int $id): LessonDTO
+    {
+        $lesson = $this->lessonRepository->getLessonById($id);
+        return $lesson->toDTO();
     }
 }

@@ -19,6 +19,6 @@ cache.properties
 # Composer
 composer.phar
 composer.lock
-#.env
+apiGestion.env
 #logs
 /api/var/logs

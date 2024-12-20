@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use apiGestion\application\actions\HomeAction;
+use apiGestion\application\actions\lesson\GetLessonByIdAction;
 use apiGestion\application\actions\user\GetUserByIdAction;
 use Slim\App;
 
@@ -26,7 +27,7 @@ return function( App $app): App {
     $app->get('module/{id}[/]', GetModuleByIdAction::class);
     $app->get('module/{id}/lessons[/]', GetLessonAction::class);
     $app->post('module/{id}/lessons/[/]', PostLessonAction::class);
-    $app->get('module/{id}/lessons/{id}[/]', GetLessonByIdAction::class);
+    $app->get('/module/{id_module}/lessons/{id_lesson}[/]', GetLessonByIdAction::class);
 
     //exec code
     $app->post('exec[/]', ExecCodeAction::class);
