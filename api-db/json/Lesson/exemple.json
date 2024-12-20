@@ -1,0 +1,14 @@
+{
+    "title": "Exemple lesson",
+    "description": "This is an exemple lesson",
+    "content": [
+        {
+            "type": "text",
+            "content": "Le premier text de la leçon"
+        },
+        {
+            "type": "exercise",            
+            "uuid": "l'uuid"
+        }
+    ]
+}

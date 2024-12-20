@@ -47,6 +47,13 @@ CREATE TABLE Module_users (
     DateUpdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Création de la table Exercise
+CREATE TABLE Exercise (
+    UUID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    Id_user UUID NOT NULL REFERENCES Users(UUID) ON DELETE CASCADE,
+    Href VARCHAR(255)
+)
+
 -- Création de la table Comments
 CREATE TABLE Comments (
     UUID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -88,8 +95,6 @@ INSERT INTO Lesson (UUID, Name, Type, Href) VALUES
 ('561034c6-43af-448e-a6d4-8b4f6691a7e7','Cours 11', 'JS', ''),
 ('72a2b871-5207-462f-bac2-8b7e9f025eba','Cours 12', 'JS', '');
 
-
-
 INSERT INTO Module_lesson (UUID, Id_module, Id_lesson) VALUES
 ('2b2b26f5-7fdd-4594-abdd-95853af9a997', 'd904f66c-9ebe-4e79-b1ca-35a5802c55bb', 'b6bfd662-6d81-4b3b-ba3d-177ea84095b0'),
 ('0ac62d49-0bf8-4205-a40d-3998ac8c1722', 'd904f66c-9ebe-4e79-b1ca-35a5802c55bb', '2345bdea-90a5-4c19-a2b0-4e7d03e00896'),
@@ -97,7 +102,6 @@ INSERT INTO Module_lesson (UUID, Id_module, Id_lesson) VALUES
 ('0e33227e-3ed2-4602-8c0c-64d3091a740b', 'f186fb52-ae93-41ee-8c62-947f5ba35a53', '43c5c816-ac83-48bc-bb5a-16ad5419627a'),
 ('4af8774c-1966-4df0-b1f3-fecd7bead5d6', 'f186fb52-ae93-41ee-8c62-947f5ba35a53', '561034c6-43af-448e-a6d4-8b4f6691a7e7'),
 ('36e5ef6d-4ac3-470c-b76a-1b8dbe40d187', 'f186fb52-ae93-41ee-8c62-947f5ba35a53', '72a2b871-5207-462f-bac2-8b7e9f025eba');
-
 
 INSERT INTO Module_users (UUID, Id_module, Id_users, Stage, Status, Rate) VALUES
 ('daa8990d-a66d-46fa-bfd0-24ba6ae6b96d','d904f66c-9ebe-4e79-b1ca-35a5802c55bb','235aa205-3ac9-45ed-ae89-b5590a25b183',2,'END',4),
