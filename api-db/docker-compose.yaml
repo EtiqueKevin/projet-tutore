@@ -1,3 +1,6 @@
+volumes:
+  sql_data:
+
 services:
   api.db:
     build:
@@ -23,8 +26,8 @@ services:
       POSTGRES_DB: jeancademydb
 
     volumes:
-      - ./app/sql:/docker-entrypoint-initdb.d
-      - ./sql_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d
+      - sql_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
 
