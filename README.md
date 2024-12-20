@@ -5,7 +5,7 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 ## Sommaire
 
 - [Membres du groupe](#membres-du-groupe)
-- [Urls](#urls)ù
+- [Urls](#urls)
 - [Différents composants du projet](#differents-composants-du-projet)
 
 ## Membres du groupe
@@ -16,9 +16,9 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 - Quilliec Amaury
 
 ## Urls
-[Github](https://github.com/EtiqueKevin/projet-tutore)
+[Github](https://github.com/EtiqueKevin/projet-tutore) : Url du projet sur github
 
-[CMS](https://grav.paul-bruson.fr/)
+[CMS](https://grav.paul-bruson.fr/) : Url du CMS pour la gestion de l'avancement du projet
 
 ## Differents composants du projet
 
