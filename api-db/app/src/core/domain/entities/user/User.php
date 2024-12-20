@@ -10,7 +10,7 @@ class User extends Entity{
     protected string $name;
     protected string $surname;
     protected int $role;
-    protected string $linkpic;
+    protected ?string $linkpic;
     protected string $email;
     protected DateTime $datesignup;
     protected DateTime $datesignin;
@@ -26,16 +26,7 @@ class User extends Entity{
     }
 
     public function toDTO():UserDTO{
-        return new UserDTO(
-            $this->id,
-            $this->name,
-            $this->surname,
-            $this->role,
-            $this->linkpic,
-            $this->email,
-            $this->datesignin,
-            $this->datesignup
-        );
+        return new UserDTO($this);
     }
 
 }

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use apiDB\application\actions\HomeAction;
+use apiDB\application\actions\user\GetUserById;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;
@@ -18,6 +19,7 @@ return function( App $app): App {
 */
     $app->get('/', HomeAction::class);
 
+    $app->get('/user/{ID-USER}[/]',GetUserById::class);
 
     return $app;
 };

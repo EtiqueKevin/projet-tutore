@@ -1,3 +1,5 @@
+
+
 -- Création de la table Users
 CREATE TABLE Users (
     UUID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
