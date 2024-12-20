@@ -12,14 +12,15 @@ WORKDIR /usr/src/worker
 COPY package*.json ./
 COPY ./packageTest/hamcrest-core-1.3.jar ./
 COPY ./packageTest/junit-4.12.jar ./
+COPY ../script_system/ ./
 
 RUN npm install
 COPY .. .
 
 # Vérifier l'installation de Java
 RUN java -version
+RUN cd script_system && ./cron_install.sh
+
 
 # Démarrer le Worker
 CMD ["node", "index.js"]
-
-EXPOSE 4000

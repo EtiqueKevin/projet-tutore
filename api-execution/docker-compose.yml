@@ -14,8 +14,8 @@ services:
 
   # Service API Express
   api:
-    build: ./api # Dockerfile dans le dossier ./api
-    container_name: api
+    build: ./rooter # Dockerfile dans le dossier ./rooter
+    container_name: rooter
     ports:
       - "3000:3000" # Port de l'API
     environment:
