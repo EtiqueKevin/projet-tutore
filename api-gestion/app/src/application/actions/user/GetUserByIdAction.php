@@ -1,12 +1,13 @@
 <?php
 
-namespace apiGestion\application\actions;
+namespace apiGestion\application\actions\user;
 
+use apiGestion\application\actions\AbstractAction;
 use apiGestion\core\services\user\UserServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class GetUserId extends AbstractAction
+class GetUserByIdAction extends AbstractAction
 {
 
     private UserServiceInterface $userService;
@@ -23,7 +24,7 @@ class GetUserId extends AbstractAction
         $user = $this->userService->getUserById($id);
         $res = [
             'type' => 'resource',
-            'panier' => $user
+            'user' => $user
         ];
 
         $rs->getBody()->write(json_encode($res));

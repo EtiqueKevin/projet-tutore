@@ -4,17 +4,18 @@ namespace apiGestion\core\domain\entities\user;
 
 use apiGestion\core\domain\entities\Entity;
 use apiGestion\core\dto\user\UserDTO;
+use DateTime;
 
 class User extends Entity{
     protected string $name;
     protected string $surname;
-    protected string $role;
+    protected int $role;
     protected string $linkpic;
     protected string $email;
-    protected string $datesignup;
-    protected string $datesignin;
+    protected DateTime $datesignup;
+    protected DateTime $datesignin;
 
-    public function __construct(string $name,string $surname, string $role, string $linkpic, string $email, string $datesignin, string $datesign){
+    public function __construct(string $name,string $surname, int $role, string $linkpic, string $email, DateTime $datesignin, DateTime $datesign){
         $this->name = $name;
         $this->surname = $surname;
         $this->role = $role;
