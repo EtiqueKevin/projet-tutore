@@ -1,16 +1,15 @@
 <?php
 
-use apiGestion\application\providers\auth\AuthProvider;
-use apiGestion\application\providers\auth\AuthProviderInterface;
-use apiGestion\application\providers\auth\JWTManager;
+use apiDB\core\repositoryInterface\RepositoryInterfaceUsers;
+use apiDB\infrastructure\repository\PDOreposiroryUsers;
 use Psr\Container\ContainerInterface;
 
 return [
 
 
-    //JWT
-    JWTManager::class => function(ContainerInterface $c){
-        return new JWTManager($c->get('SECRET_KEY'));
+    RepositoryInterfaceUsers::class => function (ContainerInterface $container) {
+        return new PDOReposiroryUsers($c->get('jeancademydb.pdo'));
     },
+
 
 ];
