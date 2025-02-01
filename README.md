@@ -23,7 +23,7 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 ## Differents composants du projet
 
 - [Front-end](front-end/README.md)
-- [API Base de Données](api-db/README.md)
-- [API gesion de l'application](api-gestion/README.md)
+- [API utilisateur](api-utilisateur/README.md)
+- [API gestion des cours](api-cours/README.md)
 - [Serveurs de languages](language-servers/README.md)
 - [API d'éxecution de code](api-execution/README.md)
