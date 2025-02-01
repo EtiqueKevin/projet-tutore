@@ -1,0 +1,50 @@
+networks:
+  jeancademie.net:
+    driver: bridge
+
+services:
+  gateway.jeancademie:
+    build:
+      context: gateway/build
+      dockerfile: 8.3-cli.Dockerfile
+    ports:
+      - '7080:80'
+    volumes:
+      - ./gateway:/var/php
+    working_dir: /var/php
+    networks:
+      - jeancademie.net
+    command: php -S 0.0.0.0:80 -t /var/php/public
+
+  api.cours.jeancademie:
+    build:
+      context: ./api-cours/build
+      dockerfile: 8.3-cli.Dockerfile
+
+    env_file: ./api-cours/apiCours.env
+
+    volumes:
+      - ./api-cours/app:/var/php
+
+    working_dir: /var/php
+
+    ports:
+      - "8888:8888"
+    networks:
+      - jeancademie.net
+    command: php -S 0.0.0.0:8888 -t /var/php/public
+
+  api.utilisateur.jeancademie:
+    build:
+      context: ./api-utilisateur/build
+      dockerfile: 8.3-cli.Dockerfile
+
+    volumes:
+      - ./api-utilisateur/app:/var/php
+
+    working_dir: /var/php
+
+    ports:
+      - "8889:8889"
+
+    command: php -S 0.0.0.0:8889 -t /var/php/public
