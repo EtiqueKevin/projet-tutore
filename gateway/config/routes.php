@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 use gateway\application\actions\GeneriqueCoursAction;
 use gateway\application\actions\GeneriqueUtilisateurAction;
-use gateway\application\actions\GeneriqueExecutionAction;
 use gateway\application\middleware\AuthMiddleware;
 use gateway\application\middleware\Cors;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -24,8 +23,11 @@ return function( App $app): App {
     /*************************
     * Routes de l'API Cours
     *************************/
+    $app->get('/modules[/]', GeneriqueCoursAction::class)
+        ->setName('modules');
 
-
+    $app->get('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+        ->setName('module');
     
     /*************************
      * Routes de l'API Execution
@@ -37,13 +39,13 @@ return function( App $app): App {
      * Routes de l'API Utilisateur
      *************************/
 
-    $app->post('/users/signin[/]', GeneriqueUtilisateurAction::class)
+    $app->post('/signin[/]', GeneriqueUtilisateurAction::class)
         ->setName('usersSignIn');
 
-    $app->post('/users/register[/]', GeneriqueUtilisateurAction::class)
+    $app->post('/register[/]', GeneriqueUtilisateurAction::class)
         ->setName('usersRegister');
 
-    $app->post('/users/refresh[/]', GeneriqueUtilisateurAction::class)
+    $app->post('/refresh[/]', GeneriqueUtilisateurAction::class)
         ->add(AuthMiddleware::class)
         ->setName('usersRefresh');
 

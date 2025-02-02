@@ -3,11 +3,11 @@
 namespace apiUtilisateur\infrastructure\repository;
 
 use apiUtilisateur\core\domain\entities\user\User;
-use apiUtilisateur\core\repositoryInterface\RepositoryInterfaceUsers;
+use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use DateTime;
 use Exception;
 
-class PDOreposiroryUsers implements RepositoryInterfaceUsers {
+class PDOreposiroryUsersRepositoryInterface implements UsersRepositoryInterface {
 
     private \PDO $pdo;
 

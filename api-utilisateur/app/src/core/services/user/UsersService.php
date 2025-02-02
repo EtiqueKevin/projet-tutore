@@ -3,13 +3,13 @@
 namespace apiUtilisateur\core\services\user;
 
 use apiUtilisateur\core\dto\user\UserDTO;
-use apiUtilisateur\core\repositoryInterface\RepositoryInterfaceUsers;
+use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 
 class UsersService implements UsersServiceInterface{
 
-    private RepositoryInterfaceUsers $repositoryUsers;
+    private UsersRepositoryInterface $repositoryUsers;
 
-    public function __construct(RepositoryInterfaceUsers $repositoryUsers){
+    public function __construct(UsersRepositoryInterface $repositoryUsers){
         $this->repositoryUsers = $repositoryUsers;
     }
 

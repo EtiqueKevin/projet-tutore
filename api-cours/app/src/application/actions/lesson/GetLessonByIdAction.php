@@ -1,6 +1,6 @@
 <?php
 
-namespace apiGestion\application\actions\lesson;
+namespace apiCours\application\actions\lesson;
 
 use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\lesson\LessonServiceInterface;

@@ -1,8 +1,8 @@
 <?php
 
-namespace apiUtilisateur\core\dto\module;
+namespace apiCours\core\dto\module;
 
-use apiUtilisateur\core\dto\DTO;
+use apiCours\core\dto\DTO;
 
 class ModuleDTO extends DTO{
 

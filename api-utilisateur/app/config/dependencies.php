@@ -1,21 +1,21 @@
 <?php
 
 use apiUtilisateur\application\actions\user\GetUserById;
-use apiUtilisateur\core\repositoryInterface\RepositoryInterfaceUsers;
+use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use apiUtilisateur\core\services\user\UsersService;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
-use apiUtilisateur\infrastructure\repository\PDOreposiroryUsers;
+use apiUtilisateur\infrastructure\repository\PDOreposiroryUsersRepositoryInterface;
 use Psr\Container\ContainerInterface;
 
 return [
 
 
-    RepositoryInterfaceUsers::class => function (ContainerInterface $c) {
-        return new PDOReposiroryUsers($c->get('jeancademydb.pdo'));
+    UsersRepositoryInterface::class => function (ContainerInterface $c) {
+        return new PDOreposiroryUsersRepositoryInterface($c->get('jeancademydb.pdo'));
     },
 
     UsersServiceInterface::class => function (ContainerInterface $c){
-        return new UsersService($c->get(RepositoryInterfaceUsers::class));
+        return new UsersService($c->get(UsersRepositoryInterface::class));
     },
 
     GetUserById::class => function (ContainerInterface $c){

@@ -1,13 +1,13 @@
 <?php
 
-namespace apiGestion\application\actions\lesson;
+namespace apiCours\application\actions\lesson;
 
 use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class GetLessonAction extends AbstractAction
+class GetLessonsAction extends AbstractAction
 {
 
     private LessonServiceInterface $lessonService;

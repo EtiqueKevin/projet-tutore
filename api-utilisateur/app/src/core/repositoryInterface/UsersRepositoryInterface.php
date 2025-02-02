@@ -4,7 +4,7 @@ namespace apiUtilisateur\core\repositoryInterface;
 
 use apiUtilisateur\core\domain\entities\user\User;
 
-interface RepositoryInterfaceUsers{
+interface UsersRepositoryInterface{
 
     function getUserById(string $id) : User;
 

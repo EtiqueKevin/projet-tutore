@@ -3,7 +3,7 @@
 namespace apiUtilisateur\core\domain\entities\module;
 
 use apiUtilisateur\core\domain\entities\Entity;
-use apiUtilisateur\core\dto\module\ModuleDTO;
+use apiCours\core\dto\module\ModuleDTO;
 
 
 class Module extends Entity{
