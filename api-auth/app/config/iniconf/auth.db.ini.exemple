@@ -1,0 +1,6 @@
+host=db.auth.jeancademie
+port=5432
+driver=pgsql
+database=auth
+username=root
+password=root
