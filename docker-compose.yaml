@@ -106,7 +106,7 @@ services:
   db.cours.jeancademie:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - jeancademie.net
     env_file: ./api-cours/env/db.env
