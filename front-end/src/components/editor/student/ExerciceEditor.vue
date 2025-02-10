@@ -29,7 +29,7 @@ watch(currentFile, (newFile) => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container relative">
     <FileSwitcher :files="props.files" @fileSelected="handleFileSelected" />
     <MonacoEditor :language="currentFile.language" :value="currentFile.content" @update:value="handleContentUpdate"/>
     <button @click="$emit('correct-code')" class="bg-primary-dark hover:bg-primary-light p-4 rounded-full h-15 w-15 flex items-center justify-center absolute group gap-4 text-white">
@@ -43,7 +43,6 @@ watch(currentFile, (newFile) => {
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
   position: relative;
 }
 

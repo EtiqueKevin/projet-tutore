@@ -8,16 +8,20 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#22aec7', 
-          dark: '#198a9e',  
+          light: '#3B82F6', // More vibrant blue
+          dark: '#1E40AF',  // Deep blue
         },
         secondary: {
-          light: '#6a5acd', 
-          dark: '#483d8b', 
+          light: '#10B981', // Emerald green
+          dark: '#059669',  // Darker emerald
         },
         main: {
-          light: '#ffffff',
-          dark: '#1e1e1e',
+          light: '#F9FAFB', // Slightly warmer white
+          dark: '#111827',  // Rich dark blue/black
+        },
+        background: {
+          light: '#F3F4F6', // Light gray with slight warmth
+          dark: '#1F2937',  // Softer dark background
         },
       },
       typography: ({ theme }) => ({

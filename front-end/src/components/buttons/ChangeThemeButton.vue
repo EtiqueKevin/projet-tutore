@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
   showText : {
@@ -15,6 +15,11 @@ const toggleDark = () => {
   isDark.value = !isDark.value;
   document.body.classList.toggle('dark', isDark.value);
 };
+
+onMounted(() => {
+  isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.body.classList.toggle('dark', isDark.value);
+});
 
 </script>
 
@@ -35,38 +40,31 @@ const toggleDark = () => {
 .toggle-button {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
   border-radius: 25px;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, transform 0.3s;
-  background-color: #f0f0f0;
-  color: #333;
+  color: black;
 }
 
-.toggle-button.dark-mode {
-  background-color: #4a4a4a;
+.toggle-button.toggle-button.dark-mode {
   color: white;
 }
 
 .toggle-button:hover {
-  background-color: #ddd;
-  color: #111;
   transform: scale(1.05);
 }
 
 .toggle-button.dark-mode:hover {
-  background-color: #333;
-  color: #f0f0f0;
   transform: scale(1.05);
 }
 
 .toggle-button i {
   transition: transform 0.3s;
+  font-size: 1.5rem
 }
 
 .toggle-button.dark-mode i {
-  transform: rotate(180deg);
+  transform: rotate(360deg);
 }
 </style>

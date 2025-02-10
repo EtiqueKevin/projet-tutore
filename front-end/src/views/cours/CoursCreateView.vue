@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { marked } from 'marked';
-import ExerciceCreateView from './ExerciceCreateView.vue';
+import ExerciceCreateView from '@/views/exercices/ExerciceCreateView.vue';
 
 // 0 = Modification titre et description
 // 1 = Modification contenu
@@ -9,6 +9,7 @@ import ExerciceCreateView from './ExerciceCreateView.vue';
 // 3 = Création d'un exercice
 
 const mode = ref(0);
+const dropPreviewIndex = ref(null);
 
 const cours = ref({
     title: '',
@@ -122,7 +123,7 @@ const isMobile = computed(() => {
             <button @click="mode=1" :class="{'button': true, 'selected': mode == 1}">Contenu</button>
             <button @click="mode=2" :class="{'button': true, 'selected': mode == 2}">Aperçu</button>
             <button @click="saveCours" class="button">Sauvegarder le cours</button>
-            <div v-if="mode==1" id="drop-possibilities" class="p-4 r mt-4 border-t-2 text-black dark:text-white">
+            <div v-if="mode==1" id="drop-possibilities" class="p-4 r mt-4 border-t-2 text-dark dark:text-white">
                 <h1 class="text-3xl mb-4">Eléments à ajouter</h1>
                 <div 
                     @dragstart="dragStart($event, 'text')"
@@ -142,7 +143,7 @@ const isMobile = computed(() => {
         </div>
 
         <!-- Right column -->
-        <div id="right-column" class="w-full md:w-3/4 h-full dark:bg-gray-800 bg-slate-200">
+        <div id="right-column" class="w-full md:w-3/4 dark:bg-gray-800 bg-slate-200">
             <div v-if="mode==0" class="p-4">
                 <h1 class="text-2xl mb-4 text-black dark:text-white">Création d'un cours</h1>
                 <input type="text" v-model="cours.title" placeholder="Titre du cours" class="w-full mb-4 p-2 border text-black">
@@ -197,6 +198,7 @@ const isMobile = computed(() => {
 <style scoped>
 .button {
     @apply bg-primary-light dark:bg-primary-dark hover:bg-primary-dark dark:hover:bg-primary-light w-full mb-2 py-2 px-4;
+    @apply text-white font-bold rounded;
     transition: transform 0.2s;
 }
 
