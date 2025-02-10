@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use apiCours\application\actions\lesson\GetLessonsAction;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
+use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\module\GetModulesAction;
 use Slim\App;
 
