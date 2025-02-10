@@ -3,6 +3,10 @@ networks:
     driver: bridge
 
 services:
+  # FRONTEND
+
+  # API
+
   gateway.jeancademie:
     build:
       context: gateway/build
@@ -21,7 +25,7 @@ services:
       context: ./api-cours/build
       dockerfile: 8.3-cli.Dockerfile
 
-    env_file: ./api-cours/apiCours.env
+    env_file: ./api-cours/env/apiCours.env
 
     volumes:
       - ./api-cours/app:/var/php
@@ -56,6 +60,9 @@ services:
 
     volumes:
       - ./api-auth/app:/var/php
+    
+    env_file:
+      - ./api-auth/env/auth.env
 
     working_dir: /var/php
 
@@ -63,3 +70,62 @@ services:
       - "8890:8890"
 
     command: php -S 0.0.0.0:8890 -t /var/php/public
+
+# DATABASES
+
+  adminer.jeancademie:
+    image: adminer
+    ports:
+      - "5434:8080"
+    networks:
+      - jeancademie.net
+    command: 'php -S 0.0.0.0:8080 -t /var/www/html'
+
+  db.auth.jeancademie:
+    image: postgres:latest
+    ports:
+      - "5435:5432"
+    networks:
+      - jeancademie.net
+    env_file: ./api-auth/env/db.env
+    volumes:
+      - db.auth.jeancademie:/var/lib/postgresql/data
+      - ./api-auth/sql:/docker-entrypoint-initdb.d
+
+  db.utilisateur.jeancademie:
+    image: postgres:latest
+    ports:
+      - "5436:5432"
+    networks:
+      - jeancademie.net
+    env_file: ./api-utilisateur/env/db.env
+    volumes:
+      - db.utilisateur.jeancademie:/var/lib/postgresql/data
+      - ./api-utilisateur/sql:/docker-entrypoint-initdb.d
+
+  db.cours.jeancademie:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - jeancademie.net
+    env_file: ./api-cours/env/db.env
+    volumes:
+      - db.cours.jeancademie:/data/db
+
+  
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8099:8081
+    depends_on:
+      - db.cours.jeancademie
+    env_file:
+      - ./api-cours/env/mongoexpress.env
+    links:
+      - db.cours.jeancademie
+
+volumes:
+  db.auth.jeancademie:
+  db.utilisateur.jeancademie:
+  db.cours.jeancademie:
