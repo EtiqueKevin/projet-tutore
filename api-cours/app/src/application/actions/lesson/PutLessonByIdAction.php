@@ -4,13 +4,12 @@ namespace apiCours\application\actions\lesson;
 
 use apiCours\application\actions\AbstractAction;
 use apiCours\core\domain\entities\lesson\Content;
-use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class PostLessonAction extends AbstractAction
+class PutLessonByIdAction extends AbstractAction
 {
     private LessonServiceInterface $lessonService;
 
@@ -21,7 +20,9 @@ class PostLessonAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
+        $id = $args['id_lesson'];
         $body = $rq->getParsedBody();
+
         $contents = [];
         foreach ($body['content'] as $content) {
             $content = new Content(
@@ -33,14 +34,15 @@ class PostLessonAction extends AbstractAction
         }
 
         $lessonDTO = new LessonDTO(
-            null,
+            $id,
             $body['title'],
             $body['description'],
             $contents
         );
 
+        $lessonDTO->setId($id);
 
-        $lesson = $this->lessonService->createLesson($lessonDTO);
+        $lesson = $this->lessonService->updateLesson($lessonDTO);
 
         $res = [
             'type' => 'resource',
@@ -48,6 +50,6 @@ class PostLessonAction extends AbstractAction
         ];
 
         $rs->getBody()->write(json_encode($res));
-        return $rs->withStatus(201)->withHeader('Content-Type', 'application/json');
+        return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

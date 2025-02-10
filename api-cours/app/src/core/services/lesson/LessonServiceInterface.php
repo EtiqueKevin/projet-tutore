@@ -8,6 +8,7 @@ interface LessonServiceInterface
 {
     public function getALlLessons(): array;
 
-    public function getLessonById(int $id): LessonDTO;
+    public function getLessonById(string $id): LessonDTO;
     public function createLesson(LessonDTO $lessonDTO): LessonDTO;
+    public function updateLesson(LessonDTO $lessonDTO): LessonDTO;
 }

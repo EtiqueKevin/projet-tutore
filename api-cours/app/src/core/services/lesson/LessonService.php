@@ -26,7 +26,7 @@ class LessonService implements LessonServiceInterface
         return $tabLessonDTO;
     }
 
-    public function getLessonById(int $id): LessonDTO
+    public function getLessonById(?string $id): LessonDTO
     {
         $lesson = $this->lessonRepository->getLessonById($id);
         return $lesson->toDTO();
@@ -38,6 +38,14 @@ class LessonService implements LessonServiceInterface
         $newLesson = $this->lessonRepository->createLesson($lesson);
         $newLessonDTO = $newLesson->toDTO();
         $newLessonDTO->setId($newLesson->getId());
+        return $newLessonDTO;
+    }
+
+    public function updateLesson(LessonDTO $lessonDTO): LessonDTO
+    {
+        $lesson = $lessonDTO->toEntity();
+        $newLesson = $this->lessonRepository->updateLesson($lesson);
+        $newLessonDTO = $newLesson->toDTO();
         return $newLessonDTO;
     }
 }

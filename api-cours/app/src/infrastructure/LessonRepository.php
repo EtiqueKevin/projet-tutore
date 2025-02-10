@@ -29,4 +29,9 @@ class LessonRepository implements LessonRepositoryInterface
         $lesson->setId(1);
         return $lesson;
     }
+
+    public function updateLesson(Lesson $lesson): Lesson
+    {
+        return $lesson;
+    }
 }

@@ -31,7 +31,10 @@ class LessonDTO extends DTO
     }
 
     public function toEntity(): Lesson {
-        return new Lesson($this->title, $this->description, $this->content);
+        $lesson = new Lesson($this->title, $this->description, $this->content);
+        if ($this->id !== null)
+        $lesson->setId($this->id);
+        return $lesson;
     }
 
     public function setId(?string $id): void
