@@ -16,7 +16,7 @@ abstract class Entity
         return property_exists($this, $name) ? $this->$name : throw new \Exception(static::class . ": Property $name does not exist");
     }
 
-    public function setID(string $ID): void
+    public function setID(?string $ID): void
     {
         $this->id = $ID;
     }

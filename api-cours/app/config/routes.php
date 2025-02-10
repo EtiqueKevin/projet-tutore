@@ -6,6 +6,7 @@ use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\GetModulesAction;
+use apiCours\application\actions\module\PostModuleAction;
 use Slim\App;
 
 return function( App $app): App {

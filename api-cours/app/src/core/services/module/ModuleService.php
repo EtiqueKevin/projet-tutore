@@ -15,28 +15,31 @@ class ModuleService implements ModuleServiceInterface
         $this->moduleRepository = $moduleRepository;
     }
 
-    #[\Override] public function getAllModules()
+    public function getAllModules()
     {
         $modules = $this->moduleRepository->getAllModules();
         return $modules;
     }
 
-    #[\Override] public function getModuleById(Uuid $id)
+    public function getModuleById(string $id)
     {
         // TODO: Implement getModuleById() method.
     }
 
-    #[\Override] public function createModule(array $module)
+    public function createModule(ModuleDTO $module)
     {
-        // TODO: Implement createModule() method.
+        $module = $module->toEntity();
+        $newModule = $this->moduleRepository->createModule($module);
+        $moduleDTO = $newModule->toDTO();
+        return $moduleDTO;
     }
 
-    #[\Override] public function updateModule(Uuid $id, ModuleDTO $module)
+    public function updateModule(ModuleDTO $module)
     {
         // TODO: Implement updateModule() method.
     }
 
-    #[\Override] public function deleteModule(Uuid $id)
+    public function deleteModule(string $id)
     {
         // TODO: Implement deleteModule() method.
     }
