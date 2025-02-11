@@ -11,4 +11,5 @@ interface LessonServiceInterface
     public function getLessonById(string $id): LessonDTO;
     public function createLesson(LessonDTO $lessonDTO): LessonDTO;
     public function updateLesson(LessonDTO $lessonDTO): LessonDTO;
+    public function deleteLesson(string $id): void;
 }

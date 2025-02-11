@@ -23,7 +23,9 @@ class ModuleService implements ModuleServiceInterface
 
     public function getModuleById(string $id)
     {
-        // TODO: Implement getModuleById() method.
+        $module = $this->moduleRepository->getModuleById($id);
+        $module = $module->toDTO();
+        return $module;
     }
 
     public function createModule(ModuleDTO $module)
@@ -36,11 +38,14 @@ class ModuleService implements ModuleServiceInterface
 
     public function updateModule(ModuleDTO $module)
     {
-        // TODO: Implement updateModule() method.
+        $module = $module->toEntity();
+        $newModule = $this->moduleRepository->updateModule($module);
+        $moduleDTO = $newModule->toDTO();
+        return $moduleDTO;
     }
 
     public function deleteModule(string $id)
     {
-        // TODO: Implement deleteModule() method.
+        $this->moduleRepository->deleteModule($id);
     }
 }
