@@ -4,6 +4,7 @@ db.modules.insertMany([
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440000"),
     id_creator: UUID("123e4567-e89b-12d3-a456-426614174000"),
+    name: "Module de test",
     description: "Exemple de module",
     nblesson: 5,
     date_update: new Date()
