@@ -103,27 +103,27 @@ services:
       - db.utilisateur.jeancademie:/var/lib/postgresql/data
       - ./api-utilisateur/sql:/docker-entrypoint-initdb.d
 
-  db.cours.jeancademie:
-    image: mongo:latest
-    ports:
-      - "27018:27017"
+  mongo.jeancademie:
+    image: mongo
+    env_file:
+      - ./api-cours/env/db.env
+    volumes:
+      - ./api-cours/sql/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - jeancademie.net
-    env_file: ./api-cours/env/db.env
-    volumes:
-      - db.cours.jeancademie:/data/db
+    ports:
+      - "27018:27017"
 
-  
   mongo-express:
     image: mongo-express
-    ports:
-      - 8099:8081
-    depends_on:
-      - db.cours.jeancademie
     env_file:
       - ./api-cours/env/mongoexpress.env
-    links:
-      - db.cours.jeancademie
+    depends_on:
+      - mongo.jeancademie
+    ports:
+      - "8089:8081"
+    networks:
+      - jeancademie.net
 
 volumes:
   db.auth.jeancademie:

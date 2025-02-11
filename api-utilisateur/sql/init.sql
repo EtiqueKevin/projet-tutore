@@ -5,6 +5,7 @@ CREATE TABLE "public"."users" (
     "id" uuid NOT NULL,
     "name" character varying(50) NOT NULL,
     "surname" character varying(50) NOT NULL,
+    "pseudo" character varying(50) NOT NULL,
     "linkpic" character varying(255),
     CONSTRAINT "users_id" PRIMARY KEY ("id")
 ) WITH (oids = false);

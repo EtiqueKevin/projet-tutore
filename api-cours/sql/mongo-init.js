@@ -1,19 +1,41 @@
-db.createCollection("module");
-db.module.createIndex({ id: 1 }, { unique: true });
+db = db.getSiblingDB('cours'); // Remplace par le nom de ta BD
 
-db.createCollection("lesson");
-db.lesson.createIndex({ id: 1 }, { unique: true });
+db.modules.insertMany([
+  {
+    _id: UUID("550e8400-e29b-41d4-a716-446655440000"),
+    id_creator: UUID("123e4567-e89b-12d3-a456-426614174000"),
+    description: "Exemple de module",
+    nblesson: 5,
+    date_update: new Date()
+  }
+]);
 
-db.createCollection("module_lesson");
-db.module_lesson.createIndex({ id: 1 }, { unique: true });
-db.module_lesson.createIndex({ id_module: 1 });
-db.module_lesson.createIndex({ id_lesson: 1 });
+db.lessons.insertMany([
+  {
+    _id: UUID("660e8400-e29b-41d4-a716-446655440000"),
+    name: "Cours de programmation",
+    type: "langage",
+    json : [],
+    date_update: new Date()
+  }
+]);
 
-db.createCollection("module_users");
-db.module_users.createIndex({ id: 1 }, { unique: true });
-db.module_users.createIndex({ id_module: 1 });
-db.module_users.createIndex({ id_users: 1 });
+db.module_lessons.insertMany([
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440000"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440000"),
+    id_lesson: UUID("660e8400-e29b-41d4-a716-446655440000")
+  }
+]);
 
-db.createCollection("exercise");
-db.exercise.createIndex({ id: 1 }, { unique: true });
-db.exercise.createIndex({ id_user: 1 });
+db.module_users.insertMany([
+  {
+    _id: UUID("880e8400-e29b-41d4-a716-446655440000"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440000"),
+    id_users: UUID("990e8400-e29b-41d4-a716-446655440000"),
+    stage: 1,
+    status: "En cours",
+    rate: 4,
+    date_update: new Date()
+  }
+]);
