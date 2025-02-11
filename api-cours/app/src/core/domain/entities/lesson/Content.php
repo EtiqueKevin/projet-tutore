@@ -20,6 +20,6 @@ class Content extends Entity
 
     public function toDTO(): ContentDTO
     {
-        return new ContentDTO($this->id, $this->type, $this->text, $this->link);
+        return new ContentDTO($this->type, $this->text, $this->link);
     }
 }

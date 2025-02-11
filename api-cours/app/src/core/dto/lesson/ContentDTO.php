@@ -10,7 +10,7 @@ class ContentDTO extends DTO
     private ?string $text;
     private ?string $link;
 
-    public function __construct(int $id, string $type, ?string $text, ?string $link)
+    public function __construct(string $type, ?string $text, ?string $link)
     {
         $this->type = $type;
         $this->text = $text;

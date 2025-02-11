@@ -8,8 +8,8 @@ use Ramsey\Uuid\Uuid;
 interface ModuleServiceInterface
 {
     public function getAllModules();
-    public function getModuleById(Uuid $id);
-    public function createModule(array $module);
-    public function updateModule(Uuid $id, ModuleDTO $module);
-    public function deleteModule(Uuid $id);
+    public function getModuleById(string $id);
+    public function createModule(ModuleDTO $module);
+    public function updateModule(ModuleDTO $module);
+    public function deleteModule(string $id);
 }

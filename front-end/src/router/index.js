@@ -1,33 +1,47 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import DefaultLayout from '@/views/layouts/DefaultLayoutView.vue'
+import BlankLayout from '@/views/layouts/BlankLayoutView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue'),
+      component: DefaultLayout,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('@/views/HomeView.vue'),
+        },
+        {
+          path: 'exercice',
+          name: 'exercice',
+          component: () => import('@/views/exercices/ExerciceView.vue'),
+        },
+        {
+          path: 'cours/create',
+          name: 'cours-create',
+          component: () => import('@/views/cours/CoursCreateView.vue'),
+        },
+        {
+          path: 'exercise/create',
+          name: 'exercise-create',
+          component: () => import('@/views/exercices/ExerciceCreateView.vue'),
+        },
+      ]
     },
     {
-      path: '/exercice',
-      name: 'exercice',
-      component: () => import('@/views/ExerciceView.vue'),
-    },
-    {
-      path: '/cours/create',
-      name: 'cours-create',
-      component: () => import('@/views/CoursCreateView.vue'),
-    },
-    {
-      path: '/exercise/create',
-      name: 'exercise-create',
-      component: () => import('@/views/ExerciceCreateView.vue'),
-    },
-    {
-      path: '/user/connect',
-      name: 'user-connect',
-      component: () => import('@/views/ConnexionView.vue'),
-    },
+      path: '/',
+      component: BlankLayout,
+      children: [
+        {
+          path: 'user/connect',
+          name: 'user-connect',
+          component: () => import('@/views/user/ConnexionView.vue'),
+        },
+      ]
+    }
   ],
 })
 

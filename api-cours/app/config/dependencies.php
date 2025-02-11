@@ -1,5 +1,7 @@
 <?php
 
+use apiCours\application\actions\lesson\PostLessonAction;
+use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\GetModulesAction;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
@@ -19,6 +21,12 @@ return [
     },
     GetModulesAction::class => function(ContainerInterface $c){
         return new GetModulesAction($c->get(ModuleServiceInterface::class));
+    },
+    PostLessonAction::class => function(ContainerInterface $c){
+        return new PostLessonAction($c->get(LessonServiceInterface::class));
+    },
+    PutLessonByIdAction::class => function(ContainerInterface $c){
+        return new PutLessonByIdAction($c->get(LessonServiceInterface::class));
     },
 
     //services

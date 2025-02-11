@@ -5,6 +5,20 @@ networks:
 services:
   # FRONTEND
 
+  frontend.jeancademie:
+    image : node:22
+
+    volumes:
+      - ./front-end:/app
+      - /app/node_modules
+
+    working_dir: /app
+    ports:
+      - "5173:5173"
+
+    command: sh -c "npm install && npm run dev"
+
+
   # API
 
   gateway.jeancademie:

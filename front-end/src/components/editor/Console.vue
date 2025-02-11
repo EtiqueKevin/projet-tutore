@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="h-full p-4 dark:text-white shadow-md bg-slate-300 dark:bg-gray-900">
+    <div class="p-4 dark:text-white shadow-md bg-slate-300 dark:bg-gray-900">
         <h2 class="text-lg font-bold mb-2">Console</h2>
         <pre class="whitespace-pre-wrap break-words">{{ results }}</pre>
     </div>
