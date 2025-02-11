@@ -10,4 +10,5 @@ interface LessonRepositoryInterface
     public function getLessonById(int $id): Lesson;
     public function createLesson(Lesson $lesson): Lesson;
     public function updateLesson(Lesson $lesson): Lesson;
+    public function deleteLesson(string $id): void;
 }

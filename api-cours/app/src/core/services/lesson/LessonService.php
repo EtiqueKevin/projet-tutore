@@ -48,4 +48,9 @@ class LessonService implements LessonServiceInterface
         $newLessonDTO = $newLesson->toDTO();
         return $newLessonDTO;
     }
+
+    public function deleteLesson(string $id): void
+    {
+        $this->lessonRepository->deleteLesson($id);
+    }
 }

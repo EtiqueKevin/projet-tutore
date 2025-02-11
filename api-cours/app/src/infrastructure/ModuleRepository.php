@@ -5,6 +5,7 @@ namespace apiCours\infrastructure;
 use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
 use apiCours\core\domain\entities\module\Module;
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Ramsey\Uuid\Uuid;
 
 class ModuleRepository implements ModuleRepositoryInterface {
@@ -22,7 +23,9 @@ class ModuleRepository implements ModuleRepositoryInterface {
 
     public function getModuleById(string $id)
     {
-        // TODO: Implement getModuleById() method.
+        $module = new Module("Module 1", "1", "Description module 1", 10, "2021-10-10");
+        $module->setID($id);
+        return $module;
     }
 
     public function createModule(Module $module)
@@ -33,11 +36,11 @@ class ModuleRepository implements ModuleRepositoryInterface {
 
     public function updateModule(Module $module)
     {
-        // TODO: Implement updateModule() method.
+
     }
 
     public function deleteModule(string $id)
     {
-        // TODO: Implement deleteModule() method.
+
     }
 }

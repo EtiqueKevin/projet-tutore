@@ -36,4 +36,16 @@ class ModuleDTO extends DTO{
         $module->setId($this->id);
         return $module;
     }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'idCreator' => $this->idCreator,
+            'description' => $this->description,
+            'nblesson' => $this->nblesson,
+            'dateupdate' => $this->dateupdate
+        ];
+    }
 }

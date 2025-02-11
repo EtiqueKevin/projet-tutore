@@ -34,4 +34,9 @@ class LessonRepository implements LessonRepositoryInterface
     {
         return $lesson;
     }
+
+    public function deleteLesson(string $id): void
+    {
+
+    }
 }
