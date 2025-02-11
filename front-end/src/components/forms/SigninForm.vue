@@ -1,7 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { useUserStore } from '@/stores/user';
 import InputField from '@/components/forms/inputs/InputField.vue'
 import PasswordInputField from '@/components/forms/inputs/PasswordInputField.vue';
+
+const router = useRouter();
+const userStore = useUserStore();
+const toast = useToast();
 
 const email = ref('');
 const password = ref('');
@@ -10,16 +17,16 @@ const formValid = computed(() => {
     return password.value && email.value
 })
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
     if (!formValid.value) return
     try {
-        console.log('Form submitted:', { email: email.value, password: password.value });
-        toast.success("Connexion réussie!");
+        await userStore.signIn(email.value, password.value);
     } catch (error) {
         toast.error("Erreur lors de la connexion. Veuillez réessayer.");
     } finally {
         password.value = '';
-        password2.value = '';
+        toast.success("Connexion réussie!");
+        router.push({ name: 'home' });
     }
 };
 </script>

@@ -27,6 +27,7 @@ onMounted(() => {
   <button 
     class="toggle-button" 
     :class="{ 'dark-mode': isDark }" 
+    :title="isDark ? 'Passer en mode clair' : 'Passer en mode sombre'"
     @click="toggleDark"
   >
     <i :class="isDark ? 'fas fa-moon' : 'fas fa-sun'"></i>

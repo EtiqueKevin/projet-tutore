@@ -24,11 +24,11 @@ onMounted(() => {
     <div class="file-switcher flex gap-4 p-4 pt-0 bg-main-light dark:bg-main-dark">
         <button
             v-for="file in files"
-            :key="file.name"
+            :key="file.filename"
             @click="selectFile(file)"
             :class="['file-button', file === selectedFile ? 'selected' : '']"
         >
-            {{ file.name }}
+            {{ file.filename }}
         </button>
     </div>
 </template>

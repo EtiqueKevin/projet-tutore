@@ -1,14 +1,19 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { useUserStore } from '@/stores/user';
 import InputField from '@/components/forms/inputs/InputField.vue'
 import PasswordInputField from '@/components/forms/inputs/PasswordInputField.vue';
+
+const router = useRouter();
+const userStore = useUserStore();
+const toast = useToast();
 
 const email = ref('');
 const password = ref('');
 const password2 = ref('');
 const passwordsMatch = ref(true);
-const toast = useToast();
 
 const formValid = computed(() => {
     return passwordsMatch.value && 
@@ -23,13 +28,14 @@ watch([password, password2], ([newPass, newPass2]) => {
 const handleSubmit = async () => {
     if (!formValid.value) return
     try {
-        console.log('Form submitted:', { email: email.value, password: password.value });
-        toast.success("Inscription réussie!");
+        await userStore.signUp(email.value, password.value);
     } catch (error) {
         toast.error("Erreur lors de l'inscription. Veuillez réessayer.");
     } finally {
         password.value = '';
         password2.value = '';
+        toast.success("Inscription réussie!");
+        router.push({ name: 'home' });
     }
 }
 </script>

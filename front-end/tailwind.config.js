@@ -20,7 +20,7 @@ export default {
           dark: '#111827',  // Rich dark blue/black
         },
         background: {
-          light: '#F3F4F6', // Light gray with slight warmth
+          light: '#e4e7eb', // Light gray with slight warmth
           dark: '#1F2937',  // Softer dark background
         },
       },

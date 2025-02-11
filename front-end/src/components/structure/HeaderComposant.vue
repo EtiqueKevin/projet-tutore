@@ -1,7 +1,11 @@
 <script setup>
 import RouterButton from '@/components/buttons/RouterButton.vue';
+import Button from '@/components/buttons/Button.vue';
 import ChangeThemeButton from '@/components/buttons/ChangeThemeButton.vue';
 import MenuList from '@/components/list/MenuList.vue';
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -38,14 +42,32 @@ import MenuList from '@/components/list/MenuList.vue';
             </RouterButton>
           </MenuList>
 
-          <div class="separator dark:bg-gray-600 bg-gray-300"></div>
+          <div class="separator"></div>
 
           <ChangeThemeButton :show-text="false" class="transform hover:scale-105 transition-transform" />
-          <RouterButton :to="'/user/connect'" 
-            class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
-            title="Se connecter">
-            <i class="fas fa-power-off"></i>
-          </RouterButton>
+
+          <div class="separator"></div>
+          
+          <template v-if="!userStore.isLogged">
+            <RouterButton :to="'/user/connect'" 
+              class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
+              title="Se connecter">
+              <i class="fas fa-power-off"></i>
+            </RouterButton>
+          </template>
+          <template v-else>
+            <RouterButton :to="'/user/profile'" 
+              
+              title="Mon profil">
+              <i class="fas fa-user"></i>
+            </RouterButton>
+            <Button 
+              @click="userStore.signOut()" 
+              
+              title="Se déconnecter">
+              <i class="fas fa-sign-out-alt"></i>
+            </Button>
+          </template>
         </div>
       </div>
     </nav>
@@ -54,6 +76,6 @@ import MenuList from '@/components/list/MenuList.vue';
 
 <style scoped>
 .separator {
-  @apply h-6 w-px transition-colors duration-200;
+  @apply h-6 w-px transition-colors duration-200 dark:bg-gray-600 bg-gray-300;
 }
 </style>

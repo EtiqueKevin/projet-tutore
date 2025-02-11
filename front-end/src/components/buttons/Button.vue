@@ -2,10 +2,6 @@
 import { RouterLink } from 'vue-router'
 
 const props = defineProps({
-    to: {
-        type: String,
-        required: true
-    },
     title: {
         type: String,
         required: false,
@@ -25,14 +21,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <RouterLink 
-        :to="to" 
+    <button 
         :title="title" 
         :class="`
             ${hover} 
             ${other} 
-            font-bold
-            text-lg
+            font-bold py-2 px-4 
             text-center 
             transition duration-200 
             transform hover:scale-105 
@@ -40,5 +34,5 @@ const props = defineProps({
         `"
     >
         <slot></slot>
-    </RouterLink>
+    </button>
 </template>

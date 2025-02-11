@@ -2,7 +2,9 @@
 </script>
 
 <template>
-    <h1>Profile</h1>
+    <main class="flex-grow">
+        profile
+    </main>
 </template>
 
 <style scoped>
