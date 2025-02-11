@@ -1,8 +1,8 @@
 <?php
 
-namespace apiAuth\application\actions;
+namespace apiAuth\application\actions\application\actions;
 
-use apiAuth\application\providers\auth\AuthProviderInterface;
+use apiAuth\application\actions\application\providers\auth\AuthProviderInterface;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\SignatureInvalidException;

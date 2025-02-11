@@ -1,5 +1,5 @@
 <?php
-namespace apiAuth\application\providers\auth;
+namespace apiAuth\application\actions\application\providers\auth;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;

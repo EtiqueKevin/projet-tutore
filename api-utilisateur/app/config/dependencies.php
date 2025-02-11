@@ -1,5 +1,6 @@
 <?php
 
+use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use apiUtilisateur\core\services\user\UsersService;
@@ -21,5 +22,9 @@ return [
     GetUserById::class => function (ContainerInterface $c){
     return new GetUserById($c->get(UsersServiceInterface::class));
     },
+
+    CreateUtilisateurAction::class => function (ContainerInterface $c) {
+    return new CreateUtilisateurAction($c->get(UsersServiceInterface::class));
+    }
 
 ];

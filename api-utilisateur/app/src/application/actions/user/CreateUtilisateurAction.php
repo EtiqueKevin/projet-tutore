@@ -3,16 +3,18 @@
 namespace apiUtilisateur\application\actions\user;
 
 use apiUtilisateur\application\actions\AbstractAction;
+use apiUtilisateur\core\dto\user\InputUserDTO;
+use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 
-class RegisterAction extends AbstractAction
+class CreateUtilisateurAction extends AbstractAction
 {
-    private UserServiceInterface $utilisateurService;
+    private UsersServiceInterface $utilisateurService;
 
-    public function __construct(UserServiceInterface $serviceUtilisateur)
+    public function __construct(UsersServiceInterface $serviceUtilisateur)
     {
         $this->utilisateurService = $serviceUtilisateur;
     }
@@ -24,17 +26,11 @@ class RegisterAction extends AbstractAction
     {
         $params = $rq->getParsedBody() ?? null;
 
-        if (!isset($params['email']) || !isset($params['mdp']) ) {
-            throw new HttpBadRequestException($rq, 'Paramètres manquants');
-        }
-
-        $email = filter_var($params['email'], FILTER_SANITIZE_EMAIL);
-
         try{
-            $this->utilisateurService->createUser(new InputUserDTO($email, $params['mdp']));
+            $this->utilisateurService->save(new InputUserDTO($params['id'],$params['name'],$params['surname'],$params['linkpic'], $params['pseudo']));
         }catch (Exception $e){
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
-        return $rs->withStatus(200);
+        return $rs->withStatus(201);
     }
 }

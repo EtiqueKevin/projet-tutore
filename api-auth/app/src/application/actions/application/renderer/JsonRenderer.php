@@ -1,6 +1,6 @@
 <?php
 
-namespace apiAuth\application\providers\auth;
+namespace apiAuth\application\actions\application\renderer;
 
 use Psr\Http\Message\ResponseInterface as Response;
 

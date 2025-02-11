@@ -8,4 +8,6 @@ interface UsersRepositoryInterface{
 
     function getUserById(string $id) : User;
 
+    function save(User $user):void;
+
 }

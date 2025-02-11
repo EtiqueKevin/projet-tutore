@@ -1,6 +1,7 @@
 <?php
 namespace apiAuth\core\services\auth;
 
+use apiAuth\core\dto\user\ProviderUserDTO;
 use apiAuth\core\repositoryInterface\AuthRepositoryInterface;
 use apiAuth\core\dto\user\InputUserDTO;
 use apiAuth\core\dto\user\UserDTO;
@@ -16,7 +17,7 @@ class AuthService implements AuthServiceInterface
         $this->authRepository = $authRepository;
     }
 
-    public function verifyCredentials(InputUserDTO $input): UserDTO
+    public function verifyCredentials(ProviderUserDTO $input): UserDTO
     {
         try {
             $user = $this->authRepository->findByEmail($input->email);

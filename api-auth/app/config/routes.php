@@ -1,13 +1,11 @@
 <?php
 declare(strict_types=1);
 
-use apiAuth\application\actions\HomeAction;
-use apiAuth\application\actions\RefreshAction;
-use apiAuth\application\actions\RegisterAction;
-use apiAuth\application\actions\SignInAction;
-use apiAuth\application\actions\ValidateAction;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use apiAuth\application\actions\application\actions\HomeAction;
+use apiAuth\application\actions\application\actions\RefreshAction;
+use apiAuth\application\actions\application\actions\RegisterAction;
+use apiAuth\application\actions\application\actions\SignInAction;
+use apiAuth\application\actions\application\actions\ValidateAction;
 use Slim\App;
 
 return function( App $app): App {
