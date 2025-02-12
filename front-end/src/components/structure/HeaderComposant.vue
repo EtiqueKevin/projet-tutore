@@ -4,8 +4,16 @@ import Button from '@/components/buttons/Button.vue';
 import ChangeThemeButton from '@/components/buttons/ChangeThemeButton.vue';
 import MenuList from '@/components/list/MenuList.vue';
 import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
 
+
+const router = useRouter();
 const userStore = useUserStore();
+
+const logOut = async () => {
+  await router.push('/');
+  userStore.signOut();
+};
 </script>
 
 <template>
@@ -74,7 +82,7 @@ const userStore = useUserStore();
               <i class="fas fa-user"></i>
             </RouterButton>
             <Button 
-              @click="userStore.signOut()" 
+              @click="logOut()" 
               
               title="Se déconnecter">
               <i class="fas fa-sign-out-alt"></i>

@@ -58,8 +58,8 @@ export const useUserStore = defineStore('user', {
         },
 
         signOut() {
-            console.log('Sign out');
             this.accessToken = null;
+            this.refreshToken = null;
             this.role = null;
             this.email = null;
             this.name = null;
@@ -84,10 +84,11 @@ export const useUserStore = defineStore('user', {
             return state.refreshToken
         },
         isTeacher(state){
-            return state.role === 2 || state.role === 3;
+            return true;
+            return state.role === 1 || state.role === 2;
         },
         isAdmin(state){
-            return state.role === 3;
+            return state.role === 2;
         },
         getName(state){
             return state.name;

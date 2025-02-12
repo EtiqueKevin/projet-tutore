@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
     return
   } 
 
-  if(!to.meta.requiresAuth && userStore.isLogged) {
+  if(to.name === 'user-connect' && userStore.isLogged) {
     next({ name: 'home' })
     return
   }

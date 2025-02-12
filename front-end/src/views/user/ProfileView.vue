@@ -1,17 +1,19 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '@/stores/user';
 import InputField from '@/components/forms/inputs/InputField.vue';
 
 const userStore = useUserStore();
 
-const userProfile = computed(() => ({
-    name: userStore.getName,
-    surname: userStore.getSurname,
-    email: userStore.getEmail
-}));
+const userProfile = {
+    name: '',
+    surname: '',
+    email: ''
+}
 
 const isEditing = ref(false);
+
+const isInit = ref(false);
 
 const toggleEdit = () => {
     isEditing.value = !isEditing.value;
@@ -24,11 +26,22 @@ const saveProfile = () => {
         console.error('Error updating profile:', error);
     }
 };
+
+onMounted(async () => {
+    try {
+        userProfile.name = userStore.name;
+        userProfile.surname = userStore.surname;
+        userProfile.email = userStore.email;
+        isInit.value = true;
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+    }
+});
 </script>
 
 <template>
     <main class="flex-grow p-6">
-        <div class="max-w-2xl mx-auto bg-background-light dark:bg-background-dark rounded-lg shadow-md p-8">
+        <div class="max-w-2xl mx-auto bg-background-light dark:bg-background-dark rounded-lg shadow-md p-8" v-if="isInit">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-black dark:text-white">Profile</h1>
                 <button
