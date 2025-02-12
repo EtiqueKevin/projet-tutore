@@ -20,7 +20,6 @@ CREATE TABLE "public"."comments" (
     "date_post" date DEFAULT CURRENT_DATE,
     "content" text NOT NULL,
     CONSTRAINT "comments_id" PRIMARY KEY ("id"),
-    CONSTRAINT "comments_rep_fk" FOREIGN KEY ("id_rep") REFERENCES "comments"("id") ON DELETE CASCADE
 ) WITH (oids = false);
 
 DROP TABLE IF EXISTS "reporting";
