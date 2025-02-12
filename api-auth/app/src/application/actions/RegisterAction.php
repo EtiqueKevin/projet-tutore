@@ -1,12 +1,10 @@
 <?php
+namespace apiAuth\application\actions;
 
-namespace apiAuth\application\actions\application\actions;
-
-use apiAuth\application\actions\application\providers\auth\AuthProviderInterface;
+use apiAuth\application\providers\auth\AuthProviderInterface;
 use apiAuth\core\dto\user\InputUserDTO;
 use apiAuth\core\dto\user\ProviderUserDTO;
 use apiAuth\core\services\user\UserServiceInterface;
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -23,10 +21,7 @@ class RegisterAction extends AbstractAction
         $this->authProvider = $authProvider;
     }
 
-  /**
-   * @throws Exception
-   */
-  public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
+    public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $params = $rq->getParsedBody() ?? null;
 
@@ -39,21 +34,21 @@ class RegisterAction extends AbstractAction
         $surname = filter_var($params['surname'], FILTER_SANITIZE_SPECIAL_CHARS);
 
         $pseudo = null;
-        if(isset($params['pseudo'])){
+        if (isset($params['pseudo'])) {
             $pseudo = filter_var($params['pseudo'], FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
-        $linkpic="johndoe.jpg";
+        $linkpic = "johndoe.jpg";
 
-        try{
-            $this->userService->createUser(new InputUserDTO($email, $params['mdp'],$name,$surname,$linkpic,$pseudo));
-        }catch (Exception $e){
+        try {
+            $this->userService->createUser(new InputUserDTO($email, $params['mdp'], $name, $surname, $linkpic, $pseudo));
+        } catch (\apiAuth\application\actions\application\actions\Exception $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         try {
             $authRes = $this->authProvider->signIn(new ProviderUserDTO($email, $params['mdp']));
-        }catch (Exception $e){
+        } catch (\apiAuth\application\actions\application\actions\Exception $e) {
             throw new HttpUnauthorizedException($rq, 'Identifiants incorrects ' . $e->getMessage());
         }
 

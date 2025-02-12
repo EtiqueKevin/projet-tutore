@@ -1,5 +1,5 @@
 <?php
-namespace apiAuth\application\actions\application\providers\auth;
+namespace apiAuth\application\providers\auth;
 
 
 use apiAuth\core\dto\user\ProviderUserDTO;

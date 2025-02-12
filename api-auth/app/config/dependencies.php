@@ -1,13 +1,13 @@
 <?php
 
 
-use apiAuth\application\actions\application\actions\RefreshAction;
-use apiAuth\application\actions\application\actions\RegisterAction;
-use apiAuth\application\actions\application\actions\SignInAction;
-use apiAuth\application\actions\application\actions\ValidateAction;
-use apiAuth\application\actions\application\providers\auth\AuthProvider;
-use apiAuth\application\actions\application\providers\auth\AuthProviderInterface;
-use apiAuth\application\actions\application\providers\auth\JWTManager;
+use apiAuth\application\actions\RefreshAction;
+use apiAuth\application\actions\RegisterAction;
+use apiAuth\application\actions\SignInAction;
+use apiAuth\application\actions\ValidateAction;
+use apiAuth\application\providers\auth\AuthProvider;
+use apiAuth\application\providers\auth\AuthProviderInterface;
+use apiAuth\application\providers\auth\JWTManager;
 use apiAuth\core\repositoryInterface\AuthRepositoryInterface;
 use apiAuth\core\repositoryInterface\UtilisateurRepositoryInterface;
 use apiAuth\core\services\auth\AuthService;
@@ -55,7 +55,6 @@ return [
     ValidateAction::class => function(ContainerInterface $c){
         return new ValidateAction($c->get(AuthProviderInterface::class));
     },
-
 
     JWTManager::class => function(ContainerInterface $c){
         return new JWTManager($c->get('SECRET_KEY'));
