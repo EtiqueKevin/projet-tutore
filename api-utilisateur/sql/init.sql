@@ -19,7 +19,7 @@ CREATE TABLE "public"."comments" (
     "id_rep_lesson" uuid,
     "date_post" date DEFAULT CURRENT_DATE,
     "content" text NOT NULL,
-    CONSTRAINT "comments_id" PRIMARY KEY ("id"),
+    CONSTRAINT "comments_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
 
 DROP TABLE IF EXISTS "reporting";
