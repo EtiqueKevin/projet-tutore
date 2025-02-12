@@ -4,6 +4,7 @@ declare(strict_types=1);
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
+use apiUtilisateur\application\actions\user\PutUitlisateurAction;
 use apiUtilisateur\application\actions\user\SignInAction;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -24,6 +25,9 @@ return function( App $app): App {
 
     $app->post('/user[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');
+
+    $app->put('/user/{ID-USER}[/]',PutUitlisateurAction::class)
+        ->setName('updateUtilisateur');
 
     return $app;
 };

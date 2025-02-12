@@ -5,6 +5,7 @@ namespace apiUtilisateur\application\actions\user;
 use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\dto\user\InputUserDTO;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -22,6 +23,15 @@ class PutUitlisateurAction extends AbstractAction
     {
         $params = $rq->getParsedBody() ?? null;
         $id = $args['id'];
+
+        if(!isset($params['name'])) {
+            throw new HttpBadRequestException($rq, "Le nom est obligatoire.");
+        }else if (!isset($params['surname'])) {
+            throw new HttpBadRequestException($rq, "Le prénom est obligatoire.");
+        }else if (!isset($params['pseudo'])) {
+            throw new HttpBadRequestException($rq, "Le pseudo est obligatoire.");
+        }
+
 
         $fileNameNew = null;
 
@@ -53,5 +63,6 @@ class PutUitlisateurAction extends AbstractAction
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
+        return $rs->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 }
