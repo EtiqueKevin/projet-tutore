@@ -12,7 +12,7 @@ const userStore = useUserStore();
   <header class="sticky top-0 z-50 backdrop-blur-sm shadow-lg
     dark:bg-background-dark/95 bg-background-light/95
     transition-colors duration-200">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class=" mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-12">
         <!-- Logo -->
         <router-link to="/" 
@@ -26,19 +26,31 @@ const userStore = useUserStore();
         <div class="flex items-center space-x-4 h-full">
           <MenuList :show-icon="true" class="dark:text-white text-main-dark">
             <template #text>
-              Menu
+              Cours
             </template>
             <RouterButton :to="'/exercice'" 
               class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
-              title="Voir les exercices">
+              title="voir un exercice">
               <i class="fas fa-dumbbell"></i>
               <span class="ml-2">Exercice</span>
             </RouterButton>
+            <RouterButton :to="'/cours'" 
+              class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
+              title="voir un cours">
+              <i class="fas fa-plus-circle"></i>
+              <span class="ml-2">Cours</span>
+            </RouterButton>
+          </MenuList>
+
+          <MenuList :show-icon="true" class="dark:text-white text-main-dark">
+            <template #text>
+              Enseignant
+            </template>
             <RouterButton :to="'/cours/create'" 
               class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
               title="Créer un nouveau cours">
               <i class="fas fa-plus-circle"></i>
-              <span class="ml-2">Create Cours</span>
+              <span class="ml-2">Créer Cours</span>
             </RouterButton>
           </MenuList>
 

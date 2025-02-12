@@ -11,7 +11,7 @@ use Slim\App;
 
 
 return function( App $app): App {
-
+    /*
     $app->add(Cors::class);
 
     $app->options('/{routes:.+}',
@@ -19,7 +19,7 @@ return function( App $app): App {
                   Response $rs, array $args) : Response {
             return $rs;
         });
-
+*/
     /*************************
     * Routes de l'API Cours
     *************************/

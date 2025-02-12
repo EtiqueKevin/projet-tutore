@@ -3,12 +3,12 @@ import Console from '@/components/editor/Console.vue';
 import Editor from '@/components/editor/student/ExerciceEditor.vue';
 import MarkdownArea from '@/components/editor/MarkdownArea.vue';
 import { ref, computed, onMounted } from 'vue'
-import { useCoursStore } from '@/stores/cours';
+import { useStudentStore } from '@/stores/student';
 import { useRouter } from 'vue-router';
 
 // 0 = sujet, 1 = editor, 2 = console
 const page = ref(0);
-const coursStore = useCoursStore();
+const studentStr = useStudentStore();
 const router = useRouter();
 
 const sujet = ref("");
@@ -19,13 +19,12 @@ const isMobile = computed(() => window.innerWidth < 768);
 const isLoaded = computed(() => sujet.value !== "" && files.value.length > 0);
 
 onMounted(() => {
-  const currentExercice = coursStore.currentExercice;
-  
-  if (!currentExercice) {
+  if (!studentStr.isExerciceLoaded) {
     router.push({ name: 'cours' });
     return;
   }
 
+  const currentExercice = studentStr.currentExercice;
   sujet.value = currentExercice.statement;
   files.value = currentExercice.files.filter(file => file.type === 'file');
 });
