@@ -23,6 +23,7 @@ db.lessons.insertMany([
           },
           {
               type: 'code',
+              statement: 'blablablabla',
               files: [
                   {
                       content: 'l',
@@ -44,6 +45,7 @@ db.lessons.insertMany([
           },
           {
               type: 'code',
+              statement: 'blablablabla2',
               files: [
                   {
                       content: 'x',
