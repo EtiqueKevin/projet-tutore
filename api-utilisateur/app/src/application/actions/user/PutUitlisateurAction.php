@@ -22,7 +22,7 @@ class PutUitlisateurAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $params = $rq->getParsedBody() ?? null;
-        $id = $args['id'];
+        $id = $args['ID-USER'];
 
         if(!isset($params['name'])) {
             throw new HttpBadRequestException($rq, "Le nom est obligatoire.");
@@ -33,9 +33,9 @@ class PutUitlisateurAction extends AbstractAction
         }
 
 
-        $fileNameNew = null;
+        $fileNameNew = "default.png";
 
-        if (isset($_FILES['image']) || $_FILES['image']['size'] != 0 || $_FILES['image']['type'] != "") {
+        if (isset($_FILES['image']) && $_FILES['image']['size'] != 0 && $_FILES['image']['type'] != "") {
             $file = $_FILES['image'];
             $fileName = $file['name'];
             $fileTmpName = $file['tmp_name'];
