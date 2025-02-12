@@ -16,7 +16,52 @@ db.lessons.insertMany([
     _id: UUID("660e8400-e29b-41d4-a716-446655440000"),
     name: "Cours de programmation",
     type: "langage",
-    json : [],
+    content : [
+          {
+              type: 'text',
+              content: 'Le premier text de la leçon'
+          },
+          {
+              type: 'code',
+              content: 'blablablabla',
+              files: [
+                  {
+                      content: 'l',
+                      filename: 'file.java',
+                      language: 'java',
+                      type: 'file'
+                  },
+                  {
+                      content: 'testl',
+                      filename: 'test.java',
+                      language: 'java',
+                      type: 'test'
+                  }
+              ]
+          },
+          {
+              type: 'text',
+              content: 'Le deuxième text de la leçon'
+          },
+          {
+              type: 'code',
+              content: 'blablablabla2',
+              files: [
+                  {
+                      content: 'x',
+                      filename: 'filex.java',
+                      language: 'java',
+                      type: 'file'
+                  },
+                  {
+                      content: 'xl',
+                      filename: 'testx.java',
+                      language: 'java',
+                      type: 'test'
+                  }
+              ]
+          }
+      ],
     date_update: new Date()
   }
 ]);

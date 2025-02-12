@@ -14,7 +14,9 @@ DROP TABLE IF EXISTS "comments";
 CREATE TABLE "public"."comments" (
     "id" uuid DEFAULT uuid_generate_v4() NOT NULL,
     "id_user" uuid NOT NULL,
-    "id_rep" uuid,
+    "id_rep_com" uuid,
+    "id_rep_module" uuid,
+    "id_rep_lesson" uuid,
     "date_post" date DEFAULT CURRENT_DATE,
     "content" text NOT NULL,
     CONSTRAINT "comments_id" PRIMARY KEY ("id"),

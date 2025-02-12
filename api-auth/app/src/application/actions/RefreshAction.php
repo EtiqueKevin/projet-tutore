@@ -3,6 +3,7 @@
 namespace apiAuth\application\actions;
 
 use apiAuth\application\providers\auth\AuthProviderInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -38,13 +39,13 @@ class RefreshAction extends AbstractAction
                 throw new HttpBadRequestException($rq, "Authorization header not found");
             }
             $tokenstring = sscanf($headers[0], "Bearer %s")[0];
-        } catch (\apiAuth\application\actions\application\actions\Exception $e) {
+        } catch (Exception $e) {
             throw new HttpBadRequestException($rq, "Error retrieving the token: " . $e->getMessage());
         }
 
         try {
             $authRes = $this->authProvider->refresh($tokenstring);
-        } catch (\apiAuth\application\actions\application\actions\Exception $e) {
+        } catch (Exception $e) {
             throw new HttpUnauthorizedException($rq, 'Identifiants incorrects ' . $e->getMessage());
         }
 
