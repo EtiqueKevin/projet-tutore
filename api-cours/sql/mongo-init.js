@@ -15,13 +15,16 @@ db.lessons.insertMany([
   {
     _id: UUID("660e8400-e29b-41d4-a716-446655440000"),
     name: "Cours de programmation",
+    description: "Exemple de lesçon",
     type: "langage",
     content : [
           {
+              index : 0,
               type: 'text',
               content: 'Le premier text de la leçon'
           },
           {
+              index : 1,
               type: 'code',
               content: 'blablablabla',
               files: [
@@ -40,10 +43,12 @@ db.lessons.insertMany([
               ]
           },
           {
+              index : 2,
               type: 'text',
               content: 'Le deuxième text de la leçon'
           },
           {
+              index : 3,
               type: 'code',
               content: 'blablablabla2',
               files: [
