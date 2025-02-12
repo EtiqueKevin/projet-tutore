@@ -43,7 +43,7 @@ return function( App $app): App {
 
 
     /*************************
-     * Routes de l'API Utilisateur
+     * Routes de l'API Auth
      *************************/
 
     $app->post('/signin[/]', GeneriqueAuthnAction::class)
@@ -55,6 +55,12 @@ return function( App $app): App {
     $app->post('/refresh[/]', GeneriqueAuthnAction::class)
         ->add(AuthMiddleware::class)
         ->setName('usersRefresh');
+
+    /*************************
+     * Routes de l'API Utilisateur
+     *************************/
+
+    $app->put('/user/{ID-USER}[/]', GeneriqueUtilisateurAction::class);
 
     return $app;
 };

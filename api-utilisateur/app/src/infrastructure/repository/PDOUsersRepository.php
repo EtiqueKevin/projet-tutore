@@ -80,7 +80,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $stmt->bindParam(3, $linkpic);
             $stmt->bindParam(4, $pseudo);
             $stmt->bindParam(5, $id);
-            $stmt->execute(['name' => $name, 'surname' => $surname, 'linkpic' => $linkpic, 'pseudo' => $pseudo, 'id' => $id]);
+            $stmt->execute();
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
