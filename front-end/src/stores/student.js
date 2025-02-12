@@ -2,10 +2,18 @@ import { defineStore } from 'pinia'
 
 export const useStudentStore = defineStore('student', {
     state: () => ({
-        idModule: null,
         idLesson: null,
         idExercice: null,
 
+        currentModule: {
+            id: 0,
+            name: "",
+            description: "",
+            creator: "",
+            lessonCount: 0,
+            lastUpdate: new Date(),
+            lessons: []
+        },
         currentLesson: {
             title: "",
             description: "",
@@ -20,6 +28,29 @@ export const useStudentStore = defineStore('student', {
     actions: {
         setCurrentExercice(exercice) {
             this.currentExercice = exercice
+        },
+        async loadModule(id) {
+            try{
+                const res = await this.$api.get(`/modules/${id}`);
+                console.log(res.data);
+                this.currentModule = {
+                    id: res.data.module.id,
+                    name: res.data.module.name,
+                    description: res.data.module.description,
+                    creator: res.data.module.idCreator,
+                    lessonCount: res.data.module.nblesson,
+                    lastUpdate: new Date(parseInt(res.data.module.dateupdate)),
+                    lessons: []
+                };
+
+                console.log(this.currentModule.name);
+                
+                const resLessons = await this.$api.get(`/modules/${id}/lessons`);
+                console.log(resLessons.data);
+                this.currentModule.lessons = resLessons.data.lessons;
+            }catch(error){
+                console.log(error);
+            }
         },
         loadCours(id) {
             // In a real application, this would be fetched from an API
@@ -121,6 +152,14 @@ if (condition) {
                     }
                 ]
             }
+        },
+        async getModules(){
+            try{
+                const res = await this.$api.get('/modules');
+                return res.data.modules;
+            }catch(error){
+                console.log(error);
+            }
         }
     },
 
@@ -131,6 +170,10 @@ if (condition) {
 
         isExerciceLoaded(state) {
             return state.currentExercice.statement !== "";
+        },
+
+        getCurrentModule(state) {
+            return state.currentModule;
         }
     },
     

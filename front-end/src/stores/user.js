@@ -85,10 +85,11 @@ export const useUserStore = defineStore('user', {
         },
         isTeacher(state){
             return true;
-            return state.role === 1 || state.role === 2;
+            //return state.role === 1 || state.role === 2;
         },
         isAdmin(state){
-            return state.role === 2;
+            return true;
+            //return state.role === 2;
         },
         getName(state){
             return state.name;
@@ -105,7 +106,7 @@ export const useUserStore = defineStore('user', {
     persist: {
         enabled: true,
         strategies: [
-            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'role', 'name', 'surname', 'email'] }
+            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'role', 'name', 'surname', 'email', 'pseudo'] }
         ]
     }
 })
