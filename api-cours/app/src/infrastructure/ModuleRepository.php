@@ -9,6 +9,7 @@ use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
 use MongoDB\Collection;
 use MongoDB\Database;
+use Ramsey\Uuid\Uuid;
 
 
 class ModuleRepository implements ModuleRepositoryInterface {
@@ -63,14 +64,17 @@ class ModuleRepository implements ModuleRepositoryInterface {
     public function createModule(Module $module)
     {
         try {
+            $date = date("Y-m-d H:i:s");
             $res = $this->moduleCollection->insertOne([
+                "_id" => UUIDConverter::toUUID(Uuid::uuid4()->toString()),
                 "name" => $module->name,
-                "id_creator" => UUIDConverter::toUUID($module->id_creator),
+                "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
-                "date_update" => $module->dateupdate
+                "date_update" => $date
             ]);
             $module->setID(UUIDConverter::fromUUID($res->getInsertedId()));
+            $module->setDateUpdate($date);
             return $module;
         }catch(\Exception $e) {
             throw new ModuleRepositoryException("Impossible de créer le module.");
@@ -80,12 +84,13 @@ class ModuleRepository implements ModuleRepositoryInterface {
     public function updateModule(Module $module)
     {
         try {
+            $date = date("Y-m-d H:i:s");
             $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($module->getID())], [
                 "name" => $module->name,
-                "id_creator" => UUIDConverter::toUUID($module->id_creator),
+                "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
-                "date_update" => $module->dateupdate
+                "date_update" => $date
             ]);
         }catch (\Exception $e) {
             throw new ModuleRepositoryException("Impossible de modifier le module");

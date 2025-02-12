@@ -32,8 +32,6 @@ class PutModuleByIdAction extends AbstractAction
             throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
         }else if(!isset($body['nblesson']) ) {
             throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
-        }else if(!isset($body['dateupdate']) ) {
-            throw new HttpBadRequestException($rq, "La date de mise à jour du module est obligatoire.");
         }
 
         if (!(Validator::uuid()->validate($id))) {
@@ -46,7 +44,7 @@ class PutModuleByIdAction extends AbstractAction
             $body['idCreator'],
             $body['description'],
             $body['nblesson'],
-            $body['dateupdate']
+            null
         );
 
         $this->moduleService->updateModule($moduleDTO);

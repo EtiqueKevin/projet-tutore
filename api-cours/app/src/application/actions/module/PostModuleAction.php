@@ -31,8 +31,6 @@ class PostModuleAction  extends AbstractAction
             throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
         }else if(!isset($body['nblesson']) ) {
             throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
-        }else if(!isset($body['dateupdate']) ) {
-            throw new HttpBadRequestException($rq, "La date de mise à jour du module est obligatoire.");
         }
 
         $moduleDTO = new ModuleDTO(
@@ -41,7 +39,7 @@ class PostModuleAction  extends AbstractAction
             $body['idCreator'],
             $body['description'],
             $body['nblesson'],
-            $body['dateupdate']
+            null
         );
 
         try {

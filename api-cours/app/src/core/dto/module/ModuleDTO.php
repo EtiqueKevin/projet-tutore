@@ -12,9 +12,9 @@ class ModuleDTO extends DTO{
     protected string $idCreator;
     protected string $description;
     protected int $nblesson;
-    protected string $dateupdate;
+    protected ?string $dateupdate;
 
-    public function __construct(?string $id, string $name, string $idCreator, string $description, int $nblesson, string $dateupdate){
+    public function __construct(?string $id, string $name, string $idCreator, string $description, int $nblesson, ?string $dateupdate){
         $this->id = $id;
         $this->name = $name;
         $this->idCreator = $idCreator;
