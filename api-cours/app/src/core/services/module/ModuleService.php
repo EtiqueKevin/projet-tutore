@@ -18,7 +18,11 @@ class ModuleService implements ModuleServiceInterface
     public function getAllModules()
     {
         $modules = $this->moduleRepository->getAllModules();
-        return $modules;
+        $modulesDTO = [];
+        foreach ($modules as $module) {
+            $modulesDTO[] = $module->toDTO();
+        }
+        return $modulesDTO;
     }
 
     public function getModuleById(string $id)

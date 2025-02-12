@@ -7,6 +7,7 @@ use apiAuth\core\domain\entities\user\User;
 use apiAuth\core\repositoryInterface\AuthRepositoryException;
 use apiAuth\core\repositoryInterface\AuthRepositoryInterface;
 use Exception;
+use PDO;
 
 class PDOAuthRepository implements AuthRepositoryInterface
 {

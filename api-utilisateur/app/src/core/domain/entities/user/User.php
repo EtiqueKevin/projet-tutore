@@ -9,20 +9,15 @@ use DateTime;
 class User extends Entity{
     protected string $name;
     protected string $surname;
-    protected int $role;
     protected ?string $linkpic;
-    protected string $email;
-    protected DateTime $datesignup;
-    protected DateTime $datesignin;
+    protected ?string $pseudo;
 
-    public function __construct(string $name,string $surname, int $role, string $linkpic, string $email, DateTime $datesignin, DateTime $datesign){
+    public function __construct(string $name,string $surname, string $linkpic, ?string $pseudo){
         $this->name = $name;
         $this->surname = $surname;
-        $this->role = $role;
         $this->linkpic = $linkpic;
-        $this->email = $email;
-        $this->datesignin = $datesignin;
-        $this->datesignup = $datesign;
+        $this->pseudo = $pseudo;
+
     }
 
     public function toDTO():UserDTO{

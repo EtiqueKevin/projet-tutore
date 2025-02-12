@@ -48,6 +48,6 @@ return [
         return new LessonRepository();
     },
     ModuleRepositoryInterface::class => function(ContainerInterface $c){
-        return new ModuleRepository();
+        return new ModuleRepository($c->get('database'));
     }
 ];

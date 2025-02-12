@@ -2,6 +2,8 @@
 
 namespace apiUtilisateur\core\services\user;
 
+use apiUtilisateur\core\domain\entities\user\User;
+use apiUtilisateur\core\dto\user\InputUserDTO;
 use apiUtilisateur\core\dto\user\UserDTO;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 
@@ -19,6 +21,13 @@ class UsersService implements UsersServiceInterface{
 
         return $user->toDTO();
 
+    }
+
+    function save(InputUserDTO $inpputUserDTO): void
+    {
+        $user = new User($inpputUserDTO->name,$inpputUserDTO->surname,$inpputUserDTO->linkpic, $inpputUserDTO->pseudo);
+        $user->setID($inpputUserDTO->id);
+        $this->repositoryUsers->save($user);
     }
 
 }

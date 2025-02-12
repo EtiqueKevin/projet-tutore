@@ -6,8 +6,6 @@ use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
 use apiAuth\application\actions\SignInAction;
 use apiAuth\application\actions\ValidateAction;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;
 
 return function( App $app): App {

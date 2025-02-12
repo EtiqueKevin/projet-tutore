@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use apiUtilisateur\application\actions\HomeAction;
+use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\SignInAction;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,16 +22,8 @@ return function( App $app): App {
 
     $app->get('/user/{ID-USER}[/]',GetUserById::class);
 
-    $app->post('/signin[/]',SignInAction::class)
-        ->setName('tokenSignin');
+    $app->post('/user[/]',CreateUtilisateurAction::class)
+        ->setName('createUtilisateur');
 
-    $app->post('/register[/]',RegisterAction::class)
-        ->setName('tokenRegister');
-
-    $app->post('/token/refresh[/]',RefreshAction::class)
-        ->setName('tokenRefresh');
-
-    $app->post('/token/validate[/]',ValidateAction::class)
-        ->setName('tokenValidate');
     return $app;
 };

@@ -2,12 +2,12 @@
 namespace apiAuth\application\providers\auth;
 
 
-use apiAuth\core\dto\user\InputUserDTO;
+use apiAuth\core\dto\user\ProviderUserDTO;
 use apiAuth\core\dto\user\UserDTO;
 
 interface AuthProviderInterface
 {
-    public function signIn(InputUserDTO $credentials): UserDTO;
+    public function signIn(ProviderUserDTO $put): UserDTO;
 
     public function getSignIn(string $token): UserDTO;
 

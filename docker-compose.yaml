@@ -61,7 +61,8 @@ services:
       - ./api-utilisateur/app:/var/php
 
     working_dir: /var/php
-
+    networks:
+      - jeancademie.net
     ports:
       - "8889:8889"
 
@@ -79,7 +80,8 @@ services:
       - ./api-auth/env/auth.env
 
     working_dir: /var/php
-
+    networks:
+      - jeancademie.net
     ports:
       - "8890:8890"
 

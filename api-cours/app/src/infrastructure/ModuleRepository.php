@@ -2,30 +2,46 @@
 
 namespace apiCours\infrastructure;
 
-use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
 use apiCours\core\domain\entities\module\Module;
-use PhpParser\Node\Expr\AssignOp\Mod;
-use Ramsey\Uuid\Uuid;
+use apiCours\core\services\UUIDConverter\UUIDConverter;
+use MongoDB\Collection;
+use MongoDB\Database;
+
 
 class ModuleRepository implements ModuleRepositoryInterface {
 
+    private Database $db;
+    private Collection $moduleCollection;
+
+    public function __construct(Database $db)
+    {
+        $this->db = $db;
+        $this->moduleCollection = $this->db->selectCollection("modules");
+    }
 
 
     public function getAllModules()
     {
-        $module1 = new ModuleDTO("1", "Module 1", "1", "Description module 1", 10, "2021-10-10");
-        $module2 = new ModuleDTO("2", "Module 2", "2", "Description module 2", 20, "2021-10-10");
-        $module3 = new ModuleDTO("3", "Module 3", "3", "Description module 3", 30, "2021-10-10");
-
-        return [$module1, $module2, $module3];
+        $modulesData = $this->moduleCollection->find();
+        foreach ($modulesData as $module) {
+            $uuid = UUIDConverter::fromUUID($module->_id);
+            $id_creator = UUIDConverter::fromUUID($module->id_creator);
+            $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, $module->date_update);
+            $m->setID($uuid);
+            $modules[] = $m;
+        }
+        return $modules;
     }
 
     public function getModuleById(string $id)
     {
-        $module = new Module("Module 1", "1", "Description module 1", 10, "2021-10-10");
-        $module->setID($id);
-        return $module;
+        $idUUID = UUIDConverter::toUUID($id);
+        $module = $this->moduleCollection->findOne(["_id" => $idUUID]);
+        $id_creator = UUIDConverter::fromUUID($module->id_creator);
+        $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, $module->date_update);
+        $m->setID($id);
+        return $m;
     }
 
     public function createModule(Module $module)

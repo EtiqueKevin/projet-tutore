@@ -2,7 +2,7 @@
 namespace apiAuth\application\providers\auth;
 
 
-use apiAuth\core\dto\user\InputUserDTO;
+use apiAuth\core\dto\user\ProviderUserDTO;
 use apiAuth\core\dto\user\UserDTO;
 use apiAuth\core\services\auth\AuthServiceException;
 use apiAuth\core\services\auth\AuthServiceInterface;
@@ -19,11 +19,11 @@ class AuthProvider implements AuthProviderInterface
         $this->jwtManager = $jwtManager;
     }
 
-    public function signIn(InputUserDTO $credentials): UserDTO
+    public function signIn(ProviderUserDTO $pud): UserDTO
     {
         try{
             // Verifier les credentials
-            $authDTO = $this->authService->verifyCredentials($credentials);
+            $authDTO = $this->authService->verifyCredentials($pud);
 
             // Creer le payload pour les tokens
             $payload = [

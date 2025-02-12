@@ -22,4 +22,9 @@ return  [
 
     'SECRET_KEY' => getenv('JWT_SECRET_KEY'),
 
-    ];
+    'database' => function (ContainerInterface $c) {
+        $client = new MongoDB\Client('mongodb://mongo.jeancademie:27017', ["username" => "root", "password" => "root"]);
+        $database = $client->cours;
+        return $database;
+    },
+];
