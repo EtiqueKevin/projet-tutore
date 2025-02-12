@@ -13,12 +13,18 @@ const toast = useToast();
 const email = ref('');
 const password = ref('');
 const password2 = ref('');
+const name = ref('');
+const surname = ref('');
+const pseudo = ref('');
 const passwordsMatch = ref(true);
 
 const formValid = computed(() => {
     return passwordsMatch.value && 
-                 password.value && 
-                 email.value
+           password.value && 
+           email.value &&
+           name.value &&
+           surname.value &&
+           pseudo.value
 })
 
 watch([password, password2], ([newPass, newPass2]) => {
@@ -27,16 +33,19 @@ watch([password, password2], ([newPass, newPass2]) => {
 
 const handleSubmit = async () => {
     if (!formValid.value) return
-    try {
-        await userStore.signUp(email.value, password.value);
-    } catch (error) {
-        toast.error("Erreur lors de l'inscription. Veuillez réessayer.");
-    } finally {
-        password.value = '';
-        password2.value = '';
-        toast.success("Inscription réussie!");
-        router.push({ name: 'home' });
-    }
+    const userData = {
+            email: email.value,
+            password: password.value,
+            name: name.value,
+            surname: surname.value,
+            pseudo: pseudo.value
+        };
+        
+        const success = await userStore.signUp(userData);
+        if (success) {
+            toast.success("Inscription réussie!");
+            router.push({ name: 'home' });
+        }
 }
 </script>
 
@@ -47,6 +56,30 @@ const handleSubmit = async () => {
         </div>
         <h1 class="title">Inscription</h1>
         <form @submit.prevent="handleSubmit" class="form">
+            <InputField
+                v-model="name"
+                type="text"
+                id="name"
+                required
+                placeholder="Nom"
+                class="input-field"
+            />
+            <InputField
+                v-model="surname"
+                type="text"
+                id="surname"
+                required
+                placeholder="Prénom"
+                class="input-field"
+            />
+            <InputField
+                v-model="pseudo"
+                type="text"
+                id="pseudo"
+                required
+                placeholder="Pseudo"
+                class="input-field"
+            />
             <InputField
                 v-model="email"
                 type="email"

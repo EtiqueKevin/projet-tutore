@@ -1,11 +1,11 @@
 <script setup>
-import { useCoursStore } from '@/stores/cours';
+import { useStudentStore } from '@/stores/student';
 import { marked } from 'marked';
 import router from '@/router';
 import Button from '@/components/buttons/Button.vue';
 import { onMounted, ref } from 'vue';
 
-const coursStore = useCoursStore();
+const studentStr = useStudentStore();
 const cours = ref(null);
 const isLoading = ref(true);
 
@@ -14,14 +14,14 @@ const toMarkdown = (content) => {
 };
 
 const navigateToExercise = (exerciceData) => {
-    coursStore.setCurrentExercice(exerciceData);
+    studentStr.setCurrentExercice(exerciceData);
     router.push({ name: 'exercice' });
 };
 
 onMounted(async () => {
     try {
-        await coursStore.loadCours(1);
-        cours.value = coursStore.currentCours;
+        await studentStr.loadCours(1);
+        cours.value = studentStr.currentCours;
     } finally {
         isLoading.value = false;
     }
@@ -40,7 +40,7 @@ onMounted(async () => {
             <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">
                 Impossible de charger le cours
             </h2>
-            <Button @click="coursStore.loadCours(1)" class="mt-4">
+            <Button @click="studentStr.loadCours(1)" class="mt-4">
                 Réessayer
             </Button>
         </div>
