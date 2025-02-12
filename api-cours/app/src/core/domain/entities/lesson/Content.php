@@ -8,18 +8,25 @@ use apiCours\core\dto\lesson\ContentDTO;
 class Content extends Entity
 {
     private string $type;
-    private ?string $text;
-    private ?string $link;
+    private ?string $content;
 
-    public function __construct(string $type, ?string $text, ?string $link)
+    private ?array $files;
+    private int $index;
+
+    public function __construct(string $type, ?string $content,int $index, ?array $files = null)
     {
         $this->type = $type;
-        $this->text = $text;
-        $this->link = $link;
+        $this->content = $content;
+        $this->files = $files;
+        $this->index = $index;
+    }
+
+    public function setFiles(?array $files){
+        $this->files = $files;
     }
 
     public function toDTO(): ContentDTO
     {
-        return new ContentDTO($this->type, $this->text, $this->link);
+        return new ContentDTO($this->type, $this->content, $this->index, $this->files);
     }
 }

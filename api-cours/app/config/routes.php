@@ -26,6 +26,5 @@ return function( App $app): App {
     $app->get('/modules/{id_module}/lessons/{id_lesson}[/]', GetLessonByIdAction::class);
     $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', DeleteLessonByIdAction::class);
     $app->put('/modules/{id_module}/lessons/{id_lesson}[/]', PutLessonByIdAction::class);
-
     return $app;
 };

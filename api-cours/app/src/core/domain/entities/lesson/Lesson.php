@@ -7,15 +7,17 @@ use apiCours\core\dto\lesson\LessonDTO;
 
 class Lesson extends Entity
 {
-    private string $title;
+    private string $name;
+    private string $type;
     private string $description;
     private array $content;
 
-    public function __construct(string $title, string $description, array $content)
+    public function __construct(string $name, string $type, array $content, string $description)
     {
-        $this->title = $title;
-        $this->description = $description;
+        $this->name = $name;
+        $this->type = $type;
         $this->content = $content;
+        $this->description = $description;
     }
 
     public function toDTO(): LessonDTO
@@ -24,6 +26,6 @@ class Lesson extends Entity
         foreach ($this->content as $content) {
             $contentDTO[] = $content->toDTO();
         }
-        return new LessonDTO($this->id, $this->title, $this->description, $contentDTO);
+        return new LessonDTO($this->id, $this->name, $this->type, $this->content, $this->description);
     }
 }

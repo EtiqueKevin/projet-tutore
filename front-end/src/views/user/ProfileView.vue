@@ -8,7 +8,7 @@ const userStore = useUserStore();
 const userProfile = {
     name: '',
     surname: '',
-    email: ''
+    pseudo: '',
 }
 
 const isEditing = ref(false);
@@ -28,14 +28,10 @@ const saveProfile = () => {
 };
 
 onMounted(async () => {
-    try {
-        userProfile.name = userStore.name;
-        userProfile.surname = userStore.surname;
-        userProfile.email = userStore.email;
-        isInit.value = true;
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-    }
+    userProfile.name = userStore.name;
+    userProfile.surname = userStore.surname;
+    userProfile.pseudo = userStore.pseudo;
+    isInit.value = true;
 });
 </script>
 
@@ -48,7 +44,7 @@ onMounted(async () => {
                     @click="toggleEdit"
                     class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                 >
-                    {{ isEditing ? 'Cancel' : 'Edit Profile' }}
+                    {{ isEditing ? 'Annuler' : 'Modifier' }}
                 </button>
             </div>
 
@@ -66,7 +62,7 @@ onMounted(async () => {
                 <div class="space-y-4">
                     <div class="grid grid-cols-1 gap-4">
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-black dark:text-white">First Name</label>
+                            <label class="text-sm font-medium text-black dark:text-white">Prenom</label>
                             <InputField
                                 v-if="isEditing"
                                 v-model="userProfile.name"
@@ -78,7 +74,7 @@ onMounted(async () => {
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-black dark:text-white">Last Name</label>
+                            <label class="text-sm font-medium text-black dark:text-white">Nom</label>
                             <InputField
                                 v-if="isEditing"
                                 v-model="userProfile.surname"
@@ -90,17 +86,17 @@ onMounted(async () => {
                         </div>
 
                         <div class="space-y-2">
-                            <label class="text-sm font-medium text-black dark:text-white">Email</label>
+                            <label class="text-sm font-medium text-black dark:text-white">Pseudo</label>
                             <InputField
                                 v-if="isEditing"
-                                v-model="userProfile.email"
-                                type="email"
-                                :placeholder="userProfile.email"
+                                v-model="userProfile.pseudo"
+                                type="text"
+                                :placeholder="userProfile.pseudo"
                                 required
-                                autocomplete="email"
                             />
-                            <p v-else class="p-2 bg-gray-50 rounded-md">{{ userProfile.email }}</p>
+                            <p v-else class="p-2 bg-gray-50 rounded-md">{{ userProfile.pseudo }}</p>
                         </div>
+
                     </div>
 
                     <!-- Save Button -->
@@ -109,7 +105,7 @@ onMounted(async () => {
                             @click="saveProfile"
                             class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
                         >
-                            Save Changes
+                            Sauvegarder
                         </button>
                     </div>
                 </div>

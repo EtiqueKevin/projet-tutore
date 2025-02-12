@@ -19,7 +19,8 @@ class GetLessonsAction extends AbstractAction
     }
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $lessons = $this->lessonService->getALlLessons();
+        $idModule = $args['id'];
+        $lessons = $this->lessonService->getLessonByModuleId($idModule);
         $res = [
             'type' => 'resource',
             'lessons' => $lessons
