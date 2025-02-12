@@ -53,4 +53,15 @@ class LessonService implements LessonServiceInterface
     {
         $this->lessonRepository->deleteLesson($id);
     }
+
+    public function getLessonByModuleId(string $moduleId): array
+    {
+         $res = $this->lessonRepository->getLessonByModuleId($moduleId);
+        $tabLessonDTO = [];
+         foreach ($res as $lesson) {
+             $tabLessonDTO[] = $lesson->toDTO();
+         }
+        return $tabLessonDTO;
+
+    }
 }

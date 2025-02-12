@@ -45,7 +45,7 @@ return [
     //repository
 
     LessonRepositoryInterface::class => function(ContainerInterface $c){
-        return new LessonRepository();
+        return new LessonRepository($c->get('database'));
     },
     ModuleRepositoryInterface::class => function(ContainerInterface $c){
         return new ModuleRepository($c->get('database'));
