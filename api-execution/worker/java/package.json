@@ -4,7 +4,7 @@
   "description": "api de commnication avec les conteneurs d'exécution de code",
   "dependencies": {
     "amqplib": "^0.10.5",
-    "dockerode": "^4.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "js-logger": "^1.6.1"
   }
 }

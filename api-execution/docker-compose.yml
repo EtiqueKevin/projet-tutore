@@ -1,7 +1,7 @@
 services:
   # Service RabbitMQ
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4-management
     container_name: rabbitmq
     ports:
       - "15672:15672" # Port pour l'interface de gestion Web de RabbitMQ
@@ -14,8 +14,8 @@ services:
 
   # Service API Express
   api:
-    build: ./rooter # Dockerfile dans le dossier ./rooter
-    container_name: rooter
+    build: ./router # Dockerfile dans le dossier ./router
+    container_name: router
     ports:
       - "3000:3000" # Port de l'API
     environment:
@@ -29,14 +29,39 @@ services:
 
   # Service Java
   java:
-    build: ./worker/java
+    image: yoxan/node-java
     container_name: java
     environment:
       - RABBITMQ_URL=amqp://user:password@rabbitmq
     volumes:
-      - ./worker/java:/usr/src/worker
+      - ./worker/creation/:/usr/src/worker/creation
+      - ./worker/logs/:/usr/src/worker/logs
+      - ./worker/java/:/usr/src/worker/java
+      - ./worker/script_system/:/usr/src/worker/script_system
+      - ./worker/traitement/:/usr/src/worker/traitement
+      - ./worker/logger.js:/usr/src/worker/logger.js
     depends_on:
       - rabbitmq
+    command: node java/index.js
+    networks:
+      - code-execution-net
+
+  # Service Python
+  python:
+    image: yoxan/node-python
+    container_name: python
+    environment:
+      - RABBITMQ_URL=amqp://user:password@rabbitmq
+    volumes:
+      - ./worker/creation/:/usr/src/worker/creation
+      - ./worker/logs/:/usr/src/worker/logs
+      - ./worker/python/:/usr/src/worker/python
+      - ./worker/script_system/:/usr/src/worker/script_system
+      - ./worker/traitement/:/usr/src/worker/traitement
+      - ./worker/logger.js:/usr/src/worker/logger.js
+    depends_on:
+      - rabbitmq
+    command: node python/index.js
     networks:
       - code-execution-net
 

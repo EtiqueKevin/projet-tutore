@@ -3,6 +3,8 @@
 # Spécifie le répertoire à parcourir
 repertoire=$1
 
+pwd
+
 # Vérifie si le répertoire existe
 if [ -d "$repertoire" ]; then
   # Trouve le fichier de test (MainTest.java ou similaire)
