@@ -32,7 +32,7 @@ if [ ! -f "$SCRIPT_PATH" ]; then
 fi
 
 # Ajoute une tâche planifiée dans le crontab actuel
-CRON_JOB="*/10 * * * * $SCRIPT_PATH"
+CRON_JOB="*/15 * * * * $SCRIPT_PATH"
 
 # Vérifie si la tâche existe déjà
 (crontab -l 2>/dev/null | grep -F "$CRON_JOB") && {

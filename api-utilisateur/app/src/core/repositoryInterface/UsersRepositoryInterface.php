@@ -10,4 +10,6 @@ interface UsersRepositoryInterface{
 
     function save(User $user):void;
 
+    function update(User $user):void;
+
 }

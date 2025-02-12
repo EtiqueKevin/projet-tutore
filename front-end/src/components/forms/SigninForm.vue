@@ -19,13 +19,8 @@ const formValid = computed(() => {
 
 const handleSubmit = async () => {
     if (!formValid.value) return
-    try {
-        await userStore.signIn(email.value, password.value);
-    } catch (error) {
-        toast.error("Erreur lors de la connexion. Veuillez réessayer.");
-    } finally {
-        password.value = '';
-        toast.success("Connexion réussie!");
+    const success = await userStore.signIn(email.value, password.value);
+    if (success) {
         router.push({ name: 'home' });
     }
 };

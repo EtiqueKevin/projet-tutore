@@ -11,9 +11,9 @@ class Module extends Entity{
     protected string $idCreator;
     protected string $description;
     protected int $nblesson;
-    protected string $dateupdate;
+    protected ?string $dateupdate;
 
-    public function __construct(string $name, string $idCreator, string $description, int $nblesson, string $dateupdate){
+    public function __construct(string $name, string $idCreator, string $description, int $nblesson, ?string $dateupdate){
         $this->name = $name;
         $this->idCreator = $idCreator;
         $this->description = $description;
@@ -25,5 +25,8 @@ class Module extends Entity{
         return new ModuleDTO($this->id, $this->name, $this->idCreator, $this->description, $this->nblesson, $this->dateupdate);
     }
 
+    public function setDateUpdate(?string $dateupdate): void{
+        $this->dateupdate = $dateupdate;
+    }
 
 }

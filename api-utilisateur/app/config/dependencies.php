@@ -5,14 +5,14 @@ use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use apiUtilisateur\core\services\user\UsersService;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
-use apiUtilisateur\infrastructure\repository\PDOreposiroryUsersRepositoryInterface;
+use apiUtilisateur\infrastructure\repository\PDOUsersRepository;
 use Psr\Container\ContainerInterface;
 
 return [
 
 
     UsersRepositoryInterface::class => function (ContainerInterface $c) {
-        return new PDOreposiroryUsersRepositoryInterface($c->get('jeancademydb.pdo'));
+        return new PDOUsersRepository($c->get('jeancademydb.pdo'));
     },
 
     UsersServiceInterface::class => function (ContainerInterface $c){

@@ -1,5 +1,4 @@
 function createFiles(file, code) {
-    console.log('Code : ', code);
     let fileCreationCommands = '';
 
     // Créer les fichiers à partir du JSON
@@ -9,7 +8,6 @@ function createFiles(file, code) {
         fileCreationCommands += `echo "${code}" > ${file}/${fileName} && `;
     });
 
-    // Créer le fichier de test à partir de TEST_CODE
-    return fileCreationCommands += `echo "${code.testCode}" > ${file}/MainTest.java `;
+    return fileCreationCommands += `echo "${code.testCode}" > ${file}/${code.fileTest} `;
 }
 module.exports = createFiles;

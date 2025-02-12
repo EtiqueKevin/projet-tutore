@@ -26,6 +26,7 @@ class CreateUtilisateurAction extends AbstractAction
     {
         $params = $rq->getParsedBody() ?? null;
 
+
         try{
             $this->utilisateurService->save(new InputUserDTO($params['id'],$params['name'],$params['surname'],$params['linkpic'], $params['pseudo']));
         }catch (Exception $e){

@@ -8,7 +8,7 @@ use DateTime;
 use Exception;
 use Faker\Factory;
 
-class PDOreposiroryUsersRepositoryInterface implements UsersRepositoryInterface {
+class PDOUsersRepository implements UsersRepositoryInterface {
 
     private \PDO $pdo;
 
@@ -64,5 +64,25 @@ class PDOreposiroryUsersRepositoryInterface implements UsersRepositoryInterface 
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
 
+    }
+
+    function update(User $user): void
+    {
+        $id = $user->getId();
+        $name = $user->name;
+        $surname = $user->surname;
+        $linkpic = $user->linkpic;
+        $pseudo = $user->pseudo;
+        try {
+            $stmt = $this->pdo->prepare('UPDATE users SET name = ?, surname = ?, linkpic = ?, pseudo = ? WHERE id = ?');
+            $stmt->bindParam(1, $name);
+            $stmt->bindParam(2, $surname);
+            $stmt->bindParam(3, $linkpic);
+            $stmt->bindParam(4, $pseudo);
+            $stmt->bindParam(5, $id);
+            $stmt->execute(['name' => $name, 'surname' => $surname, 'linkpic' => $linkpic, 'pseudo' => $pseudo, 'id' => $id]);
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
     }
 }

@@ -25,7 +25,10 @@ const router = createRouter({
           path: 'exercise/create',
           name: 'exercise-create',
           component: () => import('@/views/exercices/ExerciceCreateView.vue'),
-          meta: { requiresAuth: true }
+          meta: { 
+            requiresAuth: true,
+            requiresTeacher: true
+          }
         },
         {
           path: 'cours',
@@ -37,7 +40,10 @@ const router = createRouter({
           path: 'cours/create',
           name: 'cours-create',
           component: () => import('@/views/cours/CoursCreateView.vue'),
-          meta: { requiresAuth: true }
+          meta: { 
+            requiresAuth: true,
+            requiresTeacher: true
+          }
         },
         {
           path: 'user/profile',
@@ -55,6 +61,7 @@ const router = createRouter({
           path: 'user/connect',
           name: 'user-connect',
           component: () => import('@/views/user/ConnexionView.vue'),
+          meta: { requiresAuth: false }
         },
       ]
     }
@@ -62,13 +69,37 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore()
+  // Redirection vers la page d'accueil si la route n'existe pas
+  if(to.matched && to.matched.length === 0) {
+    next({ name: 'home' })
+    return
+  }
 
+
+  // Vérification des droits d'accès
+
+  const userStore = useUserStore()
   if(to.meta.requiresAuth && !userStore.isLogged) {
     next({ name: 'user-connect' })
-  } else {
-    next()
+    return
+  } 
+
+  if(to.name === 'user-connect' && userStore.isLogged) {
+    next({ name: 'home' })
+    return
   }
+
+  if(to.meta.requiresTeacher && !userStore.isTeacher){
+    next({ name: 'home' })
+    return
+  }
+
+  if(to.meta.requiresAdmin && !userStore.isAdmin){
+    next({ name: 'home' })
+    return
+  }
+
+  next()
 });
 
 export default router

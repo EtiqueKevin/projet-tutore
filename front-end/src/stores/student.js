@@ -1,9 +1,20 @@
 import { defineStore } from 'pinia'
 
-export const useCoursStore = defineStore('cours', {
+export const useStudentStore = defineStore('student', {
     state: () => ({
-        cours: null,
-        currentExercice: null,
+        idModule: null,
+        idLesson: null,
+        idExercice: null,
+
+        currentLesson: {
+            title: "",
+            description: "",
+            content: []
+        },
+        currentExercice: {
+            statement: "",
+            files: []
+        },
     }),
 
     actions: {
@@ -12,7 +23,7 @@ export const useCoursStore = defineStore('cours', {
         },
         loadCours(id) {
             // In a real application, this would be fetched from an API
-            this.cours = {
+            this.currentLesson = {
                 "title": "Introduction à la Programmation Java",
                 "description": "Ce cours vous permettra d'apprendre les bases de la programmation en Java, des concepts fondamentaux aux premières applications.",
                 "content": [
@@ -115,7 +126,18 @@ if (condition) {
 
     getters: {
         currentCours(state) {
-            return state.cours
+            return state.currentLesson;
+        },
+
+        isExerciceLoaded(state) {
+            return state.currentExercice.statement !== "";
         }
+    },
+    
+    persist: {
+        enabled: true,
+        strategies: [
+            { storage: localStorage, paths: ['idModule', 'idLesson', 'idExercice'] }
+        ]
     }
 })
