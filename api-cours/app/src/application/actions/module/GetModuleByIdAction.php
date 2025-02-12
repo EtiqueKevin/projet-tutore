@@ -6,6 +6,8 @@ use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
+use Slim\Exception\HttpBadRequestException;
 
 class GetModuleByIdAction extends AbstractAction
 {
@@ -19,7 +21,16 @@ class GetModuleByIdAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $module = $this->moduleService->getModuleById($id);
+
+        if (!(Validator::uuid()->validate($id))) {
+            throw new HttpBadRequestException($rq, "l'UUID du module n'est pas valide.");
+        }
+
+        try {
+            $module = $this->moduleService->getModuleById($id);
+        }catch(\Exception $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
         $res = [
             'type' => 'ressource',
             'module' => $module

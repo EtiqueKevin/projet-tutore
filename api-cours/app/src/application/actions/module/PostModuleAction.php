@@ -7,6 +7,7 @@ use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class PostModuleAction  extends AbstractAction
 {
@@ -21,6 +22,19 @@ class PostModuleAction  extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $body = $rq->getParsedBody();
+
+        if(!isset($body['name']) ) {
+            throw new HttpBadRequestException($rq, "Le nom du module est obligatoire.");
+        }else if(!isset($body['idCreator']) ) {
+            throw new HttpBadRequestException($rq, "L'id du créateur du module est obligatoire.");
+        }else if(!isset($body['description']) ) {
+            throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
+        }else if(!isset($body['nblesson']) ) {
+            throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
+        }else if(!isset($body['dateupdate']) ) {
+            throw new HttpBadRequestException($rq, "La date de mise à jour du module est obligatoire.");
+        }
+
         $moduleDTO = new ModuleDTO(
             null,
             $body['name'],
@@ -30,7 +44,11 @@ class PostModuleAction  extends AbstractAction
             $body['dateupdate']
         );
 
-        $module = $this->moduleService->createModule($moduleDTO);
+        try {
+            $module = $this->moduleService->createModule($moduleDTO);
+        }catch (\Exception $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
 
         $res = [
             'type' => 'ressource',

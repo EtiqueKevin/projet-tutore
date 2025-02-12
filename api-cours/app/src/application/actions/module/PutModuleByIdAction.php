@@ -7,6 +7,8 @@ use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
+use Slim\Exception\HttpBadRequestException;
 
 class PutModuleByIdAction extends AbstractAction
 {
@@ -22,6 +24,22 @@ class PutModuleByIdAction extends AbstractAction
         $id = $args['id'];
         $body = $rq->getParsedBody();
 
+        if(!isset($body['name']) ) {
+            throw new HttpBadRequestException($rq, "Le nom du module est obligatoire.");
+        }else if(!isset($body['idCreator']) ) {
+            throw new HttpBadRequestException($rq, "L'id du créateur du module est obligatoire.");
+        }else if(!isset($body['description']) ) {
+            throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
+        }else if(!isset($body['nblesson']) ) {
+            throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
+        }else if(!isset($body['dateupdate']) ) {
+            throw new HttpBadRequestException($rq, "La date de mise à jour du module est obligatoire.");
+        }
+
+        if (!(Validator::uuid()->validate($id))) {
+            throw new HttpBadRequestException($rq, "l'UUID du module n'est pas valide.");
+        }
+
         $moduleDTO = new ModuleDTO(
             $id,
             $body['name'],
@@ -31,14 +49,9 @@ class PutModuleByIdAction extends AbstractAction
             $body['dateupdate']
         );
 
-        $module = $this->moduleService->updateModule($moduleDTO);
+        $this->moduleService->updateModule($moduleDTO);
 
-        $res = [
-            'type' => 'resource',
-            'module' => $module
-        ];
 
-        $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

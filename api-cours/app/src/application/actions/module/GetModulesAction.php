@@ -6,6 +6,7 @@ use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class GetModulesAction extends AbstractAction
 {
@@ -18,7 +19,11 @@ class GetModulesAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $modules = $this->moduleService->getAllModules();
+        try {
+            $modules = $this->moduleService->getAllModules();
+        }catch (\Exception $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
         $res = [
             'type' => 'resource',
             'modules' => $modules

@@ -3,7 +3,9 @@
 namespace apiCours\core\services\module;
 
 use apiCours\core\dto\module\ModuleDTO;
+use apiCours\core\repositoryInterface\ModuleRepositoryException;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
+use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
 use Ramsey\Uuid\Uuid;
 
 class ModuleService implements ModuleServiceInterface
@@ -17,39 +19,61 @@ class ModuleService implements ModuleServiceInterface
 
     public function getAllModules()
     {
-        $modules = $this->moduleRepository->getAllModules();
-        $modulesDTO = [];
-        foreach ($modules as $module) {
-            $modulesDTO[] = $module->toDTO();
+        try {
+            $modules = $this->moduleRepository->getAllModules();
+            $modulesDTO = [];
+            foreach ($modules as $module) {
+                $modulesDTO[] = $module->toDTO();
+            }
+            return $modulesDTO;
+        } catch (ModuleRepositoryException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        } catch (ModuleRepositoryNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
         }
-        return $modulesDTO;
     }
 
     public function getModuleById(string $id)
     {
-        $module = $this->moduleRepository->getModuleById($id);
-        $module = $module->toDTO();
-        return $module;
+        try {
+            $module = $this->moduleRepository->getModuleById($id);
+            $module = $module->toDTO();
+            return $module;
+        }catch(ModuleServiceException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        }catch (ModuleServiceNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
+        }
     }
 
     public function createModule(ModuleDTO $module)
     {
-        $module = $module->toEntity();
-        $newModule = $this->moduleRepository->createModule($module);
-        $moduleDTO = $newModule->toDTO();
-        return $moduleDTO;
+        try {
+            $module = $module->toEntity();
+            $newModule = $this->moduleRepository->createModule($module);
+            $moduleDTO = $newModule->toDTO();
+            return $moduleDTO;
+        } catch (\Exception $e) {
+            throw new ModuleServiceException($e->getMessage());
+        }
     }
 
     public function updateModule(ModuleDTO $module)
     {
-        $module = $module->toEntity();
-        $newModule = $this->moduleRepository->updateModule($module);
-        $moduleDTO = $newModule->toDTO();
-        return $moduleDTO;
+        try {
+            $module = $module->toEntity();
+            $this->moduleRepository->updateModule($module);
+        }catch (\Exception $e) {
+            throw new ModuleServiceException($e->getMessage());
+        }
     }
 
     public function deleteModule(string $id)
     {
-        $this->moduleRepository->deleteModule($id);
+        try {
+            $this->moduleRepository->deleteModule($id);
+        }catch (\Exception $e) {
+            throw new ModuleServiceException($e->getMessage());
+        }
     }
 }
