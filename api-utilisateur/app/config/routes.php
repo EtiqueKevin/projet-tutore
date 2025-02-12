@@ -26,7 +26,7 @@ return function( App $app): App {
     $app->post('/user[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');
 
-    $app->put('/user/{ID-USER}[/]',PutUitlisateurAction::class)
+    $app->put('/user/[/]',PutUitlisateurAction::class)
         ->setName('updateUtilisateur');
 
     return $app;
