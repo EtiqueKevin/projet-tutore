@@ -23,11 +23,17 @@ return function( App $app): App {
     /*************************
     * Routes de l'API Cours
     *************************/
-    $app->get('/modules[/]', GeneriqueCoursAction::class)
-        ->setName('modules');
+    $app->get('/modules[/]', GeneriqueCoursAction::class);
+    $app->post('/modules[/]', GeneriqueCoursAction::class);
+    $app->get('/modules/{id}[/]', GeneriqueCoursAction::class);
+    $app->delete('/modules/{id}[/]', GeneriqueCoursAction::class);
+    $app->put('/modules/{id}[/]', GeneriqueCoursAction::class);
 
-    $app->get('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
-        ->setName('module');
+    $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
+    $app->post('/modules/{id}/lessons/[/]', GeneriqueCoursAction::class);
+    $app->get('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
+    $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
+    $app->put('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     
     /*************************
      * Routes de l'API Execution
