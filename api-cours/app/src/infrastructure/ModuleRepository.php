@@ -85,15 +85,15 @@ class ModuleRepository implements ModuleRepositoryInterface {
     {
         try {
             $date = date("Y-m-d H:i:s");
-            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($module->getID())], [
+            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($module->getID())], ['$set' => [
                 "name" => $module->name,
                 "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
                 "date_update" => $date
-            ]);
+            ]]);
         }catch (\Exception $e) {
-            throw new ModuleRepositoryException("Impossible de modifier le module");
+            throw new ModuleRepositoryException("Impossible de modifier le module. " . $e->getMessage());
         }
     }
 
