@@ -35,7 +35,7 @@ const handleSubmit = async () => {
     if (!formValid.value) return
     const userData = {
             email: email.value,
-            password: password.value,
+            mdp: password.value,
             name: name.value,
             surname: surname.value,
             pseudo: pseudo.value

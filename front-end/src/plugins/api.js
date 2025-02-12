@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 import { useToast } from 'vue-toastification'
 
 export default {
@@ -29,10 +29,9 @@ export default {
     }, async (error) => {
       if (error.response.status === 401) { // Unauthorized
         const userStore = useUserStore();
-        const router = useRouter();
         const toast = useToast();
 
-        if(!userStore.getRefreshToken) {
+        if(userStore.getRefreshToken === null) {
           userStore.logout();
           toast.error("Votre session a expiré. Veuillez vous reconnecter.");
           router.push('/');
@@ -45,8 +44,6 @@ export default {
               Authorization: `Bearer ${userStore.getRefreshToken}`
             }
           });
-          
-          console.log(res.data);
 
           // si le rafraîchissement a réussi, on met à jour les tokens et on relance la requête
           userStore.setTokens(res.data.accessToken, res.data.refreshToken);

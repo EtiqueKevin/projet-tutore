@@ -21,7 +21,7 @@ const handleSubmit = async () => {
     if (!formValid.value) return
     const success = await userStore.signIn(email.value, password.value);
     if (success) {
-        router.push({ name: 'Home' });
+        router.push({ name: 'home' });
     }
 };
 </script>
