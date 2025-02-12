@@ -26,27 +26,6 @@ class CreateUtilisateurAction extends AbstractAction
     {
         $params = $rq->getParsedBody() ?? null;
 
-        $fileNameNew = null;
-
-        if (isset($_FILES['image']) || $_FILES['image']['size'] != 0 || $_FILES['image']['type'] != "") {
-            $file = $_FILES['image'];
-            $fileName = $file['name'];
-            $fileTmpName = $file['tmp_name'];
-            $fileSize = $file['size'];
-            $fileError = $file['error'];
-            $fileType = $file['type'];
-
-            $allowed = ['image/jpg', 'image/jpeg', 'image/png'];
-
-            if(in_array($fileType, $allowed)){
-                //générer un nom unique pour l'image
-                $fileNameNew = uniqid('', true).".".explode("/",$fileType)[1];
-                $fileDestination = './assets/'.$fileNameNew;
-                move_uploaded_file($fileTmpName, $fileDestination);
-            }else{
-                throw new HttpBadRequestException($rq, "Le type de fichier n'est pas autorisé.");
-            }
-        }
 
         try{
             $this->utilisateurService->save(new InputUserDTO($params['id'],$params['name'],$params['surname'],$params['linkpic'], $params['pseudo']));

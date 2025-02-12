@@ -30,4 +30,11 @@ class UsersService implements UsersServiceInterface{
         $this->repositoryUsers->save($user);
     }
 
+    function update(InputUserDTO $inputUserDTO): void
+    {
+        $user = new User($inputUserDTO->name,$inputUserDTO->surname,$inputUserDTO->linkpic, $inputUserDTO->pseudo);
+        $user->setID($inputUserDTO->id);
+        $this->repositoryUsers->update($user);
+    }
+
 }

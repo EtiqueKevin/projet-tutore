@@ -10,4 +10,6 @@ interface UsersServiceInterface{
     public function getUsersId(string $id): UserDTO;
     function save(InputUserDTO $inpputUserDTO): void;
 
+    function update(InputUserDTO $inpputUserDTO): void;
+
 }
