@@ -31,12 +31,28 @@ class LessonRepository implements LessonRepositoryInterface
         return [];
     }
 
-    public function getLessonById(int $id): Lesson
+    public function getLessonById(string $id): Lesson
     {
-        $content1 = new Content("text", "Le premier text de la leçon", null);
-        $content2 = new Content("exercise", null, "https://www.youtube.com/watch?v=JGwWNGJdvx8");
-        $lesson = new Lesson('title', 'description', [$content1, $content2]);
-        $lesson->setId($id);
+        $idUUID = UUIDConverter::toUUID($id);
+        $lessonsDB = $this->lessonCollection->findOne(['_id' => $idUUID]);
+        $contentTab = [];
+        foreach ($lessonsDB->content as $c) {
+            $content = new Content($c->type, $c->content,$c->index);
+            if($c->type=="code"){
+                $files = [];
+                foreach ($c->files as $f) {
+                    $file = new File($f->type,$f->filename,$f->language,$f->content);
+                    $files[] = $file;
+                }
+                $content->setFiles($files);
+            }
+            $contentTab[] = $content;
+        }
+
+        $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description);
+
+        $lesson->setId(UUIDConverter::fromUUID($lessonsDB->_id));
+
         return $lesson;
     }
 
