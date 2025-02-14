@@ -11,5 +11,5 @@ interface AuthProviderInterface
 
     public function getSignIn(string $token): UserDTO;
 
-    public function getPlayerID(string $token): string;
+    public function getUserID(string $token): string;
 }
