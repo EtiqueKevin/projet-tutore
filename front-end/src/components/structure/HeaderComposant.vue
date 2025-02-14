@@ -52,7 +52,7 @@ const logOut = async () => {
             <template #text>
               Espace professeur
             </template>
-            <RouterButton :to="'/cours/create'" 
+            <RouterButton :to="'/lessons/create'" 
               class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
               title="Créer un nouveau cours">
               <i class="fas fa-plus-circle"></i>
@@ -65,12 +65,7 @@ const logOut = async () => {
             <template #text>
               Administration
             </template>
-            <RouterButton :to="'/admin/users'" 
-              class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light"
-              title="Gérer les utilisateurs">
-              <i class="fas fa-users-cog"></i>
-              <span class="ml-2">Utilisateurs</span>
-            </RouterButton>
+            <p>Rien pour l'instant</p>
           </MenuList>
 
           <div class="separator"></div>

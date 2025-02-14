@@ -20,12 +20,12 @@ const isLoaded = computed(() => sujet.value !== "" && files.value.length > 0);
 
 onMounted(() => {
   if (!studentStr.isExerciceLoaded) {
-    router.push({ name: 'cours' });
+    router.push({ name: 'modules' });
     return;
   }
 
   const currentExercice = studentStr.currentExercice;
-  sujet.value = currentExercice.statement;
+  sujet.value = currentExercice.content;
   files.value = currentExercice.files.filter(file => file.type === 'file');
 });
 </script>

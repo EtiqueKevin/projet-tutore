@@ -26,9 +26,9 @@ const router = createRouter({
           component: () => import('@/views/module/ModulesByIdView.vue'),
         },
         {
-          path: 'modules/:id/lessons/:lessonId',
-          name: 'lesson-by-module',
-          component: () => import('@/views/module/ModulesByIdView.vue'),
+          path: 'lessons/:id',
+          name: 'lesson-by-id',
+          component: () => import('@/views/lesson/LessonByIdView.vue'),
           meta: { requiresAuth: true }
         },
         {
@@ -47,15 +47,9 @@ const router = createRouter({
           }
         },
         {
-          path: 'cours',
-          name: 'cours',
-          component: () => import('@/views/cours/CoursView.vue'),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: 'cours/create',
-          name: 'cours-create',
-          component: () => import('@/views/cours/CoursCreateView.vue'),
+          path: 'lessons/create',
+          name: 'lesson-create',
+          component: () => import('@/views/lesson/LessonCreateView.vue'),
           meta: { 
             requiresAuth: true,
             requiresTeacher: true

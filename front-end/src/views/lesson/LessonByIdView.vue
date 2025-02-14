@@ -1,11 +1,13 @@
 <script setup>
 import { useStudentStore } from '@/stores/student';
 import { marked } from 'marked';
-import router from '@/router';
+import { useRoute, useRouter } from 'vue-router';
 import Button from '@/components/buttons/Button.vue';
 import { onMounted, ref } from 'vue';
 
 const studentStr = useStudentStore();
+const route = useRoute();
+const router = useRouter();
 const cours = ref(null);
 const isLoading = ref(true);
 
@@ -20,7 +22,7 @@ const navigateToExercise = (exerciceData) => {
 
 onMounted(async () => {
     try {
-        await studentStr.loadCours(1);
+        await studentStr.loadCours(route.params.id);
         cours.value = studentStr.currentCours;
     } finally {
         isLoading.value = false;
@@ -66,7 +68,7 @@ onMounted(async () => {
                          v-html="toMarkdown(item.content)">
                     </div>
                     
-                    <div v-else-if="item.type === 'exercice'"
+                    <div v-else-if="item.type === 'code'"
                          class="flex justify-center sm:justify-start">
                         <Button @click="navigateToExercise(item)"
                                 class="bg-blue-600 hover:bg-white

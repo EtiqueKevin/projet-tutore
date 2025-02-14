@@ -39,8 +39,8 @@ const saveExercice = () => {
   }
 
   emit('save', {
-    type: 'exercice',
-    statement: sujet.value,
+    type: 'code',
+    content: sujet.value,
     files: files.value,
   });
 };

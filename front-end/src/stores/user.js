@@ -32,6 +32,8 @@ export const useUserStore = defineStore('user', {
                 this.surname = "Marie";
                 this.pseudo = "kevin";
 
+                toast.success('Connexion réussie');
+
                 return true;
             } catch (e) {
                 toast.error('Erreur lors de la connexion');
@@ -50,6 +52,9 @@ export const useUserStore = defineStore('user', {
                 this.name = data.name;
                 this.surname = data.surname;
                 this.pseudo = data.pseudo;
+
+                toast.success('Inscription réussie');
+
                 return true;
             } catch (e) {
                 toast.error('Erreur lors de l\'inscription');

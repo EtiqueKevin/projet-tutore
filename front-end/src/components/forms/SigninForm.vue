@@ -21,7 +21,12 @@ const handleSubmit = async () => {
     if (!formValid.value) return
     const success = await userStore.signIn(email.value, password.value);
     if (success) {
-        router.push({ name: 'home' });
+        const redirectPath = router.currentRoute.value.redirectedFrom?.name || 'home';
+        const redirectParams = router.currentRoute.value.redirectedFrom?.params || {};
+        router.push({
+            name: redirectPath,
+            params: redirectParams
+        });
     }
 };
 </script>

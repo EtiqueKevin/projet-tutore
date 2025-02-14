@@ -35,7 +35,7 @@ const dragStart = (e, type) => {
         Text
       </div>
       <div 
-        @dragstart="dragStart($event, 'exercice')"
+        @dragstart="dragStart($event, 'code')"
         draggable="true"
         class="cursor-pointer drag-element"
       >

@@ -26,7 +26,7 @@ const drop = (e) => {
   e.preventDefault();
 
   const type = e.dataTransfer.getData('text/plain');
-  if (!type || (type !== 'text' && type !== 'exercice')) {
+  if (!type || (type !== 'text' && type !== 'code')) {
     return;
   }
 
@@ -35,9 +35,9 @@ const drop = (e) => {
   
   const newContent = type === 'text' 
     ? { type: 'text', content: '' }
-    : { type: 'exercice', statement: '', files: [] };
+    : { type: 'code', statement: '', files: [] };
     
-  if (type === 'exercice') {
+  if (type === 'code') {
     currentExerciceIndex.value = dropPosition !== -1 ? dropPosition : cours.value.content.length;
   }
   

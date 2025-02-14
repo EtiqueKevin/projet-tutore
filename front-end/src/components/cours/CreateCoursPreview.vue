@@ -10,7 +10,7 @@ const previewContent = computed(() => {
   return props.cours.content.map(item => {
     if (item.type === 'text') {
       return marked(item.content);
-    } else if (item.type === 'exercice') {
+    } else if (item.type === 'code') {
       return `<button class="w-full mb-4 p-2 border border-gray-400">Exercice</button>`;
     }
   }).join('');

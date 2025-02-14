@@ -91,7 +91,7 @@ const updateItemContent = (index, newContent) => {
           placeholder="Ecrivez votre texte ici (Markdown compatible)" 
           class="text-area"
         ></textarea>
-        <div v-if="item.type === 'exercice'" class="exercice">
+        <div v-if="item.type === 'code'" class="exercice">
           <div class="mr-4">
             <button @click="$emit('editExercice', index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Editer Exercice
