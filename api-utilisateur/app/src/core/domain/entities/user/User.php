@@ -11,13 +11,14 @@ class User extends Entity{
     protected string $surname;
     protected ?string $linkpic;
     protected ?string $pseudo;
+    protected ?int $role;
 
-    public function __construct(string $name,string $surname, string $linkpic, ?string $pseudo){
+    public function __construct(string $name,string $surname, string $linkpic, ?string $pseudo, int $role = 0){
         $this->name = $name;
         $this->surname = $surname;
         $this->linkpic = $linkpic;
         $this->pseudo = $pseudo;
-
+        $this->role = $role;
     }
 
     public function toDTO():UserDTO{

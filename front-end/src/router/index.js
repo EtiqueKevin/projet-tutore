@@ -16,6 +16,22 @@ const router = createRouter({
           component: () => import('@/views/HomeView.vue'),
         },
         {
+          path: 'modules',
+          name: 'modules',
+          component: () => import('@/views/module/ModulesView.vue'),
+        },
+        {
+          path: 'modules/:id',
+          name: 'modules-by-id',
+          component: () => import('@/views/module/ModulesByIdView.vue'),
+        },
+        {
+          path: 'modules/:id/lessons/:lessonId',
+          name: 'lesson-by-module',
+          component: () => import('@/views/module/ModulesByIdView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
           path: 'exercice',
           name: 'exercice',
           component: () => import('@/views/exercices/ExerciceView.vue'),

@@ -22,7 +22,7 @@ class PutUitlisateurAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $params = $rq->getParsedBody() ?? null;
-        $id = $args['ID-USER'];
+        $id = $rq->getAttribute('idUser');
 
         if(!isset($params['name'])) {
             throw new HttpBadRequestException($rq, "Le nom est obligatoire.");
