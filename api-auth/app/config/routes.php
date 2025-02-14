@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\HomeAction;
 use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
@@ -32,5 +33,9 @@ return function( App $app): App {
 
     $app->post('/token/validate[/]',ValidateAction::class)
         ->setName('tokenValidate');
+
+    $app->post('token/users/id', GetUserIdAction::class)
+        ->setName('tokenUsersId');
+
     return $app;
 };
