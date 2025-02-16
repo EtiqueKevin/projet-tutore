@@ -38,19 +38,27 @@ const handleSubmit = async () => {
             <img src="@/assets/logo.png" alt="Logo" class="logo" />
         </div>
         <h1 class="title">Connexion</h1>
-        <form @submit.prevent="handleSubmit" class="form">
+        <form 
+            @submit.prevent="handleSubmit" 
+            class="form"
+            name="signin-form"
+            id="signin-form"
+            autocomplete="on"
+        >
             <InputField
                 v-model="email"
                 type="email"
                 id="email"
+                name="email"
                 required
-                autocomplete="email"
+                autocomplete="username"
                 placeholder="Email"
                 class="input-field"
             />
             <PasswordInputField
                 v-model="password"
                 id="password"
+                name="password"
                 required
                 autocomplete="current-password"
                 placeholder="Mot de passe"
