@@ -3,8 +3,8 @@ import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useUserStore } from '@/stores/user';
-import InputField from '@/components/forms/inputs/InputField.vue'
-import PasswordInputField from '@/components/forms/inputs/PasswordInputField.vue';
+import InputField from '@/components/structure/forms/inputs/InputField.vue'
+import PasswordInputField from '@/components/structure/forms/inputs/PasswordInputField.vue';
 
 const router = useRouter();
 const userStore = useUserStore();

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '@/stores/user';
-import InputField from '@/components/forms/inputs/InputField.vue';
+import InputField from '@/components/structure/forms/inputs/InputField.vue';
 
 const userStore = useUserStore();
 

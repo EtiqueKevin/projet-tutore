@@ -1,8 +1,8 @@
 <script setup>
-import RouterButton from '@/components/buttons/RouterButton.vue';
-import Button from '@/components/buttons/Button.vue';
-import ChangeThemeButton from '@/components/buttons/ChangeThemeButton.vue';
-import MenuList from '@/components/list/MenuList.vue';
+import RouterButton from '@/components/structure/buttons/RouterButton.vue';
+import Button from '@/components/structure/buttons/Button.vue';
+import ChangeThemeButton from '@/components/structure/buttons/ChangeThemeButton.vue';
+import MenuList from '@/components/structure/list/MenuList.vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 

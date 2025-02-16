@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import ExerciceCreateView from '@/views/exercices/ExerciceCreateView.vue';
-import CreateCoursSidebar from '@/components/cours/CreateCoursSidebar.vue';
-import CreateCoursContentEditor from '@/components/cours/CreateCoursContentEditor.vue';
-import CreateCoursPreview from '@/components/cours/CreateCoursPreview.vue';
+import CreateCoursSidebar from '@/components/metier/cours/CreateCoursSidebar.vue';
+import CreateCoursContentEditor from '@/components/metier/cours/CreateCoursContentEditor.vue';
+import CreateCoursPreview from '@/components/metier/cours/CreateCoursPreview.vue';
 import { useTeacherStore } from '@/stores/teacher';
 
 const mode = ref(0);

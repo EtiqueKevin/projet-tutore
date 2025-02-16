@@ -2,7 +2,7 @@
 import { useStudentStore } from '@/stores/student';
 import { marked } from 'marked';
 import { useRoute, useRouter } from 'vue-router';
-import Button from '@/components/buttons/Button.vue';
+import Button from '@/components/structure/buttons/Button.vue';
 import { onMounted, ref } from 'vue';
 
 const studentStr = useStudentStore();

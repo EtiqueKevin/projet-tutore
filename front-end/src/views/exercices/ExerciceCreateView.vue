@@ -1,7 +1,7 @@
 <script setup>
-import Console from '@/components/editor/Console.vue';
-import Editor from '@/components/editor/teacher/TeacherEditor.vue';
-import MarkdownArea from '@/components/editor/MarkdownArea.vue';
+import Console from '@/components/metier/exercice/Console.vue';
+import Editor from '@/components/metier/exercice/teacher/TeacherEditor.vue';
+import MarkdownArea from '@/components/metier/exercice/MarkdownArea.vue';
 import { ref, onMounted, computed } from 'vue';
 
 const props = defineProps({

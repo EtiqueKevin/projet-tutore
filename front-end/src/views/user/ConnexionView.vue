@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import SigninForm from '@/components/forms/SigninForm.vue';
-import SignupForm from '@/components/forms/SignupForm.vue';
+import SigninForm from '@/components/structure/forms/SigninForm.vue';
+import SignupForm from '@/components/structure/forms/SignupForm.vue';
 
 const connexion = ref(true);
 </script>

@@ -1,7 +1,7 @@
 <script setup>
-import Console from '@/components/editor/Console.vue';
-import Editor from '@/components/editor/student/ExerciceEditor.vue';
-import MarkdownArea from '@/components/editor/MarkdownArea.vue';
+import Console from '@/components/metier/exercice/Console.vue';
+import Editor from '@/components/metier/exercice/student/ExerciceEditor.vue';
+import MarkdownArea from '@/components/metier/exercice/MarkdownArea.vue';
 import { ref, computed, onMounted } from 'vue'
 import { useStudentStore } from '@/stores/student';
 import { useRouter } from 'vue-router';

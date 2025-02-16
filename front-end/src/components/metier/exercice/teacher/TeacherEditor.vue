@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue';
-import MonacoEditor from '@/components/editor/MonacoEditor.vue';
-import FileSwitcher from '@/components/editor/teacher/FileSwitcherTeacher.vue';
+import MonacoEditor from '@/components/metier/exercice/MonacoEditor.vue';
+import FileSwitcher from '@/components/metier/exercice/teacher/FileSwitcherTeacher.vue';
 
 const props = defineProps({
   files: Array,

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import AddFileForm from '@/components/forms/AddFileForm.vue';
+import AddFileForm from '@/components/structure/forms/AddFileForm.vue';
 
 const emit = defineEmits(['fileSelected']);
 
