@@ -22,6 +22,7 @@ const navigateToExercise = (exerciceData) => {
 
 onMounted(async () => {
     try {
+        //await new Promise(resolve => setTimeout(resolve, 1000))
         await studentStr.loadCours(route.params.id);
         cours.value = studentStr.currentCours;
     } finally {
@@ -31,20 +32,31 @@ onMounted(async () => {
 </script>
 
 <template>
-    <main class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+<main class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
         <!-- Loading state -->
-        <div v-if="isLoading" class="flex justify-center items-center min-h-[60vh]">
-            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
+        <div v-if="isLoading" class="max-w-4xl mx-auto">
+            <!-- Header skeleton -->
+            <div class="mb-8">
+                <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4 mb-4 animate-pulse"></div>
+                <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded-lg w-1/2 animate-pulse"></div>
+            </div>
 
-        <!-- Error state -->
-        <div v-else-if="!cours" class="text-center py-12">
-            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">
-                Impossible de charger le cours
-            </h2>
-            <Button @click="studentStr.loadCours(1)" class="mt-4">
-                Réessayer
-            </Button>
+            <!-- Content skeleton -->
+            <div class="space-y-8">
+                <div v-for="n in 3" :key="n" 
+                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+                    <!-- Text content skeleton -->
+                    <div class="space-y-3">
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full animate-pulse"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 animate-pulse"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/6 animate-pulse"></div>
+                    </div>
+                    <!-- Exercise button skeleton -->
+                    <div class="mt-6">
+                        <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded w-40 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Content -->

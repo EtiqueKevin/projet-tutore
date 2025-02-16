@@ -13,8 +13,7 @@ const isLoading = ref(true)
 
 const loadModuleWithDelay = async () => {
     try {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 5000))
+        //await new Promise(resolve => setTimeout(resolve, 1000))
         await studentStore.loadModule(route.params.id)
     } catch (error) {
         console.error('Failed to fetch module:', error)
