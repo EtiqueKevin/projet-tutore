@@ -14,9 +14,13 @@ const router = createRouter({
     {
       path: '/',
       component: DefaultLayout,
+      redirect: to => {
+        const userStore = useUserStore()
+        return userStore.isLogged ? '/feed' : '/accueil'
+      },
       children: [
         {
-          path: '',
+          path: 'accueil',
           name: 'home',
           component: () => import('@/views/HomeView.vue'),
         },
@@ -29,6 +33,10 @@ const router = createRouter({
     {
       path: '/',
       component: BlankLayout,
+      redirect: to => {
+        const userStore = useUserStore()
+        return userStore.isLogged ? '/feed' : '/accueil'
+      },
       children: [
         {
           path: 'user/connect',
