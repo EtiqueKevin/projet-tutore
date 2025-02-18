@@ -32,7 +32,6 @@ export const useStudentStore = defineStore('student', {
         async loadModule(id) {
             try{
                 const res = await this.$api.get(`/modules/${id}`);
-                console.log(res.data);
                 this.currentModule = {
                     id: res.data.module.id,
                     name: res.data.module.name,
@@ -42,11 +41,8 @@ export const useStudentStore = defineStore('student', {
                     lastUpdate: new Date(parseInt(res.data.module.dateupdate)),
                     lessons: []
                 };
-
-                console.log(this.currentModule.name);
                 
                 const resLessons = await this.$api.get(`/modules/${id}/lessons`);
-                console.log(resLessons.data);
                 this.currentModule.lessons = resLessons.data.lessons;
             }catch(error){
                 console.log(error);
@@ -55,7 +51,6 @@ export const useStudentStore = defineStore('student', {
         async loadCours(id) {
             try{
                 const res = await this.$api.get(`/lessons/${id}`);
-                console.log(res.data.lesson);
                 this.currentLesson = {
                     id : res.data.lesson.id,
                     title : res.data.lesson.name,

@@ -16,7 +16,7 @@ const selectFile = (file) => {
 
 onMounted(() => {
     selectedFile.value = props.files[0];
-    emit('fileSelected', props.files[0]);
+    emit('fileSelected', selectedFile.value);
 });
 </script>
 

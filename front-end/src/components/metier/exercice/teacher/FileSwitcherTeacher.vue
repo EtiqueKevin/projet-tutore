@@ -53,7 +53,7 @@ onMounted(() => {
             :class="['file-button', 
                  (file === selectedFile && file.type != 'test') ? 'selected' : '', 
                  (file === selectedFile && file.type === 'test') ? 'testselected' : '', 
-                 file.type === 'test' ? 'bg-green-700' : 'bg-gray-800']"
+                 file.type === 'test' ? 'bg-green-700' : 'bg-gray-500 dark:bg-gray-700']"
         >
             {{ file.filename }}
             <button
@@ -64,7 +64,7 @@ onMounted(() => {
             <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-        <button id="add-file" class="file-button bg-gray-800" @click="showAddFileForm = true">
+        <button id="add-file" class="file-button bg-gray-500 dark:bg-gray-700" @click="showAddFileForm = true">
             <i class="fas fa-plus"></i>
         </button>
         <AddFileForm v-if="showAddFileForm" @fileAdded="addFile" @close="showAddFileForm = false" />

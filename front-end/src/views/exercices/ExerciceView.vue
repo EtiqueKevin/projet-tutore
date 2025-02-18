@@ -18,6 +18,7 @@ const consoleText = ref(``);
 const isMobile = computed(() => window.innerWidth < 768);
 const isLoaded = computed(() => sujet.value !== "" && files.value.length > 0);
 
+
 onMounted(() => {
   if (!studentStr.isExerciceLoaded) {
     router.push({ name: 'modules' });
@@ -31,16 +32,16 @@ onMounted(() => {
 </script>
 
 <template>
-<main :class="['flex-grow flex', isMobile ? 'flex-col' : '']" v-if="isLoaded">
-    <div v-if="isMobile" class="flex justify-around border-b-2">
-      <button @click="page=0" :class="['button-mobile', page==0?'selected':'']">Markdown</button>
-      <button @click="page=1" :class="['button-mobile', page==1?'selected':'']">Editor</button>
-      <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
-    </div>
-    <MarkdownArea v-if="!isMobile || page === 0" :markdown-text="sujet" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'border-r-2'"/>
-    <Editor v-if="!isMobile || page === 1" :files="files" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'border-r-2'"/>
-    <Console v-if="!isMobile || page === 2" :results="consoleText" class="flex-1" :class="isMobile ? 'w-full' : ''"/>
-</main>
+  <main :class="['flex-grow flex', isMobile ? 'flex-col' : '']" v-if="isLoaded">
+      <div v-if="isMobile" class="flex justify-around border-b-2">
+        <button @click="page=0" :class="['button-mobile', page==0?'selected':'']">Sujet</button>
+        <button @click="page=1" :class="['button-mobile', page==1?'selected':'']">Editeur</button>
+        <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
+      </div>
+      <MarkdownArea v-if="!isMobile || page === 0" :markdown-text="sujet" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2'"/>
+      <Editor v-if="!isMobile || page === 1" :files="files" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2'"/>
+      <Console v-if="!isMobile || page === 2" :results="consoleText" :class="isMobile ? 'w-full' : 'w-[20%]'"/>
+  </main>
 </template>
 
 <style scoped>

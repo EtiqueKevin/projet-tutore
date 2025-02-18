@@ -16,7 +16,7 @@ import adminImage from '@/assets/admin.jpg';
           Une plateforme d'apprentissage interactive pour maîtriser de nouveaux langages de programmation
         </p>
         <div class="flex justify-center gap-4">
-          <router-link to="/" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+          <router-link to="/modules" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
             Commencer à Apprendre
           </router-link>
           <router-link to="/user/connect" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded-lg transition">

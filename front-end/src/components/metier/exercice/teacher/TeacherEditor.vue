@@ -32,7 +32,7 @@ watch(currentFile, (newFile) => {
   <div class="container">
     <FileSwitcher :files="props.files" @fileSelected="handleFileSelected" />
     <MonacoEditor v-if="currentFile" :language="currentFile.language" :value="currentFile.content" @update:value="handleContentUpdate"/>
-    <button @click="$emit('correct-code')" class="bg-primary-dark hover:bg-primary-light p-4 rounded-full h-15 w-15 flex items-center justify-center absolute group gap-4">
+    <button @click="$emit('correct-code')" class="bg-primary-dark hover:bg-primary-light p-4 rounded-full h-15 w-15 flex items-center justify-center absolute group gap-4 text-white">
       <p class="hidden group-hover:block">Corriger l'exercice</p>
       <i class="fas fa-check text-lg"></i>
     </button>

@@ -115,7 +115,7 @@ const editExercice = (index) => {
 
   <ExerciceCreateView 
     v-if="mode === 3" 
-    :sujet="cours.content[currentExerciceIndex]?.statement" 
+    :sujet="cours.content[currentExerciceIndex]?.content" 
     :files="cours.content[currentExerciceIndex]?.files" 
     @save="saveExercice" 
     @cancel="switchToCoursCreateView" 
