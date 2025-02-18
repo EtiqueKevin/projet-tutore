@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user';
 import { onMounted, ref } from 'vue';
 import ModuleHeader from '@/components/metier/module/ModuleHeader.vue'
 import ModuleLessons from '@/components/metier/module/ModuleLessons.vue'
+import ReturnTopButton from '@/components/structure/buttons/ReturnTopButton.vue';
 
 const studentStore = useStudentStore()
 const userStore = useUserStore()
@@ -40,5 +41,7 @@ onMounted(() => {
                 :is-user-logged="userStore.isLogged"
             />
         </div>
+
+        <ReturnTopButton />
     </main>
 </template>

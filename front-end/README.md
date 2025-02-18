@@ -25,7 +25,8 @@ Ce front-end est fait avec :
 - [x] skeleton loading pour toutes les pages 
 - [x] améliorer les formulaires
 - [x] fix l'affichage des exos
-- [] boutons de scroll vers le dessus
-- [] ajouter une table des matières d'une leçon
+- [x] boutons de scroll vers le dessus
+- [x] ajouter une table des matières d'une leçon
 - [] se souvenir des préférences utilisateur
-- [] page de feed si l'utilisateur est connecté
+- [] page de feed si l'utilisateur est connecté (progression et leçons consultées récemment)
+
