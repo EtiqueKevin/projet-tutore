@@ -27,6 +27,6 @@ Ce front-end est fait avec :
 - [x] fix l'affichage des exos
 - [x] boutons de scroll vers le dessus
 - [x] ajouter une table des matières d'une leçon
-- [] se souvenir des préférences utilisateur
+- [x] se souvenir des préférences utilisateur (theme)
 - [] page de feed si l'utilisateur est connecté (progression et leçons consultées récemment)
 

@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useUserStore } from '@/stores/user' 
 
 const props = defineProps({
   showText : {
@@ -9,6 +10,7 @@ const props = defineProps({
   }
 });
 
+const userStore = useUserStore();
 const isDark = ref(true);
 
 const toggleDark = () => {
@@ -17,8 +19,15 @@ const toggleDark = () => {
 };
 
 onMounted(() => {
-  isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const preferences = userStore.getPreferences;
+  isDark.value = preferences.themeDark;
   document.body.classList.toggle('dark', isDark.value);
+});
+
+watch(isDark, (newTheme) => {
+  const preferences = userStore.getPreferences;
+  preferences.themeDark = newTheme;
+  userStore.setPreferences(preferences);
 });
 
 </script>

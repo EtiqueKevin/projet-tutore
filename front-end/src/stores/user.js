@@ -12,6 +12,9 @@ export const useUserStore = defineStore('user', {
         pseudo: null,
         email: null,
         role: null,
+        preferences: {
+            themeDark: null,
+        }
     }),
 
     actions: {
@@ -76,6 +79,10 @@ export const useUserStore = defineStore('user', {
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
         },
+
+        setPreferences(preferences) {
+            this.preferences = preferences;
+        }
     },
 
     getters: {
@@ -105,13 +112,15 @@ export const useUserStore = defineStore('user', {
         getEmail(state){
             return state.email;
         },
-
+        getPreferences(state){
+            return state.preferences;
+        }
     },
 
     persist: {
         enabled: true,
         strategies: [
-            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'role', 'name', 'surname', 'email', 'pseudo'] }
+            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'role', 'name', 'surname', 'email', 'pseudo', 'preferences'] }
         ]
     }
 })
