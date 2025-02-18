@@ -57,16 +57,20 @@ const generateTableOfContents = () => {
     return toc;
 };
 
-const navigateToExercise = (exerciceData) => {
-    studentStr.setCurrentExercice(exerciceData);
-    router.push({ name: 'exercice' });
+const navigateToExercise = (idLesson, index) => {
+    router.push({
+        name:'exercice',
+        params:{
+            id:idLesson,
+            nbContent:index
+        }
+    })
 };
 
 onMounted(async () => {
     try {
         //await new Promise(resolve => setTimeout(resolve, 2000))
-        await studentStr.loadCours(route.params.id);
-        cours.value = studentStr.currentCours;
+        cours.value = await studentStr.loadCours(route.params.id);
     } catch (error) {
         console.error(error);
     } finally {
@@ -146,7 +150,7 @@ onMounted(async () => {
                          v-html="toMarkdown(item.content)">
                     </div>
                     <div v-else-if="item.type === 'code'" class="flex justify-center sm:justify-start">
-                        <Button @click="navigateToExercise(item)"
+                        <Button @click="navigateToExercise(cours.id, index)"
                                class="bg-blue-600 hover:bg-white text-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 flex items-center gap-2">
                             <span>Faire l'exercice</span>
                             <i class="fas fa-arrow-right"></i>

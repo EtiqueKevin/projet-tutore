@@ -16,7 +16,7 @@ export default [
         meta: { requiresAuth: true }
     },
     {
-        path: 'exercice',
+        path: 'lessons/:id/content/:nbContent',
         name: 'exercice',
         component: () => import('@/views/exercices/ExerciceView.vue'),
         meta: { requiresAuth: true }

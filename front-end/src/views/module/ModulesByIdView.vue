@@ -11,11 +11,12 @@ const studentStore = useStudentStore()
 const userStore = useUserStore()
 const route = useRoute()
 const isLoading = ref(true)
+const currentModule = ref({})
 
 const loadModuleWithDelay = async () => {
     try {
         //await new Promise(resolve => setTimeout(resolve, 1000))
-        await studentStore.loadModule(route.params.id)
+        currentModule.value = await studentStore.loadModule(route.params.id)
     } catch (error) {
         console.error('Failed to fetch module:', error)
     } finally {
@@ -30,14 +31,14 @@ onMounted(() => {
 
 <template>
     <main class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-7xl mx-auto" >
             <ModuleHeader 
                 :is-loading="isLoading"
-                :module="studentStore.getCurrentModule"
+                :module="currentModule"
             />
             <ModuleLessons 
                 :is-loading="isLoading"
-                :module="studentStore.getCurrentModule"
+                :module="currentModule"
                 :is-user-logged="userStore.isLogged"
             />
         </div>
