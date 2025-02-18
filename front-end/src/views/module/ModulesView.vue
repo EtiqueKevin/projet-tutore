@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useStudentStore } from '@/stores/student'
+import { useStudent } from '@/composables/student'
 import { useRouter } from 'vue-router'
 
-const studentStore = useStudentStore()
+const { getModules } = useStudent()
 const router = useRouter()
 const modules = ref([])
 const loading = ref(true)
@@ -11,7 +11,7 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     //await new Promise(resolve => setTimeout(resolve, 1000))
-    modules.value = await studentStore.getModules()
+    modules.value = await getModules()
   } catch (error) {
     console.error('Failed to fetch modules:', error)
   } finally {

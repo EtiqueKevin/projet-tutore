@@ -1,5 +1,5 @@
 <script setup>
-import { useStudentStore } from '@/stores/student';
+import { useStudent } from '@/composables/student'
 import { useRoute, useRouter } from 'vue-router';
 import Button from '@/components/structure/buttons/Button.vue';
 import ReturnTopButton from '@/components/structure/buttons/ReturnTopButton.vue';
@@ -7,7 +7,7 @@ import { onMounted, ref } from 'vue';
 import { useTools } from '@/composables/tools';
 
 const { toMarkdown, cleanMarkdown } = useTools();
-const studentStr = useStudentStore();
+const { loadCours } = useStudent();
 const route = useRoute();
 const router = useRouter();
 const cours = ref(null);
@@ -70,7 +70,7 @@ const navigateToExercise = (idLesson, index) => {
 onMounted(async () => {
     try {
         //await new Promise(resolve => setTimeout(resolve, 2000))
-        cours.value = await studentStr.loadCours(route.params.id);
+        cours.value = await loadCours(route.params.id);
     } catch (error) {
         console.error(error);
     } finally {

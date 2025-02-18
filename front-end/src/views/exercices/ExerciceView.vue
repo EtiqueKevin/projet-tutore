@@ -3,12 +3,12 @@ import Console from '@/components/metier/exercice/Console.vue';
 import Editor from '@/components/metier/exercice/student/ExerciceEditor.vue';
 import MarkdownArea from '@/components/metier/exercice/MarkdownArea.vue';
 import { ref, computed, onMounted } from 'vue'
-import { useStudentStore } from '@/stores/student';
+import { useStudent } from '@/composables/student'
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification'
 
 const page = ref(0);
-const studentStr = useStudentStore();
+const { loadExercice } = useStudent();
 
 const sujet = ref("");
 const files = ref([]);
@@ -24,8 +24,8 @@ onMounted(async () => {
   const toast = useToast();
 
   try{
-    await new Promise(resolve => setTimeout(resolve, 5000))
-    const currentExercice = await studentStr.loadExercice(route.params.id, route.params.nbContent);
+    //await new Promise(resolve => setTimeout(resolve, 5000))
+    const currentExercice = await loadExercice(route.params.id, route.params.nbContent);
     if(currentExercice){
       sujet.value = currentExercice.content;
       files.value = currentExercice.files.filter(file => file.type === 'file');      

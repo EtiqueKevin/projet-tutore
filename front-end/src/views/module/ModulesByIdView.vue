@@ -1,13 +1,13 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { useStudentStore } from '@/stores/student';
+import { useStudent } from '@/composables/student'
 import { useUserStore } from '@/stores/user';
 import { onMounted, ref } from 'vue';
 import ModuleHeader from '@/components/metier/module/ModuleHeader.vue'
 import ModuleLessons from '@/components/metier/module/ModuleLessons.vue'
 import ReturnTopButton from '@/components/structure/buttons/ReturnTopButton.vue';
 
-const studentStore = useStudentStore()
+const { loadModule } = useStudent()
 const userStore = useUserStore()
 const route = useRoute()
 const isLoading = ref(true)
@@ -16,7 +16,7 @@ const currentModule = ref({})
 const loadModuleWithDelay = async () => {
     try {
         //await new Promise(resolve => setTimeout(resolve, 1000))
-        currentModule.value = await studentStore.loadModule(route.params.id)
+        currentModule.value = await loadModule(route.params.id)
     } catch (error) {
         console.error('Failed to fetch module:', error)
     } finally {
