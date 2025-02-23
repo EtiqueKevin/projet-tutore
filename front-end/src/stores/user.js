@@ -3,7 +3,7 @@ import { useToast } from 'vue-toastification';
 
 const toast = useToast();
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('jeanCademieUser', {
     state: () => ({
         accessToken: null,
         refreshToken: null,

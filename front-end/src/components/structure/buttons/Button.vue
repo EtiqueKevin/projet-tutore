@@ -26,7 +26,7 @@ const props = defineProps({
         :class="`
             ${hover} 
             ${other} 
-            font-bold py-2 px-4 
+            font-bold
             text-center 
             transition duration-200 
             transform hover:scale-105 

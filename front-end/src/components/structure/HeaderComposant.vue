@@ -60,14 +60,6 @@ const logOut = async () => {
             </RouterButton>
           </MenuList>
 
-          <!-- Espace visible aux administrateurs -->
-          <MenuList :show-icon="true" v-if="userStore.isAdmin" class="dark:text-white text-main-dark">
-            <template #text>
-              Administration
-            </template>
-            <p>Rien pour l'instant</p>
-          </MenuList>
-
           <div class="separator"></div>
 
           <ChangeThemeButton :show-text="false" class="transform hover:scale-105 transition-transform" />
@@ -81,14 +73,20 @@ const logOut = async () => {
               <i class="fas fa-power-off"></i>
             </RouterButton>
           </template>
-          <template v-else>
+          <div v-else class="flex items-center space-x-6">
+            <RouterButton :to="'/admin'"
+            v-if="userStore.isAdmin"
+            title="Accéder au Back Office" 
+            class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light">
+            <i class="fas fa-cog"></i>
+          </RouterButton>
             <RouterButton :to="'/user/profile'" title="Mon profil">
               <i class="fas fa-user"></i>
             </RouterButton>
             <Button @click="logOut()" title="Se déconnecter">
               <i class="fas fa-sign-out-alt"></i>
             </Button>
-          </template>
+          </div>
         </div>
       </div>
     </nav>

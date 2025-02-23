@@ -6,7 +6,7 @@ const route = useRoute();
 <template>
   <div class="grid grid-cols-[250px_1fr] min-h-screen">
     <nav class="bg-background-light dark:bg-background-dark p-4 flex flex-col gap-4 shadow-md">
-      <h1 class="text-center pb-4 border-b-2 border-secondary-light dark:border-secondary-dark">Back Office</h1>
+      <h1 class="text-center text-black dark:text-white pb-4 border-b-2 border-secondary-light dark:border-secondary-dark">Back Office</h1>
       
       <RouterLink 
         to="/admin/users"

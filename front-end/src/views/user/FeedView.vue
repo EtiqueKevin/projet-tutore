@@ -53,7 +53,7 @@ const recommendations = [
 </script>
 
 <template>
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 min-h-screen">
       <!-- Zone 1: Modules en cours -->
       <section class="mb-10">
         <h2 class="text-2xl font-bold mb-4">Continuer mon apprentissage</h2>
@@ -82,25 +82,6 @@ const recommendations = [
             <h3 class="font-semibold text-lg">{{ item.title }}</h3>
             <p class="text-sm text-gray-600 mt-2">{{ item.description }}</p>
             <p class="text-xs text-gray-400 mt-2">Consulté le {{ item.lastViewed }}</p>
-          </div>
-        </div>
-      </section>
-  
-      <!-- Zone 3: Recommandations -->
-      <section class="mb-10">
-        <h2 class="text-2xl font-bold mb-4">Recommandé pour vous</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div v-for="recommendation in recommendations" :key="recommendation.id" 
-               class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-            <h3 class="font-semibold text-lg">{{ recommendation.title }}</h3>
-            <p class="text-sm text-gray-600 mt-2">{{ recommendation.description }}</p>
-            <div class="flex items-center mt-2">
-              <span class="text-sm text-gray-500">Difficulté : </span>
-              <div class="flex ml-2">
-                <span v-for="n in recommendation.difficulty" :key="n" 
-                      class="h-2 w-2 bg-yellow-400 rounded-full mr-1"></span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
