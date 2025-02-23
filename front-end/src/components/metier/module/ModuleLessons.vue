@@ -15,6 +15,11 @@ defineProps({
     isUserLogged: {
         type: Boolean,
         required: true
+    },
+    isTeacher: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 </script>
@@ -41,7 +46,7 @@ defineProps({
             </div>
         </div>
 
-        <!-- Actual content -->
+        <!-- Contenu -->
         <div v-else>
             <h2 class="text-xl font-semibold mb-4 text-black dark:text-white">
                 Leçons ({{ module.lessonCount }})
@@ -50,9 +55,11 @@ defineProps({
             <div class="space-y-4">
                 <div v-for="lesson in module.lessons" 
                      :key="lesson.id"
-                     class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md">
+                     class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-all duration-200 shadow-sm">
                     <div class="flex justify-between items-start gap-4">
-                        <div class="space-y-2">
+
+                        <!-- informations -->
+                        <div class="space-y-2 flex-grow">
                             <div class="flex items-center gap-2">
                                 <h3 class="text-lg font-semibold text-black dark:text-white">
                                     {{ lesson.name }}
@@ -65,25 +72,39 @@ defineProps({
                                 {{ lesson.description }}
                             </p>
                         </div>
-                        <button 
-                            :class="[
-                                'px-4 py-2 rounded-md transition-colors duration-200 flex items-center gap-2',
-                                isUserLogged 
-                                    ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-                                    : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'
-                            ]"
-                            @click="router.push({ name: 'lesson-by-id', params: { id: lesson.id } })"
-                        >
-                            <span>{{ isUserLogged ? 'Commencer la leçon' : 'Se connecter' }}</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+
+                        <!-- bouttons -->
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <button 
+                                v-if="isTeacher"
+                                class="items-center gap-2 px-4 py-2 rounded-md bg-gray-600 hover:bg-gray-700 text-white"
+                                title="Modifier la leçon"
+                            >
+                                <i class="fas fa-edit"></i>
+                                <span>Modifier</span>
+                            </button>
+                            
+                            <button 
+                                :class="[
+                                    'inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors duration-200',
+                                    isUserLogged 
+                                        ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                                        : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'
+                                ]"
+                                @click="router.push({ name: 'lesson-by-id', params: { id: lesson.id } })"
+                            >
+                                <span class="hidden sm:inline">{{ isUserLogged ? 'Commencer la leçon' : 'Se connecter' }}</span>
+                                <span class="sm:hidden">{{ isUserLogged ? 'Commencer' : 'Login' }}</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Empty state -->
+            <!-- Vide -->
             <div v-if="!module.lessons.length" 
                  class="text-center py-8">
                 <p class="text-gray-500 dark:text-gray-400">Aucunes leçon disponible pour ce module.</p>

@@ -12,6 +12,9 @@ const checkTheme = () => {
     userStore.setPreferences({themeDark: prefersDarkScheme.matches})
     document.body.classList.toggle('dark', prefersDarkScheme);
   }
+  else {
+    document.body.classList.toggle('dark', preferences.themeDark);
+  }
 }
 
 onMounted(() => {

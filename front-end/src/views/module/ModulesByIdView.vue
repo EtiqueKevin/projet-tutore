@@ -35,11 +35,13 @@ onMounted(() => {
             <ModuleHeader 
                 :is-loading="isLoading"
                 :module="currentModule"
+                :is-teacher="userStore.isTeacher"
             />
             <ModuleLessons 
                 :is-loading="isLoading"
                 :module="currentModule"
                 :is-user-logged="userStore.isLogged"
+                :is-teacher="userStore.isTeacher"
             />
         </div>
 

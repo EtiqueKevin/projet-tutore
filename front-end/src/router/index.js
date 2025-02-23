@@ -26,7 +26,6 @@ const router = createRouter({
         },
         ...StudentRoutes,
         ...TeacherRoutes,
-        ...AdminRoutes,
         ...UserRoutes
       ]
     },
@@ -44,6 +43,7 @@ const router = createRouter({
           component: () => import('@/views/user/ConnexionView.vue'),
           meta: { requiresAuth: false }
         },
+        ...AdminRoutes,
       ]
     }
   ],

@@ -81,7 +81,7 @@ onMounted(async () => {
 
 <template>
     <main class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
-        <!-- Loading state -->
+        <!-- Loading -->
         <div v-if="isLoading" class="max-w-4xl mx-auto">
             <!-- Header skeleton -->
             <div class="mb-8">
@@ -92,13 +92,13 @@ onMounted(async () => {
             <!-- Content skeleton -->
             <div class="space-y-8">
                 <div v-for="n in 3" :key="n" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-                    <!-- Text content skeleton -->
+                    <!-- Text skeleton -->
                     <div class="space-y-3">
                         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full animate-pulse"></div>
                         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 animate-pulse"></div>
                         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-4/6 animate-pulse"></div>
                     </div>
-                    <!-- Exercise button skeleton -->
+                    <!-- button skeleton -->
                     <div class="mt-6">
                         <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded w-40 animate-pulse"></div>
                     </div>
@@ -106,7 +106,7 @@ onMounted(async () => {
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- Contenu -->
         <div v-else class="max-w-4xl mx-auto">
             <header class="mb-8">
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -117,7 +117,7 @@ onMounted(async () => {
                 </p>
             </header>
 
-            <!-- Table of Contents -->
+            <!-- Sommaire -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-8">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
                     Table des matières
@@ -140,6 +140,7 @@ onMounted(async () => {
                 </ul>
             </div>
 
+            <!-- Contenu -->
             <div class="space-y-8">
                 <article v-for="(item, index) in cours.content" 
                          :key="`${item.type}-${index}`"

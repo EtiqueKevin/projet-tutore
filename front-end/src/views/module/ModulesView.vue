@@ -51,7 +51,7 @@ const formatDate = (timestamp) => {
         </div>
       </template>
 
-      <!-- Actual content -->
+      <!-- Contenu -->
       <template v-else>
         <div v-for="module in modules" 
              :key="module.id" 

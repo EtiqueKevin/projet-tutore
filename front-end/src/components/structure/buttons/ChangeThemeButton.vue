@@ -21,7 +21,6 @@ const toggleDark = () => {
 onMounted(() => {
   const preferences = userStore.getPreferences;
   isDark.value = preferences.themeDark;
-  document.body.classList.toggle('dark', isDark.value);
 });
 
 watch(isDark, (newTheme) => {

@@ -7,6 +7,11 @@ defineProps({
     module: {
         type: Object,
         required: true
+    },
+    isTeacher: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 </script>
@@ -25,7 +30,7 @@ defineProps({
             </div>
         </div>
 
-        <!-- Actual content -->
+        <!-- Contenu -->
         <div v-else class="flex justify-between items-start">
             <div>
                 <h1 class="text-3xl font-bold mb-2 text-black dark:text-white">
@@ -42,6 +47,10 @@ defineProps({
                 <p class="text-sm">
                     Crée par: {{ module.creator }}
                 </p>
+                <button v-if="isTeacher" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md mt-4">
+                    <i class="fas fa-edit"></i>
+                    <span>Modifier</span>
+                </button>
             </div>
         </div>
     </div>
