@@ -61,6 +61,8 @@ return function( App $app): App {
      *************************/
 
     $app->put('/users[/]', GeneriqueUtilisateurAction::class);
+    $app->get('/users[/]', GeneriqueUtilisateurAction::class);
+    $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class);
 
     return $app;
 };

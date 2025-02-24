@@ -17,4 +17,13 @@ export default [
           requiresTeacher: true
         }
     },
+    {
+      path: 'teacher/modules',
+      name: 'teacher-modules',
+      component: () => import('@/views/module/TeacherModulesView.vue'),
+      meta: { 
+        requiresAuth: true,
+        requiresTeacher: true
+      }
+    }
 ]

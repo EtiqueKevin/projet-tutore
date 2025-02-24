@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import RouterButton from '@/components/structure/buttons/RouterButton.vue';
 import Button from '@/components/structure/buttons/Button.vue';
 import ChangeThemeButton from '@/components/structure/buttons/ChangeThemeButton.vue';
@@ -8,10 +9,15 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const userStore = useUserStore();
+const isMobileMenuOpen = ref(false);
 
 const logOut = async () => {
   await router.push('/');
   userStore.signOut();
+};
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 </script>
 
@@ -29,8 +35,16 @@ const logOut = async () => {
           <span class="ml-2 text-xl font-bold dark:text-white text-main-dark">Jeancadémie</span>
         </router-link>
 
-        <!-- Navigation -->
-        <div class="flex items-center space-x-4 h-full">
+        <!-- Mobile menu button -->
+        <button @click="toggleMobileMenu" 
+          class="md:hidden inline-flex items-center justify-center p-2 rounded-md dark:text-white text-main-dark 
+          hover:text-primary-dark dark:hover:text-primary-light focus:outline-none">
+          <span class="sr-only">Open main menu</span>
+          <i :class="[isMobileMenuOpen ? 'fa-times' : 'fa-bars', 'fas']"></i>
+        </button>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-4 h-full">
           <!-- Modules button visible to all logged users -->
           <RouterButton :to="'/modules'" title="Voir les modules">
             <div class="flex items-center space-x-2">
@@ -75,11 +89,11 @@ const logOut = async () => {
           </template>
           <div v-else class="flex items-center space-x-6">
             <RouterButton :to="'/admin'"
-            v-if="userStore.isAdmin"
-            title="Accéder au Back Office" 
-            class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light">
-            <i class="fas fa-cog"></i>
-          </RouterButton>
+              v-if="userStore.isAdmin"
+              title="Accéder au Back Office" 
+              class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light">
+              <i class="fas fa-cog"></i>
+            </RouterButton>
             <RouterButton :to="'/user/profile'" title="Mon profil">
               <i class="fas fa-user"></i>
             </RouterButton>
@@ -87,6 +101,74 @@ const logOut = async () => {
               <i class="fas fa-sign-out-alt"></i>
             </Button>
           </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div :class="[isMobileMenuOpen ? 'block' : 'hidden', 'md:hidden']"
+        class="py-2 space-y-2">
+        <RouterButton :to="'/modules'" 
+          class="block w-full text-left px-4 py-2 dark:text-white text-main-dark 
+          hover:text-primary-dark dark:hover:text-primary-light"
+          title="Voir les modules">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-th-large"></i>
+            <span>Modules</span>
+          </div>
+        </RouterButton>
+
+        <div v-if="userStore.isLogged" 
+          class="block w-full text-left px-4 py-2 dark:text-white text-main-dark">
+          <div class="font-medium">Espace étudiant</div>
+          <p class="text-sm mt-1">Rien pour l'instant</p>
+        </div>
+
+        <div v-if="userStore.isTeacher || userStore.isAdmin" 
+          class="block w-full text-left px-4 py-2 dark:text-white text-main-dark">
+          <div class="font-medium">Espace professeur</div>
+          <RouterButton :to="'/lessons/create'" 
+            class="block mt-1 text-sm hover:text-primary-dark dark:hover:text-primary-light"
+            title="Créer un nouveau cours">
+            <i class="fas fa-plus-circle"></i>
+            <span class="ml-2">Créer Cours</span>
+          </RouterButton>
+        </div>
+
+        <div class="px-4 py-2 flex items-center space-x-4">
+          <ChangeThemeButton :show-text="true" />
+        </div>
+
+        <template v-if="!userStore.isLogged">
+          <RouterButton :to="'/user/connect'" 
+            class="block w-full text-left px-4 py-2 dark:text-white text-main-dark 
+            hover:text-primary-dark dark:hover:text-primary-light"
+            title="Se connecter">
+            <i class="fas fa-power-off"></i>
+            <span class="ml-2">Se connecter</span>
+          </RouterButton>
+        </template>
+        <div v-else class="px-4 py-2 space-y-2">
+          <RouterButton v-if="userStore.isAdmin" :to="'/admin'"
+            class="block w-full text-left dark:text-white text-main-dark 
+            hover:text-primary-dark dark:hover:text-primary-light"
+            title="Accéder au Back Office">
+            <i class="fas fa-cog"></i>
+            <span class="ml-2">Administration</span>
+          </RouterButton>
+          <RouterButton :to="'/user/profile'" 
+            class="block w-full text-left dark:text-white text-main-dark 
+            hover:text-primary-dark dark:hover:text-primary-light"
+            title="Mon profil">
+            <i class="fas fa-user"></i>
+            <span class="ml-2">Mon profil</span>
+          </RouterButton>
+          <Button @click="logOut()" 
+            class="block w-full text-left dark:text-white text-main-dark 
+            hover:text-primary-dark dark:hover:text-primary-light"
+            title="Se déconnecter">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="ml-2">Se déconnecter</span>
+          </Button>
         </div>
       </div>
     </nav>

@@ -28,7 +28,7 @@ export const useTeacherStore = defineStore('teacher', {
         
         overWriteContent(content) {
             this.currentLesson.content = content;
-        }
+        },
     },
 
     getters: {

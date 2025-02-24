@@ -17,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="bg-background-light dark:bg-background-dark shadow rounded-lg p-6 mb-6">
+    <div class="bg-white dark:bg-background-dark shadow rounded-lg p-6 mb-6">
         <!-- Skeleton loader -->
         <div v-if="isLoading" class="flex justify-between items-start">
             <div class="space-y-4 flex-1">

@@ -25,7 +25,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="bg-background-light dark:bg-background-dark shadow rounded-lg p-6">
+    <div class="bg-white dark:bg-background-dark shadow rounded-lg p-6">
         <!-- Skeleton loader -->
         <div v-if="isLoading">
             <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded-md w-40 mb-6 animate-pulse"></div>
