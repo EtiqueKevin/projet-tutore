@@ -24,7 +24,7 @@ class GetUserIdAction extends AbstractAction
             $tokenstring = sscanf($headers[0], "Bearer %s")[0];
             $userID = $this->authProvider->getUserID($tokenstring);
         }catch (Exception $e){
-            throw new HttpBadRequestException($rq,"erreur lors de la récupération de l'id" . $e->getMessage());
+            throw new HttpBadRequestException($rq,"erreur lors de la récupération de l'id " . $e->getMessage());
         }
         $response = [
             'type' => 'ressource',

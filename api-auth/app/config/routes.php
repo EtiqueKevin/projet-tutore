@@ -37,7 +37,7 @@ return function( App $app): App {
     $app->post('/token/validate[/]',ValidateAction::class)
         ->setName('tokenValidate');
 
-    $app->post('token/users/id', GetUserIdAction::class)
+    $app->post('/token/users/id', GetUserIdAction::class)
         ->setName('tokenUsersId');
 
     $app->delete('/users/{id}', DeleteUserByIdAction::class)
