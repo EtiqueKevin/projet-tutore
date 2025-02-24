@@ -2,7 +2,9 @@
 
 namespace apiCours\core\services\lesson;
 
+use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\dto\lesson\LessonExeciseDTO;
 
 interface LessonServiceInterface
 {
@@ -14,4 +16,5 @@ interface LessonServiceInterface
     public function createLesson(LessonDTO $lessonDTO): LessonDTO;
     public function updateLesson(LessonDTO $lessonDTO): LessonDTO;
     public function deleteLesson(string $id): void;
+    public function getExerciseLesson(LessonExeciseDTO $ld): ContentDTO;
 }

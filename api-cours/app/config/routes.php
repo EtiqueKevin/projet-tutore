@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use apiCours\application\actions\lesson\DeleteLessonByIdAction;
+use apiCours\application\actions\lesson\GetExerciseByIndexByIdLesson;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\GetLessonsAction;
 use apiCours\application\actions\lesson\PostLessonAction;
@@ -33,5 +34,7 @@ return function( App $app): App {
     $app->get('/lessons/{id_lesson}[/]', GetLessonByIdAction::class);
     $app->delete('/lessons/{id_lesson}[/]', DeleteLessonByIdAction::class);
     $app->put('/lessons/{id_lesson}[/]', PutLessonByIdAction::class);
+
+    $app->get('/lessons/{id_lesson}/exercise/{index}[/]', GetExerciseByIndexByIdLesson::class);
     return $app;
 };

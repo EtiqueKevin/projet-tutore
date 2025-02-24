@@ -10,6 +10,7 @@ use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
 use MongoDB\Collection;
 use MongoDB\Database;
+use PHPUnit\Framework\Exception;
 
 class LessonRepository implements LessonRepositoryInterface
 {
@@ -106,5 +107,35 @@ class LessonRepository implements LessonRepositoryInterface
             $lessonsEntity[] = $lesson;
         }
         return $lessonsEntity;
+    }
+
+    public function getExerciseLesson(string $idLesson, string $indexExercise): Content
+    {
+
+        $idUUID = UUIDConverter::toUUID($idLesson);
+        $intIndex = intval($indexExercise);
+        try{
+            $lessonsDB = $this->lessonCollection->findOne(['_id' => $idUUID]);
+            foreach ($lessonsDB->content as $c) {
+
+                if($c->type=="code" && $c->index == $intIndex){
+                    $content = new Content($c->type, $c->content,$c->index);
+                    $files = [];
+                    foreach ($c->files as $f) {
+                        $file = new File($f->type,$f->filename,$f->language,$f->content);
+                        $files[] = $file;
+                    }
+                    $content->setFiles($files);
+                    break;
+                }
+            }
+
+        }catch (\Exception $exception){
+            throw new Exception($exception->getMessage());
+        }
+
+        return $content;
+
+
     }
 }

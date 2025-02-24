@@ -1,5 +1,6 @@
 <?php
 
+use apiCours\application\actions\lesson\GetExerciseByIndexByIdLesson;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
@@ -32,6 +33,10 @@ return [
     },
     GetLessonByIdAction::class => function(ContainerInterface $c){
         return new GetLessonByIdAction($c->get(LessonServiceInterface::class));
+    },
+
+    GetExerciseByIndexByIdLesson::class => function(ContainerInterface $c){
+        return new GetExerciseByIndexByIdLesson($c->get(LessonServiceInterface::class));
     },
 
     //services

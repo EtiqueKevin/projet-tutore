@@ -2,6 +2,7 @@
 
 namespace apiCours\core\repositoryInterface;
 
+use apiCours\core\domain\entities\lesson\Content;
 use apiCours\core\domain\entities\lesson\Lesson;
 
 interface LessonRepositoryInterface
@@ -12,4 +13,5 @@ interface LessonRepositoryInterface
     public function createLesson(Lesson $lesson): Lesson;
     public function updateLesson(Lesson $lesson): Lesson;
     public function deleteLesson(string $id): void;
+    public function getExerciseLesson(string $idLesson, string $indexExercise): Content;
 }

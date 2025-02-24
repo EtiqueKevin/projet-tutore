@@ -2,7 +2,9 @@
 
 namespace apiCours\core\services\lesson;
 
+use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\dto\lesson\LessonExeciseDTO;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 
 class LessonService implements LessonServiceInterface
@@ -63,5 +65,11 @@ class LessonService implements LessonServiceInterface
          }
         return $tabLessonDTO;
 
+    }
+
+    public function getExerciseLesson(LessonExeciseDTO $ld): ContentDTO
+    {
+        $res = $this->lessonRepository->getExerciseLesson($ld->idLesson, $ld->indexExercise);
+        return $res->toDTO();
     }
 }
