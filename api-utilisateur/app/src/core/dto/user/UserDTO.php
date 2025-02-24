@@ -12,13 +12,16 @@ class UserDTO extends DTO{
     private string $name;
     private string $surname;
     protected ?string $linkpic;
+    protected ?string $pseudo;
+    protected int $role;
 
     public function __construct(User $u){
         $this->id = $u->getID();
         $this->name = $u->name;
         $this->surname = $u->surname;
         $this->linkpic = $u->linkpic;
-
+        $this->pseudo = $u->pseudo;
+        $this->role = $u->role;
     }
 
     public function jsonSerialize(): array
@@ -27,7 +30,10 @@ class UserDTO extends DTO{
            'id' => $this->id,
            'name' => $this->name,
           'surname' => $this->surname,
-           'linkpic' => $this->linkpic
+           'linkpic' => $this->linkpic,
+           'pseudo' => $this->pseudo,
+              'role' => $this->role
+
        ];
     }
 }

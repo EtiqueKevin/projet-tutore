@@ -24,7 +24,8 @@ class UsersService implements UsersServiceInterface{
     public function getUsersId(string $id): UserDTO{
 
         $user = $this->repositoryUsers->getUserById($id);
-
+        $role = $this->repositoryAuth->getRoleById($id);
+        $user->setRole($role);
         return $user->toDTO();
 
     }
@@ -60,5 +61,19 @@ class UsersService implements UsersServiceInterface{
         }catch (\Exception $e){
             throw new \Exception('Impossible de changer l\'utilisateur en John Doe: '.$e->getMessage());
         }
+    }
+
+    function getUsers(): array
+    {
+        $users = $this->repositoryUsers->getUsers();
+        $usersDTO = [];
+        foreach ($users as $user){
+            $role = $this->repositoryAuth->getRoleById($user->getID());
+            $email = $this->repositoryAuth->getEmailById($user->getID());
+            $user->setRole($role);
+
+            $usersDTO[] = $user->toDTO();
+        }
+        return $usersDTO;
     }
 }

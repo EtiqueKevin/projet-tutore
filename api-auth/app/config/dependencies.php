@@ -2,6 +2,8 @@
 
 
 use apiAuth\application\actions\DeleteUserByIdAction;
+use apiAuth\application\actions\GetEmailByIdAction;
+use apiAuth\application\actions\GetRoleByIdAction;
 use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
@@ -64,6 +66,14 @@ return [
 
     DeleteUserByIdAction::class => function(ContainerInterface $c){
         return new DeleteUserByIdAction($c->get(UserServiceInterface::class));
+    },
+
+    GetEmailByIdAction::class => function(ContainerInterface $c){
+        return new GetEmailByIdAction($c->get(UserServiceInterface::class));
+    },
+
+    GetRoleByIdAction::class => function(ContainerInterface $c){
+        return new GetRoleByIdAction($c->get(UserServiceInterface::class));
     },
 
     JWTManager::class => function(ContainerInterface $c){

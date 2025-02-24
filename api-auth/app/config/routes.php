@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 use apiAuth\application\actions\DeleteUserByIdAction;
+use apiAuth\application\actions\GetEmailByIdAction;
+use apiAuth\application\actions\GetRoleByIdAction;
 use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\HomeAction;
 use apiAuth\application\actions\RefreshAction;
@@ -40,6 +42,12 @@ return function( App $app): App {
 
     $app->delete('/users/{id}', DeleteUserByIdAction::class)
         ->setName('deleteUser');
+
+    $app->get('/users/{id}/role', GetRoleByIdAction::class)
+        ->setName('getRoleById');
+
+    $app->get('/users/{id}/email', GetEmailByIdAction::class)
+        ->setName('getEmailById');
 
     return $app;
 };

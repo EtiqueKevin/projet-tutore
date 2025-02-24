@@ -30,8 +30,8 @@ class PDOUsersRepository implements UsersRepositoryInterface {
                 $user['linkpic'] = 'default_pic.jpg';
             }
 
-            $u = new User($user['name'],$user['surname'],$user['role'],$user['linkpic'],$user['email'], DateTime::createFromFormat('Y-m-d',$user['datesignup']),DateTime::createFromFormat('Y-m-d',$user['datesignin']));
-            $u->setID($user['uuid']);
+            $u = new User($user['name'],$user['surname'],$user['linkpic'],$user['pseudo']);
+            $u->setID($user['id']);
             return $u;
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
@@ -97,4 +97,21 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
+    function getUsers(): array
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM users');
+            $stmt->execute();
+            $users = $stmt->fetchAll();
+            $usersList = [];
+            foreach ($users as $user){
+                $u = new User($user['name'],$user['surname'],$user['linkpic'],$user['pseudo']);
+                $u->setID($user['id']);
+                $usersList[] = $u;
+            }
+            return $usersList;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
 }

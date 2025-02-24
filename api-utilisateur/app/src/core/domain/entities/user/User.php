@@ -21,6 +21,10 @@ class User extends Entity{
         $this->role = $role;
     }
 
+    public function setRole(int $role):void{
+        $this->role = $role;
+    }
+
     public function toDTO():UserDTO{
         return new UserDTO($this);
     }

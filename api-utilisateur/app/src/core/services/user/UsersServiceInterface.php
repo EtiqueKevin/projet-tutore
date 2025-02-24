@@ -13,5 +13,6 @@ interface UsersServiceInterface{
     function update(InputUserDTO $inpputUserDTO): void;
     function deleteUser(string $id): void;
     function changeToJohnDoe(string $id): void;
+    function getUsers(): array;
 
 }

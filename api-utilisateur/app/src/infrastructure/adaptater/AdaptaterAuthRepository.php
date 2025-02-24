@@ -26,4 +26,18 @@ class AdaptaterAuthRepository implements AuthRepositoryInterface
     {
         $this->client->delete('/users/'.$id);
     }
+
+    public function getRoleById(string $id): string
+    {
+        $response = $this->client->get('/users/'.$id.'/role');
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data["role"];
+    }
+
+    public function getEmailById(string $id): string
+    {
+        $response = $this->client->get('/users/'.$id.'/email');
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data["email"];
+    }
 }

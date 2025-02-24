@@ -5,6 +5,7 @@ use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
+use apiUtilisateur\application\actions\user\GetUsersAction;
 use apiUtilisateur\application\actions\user\PutUitlisateurAction;
 use apiUtilisateur\application\actions\user\SignInAction;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -22,7 +23,12 @@ return function( App $app): App {
         });
 */
 
-    $app->get('/users/{ID-USER}[/]',GetUserById::class);
+    $app->get('/users[/]', GetUsersAction::class)
+        ->setName('getUtilisateurs');
+
+    $app->get('/users/{ID-USER}[/]',GetUserById::class)
+        ->setName('getUtilisateur');
+
 
     $app->post('/users[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');
@@ -32,7 +38,6 @@ return function( App $app): App {
 
     $app->delete('/users/{ID-USER}[/]',DeleteUtilisateurAction::class)
         ->setName('deleteUtilisateur');
-
 
     return $app;
 };
