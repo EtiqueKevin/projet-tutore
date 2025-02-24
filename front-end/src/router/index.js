@@ -16,7 +16,8 @@ const router = createRouter({
       component: DefaultLayout,
       redirect: to => {
         const userStore = useUserStore()
-        return userStore.isLogged ? '/feed' : '/accueil'
+        //return userStore.isLogged ? '/feed' : '/accueil'
+        return '/accueil'
       },
       children: [
         {

@@ -18,15 +18,3 @@ Ce front-end est fait avec :
     npm install
     npm run dev
 ```
-
-## TODO
-
-- [] système de leçons et modules consultés récemment
-- [x] skeleton loading pour toutes les pages 
-- [x] améliorer les formulaires
-- [x] fix l'affichage des exos
-- [x] boutons de scroll vers le dessus
-- [x] ajouter une table des matières d'une leçon
-- [x] se souvenir des préférences utilisateur (theme)
-- [] page de feed si l'utilisateur est connecté (progression et leçons consultées récemment)
-
