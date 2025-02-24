@@ -13,7 +13,7 @@ interface LessonServiceInterface
     public function getLessonByModuleId(string $moduleId): array;
 
     public function getLessonById(string $id): LessonDTO;
-    public function createLesson(LessonDTO $lessonDTO): LessonDTO;
+    public function createLesson(LessonDTO $lessonDTO): string;
     public function updateLesson(LessonDTO $lessonDTO): LessonDTO;
     public function deleteLesson(string $id): void;
     public function getExerciseLesson(LessonExeciseDTO $ld): ContentDTO;

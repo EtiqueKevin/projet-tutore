@@ -49,18 +49,18 @@ class LessonRepository implements LessonRepositoryInterface
             }
             $contentTab[] = $content;
         }
-
-        $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description);
+        $date = $lessonsDB->date_update->toDateTime()->getTimestamp();
+        $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description, date("d/m/Y", $date));
 
         $lesson->setId(UUIDConverter::fromUUID($lessonsDB->_id));
 
         return $lesson;
     }
 
-    public function createLesson(Lesson $lesson): Lesson
+    public function createLesson(array $lesson): string
     {
-        $lesson->setId(1);
-        return $lesson;
+        $res = $this->lessonCollection->insertOne($lesson);
+        return $res->getInsertedId();
     }
 
     public function updateLesson(Lesson $lesson): Lesson
@@ -101,7 +101,8 @@ class LessonRepository implements LessonRepositoryInterface
                 $contentTab[] = $content;
             }
 
-            $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description);
+            $date = $lessonsDB->date_update->toDateTime()->getTimestamp();
+            $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description, date("d/m/Y", $date));
 
             $lesson->setId(UUIDConverter::fromUUID($lessonsDB->_id));
             $lessonsEntity[] = $lesson;
@@ -135,7 +136,10 @@ class LessonRepository implements LessonRepositoryInterface
         }
 
         return $content;
+    }
 
+    public function postLesson(Lesson $lesson): void{
 
     }
+
 }

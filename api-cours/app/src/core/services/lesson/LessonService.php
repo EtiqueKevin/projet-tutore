@@ -34,13 +34,10 @@ class LessonService implements LessonServiceInterface
         return $lesson->toDTO();
     }
 
-    public function createLesson(LessonDTO $lessonDTO): LessonDTO
+    public function createLesson(LessonDTO $lessonDTO): string
     {
-        $lesson = $lessonDTO->toEntity();
-        $newLesson = $this->lessonRepository->createLesson($lesson);
-        $newLessonDTO = $newLesson->toDTO();
-        $newLessonDTO->setId($newLesson->getId());
-        return $newLessonDTO;
+        $res =$this->lessonRepository->createLesson($lessonDTO->jsonSerialize());
+        return $res;
     }
 
     public function updateLesson(LessonDTO $lessonDTO): LessonDTO
