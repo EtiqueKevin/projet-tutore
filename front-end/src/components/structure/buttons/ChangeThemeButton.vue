@@ -49,6 +49,8 @@ watch(isDark, (newTheme) => {
 .toggle-button {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  font-weight: bold;
   border-radius: 25px;
   border: none;
   cursor: pointer;
