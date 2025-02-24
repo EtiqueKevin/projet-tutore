@@ -72,4 +72,13 @@ class UserService implements UserServiceInterface
             throw new UserServiceException('Erreur lors de la recherche de l\'utilisateur');
         }
     }
+
+    public function deleteUser(string $ID): void
+    {
+        try {
+            $this->authRepository->deleteById($ID);
+        } catch (\Exception $e) {
+            throw new UserServiceException('Erreur lors de la suppression de l\'utilisateur');
+        }
+    }
 }

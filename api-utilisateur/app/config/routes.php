@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
+use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\PutUitlisateurAction;
 use apiUtilisateur\application\actions\user\SignInAction;
@@ -21,13 +22,17 @@ return function( App $app): App {
         });
 */
 
-    $app->get('/user/{ID-USER}[/]',GetUserById::class);
+    $app->get('/users/{ID-USER}[/]',GetUserById::class);
 
-    $app->post('/user[/]',CreateUtilisateurAction::class)
+    $app->post('/users[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');
 
-    $app->put('/user/[/]',PutUitlisateurAction::class)
+    $app->put('/users/[/]',PutUitlisateurAction::class)
         ->setName('updateUtilisateur');
+
+    $app->delete('/users/{ID-USER}[/]',DeleteUtilisateurAction::class)
+        ->setName('deleteUtilisateur');
+
 
     return $app;
 };

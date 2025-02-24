@@ -76,4 +76,13 @@ class ModuleService implements ModuleServiceInterface
             throw new ModuleServiceException($e->getMessage());
         }
     }
+
+    public function changeToJohnDoe(string $id)
+    {
+        try {
+            $this->moduleRepository->changeToJohnDoe($id);
+        }catch (\Exception $e) {
+            throw new ModuleServiceException($e->getMessage());
+        }
+    }
 }

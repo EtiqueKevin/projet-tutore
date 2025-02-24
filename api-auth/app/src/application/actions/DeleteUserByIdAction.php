@@ -1,8 +1,8 @@
 <?php
 
-namespace apiUtilisateur\application\actions\user;
+namespace apiAuth\application\actions;
 
-use apiUtilisateur\application\actions\AbstractAction;
+use apiAuth\core\services\user\UserServiceInterface;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -10,19 +10,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
-class DeleteUtilisateurAction extends AbstractAction
+class DeleteUserByIdAction extends AbstractAction
 {
-    private UsersServiceInterface $utilisateurService;
+    private UserServiceInterface $userService;
 
-    public function __construct(UsersServiceInterface $serviceUtilisateur)
+    public function __construct(UserServiceInterface $serviceUtilisateur)
     {
-        $this->utilisateurService = $serviceUtilisateur;
+        $this->userService = $serviceUtilisateur;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $id = $args['ID-USER'];
-        $role = $rq->getAttribute('role');
+        $id = $args['id'];
 
         if (!isset($id)) {
             throw new HttpBadRequestException($rq, "L'identifiant de l'utilisateur est obligatoire.");
@@ -33,12 +32,7 @@ class DeleteUtilisateurAction extends AbstractAction
         }
 
         try {
-            $this->utilisateurService->deleteUser($id);
-            if ($role == 100) {
-                $this->utilisateurService->changeToJohnDoe($id);
-            } else {
-                throw new HttpBadRequestException($rq, "Vous n'avez pas les droits pour supprimer un utilisateur.");
-            }
+            $this->userService->deleteUser($id);
         }catch (Exception $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
@@ -48,10 +42,7 @@ class DeleteUtilisateurAction extends AbstractAction
             'message' => 'Utilisateur supprimé'
         ];
 
-
-
         $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');
-
     }
 }

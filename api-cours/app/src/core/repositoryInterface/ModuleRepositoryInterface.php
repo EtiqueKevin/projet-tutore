@@ -12,4 +12,5 @@ interface ModuleRepositoryInterface{
     public function createModule(Module $module);
     public function updateModule(Module $module);
     public function deleteModule(string $id);
+    public function changeToJohnDoe(string $id);
 }

@@ -32,7 +32,11 @@ return  [
     'SECRET_KEY' => getenv('JWT_SECRET_KEY'),
 
     'client_auth' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.auth.academician:8890']);
+        return new Client(['base_uri' => 'http://api.auth.jeancademie:8890']);
+    },
+
+    'client_cours' => function (ContainerInterface $c){
+        return new Client(['base_uri' => 'http://api.cours.jeancademie:8888']);
     },
 
     ];

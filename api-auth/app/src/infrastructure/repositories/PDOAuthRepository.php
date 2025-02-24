@@ -72,4 +72,15 @@ class PDOAuthRepository implements AuthRepositoryInterface
 
         return $id;
     }
+
+    public function deleteById(string $id): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+        } catch (Exception $e) {
+            throw new AuthRepositoryException($e->getMessage());
+        }
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 
+use apiAuth\application\actions\DeleteUserByIdAction;
 use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
@@ -59,6 +60,10 @@ return [
 
     GetUserIdAction::class => function(ContainerInterface $c){
         return new GetUserIdAction($c->get(AuthProviderInterface::class));
+    },
+
+    DeleteUserByIdAction::class => function(ContainerInterface $c){
+        return new DeleteUserByIdAction($c->get(UserServiceInterface::class));
     },
 
     JWTManager::class => function(ContainerInterface $c){

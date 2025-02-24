@@ -12,4 +12,5 @@ interface ModuleServiceInterface
     public function createModule(ModuleDTO $module);
     public function updateModule(ModuleDTO $module);
     public function deleteModule(string $id);
+    public function changeToJohnDoe(string $id);
 }

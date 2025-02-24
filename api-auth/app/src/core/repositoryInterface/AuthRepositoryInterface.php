@@ -12,4 +12,5 @@ interface AuthRepositoryInterface
     function findById(string $id):User;
 
     function save(User $auth): string;
+    public function deleteById(string $id): void;
 }

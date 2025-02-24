@@ -105,4 +105,13 @@ class ModuleRepository implements ModuleRepositoryInterface {
             throw new ModuleRepositoryException("Impossible de supprimer le module");
         }
     }
+
+    public function changeToJohnDoe(string $id)
+    {
+        try {
+            $this->moduleCollection->updateMany(["id_creator" => UUIDConverter::toUUID($id)], ['$set' => ["id_creator" => null]]);
+        }catch (\Exception $e) {
+            throw new ModuleRepositoryException("Impossible de changer le créateur du module.");
+        }
+    }
 }

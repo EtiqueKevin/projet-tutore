@@ -15,10 +15,15 @@ class AdaptaterAuthRepository implements AuthRepositoryInterface
 
     public function getUtilisateurId(string $token): string
     {
-        $response = $this->client->post('/token/user/id', [
+        $response = $this->client->post('/token/users/id', [
             'headers' => ['Authorization' => 'Bearer '.$token]
         ]);
         $data = json_decode($response->getBody()->getContents(), true);
         return $data["userID"];
+    }
+
+    public function suppUtilisateurById(string $id): void
+    {
+        $this->client->delete('/users/'.$id);
     }
 }

@@ -15,7 +15,7 @@ class AdaptaterUtilisateurRepository implements UtilisateurRepositoryInterface
     }
     public function createUtilisateur(User $user): void
     {
-        $this->client->post('/user', [
+        $this->client->post('/users', [
             'json' => ['id' => $user->getID(), 'name' => $user->name, 'surname' => $user->surname, 'linkpic' => $user->linkpic, 'pseudo'=> $user->pseudo],
         ]);
     }

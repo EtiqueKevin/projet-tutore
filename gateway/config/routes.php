@@ -60,7 +60,7 @@ return function( App $app): App {
      * Routes de l'API Utilisateur
      *************************/
 
-    $app->put('/user[/]', GeneriqueUtilisateurAction::class);
+    $app->put('/users[/]', GeneriqueUtilisateurAction::class);
 
     return $app;
 };

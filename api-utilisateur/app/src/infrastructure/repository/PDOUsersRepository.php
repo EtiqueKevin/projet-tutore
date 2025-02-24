@@ -85,4 +85,16 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
     }
+
+    function deleteUser(string $id): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+        }catch (Exception $e) {
+            throw new \Exception('Impossible de supprimer');
+        }
+    }
+
 }

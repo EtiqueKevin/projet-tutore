@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use apiAuth\application\actions\DeleteUserByIdAction;
 use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\HomeAction;
 use apiAuth\application\actions\RefreshAction;
@@ -36,6 +37,9 @@ return function( App $app): App {
 
     $app->post('token/users/id', GetUserIdAction::class)
         ->setName('tokenUsersId');
+
+    $app->delete('/users/{id}', DeleteUserByIdAction::class)
+        ->setName('deleteUser');
 
     return $app;
 };

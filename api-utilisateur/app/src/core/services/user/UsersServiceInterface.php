@@ -11,5 +11,7 @@ interface UsersServiceInterface{
     function save(InputUserDTO $inpputUserDTO): void;
 
     function update(InputUserDTO $inpputUserDTO): void;
+    function deleteUser(string $id): void;
+    function changeToJohnDoe(string $id): void;
 
 }

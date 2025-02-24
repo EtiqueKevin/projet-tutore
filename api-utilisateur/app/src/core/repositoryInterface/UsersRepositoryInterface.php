@@ -11,5 +11,6 @@ interface UsersRepositoryInterface{
     function save(User $user):void;
 
     function update(User $user):void;
+    function deleteUser(string $id):void;
 
 }
