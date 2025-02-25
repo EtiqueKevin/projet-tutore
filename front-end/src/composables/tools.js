@@ -16,5 +16,10 @@ export function useTools(){
         return cleaned;
     };
 
-    return { toMarkdown, cleanMarkdown };
+
+    const formatDate = (timestamp) => {
+        return new Date(parseInt(timestamp)).toLocaleDateString();
+    };
+
+    return { toMarkdown, cleanMarkdown, formatDate };
 }

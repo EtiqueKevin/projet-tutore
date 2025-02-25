@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import ExerciceCreateView from '@/views/exercices/ExerciceCreateView.vue';
-import CreateCoursSidebar from '@/components/metier/cours/CreateCoursSidebar.vue';
-import CreateCoursContentEditor from '@/components/metier/cours/CreateCoursContentEditor.vue';
-import CreateCoursPreview from '@/components/metier/cours/CreateCoursPreview.vue';
+import LessonCreateSidebar from '@/components/metier/cours/LessonCreateSidebar.vue';
+import LessonCreateContentEditor from '@/components/metier/cours/LessonCreateContentEditor.vue';
+import LessonCreatePreview from '@/components/metier/cours/LessonCreatePreview.vue';
 import { useTeacherStore } from '@/stores/teacher';
 
 const mode = ref(0);
@@ -72,7 +72,7 @@ const editExercice = (index) => {
 
 <template>
   <main v-if="mode !== 3" class="flex-grow flex p-4 gap-4" :class="{'flex-col': isMobile, 'flex-row': !isMobile}">
-    <CreateCoursSidebar 
+    <LessonCreateSidebar 
       :mode="mode"
       :is-mobile="isMobile"
       @update:mode="mode = $event"
@@ -97,7 +97,7 @@ const editExercice = (index) => {
         <button @click="mode = 1" class="py-2 px-4 bg-primary-light hover:bg-primary-dark">Suivant</button>
       </div>
 
-      <CreateCoursContentEditor
+      <LessonCreateContentEditor
         v-if="mode === 1"
         v-model:content="teacherStore.currentLesson.content"
         @editExercice="editExercice"
@@ -106,7 +106,7 @@ const editExercice = (index) => {
         @reorder="teacherStore.overWriteContent($event)"
       />
 
-      <CreateCoursPreview
+      <LessonCreatePreview
         v-if="mode === 2"
         :cours="cours"
       />

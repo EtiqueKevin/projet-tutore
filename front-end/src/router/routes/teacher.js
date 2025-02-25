@@ -1,7 +1,7 @@
 export default [
     {
-        path: 'exercise/create',
-        name: 'exercise-create',
+        path: 'teacher/exercise/create',
+        name: 'teacher-exercise-create',
         component: () => import('@/views/exercices/ExerciceCreateView.vue'),
         meta: { 
           requiresAuth: true,
@@ -9,8 +9,8 @@ export default [
         }
     },
     {
-        path: 'lessons/create',
-        name: 'lesson-create',
+        path: 'teacher/lesson/create',
+        name: 'teacher-lesson-create',
         component: () => import('@/views/lesson/LessonCreateView.vue'),
         meta: { 
           requiresAuth: true,
@@ -21,6 +21,15 @@ export default [
       path: 'teacher/modules',
       name: 'teacher-modules',
       component: () => import('@/views/module/TeacherModulesView.vue'),
+      meta: { 
+        requiresAuth: true,
+        requiresTeacher: true
+      }
+    },
+    {
+      path: 'teacher/modules/:id',
+      name: 'teacher-module-id',
+      component: () => import('@/views/module/TeacherModulesByIdView.vue'),
       meta: { 
         requiresAuth: true,
         requiresTeacher: true
