@@ -41,7 +41,7 @@ class PutModuleByIdAction extends AbstractAction
         $moduleDTO = new ModuleDTO(
             $id,
             $body['name'],
-            $id_creator,
+            "",
             $body['description'],
             $body['nblesson'],
             null
