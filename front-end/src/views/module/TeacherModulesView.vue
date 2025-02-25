@@ -6,10 +6,19 @@ import CreateModuleForm from '@/components/structure/forms/CreateModuleForm.vue'
 import Module from '@/components/metier/module/Module.vue'
 import { useTeacher } from '@/composables/teacher'
 import { useToast } from 'vue-toastification'
+import { useLessonStore } from '@/stores/lesson'
+import { useRouter } from 'vue-router'
 
+
+const router = useRouter()
+
+// imports
+const lessonStore = useLessonStore()
 const { getModules } = useStudent()
 const { deleteModule } = useTeacher()
 const toast = useToast()
+
+// variables
 const modules = ref([])
 const loading = ref(true)
 const modal = ref(false)
@@ -50,12 +59,22 @@ const reload = async () => {
     loading.value = false
   }
 }
-
 </script>
 
 <template>
   <main class="px-4 py-8 min-h-screen w-full ">
-    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white mb-8">Votre Modules</h1>
+    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Vos Modules</h1>
+
+
+    <div v-if="lessonStore.isInit" class="flex space-x-4 items-center bg-yellow-300 dark:bg-yellow-500 p-4 rounded-lg mb-4">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>Vous avez une lesson en cours d'édition</p>
+      <button @click="router.push({ name: 'teacher-lesson-create'})" class="hover:underline">
+        Reprendre l'édition
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Skeleton loader -->
       <template v-if="loading">

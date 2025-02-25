@@ -22,13 +22,12 @@ const toggleMobileMenu = () => {
 
 <template>
   <header class="sticky top-0 z-50 backdrop-blur-sm shadow-lg
-                dark:bg-background-dark/95 bg-background-light/95
-                transition-colors duration-200">
+                dark:bg-background-dark/95 bg-background-light/95">
     <nav class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-12">
         <!-- Logo -->
         <router-link to="/" 
-                     class="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity" 
+                     class="flex-shrink-0 flex items-center hover:opacity-80" 
                      title="Retour a l'accueil">
           <img class="h-8 w-auto" src="@/assets/logo.png" alt="Logo" />
           <span class="ml-2 text-xl font-bold dark:text-white text-main-dark">Jeancadémie</span>
@@ -64,7 +63,7 @@ const toggleMobileMenu = () => {
 
           <div class="separator"></div>
 
-          <ChangeThemeButton :show-text="false" class="transform hover:scale-105 transition-transform" />
+          <ChangeThemeButton :show-text="false"/>
 
           <div class="separator"></div>
           
@@ -100,8 +99,6 @@ const toggleMobileMenu = () => {
   <div class="py-3 space-y-1">
     <!-- Navigation principale -->
     <RouterButton :to="'/modules'" 
-                class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                      hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                  title="Voir les modules">
         <i class="fas fa-th-large w-6"></i>
         <span class="ml-3">Modules</span>
@@ -110,8 +107,6 @@ const toggleMobileMenu = () => {
     <!-- Bouton créer cours pour professeurs et administrateurs -->
     <RouterButton v-if="userStore.isTeacher"
                  :to="'/teacher/modules'" 
-                 class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                        hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                  title="Gérer mes modules">
       <i class="fas fa-book w-6"></i>
       <span class="ml-3">Mes modules</span>
@@ -131,8 +126,6 @@ const toggleMobileMenu = () => {
     <!-- Actions Utilisateur -->
     <template v-if="!userStore.isLogged">
       <RouterButton :to="'/user/connect'" 
-                   class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                    title="Se connecter">
         <i class="fas fa-power-off w-6"></i>
         <span class="ml-3">Se connecter</span>
@@ -142,22 +135,16 @@ const toggleMobileMenu = () => {
     <!-- Actions Utilisateur Connecté -->
     <template v-else>
       <RouterButton v-if="userStore.isAdmin" :to="'/admin'"
-                   class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                    title="Accéder au Back Office">
         <i class="fas fa-cog w-6"></i>
         <span class="ml-3">Administration</span>
       </RouterButton>
       <RouterButton :to="'/user/profile'" 
-                   class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                    title="Mon profil">
         <i class="fas fa-user w-6"></i>
         <span class="ml-3">Mon profil</span>
       </RouterButton>
       <Button @click="logOut()" 
-             class="flex items-center w-full px-4 py-3 dark:text-white text-main-dark 
-                    hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
              title="Se déconnecter">
         <i class="fas fa-sign-out-alt w-6"></i>
         <span class="ml-3">Se déconnecter</span>

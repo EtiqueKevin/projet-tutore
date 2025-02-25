@@ -36,7 +36,7 @@ const viewModule = (moduleId) => {
 </script>
 
 <template>
-    <div :key="module.id" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
+    <div :key="module.id" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg border border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-start mb-4">
             <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ module.name }}</h2>
             <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded">

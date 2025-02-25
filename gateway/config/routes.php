@@ -31,10 +31,11 @@ return function( App $app): App {
     $app->put('/modules/{id}[/]', GeneriqueCoursAction::class);
 
     $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
-    $app->post('/modules/{id}/lessons/[/]', GeneriqueCoursAction::class);
+    $app->post('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
     $app->get('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     $app->delete('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     $app->put('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
+    $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     
     /*************************
      * Routes de l'API Execution

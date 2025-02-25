@@ -24,7 +24,6 @@ onMounted(async () => {
   const toast = useToast();
 
   try{
-    await new Promise(resolve => setTimeout(resolve, 3000))
     const currentExercice = await loadExercice(route.params.id, route.params.nbContent);
     if(currentExercice){
       sujet.value = currentExercice.content;

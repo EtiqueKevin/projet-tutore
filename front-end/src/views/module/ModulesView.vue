@@ -9,7 +9,6 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    //await new Promise(resolve => setTimeout(resolve, 1000))
     modules.value = await getModules()
   } catch (error) {
     console.error('Failed to fetch modules:', error)

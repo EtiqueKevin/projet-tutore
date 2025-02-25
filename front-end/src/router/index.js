@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { useLessonStore } from '@/stores/lesson'
 import DefaultLayout from '@/views/layouts/DefaultLayoutView.vue'
 import BlankLayout from '@/views/layouts/BlankLayoutView.vue'
 
@@ -78,6 +79,13 @@ router.beforeEach((to, from, next) => {
 
   if(to.meta.requiresAdmin && !userStore.isAdmin){
     next({ name: 'home' })
+    return
+  }
+
+  // Vérifications spécifiques
+  const lessonStore = useLessonStore()
+  if(to.name === 'teacher-lesson-create' && !lessonStore.isInit){
+    next({ name: 'teacher-modules' })
     return
   }
 

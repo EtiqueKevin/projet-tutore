@@ -1,14 +1,5 @@
 export default [
     {
-        path: 'teacher/exercise/create',
-        name: 'teacher-exercise-create',
-        component: () => import('@/views/exercices/ExerciceCreateView.vue'),
-        meta: { 
-          requiresAuth: true,
-          requiresTeacher: true
-        }
-    },
-    {
         path: 'teacher/lesson/create',
         name: 'teacher-lesson-create',
         component: () => import('@/views/lesson/LessonCreateView.vue'),

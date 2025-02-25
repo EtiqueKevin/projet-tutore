@@ -69,7 +69,6 @@ const navigateToExercise = (idLesson, index) => {
 
 onMounted(async () => {
     try {
-        // await new Promise(resolve => setTimeout(resolve, 2000))
         cours.value = await loadCours(route.params.id);
     } catch (error) {
         console.error(error);

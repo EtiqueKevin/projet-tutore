@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 
 const props = defineProps({
@@ -18,10 +19,12 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['delete', 'update'])
+
 </script>
 
 <template>
-    <div :key="lesson.id" class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-all duration-200 shadow-sm">
+    <div :key="lesson.id" class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-sm">
         <div class="flex justify-between items-start gap-4">
             
             <!-- informations -->
@@ -43,6 +46,7 @@ const props = defineProps({
             <div class="flex items-center gap-2 flex-shrink-0">
                 <button 
                     v-if="isTeacher"
+                    @click="emit('update')"
                     class="items-center gap-2 px-4 py-2 rounded-md bg-gray-600 hover:bg-gray-700 text-white"
                     title="Modifier la leçon"
                 >
@@ -52,6 +56,7 @@ const props = defineProps({
 
                 <button 
                     v-if="isTeacher"
+                    @click="emit('delete')"
                     class="items-center gap-2 px-4 py-2 rounded-md bg-red-600 hover:bg-red-800 text-white"
                     title="Supprimer la leçon"
                 >
@@ -61,7 +66,7 @@ const props = defineProps({
             
                 <button 
             :class="[
-            'inline-flex items-center gap-2 px-4 py-2 rounded-md transition-colors duration-200',
+            'inline-flex items-center gap-2 px-4 py-2 rounded-md',
             isLoggedIn 
             ? 'bg-blue-600 hover:bg-blue-700 text-white' 
             : 'bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'

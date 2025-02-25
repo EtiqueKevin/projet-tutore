@@ -15,7 +15,6 @@ const currentModule = ref({})
 
 const loadModuleWithDelay = async () => {
     try {
-        //await new Promise(resolve => setTimeout(resolve, 1000))
         currentModule.value = await loadModule(route.params.id)
     } catch (error) {
         console.error('Failed to fetch module:', error)

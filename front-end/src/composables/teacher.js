@@ -46,9 +46,20 @@ export function useTeacher() {
         }
     }
 
+    async function deleteLesson(moduleId, lessonId) {
+        try{
+            const res = await api.delete(`/modules/${moduleId}/lessons/${lessonId}`)
+            return true;
+        }catch(error){
+            console.error(error);
+            return false;
+        }
+    }
+
     return {
         postModule,
         deleteModule,
-        putModule
+        putModule,
+        deleteLesson
     }
 }
