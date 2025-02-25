@@ -35,7 +35,7 @@ return function( App $app): App {
     $app->put('/users/{id}/modules/changeToJohnDoe', PutChangeToJohnDoe::class)
         ->setName('changeToJohnDoe');
     $app->get('/lessons/{id_lesson}[/]', GetLessonByIdAction::class);
-    $app->delete('/lessons/{id_lesson}[/]', DeleteLessonByIdAction::class);
+    $app->delete('/lessons/{id}[/]', DeleteLessonByIdAction::class);
     $app->put('/lessons/{id_lesson}[/]', PutLessonByIdAction::class);
 
     $app->get('/lessons/{id_lesson}/exercise/{index}[/]', GetExerciseByIndexByIdLesson::class);

@@ -89,6 +89,12 @@ class LessonRepository implements LessonRepositoryInterface
 
     public function deleteLesson(string $id): void
     {
+        try{
+            $this->lessonCollection->deleteOne(['_id' => UUIDConverter::toUUID($id)]);
+            $this->modulelessonCollection->deleteOne(['id_lesson' => UUIDConverter::toUUID($id)]);
+        }catch (Exception $e){
+            throw new LessonRepositoryException("erreur lors de la suppression : ".$e->getMessage());
+        }
 
     }
 

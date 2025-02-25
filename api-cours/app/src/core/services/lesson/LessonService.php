@@ -57,7 +57,12 @@ class LessonService implements LessonServiceInterface
 
     public function deleteLesson(string $id): void
     {
-        $this->lessonRepository->deleteLesson($id);
+        try {
+            $this->lessonRepository->deleteLesson($id);
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
+
     }
 
     public function getLessonByModuleId(string $moduleId): array
