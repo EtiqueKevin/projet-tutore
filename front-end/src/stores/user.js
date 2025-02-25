@@ -96,12 +96,10 @@ export const useUserStore = defineStore('jeanCademieUser', {
             return state.refreshToken
         },
         isTeacher(state){
-            return true;
-            //return state.role === 1 || state.role === 2;
+            return state.role === 10 || state.role === 100;
         },
         isAdmin(state){
-            return true;
-            //return state.role === 2;
+            return state.role === 100;
         },
         getName(state){
             return state.name;

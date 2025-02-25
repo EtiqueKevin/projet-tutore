@@ -42,7 +42,7 @@ defineProps({
             </div>
             <div class="text-right text-black dark:text-white">
                 <p class="text-sm">
-                    Mis à jour le : {{ new Date(module.lastUpdate).toLocaleDateString() }}
+                    Mis à jour le : {{ module.lastUpdate }}
                 </p>
                 <p class="text-sm">
                     Crée par: {{ module.creator }}

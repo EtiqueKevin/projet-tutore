@@ -9,6 +9,7 @@ const { deleteLesson } = useTeacher()
 const lessonStore = useLessonStore()
 const router = useRouter()
 const toast = useToast()
+const emit = defineEmits(['refresh'])
 
 const props = defineProps({ 
     isLoading: {
@@ -36,11 +37,12 @@ const createLesson = () => {
     router.push({ name: 'teacher-lesson-create'})
 }
 
-const deleteLessonId = async (id) => {
+const deleteLessonId = async (lessonId) => {
     if (confirm('Voulez-vous vraiment supprimer cette leçon ?')) {
-        const success = await deleteLesson(id);
+        const success = await deleteLesson(props.module.id, lessonId);
         if (success) {
             toast.success('La leçon a été supprimée avec succès')
+            emit('refresh')
         }else{
             toast.error('Une erreur est survenue lors de la suppression de la leçon')
         }

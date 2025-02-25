@@ -55,6 +55,11 @@ const drop = (e) => {
 };
 
 const saveCours = async () => {
+  if(!lessonStore.isValid){
+    toast.error("La leçon n'est pas valide (titre, description, type et contenu requis)");
+    return;
+  }
+
   const moduleId = lessonStore.getCurrentLesson.moduleId;
   const success = await lessonStore.saveCurrentLesson();
   if (success){

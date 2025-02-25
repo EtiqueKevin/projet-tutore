@@ -10,13 +10,13 @@ CREATE TABLE "public"."users" (
     CONSTRAINT "users_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
 
-INSERT INTO "users" ("id", "name", "surname", "pseudo") VALUES
-    ('9bc9ec6a-e9c3-483c-b799-ad208c32e6d2', 'Clement', 'Brito', 'Clem1'),
-    ('e4fb9d21-7dd6-4ce5-b32a-ecdcf936e3da', 'Paul', 'Bruson', 'Polo'),
-    ('6d697d55-0d71-440d-ae82-2a1a59b5f23a', 'Kevin', 'Etique', 'Kev'),
-    ('14c73c46-a918-4268-8b12-db809ed49c0c', 'Clement', 'Netange', 'Clem2'),
-    ('85e2662f-fe2a-4bb7-933d-81a6ab467057', 'Amaury', 'Quilliec', 'Amau'),
-    ('a10a1303-33dd-4307-9273-5016f198709d', 'Amine', 'Boumaza', 'Amine');
+INSERT INTO "users" ("id", "name", "surname", "pseudo", "linkpic") VALUES
+    ('9bc9ec6a-e9c3-483c-b799-ad208c32e6d2', 'Clement', 'Brito', 'Clem1', 'johndoe.jpg'),
+    ('e4fb9d21-7dd6-4ce5-b32a-ecdcf936e3da', 'Paul', 'Bruson', 'Polo', 'johndoe.jpg'),
+    ('6d697d55-0d71-440d-ae82-2a1a59b5f23a', 'Kevin', 'Etique', 'Kev', 'johndoe.jpg'),
+    ('14c73c46-a918-4268-8b12-db809ed49c0c', 'Clement', 'Netange', 'Clem2', 'johndoe.jpg'),
+    ('85e2662f-fe2a-4bb7-933d-81a6ab467057', 'Amaury', 'Quilliec', 'Amau', 'johndoe.jpg'),
+    ('a10a1303-33dd-4307-9273-5016f198709d', 'Amine', 'Boumaza', 'Amine', 'johndoe.jpg');
 
 DROP TABLE IF EXISTS "comments";
 CREATE TABLE "public"."comments" (

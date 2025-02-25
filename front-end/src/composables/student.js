@@ -12,7 +12,7 @@ export function useStudent() {
                 description: res.data.module.description,
                 creator: res.data.module.idCreator,
                 lessonCount: res.data.module.nblesson,
-                lastUpdate: new Date(parseInt(res.data.module.dateupdate)),
+                lastUpdate: res.data.module.dateupdate,
                 lessons: []
             }
             

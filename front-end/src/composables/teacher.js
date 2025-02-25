@@ -9,9 +9,7 @@ export function useTeacher() {
                 name: name,
                 nblesson: 0,
                 description: desc,
-                idCreator: "123e4567-e89b-12d3-a456-426614174000"
             })
-            console.log(res);
             return true;
         } catch(error) {
             console.error(error);
@@ -25,9 +23,7 @@ export function useTeacher() {
                 name: name,
                 description: desc,
                 nblesson: nblesson,
-                idCreator: "123e4567-e89b-12d3-a456-426614174000"
             })
-            console.log(res);
             return true;
         } catch(error) {
             console.error(error);
@@ -38,7 +34,6 @@ export function useTeacher() {
     async function deleteModule(id) {
         try{
             const res = await api.delete(`/modules/${id}`)
-            console.log(res);
             return true;
         }catch(error){
             console.error(error);

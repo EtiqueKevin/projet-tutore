@@ -86,6 +86,9 @@ export const useLessonStore = defineStore('jeanCademieLesson', {
         },
         isInit(state){
             return state.currentLesson.moduleId !== null
+        },
+        isValid(state){
+            return state.currentLesson.title !== '' && state.currentLesson.description !== '' && state.currentLesson.content.length !== 0;
         }
     },
     persist: {

@@ -13,7 +13,8 @@ const route = useRoute()
 const isLoading = ref(true)
 const currentModule = ref({})
 
-const loadModuleWithDelay = async () => {
+const loadModules= async () => {
+    isLoading.value = true
     try {
         currentModule.value = await loadModule(route.params.id)
     } catch (error) {
@@ -24,7 +25,7 @@ const loadModuleWithDelay = async () => {
 }
 
 onMounted(() => {
-    loadModuleWithDelay()
+    loadModules()
 })
 </script>
 
@@ -40,6 +41,7 @@ onMounted(() => {
                 :module="currentModule"
                 :is-user-logged="userStore.isLogged"
                 :is-teacher="userStore.isTeacher"
+                @refresh="loadModules"
             />
         </div>
 
