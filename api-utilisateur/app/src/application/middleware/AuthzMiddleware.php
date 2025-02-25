@@ -29,25 +29,20 @@ class AuthzMiddleware
 
         $h = $rq->getHeader('Authorization')[0];
         $tokenstring = sscanf($h, "Bearer %s")[0];
+        $id = $rq->getAttribute('idUser') ?? null;
 
         // Vérification des droits d'accès selon la route
         switch ($routeName) {
-            case 'GetBesoinsAdmin':
-            case 'GetSalaries':
-            case 'PostCompetences':
-            case 'PutCompetences':
-            case 'DeleteCompetences':
-                if (!$this->authService->adminVerification($tokenstring)) {
+
+            case 'deleteUtilisateur':
+                if (!$this->authService->adminVerification($id) && !$this->authService->himselfVerification($args['ID-USER'], $id)) {
                     throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
                 }
                 break;
             default:
                 throw new HttpUnauthorizedException($rq, 'Route non autorisée');
         }
-
         $response = $next->handle($rq);
         return $response;
     }
-
-
 }

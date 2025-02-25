@@ -19,4 +19,15 @@ class AuthService implements AuthServiceInterface
         $id = $this->repositoryAuth->getUtilisateurId($token);
         return $id;
     }
+
+    public function adminVerification(string $id): bool
+    {
+        $role = $this->repositoryAuth->getRoleById($id);
+        return $role == 100;
+    }
+
+    public function himselfVerification(string $idUser, string $id): bool
+    {
+        return $idUser == $id;
+    }
 }

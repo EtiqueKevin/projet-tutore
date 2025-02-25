@@ -8,6 +8,8 @@ use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUsersAction;
 use apiUtilisateur\application\actions\user\PutUitlisateurAction;
 use apiUtilisateur\application\actions\user\SignInAction;
+use apiUtilisateur\application\middleware\AuthMiddleware;
+use apiUtilisateur\application\middleware\AuthzMiddleware;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\App;
@@ -34,9 +36,12 @@ return function( App $app): App {
         ->setName('createUtilisateur');
 
     $app->put('/users/[/]',PutUitlisateurAction::class)
+        ->add(AuthMiddleware::class)
         ->setName('updateUtilisateur');
 
     $app->delete('/users/{ID-USER}[/]',DeleteUtilisateurAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
         ->setName('deleteUtilisateur');
 
     return $app;
