@@ -6,7 +6,9 @@ use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\repositoryInterface\ModuleRepositoryException;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
 use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
+use apiCours\core\dto\module\searchModuleDTO;
 use Ramsey\Uuid\Uuid;
+use function PHPUnit\Framework\isEmpty;
 
 class ModuleService implements ModuleServiceInterface
 {
@@ -17,10 +19,10 @@ class ModuleService implements ModuleServiceInterface
         $this->moduleRepository = $moduleRepository;
     }
 
-    public function getAllModules()
+    public function getAllModules(searchModuleDTO $searchDTO)
     {
         try {
-            $modules = $this->moduleRepository->getAllModules();
+            $modules = $this->moduleRepository->getAllModules($searchDTO->name, $searchDTO->description);
             $modulesDTO = [];
             foreach ($modules as $module) {
                 $modulesDTO[] = $module->toDTO();

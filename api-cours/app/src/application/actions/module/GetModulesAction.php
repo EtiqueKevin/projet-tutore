@@ -3,6 +3,7 @@
 namespace apiCours\application\actions\module;
 
 use apiCours\application\actions\AbstractAction;
+use apiCours\core\dto\module\searchModuleDTO;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,8 +20,12 @@ class GetModulesAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
+        $query = $rq->getQueryParams();
+        $nameS = $query["name"] ?? '';
+        $descS = $query["description"] ?? '';
+
         try {
-            $modules = $this->moduleService->getAllModules();
+            $modules = $this->moduleService->getAllModules(new SearchModuleDTO($nameS, $descS));
         }catch (\Exception $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }

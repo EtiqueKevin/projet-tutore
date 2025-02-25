@@ -8,6 +8,7 @@ use apiCours\core\domain\entities\module\Module;
 use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
 use DateTime;
+use MongoDB\BSON\Regex;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Database;
@@ -29,13 +30,19 @@ class ModuleRepository implements ModuleRepositoryInterface {
     }
 
 
-    public function getAllModules()
+    public function getAllModules(string $nameSearch, string $descriptionSearch)
     {
         try {
-            $modulesData = $this->moduleCollection->find();
-            if ($modulesData == null) {
-                throw new ModuleRepositoryNotFoundException("Aucun module trouvé.");
+            $modulesData = $this->moduleCollection->find(['name' => new Regex($nameSearch, 'i'), 'description' => new Regex($descriptionSearch,'i')]);
+            if ($modulesData->isDead()) {
+                return [];
             }
+        }catch (\Exception $e){
+            throw new ModuleRepositoryException($e->getMessage());
+        }
+
+        try {
+
             foreach ($modulesData as $module) {
                 $uuid = UUIDConverter::fromUUID($module->_id);
                 $id_creator = UUIDConverter::fromUUID($module->id_creator);
@@ -125,6 +132,9 @@ class ModuleRepository implements ModuleRepositoryInterface {
     public function liaisonModuleLesson(string $idLesson, string $idModule):void{
         try{
             $this->moduleLessonCollection->insertOne(["_id" => UUIDConverter::toUUID(Uuid::uuid4()->toString()),"id_module"=> UUIDConverter::toUUID($idModule), "id_lesson"=> UUIDConverter::toUUID($idLesson)]);
+            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($idModule)], ['$set' => [
+                "nblesson" => 1,
+            ]]);
         }catch (\Exception $e){
             throw new ModuleRepositoryException("Erreur lors de liaison module / lesson : " . $e->getMessage());
         }
