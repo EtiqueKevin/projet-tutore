@@ -101,7 +101,6 @@ class ModuleRepository implements ModuleRepositoryInterface {
             $date = date("d/m/Y");
             $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($module->getID())], ['$set' => [
                 "name" => $module->name,
-                "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
                 "date_update" => new UTCDateTime((new DateTime())->getTimestamp() * 1000)
