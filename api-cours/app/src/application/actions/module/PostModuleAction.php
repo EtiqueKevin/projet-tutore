@@ -33,10 +33,12 @@ class PostModuleAction  extends AbstractAction
             throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
         }
 
+        $id_creator = $rq->getAttribute('idUser');
+
         $moduleDTO = new ModuleDTO(
             null,
             $body['name'],
-            $body['idCreator'],
+            $id_creator,
             $body['description'],
             $body['nblesson'],
             null
