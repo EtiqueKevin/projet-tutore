@@ -114,4 +114,16 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
     }
+
+    function fininshLesson(string $idUser, string $idLesson): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO user_lessons (id_lesson, id_user) VALUES (?, ?)');
+            $stmt->bindParam(1, $idLesson);
+            $stmt->bindParam(2, $idUser);
+            $stmt->execute();
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
 }

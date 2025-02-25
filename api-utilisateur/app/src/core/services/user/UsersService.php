@@ -76,4 +76,9 @@ class UsersService implements UsersServiceInterface{
         }
         return $usersDTO;
     }
+
+    function finishLesson(string $idUser, string $idLesson): void
+    {
+        $this->repositoryUsers->finishLesson($idUser, $idLesson);
+    }
 }

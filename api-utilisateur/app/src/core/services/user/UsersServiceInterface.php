@@ -14,5 +14,6 @@ interface UsersServiceInterface{
     function deleteUser(string $id): void;
     function changeToJohnDoe(string $id): void;
     function getUsers(): array;
+    function finishLesson(string $idUser, string $idLesson): void;
 
 }

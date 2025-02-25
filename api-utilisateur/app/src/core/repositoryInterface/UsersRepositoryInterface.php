@@ -13,5 +13,6 @@ interface UsersRepositoryInterface{
     function update(User $user):void;
     function deleteUser(string $id):void;
     function getUsers():array;
+    function fininshLesson(string $idUser, string $idLesson):void;
 
 }
