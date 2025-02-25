@@ -16,4 +16,5 @@ interface ModuleRepositoryInterface{
     public function liaisonModuleLesson(string $idLesson, string $idModule):void;
     public function decrementationModuleLesson(string $idModule):void;
     public function getModuleByLessonId(string $idLesson);
+    public function getModulesByCreater(string $nameSearch, string $descriptionSearch, string $creator);
 }

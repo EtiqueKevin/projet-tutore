@@ -103,4 +103,20 @@ class ModuleService implements ModuleServiceInterface
             throw new ModuleServiceException($e->getMessage());
         }
     }
+
+    public function getModulesByCreater(searchModuleDTO $searchDTO)
+    {
+        try {
+            $modules = $this->moduleRepository->getModulesByCreater($searchDTO->name, $searchDTO->description,$searchDTO->id_creater);
+            $modulesDTO = [];
+            foreach ($modules as $module) {
+                $modulesDTO[] = $module->toDTO();
+            }
+            return $modulesDTO;
+        } catch (ModuleRepositoryException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        } catch (ModuleRepositoryNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
+        }
+    }
 }
