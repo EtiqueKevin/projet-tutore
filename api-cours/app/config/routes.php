@@ -59,7 +59,6 @@ return function( App $app): App {
         ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
         ->setName('putLesson');;
-    $app->put('/lessons/{id_lesson}[/]', PutLessonByIdAction::class);
 
     $app->get('/lessons/{id_lesson}/exercise/{index}[/]', GetExerciseByIndexByIdLesson::class);
     return $app;
