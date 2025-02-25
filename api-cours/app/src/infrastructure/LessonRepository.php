@@ -161,9 +161,4 @@ class LessonRepository implements LessonRepositoryInterface
 
         return $content;
     }
-
-    public function postLesson(Lesson $lesson): void{
-
-    }
-
 }

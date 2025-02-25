@@ -95,4 +95,12 @@ class ModuleService implements ModuleServiceInterface
             throw new ModuleServiceException($e->getMessage());
         }
     }
+
+    public function decrementationModuleLesson(string $idModule):void{
+        try{
+            $this->moduleRepository->decrementationModuleLesson($idModule);
+        }catch (\Exception $e){
+            throw new ModuleServiceException($e->getMessage());
+        }
+    }
 }

@@ -131,9 +131,11 @@ class ModuleRepository implements ModuleRepositoryInterface {
 
     public function liaisonModuleLesson(string $idLesson, string $idModule):void{
         try{
+
             $this->moduleLessonCollection->insertOne(["_id" => UUIDConverter::toUUID(Uuid::uuid4()->toString()),"id_module"=> UUIDConverter::toUUID($idModule), "id_lesson"=> UUIDConverter::toUUID($idLesson)]);
-            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($idModule)], ['$set' => [
-                "nblesson" => 1,
+            $m = $this->getModuleById($idModule);
+            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($idModule)], ['$inc' => [
+                "nblesson" => +1,
             ]]);
         }catch (\Exception $e){
             throw new ModuleRepositoryException("Erreur lors de liaison module / lesson : " . $e->getMessage());
@@ -145,5 +147,15 @@ class ModuleRepository implements ModuleRepositoryInterface {
       $moduleId = $this->moduleLessonCollection->findOne(["id_lesson" => UUIDConverter::toUUID($idLesson)], ["id_module"]);
       $module = $this->moduleCollection->findOne(["_id" => $moduleId->id_module]);
       return new Module($module->name, $module->id_creator, $module->description, $module->nblesson, $module->date_update);
+    }
+
+    public function decrementationModuleLesson(string $idModule):void{
+        try{
+            $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($idModule)], ['$inc' => [
+                "nblesson" => -1,
+            ]]);
+        }catch (\Exception $e){
+            throw new ModuleRepositoryException("Erreur lors de la decrementation module / lesson : " . $e->getMessage());
+        }
     }
 }
