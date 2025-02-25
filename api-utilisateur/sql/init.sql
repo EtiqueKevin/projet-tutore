@@ -48,6 +48,7 @@ CREATE TABLE "public"."user_modules" (
     "id_module" uuid NOT NULL,
     "id_users" uuid NOT NULL,
     "status" boolean DEFAULT false NOT NULL,
+    "index" smallint DEFAULT 0 NOT NULL,
     "rate" smallint,
     "date_update" date DEFAULT CURRENT_DATE,
     CONSTRAINT "user_modules_id" PRIMARY KEY ("id")
@@ -58,7 +59,6 @@ CREATE TABLE "public"."user_lessons" (
     "id" uuid DEFAULT uuid_generate_v4() NOT NULL,
     "id_lesson" uuid NOT NULL,
     "id_users" uuid NOT NULL,
-    "idex" smallint DEFAULT 0 NOT NULL,
     "status" boolean DEFAULT false NOT NULL,
     "date_update" date DEFAULT CURRENT_DATE,
     CONSTRAINT "user_lessons_id" PRIMARY KEY ("id")
