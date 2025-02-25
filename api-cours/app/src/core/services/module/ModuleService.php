@@ -85,4 +85,12 @@ class ModuleService implements ModuleServiceInterface
             throw new ModuleServiceException($e->getMessage());
         }
     }
+
+    public function liaisonModuleLesson(string $idLesson, string $idModule):void{
+        try{
+            $this->moduleRepository->liaisonModuleLesson($idLesson,$idModule);
+        }catch (\Exception $e){
+            throw new ModuleServiceException($e->getMessage());
+        }
+    }
 }

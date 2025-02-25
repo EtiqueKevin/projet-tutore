@@ -6,8 +6,11 @@ use apiCours\core\domain\entities\lesson\Content;
 use apiCours\core\domain\entities\lesson\File;
 use apiCours\core\domain\entities\lesson\Lesson;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
+use DateTime;
+use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Database;
 use PHPUnit\Framework\Exception;
@@ -59,8 +62,17 @@ class LessonRepository implements LessonRepositoryInterface
 
     public function createLesson(array $lesson): string
     {
-        $res = $this->lessonCollection->insertOne($lesson);
-        return $res->getInsertedId();
+        try{
+            $lesson['_id'] = UUIDConverter::toUUID($lesson['id']);
+            $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
+            unset($lesson['id']);
+            //var_dump($lesson);
+            //echo $lesson;
+            $res = $this->lessonCollection->insertOne($lesson);
+            return UUIDConverter::fromUUID($res->getInsertedId());
+        }catch(Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
     }
 
     public function updateLesson(Lesson $lesson): Lesson
@@ -83,7 +95,6 @@ class LessonRepository implements LessonRepositoryInterface
         foreach ($moduleLessons as $moduleLesson) {
             $lessonIds[] = $moduleLesson['id_lesson'];
         }
-
         $lessonsEntity = [];
         foreach ($lessonIds as $lessonId) {
             $lessonsDB= $this->lessonCollection->findOne(['_id' => $lessonId]);

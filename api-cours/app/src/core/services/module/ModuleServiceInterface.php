@@ -13,4 +13,5 @@ interface ModuleServiceInterface
     public function updateModule(ModuleDTO $module);
     public function deleteModule(string $id);
     public function changeToJohnDoe(string $id);
+    public function liaisonModuleLesson(string $idLesson, string $idModule):void;
 }

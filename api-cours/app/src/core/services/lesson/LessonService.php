@@ -5,6 +5,7 @@ namespace apiCours\core\services\lesson;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
+use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 
 class LessonService implements LessonServiceInterface
@@ -36,8 +37,13 @@ class LessonService implements LessonServiceInterface
 
     public function createLesson(LessonDTO $lessonDTO): string
     {
-        $res =$this->lessonRepository->createLesson($lessonDTO->jsonSerialize());
-        return $res;
+        try{
+            $res =$this->lessonRepository->createLesson($lessonDTO->jsonSerialize());
+            return $res;
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
+
     }
 
     public function updateLesson(LessonDTO $lessonDTO): LessonDTO

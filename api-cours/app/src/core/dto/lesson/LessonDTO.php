@@ -5,6 +5,7 @@ namespace apiCours\core\dto\lesson;
 use apiCours\core\domain\entities\Entity;
 use apiCours\core\domain\entities\lesson\Lesson;
 use apiCours\core\dto\DTO;
+use Ramsey\Uuid\Uuid;
 
 class LessonDTO extends DTO implements \JsonSerializable
 {
@@ -14,9 +15,9 @@ class LessonDTO extends DTO implements \JsonSerializable
     private string $description;
     private array $content;
 
-    private string $dateUpdate;
+    private ?string $dateUpdate;
 
-    public function __construct(?string $id, string $name, string $type, array $content, string $description, string $dateUpdate)
+    public function __construct(?string $id, string $name, string $type, array $content, string $description, ?string $dateUpdate = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -37,14 +38,14 @@ class LessonDTO extends DTO implements \JsonSerializable
     public function jsonSerialize(): array
     {
 
+        $ct = [];
+        foreach ($this->content as $c) {
+            $ct[] = $c->jsonSerialize();
+        }
+
         if($this->id == null){
-
-            $ct = [];
-            foreach ($this->content as $c) {
-                $ct[] = $c->jsonSerialize();
-            }
-
             return [
+                'id' => Uuid::uuid4()->toString(),
                 'name' => $this->name,
                 'description' => $this->description,
                 'type' => $this->type,
@@ -57,7 +58,7 @@ class LessonDTO extends DTO implements \JsonSerializable
                 'name' => $this->name,
                 'description' => $this->description,
                 'type' => $this->type,
-                'content' => $this->content,
+                'content' => $ct,
                 'date_update' => $this->dateUpdate
             ];
         }

@@ -31,7 +31,7 @@ return [
     },
 
     PostLessonAction::class => function(ContainerInterface $c){
-        return new PostLessonAction($c->get(LessonServiceInterface::class));
+        return new PostLessonAction($c->get(LessonServiceInterface::class),$c->get(ModuleServiceInterface::class));
     },
     PutLessonByIdAction::class => function(ContainerInterface $c){
         return new PutLessonByIdAction($c->get(LessonServiceInterface::class));

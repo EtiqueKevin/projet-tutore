@@ -17,10 +17,13 @@ class ModuleRepository implements ModuleRepositoryInterface {
     private Database $db;
     private Collection $moduleCollection;
 
+    private Collection $moduleLessonCollection;
+
     public function __construct(Database $db)
     {
         $this->db = $db;
         $this->moduleCollection = $this->db->selectCollection("modules");
+        $this->moduleLessonCollection = $this->db->selectCollection("module_lessons");
     }
 
 
@@ -112,6 +115,14 @@ class ModuleRepository implements ModuleRepositoryInterface {
             $this->moduleCollection->updateMany(["id_creator" => UUIDConverter::toUUID($id)], ['$set' => ["id_creator" => null]]);
         }catch (\Exception $e) {
             throw new ModuleRepositoryException("Impossible de changer le créateur du module.");
+        }
+    }
+
+    public function liaisonModuleLesson(string $idLesson, string $idModule):void{
+        try{
+            $this->moduleLessonCollection->insertOne(["_id" => UUIDConverter::toUUID(Uuid::uuid4()->toString()),"id_module"=> UUIDConverter::toUUID($idModule), "id_lesson"=> UUIDConverter::toUUID($idLesson)]);
+        }catch (\Exception $e){
+            throw new ModuleRepositoryException("Erreur lors de liaison module / lesson : " . $e->getMessage());
         }
     }
 }
