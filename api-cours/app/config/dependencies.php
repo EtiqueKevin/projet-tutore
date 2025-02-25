@@ -52,7 +52,7 @@ return [
         return new ModuleService($c->get(ModuleRepositoryInterface::class));
     },
     AuthServiceInterface::class => function(ContainerInterface $c){
-        return new AuthService($c->get(AuthRepositoryInterface::class));
+        return new AuthService($c->get(AuthRepositoryInterface::class), $c->get(ModuleRepositoryInterface::class));
     },
 
     //repository

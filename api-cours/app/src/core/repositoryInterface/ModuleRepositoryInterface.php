@@ -14,4 +14,5 @@ interface ModuleRepositoryInterface{
     public function deleteModule(string $id);
     public function changeToJohnDoe(string $id);
     public function liaisonModuleLesson(string $idLesson, string $idModule):void;
+    public function getModuleByLessonId(string $idLesson);
 }

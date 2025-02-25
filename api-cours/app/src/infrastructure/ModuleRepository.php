@@ -139,4 +139,11 @@ class ModuleRepository implements ModuleRepositoryInterface {
             throw new ModuleRepositoryException("Erreur lors de liaison module / lesson : " . $e->getMessage());
         }
     }
+
+    public function getModuleByLessonId(string $idLesson)
+    {
+      $moduleId = $this->moduleLessonCollection->findOne(["id_lesson" => UUIDConverter::toUUID($idLesson)], ["id_module"]);
+      $module = $this->moduleCollection->findOne(["_id" => $moduleId->id_module]);
+      return new Module($module->name, $module->id_creator, $module->description, $module->nblesson, $module->date_update);
+    }
 }
