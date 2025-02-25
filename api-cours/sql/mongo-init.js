@@ -79,14 +79,32 @@ db.module_lessons.insertMany([
   }
 ]);
 
-db.module_users.insertMany([
+db.lesson_erreurs.insertMany([
   {
     _id: UUID("880e8400-e29b-41d4-a716-446655440000"),
-    id_module: UUID("550e8400-e29b-41d4-a716-446655440000"),
-    id_users: UUID("990e8400-e29b-41d4-a716-446655440000"),
-    stage: 1,
-    status: "En cours",
-    rate: 4,
-    date_update: new Date()
+    id_lesson: UUID("660e8400-e29b-41d4-a716-446655440000"),
+    errors: [
+      {
+        index: 0,
+        errors: {
+          test_1: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+           test_2: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+          test_3: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          }
+        },
+      },
+    ]
   }
 ]);
+    
