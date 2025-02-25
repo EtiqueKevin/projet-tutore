@@ -11,7 +11,7 @@ interface LessonRepositoryInterface
     public function getALlLessons(): array;
     public function getLessonById(string $id): Lesson;
     public function createLesson(array $lesson): string;
-    public function updateLesson(Lesson $lesson): Lesson;
+    public function updateLesson(array $lesson): void;
     public function deleteLesson(string $id): void;
     public function getExerciseLesson(string $idLesson, string $indexExercise): Content;
 }

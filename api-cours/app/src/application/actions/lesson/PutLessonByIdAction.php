@@ -4,10 +4,14 @@ namespace apiCours\application\actions\lesson;
 
 use apiCours\application\actions\AbstractAction;
 use apiCours\core\domain\entities\lesson\Content;
+use apiCours\core\dto\lesson\ContentDTO;
+use apiCours\core\dto\lesson\FileDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class PutLessonByIdAction extends AbstractAction
 {
@@ -22,34 +26,36 @@ class PutLessonByIdAction extends AbstractAction
     {
         $id = $args['id_lesson'];
         $body = $rq->getParsedBody();
-
         $contents = [];
-        foreach ($body['content'] as $content) {
-            $content = new Content(
-                $content['type'],
-                $content['text'],
-                $content['link']
-            );
-            $contents[] = $content;
+
+        $index = 0;
+
+        try{
+            foreach ($body['content'] as $c) {
+                $content = null;
+                if($c['type']=="code"){
+                    $files = [];
+                    foreach ($c['files'] as $f) {
+                        $file = new FileDTO($f['type'],$f['filename'],$f['language'],$f['content']);
+                        $files[] = $file;
+                    }
+                    $content = new ContentDTO($c['type'], $c['content'],$index,$files);
+                }else{
+                    $content = new ContentDTO($c['type'],$c['content'],$index);
+                }
+                $contents[] = $content;
+                $index ++;
+            }
+        }catch (Exception $e){
+            throw new HttpBadRequestException($rq, "erreur lors du chargment des données : " . $e->getMessage());
+        }
+        try{
+            $lessonDTO = new LessonDTO($id,$body['name'], $body['type'],$contents, $body['description']);
+            $this->lessonService->updateLesson($lessonDTO);
+        }catch (Exception $e){
+            throw new HttpBadRequestException($rq, "erreur lors de l'update de la lesson : ". $e->getMessage());
         }
 
-        $lessonDTO = new LessonDTO(
-            $id,
-            $body['title'],
-            $body['description'],
-            $contents
-        );
-
-        $lessonDTO->setId($id);
-
-        $lesson = $this->lessonService->updateLesson($lessonDTO);
-
-        $res = [
-            'type' => 'resource',
-            'lesson' => $lesson
-        ];
-
-        $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

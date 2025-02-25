@@ -75,9 +75,16 @@ class LessonRepository implements LessonRepositoryInterface
         }
     }
 
-    public function updateLesson(Lesson $lesson): Lesson
+    public function updateLesson(array $lesson): void
     {
-        return $lesson;
+        try{
+            $idUUID = UUIDConverter::toUUID($lesson['id']);
+            unset($lesson['id']);
+            $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
+            $this->lessonCollection->updateOne( ['_id' => $idUUID],['$set' => $lesson]);
+        }catch (Exception $e){
+            throw new LessonRepositoryException("erreur lors de l'update : ". $e->getMessage());
+        }
     }
 
     public function deleteLesson(string $id): void

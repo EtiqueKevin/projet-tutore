@@ -46,12 +46,13 @@ class LessonService implements LessonServiceInterface
 
     }
 
-    public function updateLesson(LessonDTO $lessonDTO): LessonDTO
+    public function updateLesson(LessonDTO $lessonDTO): void
     {
-        $lesson = $lessonDTO->toEntity();
-        $newLesson = $this->lessonRepository->updateLesson($lesson);
-        $newLessonDTO = $newLesson->toDTO();
-        return $newLessonDTO;
+        try{
+            $this->lessonRepository->updateLesson($lessonDTO->jsonSerialize());
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
     }
 
     public function deleteLesson(string $id): void
