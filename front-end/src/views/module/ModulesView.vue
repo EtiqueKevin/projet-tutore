@@ -1,11 +1,38 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useStudent } from '@/composables/student'
 import Module from '@/components/metier/module/Module.vue'
 
-const { getModules } = useStudent()
+const { getModules, searchModule } = useStudent()
 const modules = ref([])
 const loading = ref(true)
+const searchName = ref('')
+const searchDescription = ref('')
+
+// Add debounce function to avoid too many API calls
+const debounce = (fn, delay) => {
+  let timeoutId
+  return (...args) => {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => fn(...args), delay)
+  }
+}
+
+// Watch for changes in search inputs
+watch([searchName, searchDescription], debounce(async ([name, description]) => {
+  loading.value = true
+  try {
+    if (name || description) {
+      modules.value = await searchModule(name, description)
+    } else {
+      modules.value = await getModules()
+    }
+  } catch (error) {
+    console.error('Failed to search modules:', error)
+  } finally {
+    loading.value = false
+  }
+}, 300))
 
 onMounted(async () => {
   try {
@@ -16,12 +43,32 @@ onMounted(async () => {
     loading.value = false
   }
 })
-
 </script>
 
 <template>
   <main class="px-4 py-8 min-h-screen w-full">
     <h1 class="text-3xl font-semibold text-gray-900 dark:text-white mb-8">Modules</h1>
+    
+    <!-- Search bars -->
+    <div class="mb-6 flex flex-col md:flex-row gap-4">
+      <div class="flex-1">
+        <input
+          v-model="searchName"
+          type="text"
+          placeholder="Search by name..."
+          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+      <div class="flex-1">
+        <input
+          v-model="searchDescription"
+          type="text"
+          placeholder="Search by description..."
+          class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+    </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Skeleton loader -->
       <template v-if="loading">
