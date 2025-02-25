@@ -6,7 +6,7 @@ db.modules.insertMany([
     id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Introduction à Java",
     description: "Apprentissage des bases de la programmation en Java",
-    nblesson: 5,
+    nblesson: 1,
     date_update: new Date()
   }
 ]);

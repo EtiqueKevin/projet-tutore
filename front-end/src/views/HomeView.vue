@@ -2,6 +2,9 @@
 import studentImage from '@/assets/student.jpg';
 import teacherImage from '@/assets/teacher.jpg';
 import adminImage from '@/assets/admin.jpg';
+
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -19,7 +22,7 @@ import adminImage from '@/assets/admin.jpg';
           <router-link to="/modules" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
             Commencer à Apprendre
           </router-link>
-          <router-link to="/user/connect" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded-lg">
+          <router-link v-if="!userStore.isLogged" to="/user/connect" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded-lg">
             S'inscrire
           </router-link>
         </div>
