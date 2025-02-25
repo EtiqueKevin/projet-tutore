@@ -3,7 +3,7 @@ db = db.getSiblingDB('cours');
 db.modules.insertMany([
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440000"),
-    id_creator: UUID("123e4567-e89b-12d3-a456-426614174000"),
+    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Introduction à Java",
     description: "Apprentissage des bases de la programmation en Java",
     nblesson: 5,

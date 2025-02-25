@@ -33,9 +33,6 @@ const emit = defineEmits(['delete', 'update'])
                     <h3 class="text-lg font-semibold text-black dark:text-white">
                         {{ lesson.name }}
                     </h3>
-                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
-                        Leçon {{ lesson.id }}
-                    </span>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300">
                     {{ lesson.description }}

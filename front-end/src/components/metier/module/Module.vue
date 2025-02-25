@@ -12,6 +12,11 @@ const props = defineProps({
     required: false,
     default: false
   },
+  isAdmin: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 });
 
 const router = useRouter();
@@ -25,11 +30,17 @@ const deleteModule = (moduleId) => {
 }
 
 const viewModule = (moduleId) => {
+    if(props.isAdmin) {
+        router.push(`/admin/modules/${moduleId}`)
+        return
+    }
+    
     if(props.canUpdate) {
         router.push(`/teacher/modules/${moduleId}`)
-    } else {
-        router.push(`/modules/${moduleId}`)
+        return
     }
+
+    router.push(`/modules/${moduleId}`)
 }
 </script>
 

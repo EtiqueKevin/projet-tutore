@@ -14,6 +14,13 @@ const route = useRoute();
         <i class="fas fa-list w-5 text-center"></i>
         <span>Gérer les utilisateurs</span>
       </RouterLink>
+
+      <RouterLink 
+        to="/admin/modules"
+        class="text-black dark:text-white hover:text-secondary-light dark:hover:text-secondary-light p-2 rounded flex items-center gap-2 hover:scale-105 transition-transform">
+        <i class="fas fa-th-large w-5 text-center"></i>
+        <span>Gérer le contenu</span>
+      </RouterLink>
       
       <RouterLink 
         to="/" 
