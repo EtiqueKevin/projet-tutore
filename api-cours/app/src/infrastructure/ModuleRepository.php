@@ -7,6 +7,8 @@ use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
 use apiCours\core\domain\entities\module\Module;
 use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
+use DateTime;
+use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Database;
 use Ramsey\Uuid\Uuid;
@@ -37,7 +39,8 @@ class ModuleRepository implements ModuleRepositoryInterface {
             foreach ($modulesData as $module) {
                 $uuid = UUIDConverter::fromUUID($module->_id);
                 $id_creator = UUIDConverter::fromUUID($module->id_creator);
-                $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, $module->date_update);
+                $date = $module->date_update->toDateTime()->getTimestamp();
+                $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, date("d/m/Y", $date));
                 $m->setID($uuid);
                 $modules[] = $m;
             }
@@ -56,7 +59,8 @@ class ModuleRepository implements ModuleRepositoryInterface {
                 throw new ModuleRepositoryNotFoundException("Aucun module trouvé.");
             }
             $id_creator = UUIDConverter::fromUUID($module->id_creator);
-            $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, $module->date_update);
+            $date = $module->date_update->toDateTime()->getTimestamp();
+            $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, date("d/m/Y", $date));
             $m->setID($id);
             return $m;
         }catch (\Exception $e) {
@@ -67,14 +71,14 @@ class ModuleRepository implements ModuleRepositoryInterface {
     public function createModule(Module $module)
     {
         try {
-            $date = date("Y-m-d H:i:s");
+            $date = date("d/m/Y");
             $res = $this->moduleCollection->insertOne([
                 "_id" => UUIDConverter::toUUID(Uuid::uuid4()->toString()),
                 "name" => $module->name,
                 "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
-                "date_update" => $date
+                "date_update" => new UTCDateTime((new DateTime())->getTimestamp() * 1000)
             ]);
             $module->setID(UUIDConverter::fromUUID($res->getInsertedId()));
             $module->setDateUpdate($date);
@@ -87,13 +91,13 @@ class ModuleRepository implements ModuleRepositoryInterface {
     public function updateModule(Module $module)
     {
         try {
-            $date = date("Y-m-d H:i:s");
+            $date = date("d/m/Y");
             $this->moduleCollection->updateOne(["_id" => UUIDConverter::toUUID($module->getID())], ['$set' => [
                 "name" => $module->name,
                 "id_creator" => UUIDConverter::toUUID($module->idCreator),
                 "description" => $module->description,
                 "nblesson" => $module->nblesson,
-                "date_update" => $date
+                "date_update" => new UTCDateTime((new DateTime())->getTimestamp() * 1000)
             ]]);
         }catch (\Exception $e) {
             throw new ModuleRepositoryException("Impossible de modifier le module. " . $e->getMessage());
