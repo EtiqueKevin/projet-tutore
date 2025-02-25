@@ -57,6 +57,33 @@ class ModuleRepository implements ModuleRepositoryInterface {
         }
     }
 
+    public function getModulesByCreater(string $nameSearch, string $descriptionSearch, string $creator)
+    {
+        try {
+            $modulesData = $this->moduleCollection->find(['id_creator'=>UUIDConverter::toUUID($creator),'name' => new Regex($nameSearch, 'i'), 'description' => new Regex($descriptionSearch,'i')]);
+            if ($modulesData->isDead()) {
+                return [];
+            }
+        }catch (\Exception $e){
+            throw new ModuleRepositoryException($e->getMessage());
+        }
+
+        try {
+
+            foreach ($modulesData as $module) {
+                $uuid = UUIDConverter::fromUUID($module->_id);
+                $id_creator = UUIDConverter::fromUUID($module->id_creator);
+                $date = $module->date_update->toDateTime()->getTimestamp();
+                $m = new Module($module->name, $id_creator, $module->description, $module->nblesson, date("d/m/Y", $date));
+                $m->setID($uuid);
+                $modules[] = $m;
+            }
+            return $modules;
+        }catch(\Exception $e) {
+            throw new ModuleRepositoryException("Impossible de récupérer les modules.");
+        }
+    }
+
     public function getModuleById(string $id)
     {
         try {

@@ -5,6 +5,7 @@ use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
+use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
 use apiCours\application\middleware\AuthMiddleware;
 use apiCours\core\repositoryInterface\AuthRepositoryInterface;
@@ -42,6 +43,10 @@ return [
 
     GetExerciseByIndexByIdLesson::class => function(ContainerInterface $c){
         return new GetExerciseByIndexByIdLesson($c->get(LessonServiceInterface::class));
+    },
+
+    GetModulesByProfAction::class => function(ContainerInterface $c){
+        return new GetModulesByProfAction($c->get(ModuleServiceInterface::class));
     },
 
     //services

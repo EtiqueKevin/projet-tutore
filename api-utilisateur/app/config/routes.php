@@ -4,8 +4,12 @@ declare(strict_types=1);
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
+use apiUtilisateur\application\actions\user\GetLessonStatusAction;
+use apiUtilisateur\application\actions\user\GetModuleStatusAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUsersAction;
+use apiUtilisateur\application\actions\user\PostFinishLessonAction;
+use apiUtilisateur\application\actions\user\PostStartLessonAction;
 use apiUtilisateur\application\actions\user\PutUitlisateurAction;
 use apiUtilisateur\application\actions\user\SignInAction;
 use apiUtilisateur\application\middleware\AuthMiddleware;
@@ -43,6 +47,12 @@ return function( App $app): App {
         ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
         ->setName('deleteUtilisateur');
+
+    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', PostFinishLessonAction::class);
+    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', PostStartLessonAction::class);
+
+    $app->get('/lessons/{ID-LESSON}/status[/]', GetLessonStatusAction::class);
+    $app->get('/modules/{ID-MODULE}/status[/]', GetModuleStatusAction::class);
 
     return $app;
 };

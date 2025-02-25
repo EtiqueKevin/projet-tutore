@@ -9,17 +9,22 @@ use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\DeleteModuleByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
+use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
 use apiCours\application\actions\module\PostModuleAction;
 use apiCours\application\actions\module\PutChangeToJohnDoe;
 use apiCours\application\actions\module\PutModuleByIdAction;
 use apiCours\application\middleware\AuthMiddleware;
 use apiCours\application\middleware\AuthzMiddleware;
+use apiUtilisateur\application\actions\user\GetUsersAction;
 use Slim\App;
 
 return function( App $app): App {
     //module, lesson
     $app->get('/modules[/]', GetModulesAction::class);
+
+    $app->get('/users/modules[/]', GetModulesByProfAction::class)
+        ->add(AuthMiddleware::class);
 
     $app->post('/modules[/]', PostModuleAction::class)
     ->add(AuthMiddleware::class);

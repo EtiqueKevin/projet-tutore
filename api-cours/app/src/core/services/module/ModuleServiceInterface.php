@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 interface ModuleServiceInterface
 {
     public function getAllModules(searchModuleDTO $searchDTO);
+    public function getModulesByCreater(searchModuleDTO $searchDTO);
     public function getModuleById(string $id);
     public function createModule(ModuleDTO $module);
     public function updateModule(ModuleDTO $module);
@@ -16,4 +17,6 @@ interface ModuleServiceInterface
     public function changeToJohnDoe(string $id);
     public function liaisonModuleLesson(string $idLesson, string $idModule):void;
     public function decrementationModuleLesson(string $idModule):void;
+
+
 }
