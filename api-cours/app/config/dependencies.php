@@ -53,7 +53,7 @@ return [
 
     //services
     LessonServiceInterface::class => function(ContainerInterface $c){
-        return new LessonService($c->get(LessonRepositoryInterface::class));
+        return new LessonService($c->get(LessonRepositoryInterface::class), $c->get(UtilisateurRepositoryInterface::class));
     },
     ModuleServiceInterface::class => function(ContainerInterface $c){
         return new ModuleService($c->get(ModuleRepositoryInterface::class), $c->get(UtilisateurRepositoryInterface::class) );
