@@ -55,7 +55,7 @@ onMounted(async () => {
         <input
           v-model="searchName"
           type="text"
-          placeholder="Search by name..."
+          placeholder="Recherche par titre..."
           class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
         >
       </div>
@@ -63,7 +63,7 @@ onMounted(async () => {
         <input
           v-model="searchDescription"
           type="text"
-          placeholder="Search by description..."
+          placeholder="Recherche par description..."
           class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
         >
       </div>

@@ -62,7 +62,7 @@ const reload = async () => {
 </script>
 
 <template>
-  <div class="px-4 py-8 min-h-screen w-full ">
+  <div class="px-4 py-8 w-full ">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Skeleton loader -->
       <template v-if="loading">

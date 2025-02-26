@@ -36,6 +36,8 @@ return function( App $app): App {
     $app->delete('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     $app->put('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
     $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
+
+    $app->get('/users/modules[/]', GeneriqueCoursAction::class);
     
     /*************************
      * Routes de l'API Execution

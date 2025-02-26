@@ -51,10 +51,21 @@ export function useTeacher() {
         }
     }
 
+    async function getModuleUser(){
+        try {
+            const res = await api.get(`/users/modules`)
+            return res.data;
+        } catch(error) {
+            console.error(error);
+            return false;
+        }  
+    }
+
     return {
         postModule,
         deleteModule,
         putModule,
-        deleteLesson
+        deleteLesson,
+        getModuleUser
     }
 }

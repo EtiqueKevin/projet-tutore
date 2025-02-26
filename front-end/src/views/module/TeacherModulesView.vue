@@ -14,7 +14,7 @@ const router = useRouter()
 
 // imports
 const lessonStore = useLessonStore()
-const { getModules } = useStudent()
+const { getModuleUser } = useStudent()
 const { deleteModule } = useTeacher()
 const toast = useToast()
 
@@ -52,7 +52,7 @@ const reload = async () => {
     loading.value = true
     modal.value = false
 
-    modules.value = await getModules()
+    modules.value = await getModuleUser()
   } catch (error) {
     console.error('Failed to fetch modules:', error)
   } finally {

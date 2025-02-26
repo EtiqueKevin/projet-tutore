@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue'
 
 const { getUsers, deleteUser } = useAdmin()
 const users = ref([])
+const loading = ref(true)
 
 const role = (id) => {
     switch (id) {
@@ -25,6 +26,7 @@ const deleteUserById = async (id) => {
 
 onMounted(async () => {
     users.value = await getUsers()
+    loading.value = false
 })
 </script>
 
@@ -38,7 +40,16 @@ onMounted(async () => {
                 <div>Rôle</div>
                 <div>Actions</div>
             </div>
-            <div class="divide-y">
+            <!-- Skeleton Loader -->
+            <div v-if="loading" class="divide-y">
+                <div v-for="n in 6" :key="n" class="grid grid-cols-4 gap-4 p-4 items-center">
+                    <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 animate-pulse"></div>
+                    <div class="h-5 bg-gray-200 dark:bg-gray-700 rounded w-1/4 animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/5 animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 animate-pulse"></div>
+                </div>
+            </div>
+            <div v-else class="divide-y">
                 <div v-for="user in users" 
                      :key="user.id" 
                      class="grid grid-cols-4 gap-4 p-4 items-center">
