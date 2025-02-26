@@ -61,5 +61,6 @@ CREATE TABLE "public"."user_lessons" (
     "id_users" uuid NOT NULL,
     "status" boolean DEFAULT false NOT NULL,
     "date_update" date DEFAULT CURRENT_DATE,
-    CONSTRAINT "user_lessons_id" PRIMARY KEY ("id")
+    CONSTRAINT "user_lessons_id" PRIMARY KEY ("id"),
+    CONSTRAINT "unique_user_lessons" UNIQUE ("id_lesson", "id_users")
 ) WITH (oids = false);

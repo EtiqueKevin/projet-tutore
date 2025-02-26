@@ -18,5 +18,6 @@ interface UsersServiceInterface{
 
     public function getLessonStatusByUser(string $id): array;
     function finishLesson(string $idUser, string $idLesson): void;
+    function startLesson(string $idUser, string $idLesson): void;
 
 }

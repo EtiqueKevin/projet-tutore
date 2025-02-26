@@ -48,8 +48,11 @@ return function( App $app): App {
         ->add(AuthMiddleware::class)
         ->setName('deleteUtilisateur');
 
-    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', PostFinishLessonAction::class);
-    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', PostStartLessonAction::class);
+    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', PostFinishLessonAction::class)
+        ->add(AuthMiddleware::class);
+
+    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', PostStartLessonAction::class)
+        ->add(AuthMiddleware::class);
 
     $app->get('/lessons/status[/]', GetLessonStatusAction::class)
         ->add(AuthMiddleware::class)

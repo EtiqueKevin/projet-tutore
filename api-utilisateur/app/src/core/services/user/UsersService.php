@@ -79,7 +79,20 @@ class UsersService implements UsersServiceInterface{
 
     function finishLesson(string $idUser, string $idLesson): void
     {
-        $this->repositoryUsers->finishLesson($idUser, $idLesson);
+        try {
+            $this->repositoryUsers->finishLesson($idUser, $idLesson);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de terminer le cours: '.$e->getMessage());
+        }
+    }
+
+    function startLesson(string $idUser, string $idLesson): void
+    {
+        try {
+            $this->repositoryUsers->startLesson($idUser, $idLesson);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de commencer le cours: '.$e->getMessage());
+        }
     }
 
     public function getModuleStatusByUser(string $id): array{

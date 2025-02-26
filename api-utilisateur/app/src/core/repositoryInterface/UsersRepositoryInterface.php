@@ -13,7 +13,8 @@ interface UsersRepositoryInterface{
     function update(User $user):void;
     function deleteUser(string $id):void;
     function getUsers():array;
-    function fininshLesson(string $idUser, string $idLesson):void;
+    function finishLesson(string $idUser, string $idLesson):void;
+    function startLesson(string $idUser, string $idLesson):void;
 
     public function getModuleStatusByUser(string $id): array;
 

@@ -115,15 +115,41 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    function fininshLesson(string $idUser, string $idLesson): void
+    function finishLesson(string $idUser, string $idLesson): void
     {
         try {
-            $stmt = $this->pdo->prepare('INSERT INTO user_lessons (id_lesson, id_user) VALUES (?, ?)');
+            $date = new DateTime();
+            $date = $date->format('Y-m-d H:i:s');
+            $status = 1;
+            $stmt = $this->pdo->prepare('UPDATE user_lessons SET status = ?, date_update = ? WHERE id_lesson = ? AND id_users = ?');
+            $stmt->bindParam(1, $status);
+            $stmt->bindParam(2, $date);
+            $stmt->bindParam(3, $idLesson);
+            $stmt->bindParam(4, $idUser);
+            $stmt->execute();
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    function startLesson(string $idUser, string $idLesson): void
+    {
+        try {
+            $date = new DateTime();
+            $stmt = $this->pdo->prepare('INSERT INTO user_lessons (id_lesson, id_users ) VALUES (?, ?)');
             $stmt->bindParam(1, $idLesson);
             $stmt->bindParam(2, $idUser);
             $stmt->execute();
         }catch (Exception $e) {
-            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+            $errorCode = $e->getCode();
+            switch ($errorCode){
+                case '23505':
+                    throw new \Exception('Lesson deja commencée');
+                case '42P01':
+                    throw new \Exception('erreur de syntaxe');
+                default:
+                    throw new \Exception('Error fetching user from database: '. $e->getMessage());
+            }
         }
     }
 
