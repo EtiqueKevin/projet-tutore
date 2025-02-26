@@ -29,6 +29,10 @@ return  [
         return $database;
     },
 
+    'client_utilisateur' => function (ContainerInterface $c){
+        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:8889']);
+    },
+
     'client_auth' => function (ContainerInterface $c){
         return new Client(['base_uri' => 'http://api.auth.jeancademie:8890']);
     },

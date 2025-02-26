@@ -11,9 +11,12 @@ class searchModuleDTO extends DTO
     public ?string $description;
     public ?string $id_creater;
 
-    public function __construct(?string $name = '', ?string $description = ''){
+    public ?string $token;
+
+    public function __construct(?string $name = '', ?string $description = '', ?string $token = ''){
         $this->name = $name;
         $this->description = $description;
+        $this->token = $token;
     }
 
     public function setCreater(string $creater):void{

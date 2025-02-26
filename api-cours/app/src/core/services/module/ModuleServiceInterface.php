@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 interface ModuleServiceInterface
 {
     public function getAllModules(searchModuleDTO $searchDTO);
+    public function getAllModulesUtilisateur(searchModuleDTO $searchDTO): array;
     public function getModulesByCreater(searchModuleDTO $searchDTO);
     public function getModuleById(string $id);
     public function createModule(ModuleDTO $module);
