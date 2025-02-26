@@ -5,13 +5,14 @@ namespace apiCours\core\services\lesson;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
+use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
 
 interface LessonServiceInterface
 {
     public function getALlLessons(): array;
 
     public function getLessonByModuleId(string $moduleId): array;
-
+    public function getLessonByModuleIdUtilisateur(LessonModuleUtilisateurConnecteDTO $LMUCD): array;
     public function getLessonById(string $id): LessonDTO;
     public function createLesson(LessonDTO $lessonDTO): string;
     public function updateLesson(LessonDTO $lessonDTO): void;

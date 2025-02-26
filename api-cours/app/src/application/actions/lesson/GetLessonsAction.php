@@ -3,9 +3,11 @@
 namespace apiCours\application\actions\lesson;
 
 use apiCours\application\actions\AbstractAction;
+use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class GetLessonsAction extends AbstractAction
 {
@@ -20,7 +22,34 @@ class GetLessonsAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $idModule = $args['id'];
-        $lessons = $this->lessonService->getLessonByModuleId($idModule);
+        $query = $rq->getQueryParams();
+        $connecte = $query["connecte"] ?? '';
+        $lessons = [];
+
+        if($connecte === "oui"){
+            try{
+                preg_match('/Bearer\s(\S+)/', $rq->getHeaderLine('Authorization'), $matches);
+                $token = $matches[1];
+            }catch (\Exception $e) {
+                throw new HttpBadRequestException($rq, "Il manque le token");
+            }
+
+            try {
+
+                $lessons = $this->lessonService->getLessonByModuleIdUtilisateur(new LessonModuleUtilisateurConnecteDTO($idModule,$token));
+            }catch (\Exception $e) {
+                throw new HttpBadRequestException($rq, $e->getMessage());
+            }
+
+        }else{
+            try {
+
+                $lessons = $this->lessonService->getLessonByModuleId($idModule);
+            }catch (\Exception $e) {
+                throw new HttpBadRequestException($rq, $e->getMessage());
+            }
+        }
+
         $res = [
             'type' => 'resource',
             'lessons' => $lessons

@@ -5,6 +5,7 @@ use apiCours\application\actions\lesson\DeleteLessonByIdAction;
 use apiCours\application\actions\lesson\GetExerciseByIndexByIdLesson;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\GetLessonsAction;
+use apiCours\application\actions\lesson\GetLessonsWithStatusAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\DeleteModuleByIdAction;
@@ -24,9 +25,6 @@ return function( App $app): App {
     //module, lesson
 
     $app->get('/modules[/]', GetModulesAction::class);
-
-    $app->get('/modules/connecte[/]', GetModulesWithStatusAction::class);
-
 
     $app->get('/users/modules[/]', GetModulesByProfAction::class)
         ->add(AuthMiddleware::class);
