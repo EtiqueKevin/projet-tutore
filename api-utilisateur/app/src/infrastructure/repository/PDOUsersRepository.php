@@ -126,4 +126,42 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
     }
+
+    public function getModuleStatusByUser(string $id): array{
+        try{
+            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_users = ?');
+            $stmt->BindParam(1,$id);
+            $stmt->execute();
+            $modules = $stmt->fetchAll();
+
+            $modulesListIdStatus = [];
+            foreach ($modules as $module){
+                $modulesListIdStatus[$module['id_module']] = $module['status'];
+            }
+
+            return $modulesListIdStatus;
+
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching module from database: '. $e->getMessage());
+        }
+    }
+
+    public function getLessonStatusByUser(string $id): array{
+        try{
+            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_users = ?');
+            $stmt->BindParam(1,$id);
+            $stmt->execute();
+            $lessons = $stmt->fetchAll();
+
+            $lessonsListIdStatus = [];
+            foreach ($lessons as $lesson){
+                $lessonsListIdStatus[$lesson['id_lesson']] = $lesson['status'];
+            }
+
+            return $lessonsListIdStatus;
+
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching module from database: '. $e->getMessage());
+        }
+    }
 }

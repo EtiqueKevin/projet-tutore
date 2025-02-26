@@ -51,8 +51,13 @@ return function( App $app): App {
     $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', PostFinishLessonAction::class);
     $app->post('/lessons/{ID-LESSON}/start_lesson[/]', PostStartLessonAction::class);
 
-    $app->get('/lessons/{ID-LESSON}/status[/]', GetLessonStatusAction::class);
-    $app->get('/modules/{ID-MODULE}/status[/]', GetModuleStatusAction::class);
+    $app->get('/lessons/status[/]', GetLessonStatusAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getLessonStatus');
+
+    $app->get('/modules/status[/]', GetModuleStatusAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getModuleStatus');
 
     return $app;
 };

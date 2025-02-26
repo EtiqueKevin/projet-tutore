@@ -81,4 +81,20 @@ class UsersService implements UsersServiceInterface{
     {
         $this->repositoryUsers->finishLesson($idUser, $idLesson);
     }
+
+    public function getModuleStatusByUser(string $id): array{
+        try{
+            return $this->repositoryUsers->getModuleStatusByUser($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+        }
+    }
+
+    public function getLessonStatusByUser(string $id): array{
+        try {
+            return $this->repositoryUsers->getLessonStatusByUser($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+        }
+    }
 }

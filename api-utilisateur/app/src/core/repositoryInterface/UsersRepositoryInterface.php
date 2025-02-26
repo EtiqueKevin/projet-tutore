@@ -15,4 +15,8 @@ interface UsersRepositoryInterface{
     function getUsers():array;
     function fininshLesson(string $idUser, string $idLesson):void;
 
+    public function getModuleStatusByUser(string $id): array;
+
+    public function getLessonStatusByUser(string $id): array;
+
 }
