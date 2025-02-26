@@ -7,6 +7,7 @@ use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
 use apiUtilisateur\application\actions\user\GetModuleStatusAction;
 use apiUtilisateur\application\actions\user\GetUserById;
+use apiUtilisateur\application\actions\user\GetUserByTokenAction;
 use apiUtilisateur\application\actions\user\GetUsersAction;
 use apiUtilisateur\application\actions\user\PostFinishLessonAction;
 use apiUtilisateur\application\actions\user\PostStartLessonAction;
@@ -28,6 +29,9 @@ return function( App $app): App {
             return $rs;
         });
 */
+    $app->get('/user[/]', GetUserByTokenAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getUserByToken');
 
     $app->get('/users[/]', GetUsersAction::class)
         ->setName('getUtilisateurs');

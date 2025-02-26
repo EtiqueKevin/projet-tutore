@@ -18,8 +18,9 @@ class PDOUsersRepository implements UsersRepositoryInterface {
 
     function getUserById(string $id): User{
         try{
-            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE uuid = :id');
-            $stmt->execute(['id' => $id]);
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
             $user = $stmt->fetch();
 
             if (!$user){
