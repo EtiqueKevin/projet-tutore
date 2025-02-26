@@ -21,7 +21,7 @@ class GetModuleStatusAction extends AbstractAction
         $id = $rq->getAttribute('idUser');
 
         try {
-            $res = $this->usersService->getModuleStatusByUser($id);
+            $r = $this->usersService->getModuleStatusByUser($id);
 
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq," ". $e->getMessage());
@@ -29,7 +29,7 @@ class GetModuleStatusAction extends AbstractAction
 
         $res = [
             'type' => 'collection',
-            'modules' => $res
+            'modules' => $r
         ];
 
         $rs->getBody()->write(json_encode($res));

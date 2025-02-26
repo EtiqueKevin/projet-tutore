@@ -5,17 +5,22 @@ namespace apiCours\core\services\lesson;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
+use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
 use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
+use apiCours\core\repositoryInterface\UtilisateurRepositoryInterface;
 
 class LessonService implements LessonServiceInterface
 {
 
     private LessonRepositoryInterface $lessonRepository;
 
-    public function __construct(LessonRepositoryInterface $lessonRepository)
+    private UtilisateurRepositoryInterface $utilisateurRepository;
+
+    public function __construct(LessonRepositoryInterface $lessonRepository, UtilisateurRepositoryInterface $utilisateurRepository)
     {
         $this->lessonRepository = $lessonRepository;
+        $this->utilisateurRepository = $utilisateurRepository;
     }
 
     public function getALlLessons(): array
@@ -74,6 +79,31 @@ class LessonService implements LessonServiceInterface
          }
         return $tabLessonDTO;
 
+    }
+
+    public function getLessonByModuleIdUtilisateur(LessonModuleUtilisateurConnecteDTO $LMUCD): array{
+
+        $lessonsTabStatus = $this->utilisateurRepository->getLessonsStatus($LMUCD->token);
+
+        $res = $this->lessonRepository->getLessonByModuleId($LMUCD->id_module);
+        $tabLessonDTO = [];
+        foreach ($res as $lesson) {
+            $lessonDTO = $lesson->toDTO();
+
+            if(isset($lessonsTabStatus[$lesson->getId()])){
+                if($lessonsTabStatus[$lesson->getId()]){
+                    $lessonDTO->setStatus(1);
+                }else{
+                    $lessonDTO->setStatus(0);
+
+                }
+            }else{
+                $lessonDTO->setStatus(2);
+            }
+
+            $tabLessonDTO[] = $lessonDTO;
+        }
+        return $tabLessonDTO;
     }
 
     public function getExerciseLesson(LessonExeciseDTO $ld): ContentDTO

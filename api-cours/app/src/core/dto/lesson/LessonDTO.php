@@ -17,6 +17,8 @@ class LessonDTO extends DTO implements \JsonSerializable
 
     private ?string $dateUpdate;
 
+    private ?int $status = null;
+
     public function __construct(?string $id, string $name, string $type, array $content, string $description, ?string $dateUpdate = null)
     {
         $this->id = $id;
@@ -41,6 +43,17 @@ class LessonDTO extends DTO implements \JsonSerializable
         $ct = [];
         foreach ($this->content as $c) {
             $ct[] = $c->jsonSerialize();
+        }
+        if($this->status !== null){
+            return [
+                "id" => $this->id,
+                "name" => $this->name,
+                "type" => $this->type,
+                "description" => $this->description,
+                "dateUpdate" => $this->dateUpdate,
+                "status" => $this->status,
+                "content" => $ct
+            ];
         }
 
         if($this->id == null){
@@ -75,6 +88,10 @@ class LessonDTO extends DTO implements \JsonSerializable
     public function setId(?string $id): void
     {
         $this->id = $id;
+    }
+
+    public function setStatus(?int $status): void{
+        $this->status = $status;
     }
 
     public function getId(): ?string
