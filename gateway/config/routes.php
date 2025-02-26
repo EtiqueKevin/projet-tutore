@@ -63,8 +63,9 @@ return function( App $app): App {
      * Routes de l'API Utilisateur
      *************************/
 
-    $app->put('/users[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/users/profile[/]', GeneriqueUtilisateurAction::class);
     $app->get('/users[/]', GeneriqueUtilisateurAction::class);
+    $app->get('/assets/{file}', GeneriqueUtilisateurAction::class);
     $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class);
 
     return $app;

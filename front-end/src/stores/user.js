@@ -65,6 +65,35 @@ export const useUserStore = defineStore('jeanCademieUser', {
             }
         },
 
+        async updateProfile(data) {
+            try {
+                const formData = new FormData();
+                formData.append('name', data.name);
+                formData.append('surname', data.surname);
+                formData.append('pseudo', data.pseudo);
+                if (data.image) {
+                    formData.append('image', data.image);
+                }
+        
+                const res = await this.$api.post('/users/profile', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+        
+                // Update local state
+                this.name = data.name;
+                this.surname = data.surname;
+                this.pseudo = data.pseudo;
+        
+                toast.success('Profile updated successfully');
+                return true;
+            } catch (e) {
+                toast.error('Error updating profile');
+                return false;
+            }
+        },
+
         signOut() {
             this.accessToken = null;
             this.refreshToken = null;

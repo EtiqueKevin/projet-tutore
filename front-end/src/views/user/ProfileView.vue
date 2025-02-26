@@ -5,32 +5,59 @@ import InputField from '@/components/structure/forms/inputs/InputField.vue';
 
 const userStore = useUserStore();
 
-const userProfile = {
+const userProfile = ref({
     name: '',
     surname: '',
     pseudo: '',
-}
+    image: null
+});
+
+const imagePreview = ref(null);
+const fileInput = ref(null);
 
 const isEditing = ref(false);
-
 const isInit = ref(false);
 
 const toggleEdit = () => {
+    if (isEditing.value) {
+        // Reset form when canceling
+        userProfile.value = {
+            name: userStore.name,
+            surname: userStore.surname,
+            pseudo: userStore.pseudo,
+            image: null
+        };
+        imagePreview.value = null;
+    }
     isEditing.value = !isEditing.value;
 };
 
-const saveProfile = () => {
+const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        userProfile.value.image = file;
+        imagePreview.value = URL.createObjectURL(file);
+    }
+};
+
+const saveProfile = async () => {
     try {
-        isEditing.value = false;
+        const success = await userStore.updateProfile(userProfile.value);
+        if (success) {
+            isEditing.value = false;
+        }
     } catch (error) {
         console.error('Error updating profile:', error);
     }
 };
 
 onMounted(async () => {
-    userProfile.name = userStore.name;
-    userProfile.surname = userStore.surname;
-    userProfile.pseudo = userStore.pseudo;
+    userProfile.value = {
+        name: userStore.name,
+        surname: userStore.surname,
+        pseudo: userStore.pseudo,
+        image: null
+    };
     isInit.value = true;
 });
 </script>
@@ -49,12 +76,29 @@ onMounted(async () => {
             </div>
 
             <div class="space-y-6">
-
                 <div class="flex justify-center">
-                    <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center">
-                        <span class="text-4xl text-black">
-                            {{ userProfile.name[0] }}{{ userProfile.surname[0] }}
-                        </span>
+                    <div class="relative flex flex-col space-y-2 items-center justify-center">
+                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                            <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
+                            <span v-else class="text-4xl text-black">
+                                {{ userProfile.name[0] }}{{ userProfile.surname[0] }}
+                            </span>
+                        </div>
+                        <input
+                            v-if="isEditing"
+                            type="file"
+                            ref="fileInput"
+                            @change="handleImageUpload"
+                            accept="image/*"
+                            class="hidden"
+                        />
+                        <button
+                            v-if="isEditing"
+                            @click="fileInput.click()"
+                            class="bg-blue-600 text-white rounded-full p-2 hover:bg-blue-700"
+                        >
+                            <span>Changer image</span>
+                        </button>
                     </div>
                 </div>
 

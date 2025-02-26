@@ -43,7 +43,7 @@ return function( App $app): App {
     $app->post('/users[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');
 
-    $app->put('/users/[/]',PutUitlisateurAction::class)
+    $app->post('/users/profile[/]',PutUitlisateurAction::class)
         ->add(AuthMiddleware::class)
         ->setName('updateUtilisateur');
 
