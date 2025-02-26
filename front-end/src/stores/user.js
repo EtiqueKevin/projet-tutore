@@ -13,7 +13,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
         pseudo: null,
         email: null,
         role: null,
-        imageId: null,
+        image: null,
         preferences: {
             themeDark: null,
         }
@@ -102,7 +102,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
                 this.surname = user.surname;
                 this.pseudo = user.pseudo;
                 this.role = user.role;
-                this.imageId = user.linkpic;
+                this.image = this.$imageUrl + user.linkpic;
             }catch{
                 this.signOut();
             }
@@ -160,6 +160,9 @@ export const useUserStore = defineStore('jeanCademieUser', {
         },
         getPreferences(state){
             return state.preferences;
+        },
+        getImage(state){
+            return state.image;
         }
     },
 

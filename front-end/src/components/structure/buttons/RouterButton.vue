@@ -28,16 +28,7 @@ const props = defineProps({
     <RouterLink 
         :to="to" 
         :title="title" 
-        :class="`
-            ${hover} 
-            ${other} 
-            font-bold
-            text-lg
-            text-center 
-            transition duration-200 
-            transform hover:scale-105 
-            dark:text-white text-main-dark
-        `"
+        :class="`${hover} ${other} font-bold text-lg text-center transform hover:scale-105 dark:text-white text-main-dark`"
     >
         <slot></slot>
     </RouterLink>

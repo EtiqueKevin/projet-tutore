@@ -81,8 +81,8 @@ const toggleMobileMenu = () => {
                          class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light">
               <i class="fas fa-cog"></i>
             </RouterButton>
-            <RouterButton :to="'/user/profile'" title="Mon profil">
-              <i class="fas fa-user"></i>
+            <RouterButton :to="'/user/profile'" title="Mon profil" :other="'min-w-8 h-8'">
+              <img :src="userStore.getImage" class="w-8 h-8 rounded-full" />
             </RouterButton>
             <Button @click="logOut()" title="Se déconnecter">
               <i class="fas fa-sign-out-alt"></i>
@@ -92,66 +92,65 @@ const toggleMobileMenu = () => {
       </div>
 
       <!-- Mobile menu -->
-<!-- Mobile menu -->
-<div :class="[isMobileMenuOpen ? 'block' : 'hidden', 'md:hidden']"
-     class="absolute top-12 left-0 right-0 bg-background-light/95 dark:bg-background-dark/95 
-            backdrop-blur-sm shadow-lg border-t dark:border-gray-700 border-gray-200">
-  <div class="py-3 space-y-1">
-    <!-- Navigation principale -->
-    <RouterButton :to="'/modules'" 
-                 title="Voir les modules">
-        <i class="fas fa-th-large w-6"></i>
-        <span class="ml-3">Modules</span>
-    </RouterButton>
+      <div :class="[isMobileMenuOpen ? 'block' : 'hidden', 'md:hidden']"
+           class="absolute top-12 left-0 right-0 bg-background-light/95 dark:bg-background-dark/95 
+                  backdrop-blur-sm shadow-lg border-t dark:border-gray-700 border-gray-200">
+        <div class="py-3 space-y-1">
+          <!-- Navigation principale -->
+          <RouterButton :to="'/modules'" 
+                       title="Voir les modules">
+            <i class="fas fa-th-large w-6"></i>
+            <span class="ml-3">Modules</span>
+          </RouterButton>
 
-    <!-- Bouton créer cours pour professeurs et administrateurs -->
-    <RouterButton v-if="userStore.isTeacher"
-                 :to="'/teacher/modules'" 
-                 title="Gérer mes modules">
-      <i class="fas fa-book w-6"></i>
-      <span class="ml-3">Mes modules</span>
-    </RouterButton>
+          <!-- Bouton créer cours pour professeurs et administrateurs -->
+          <RouterButton v-if="userStore.isTeacher"
+                       :to="'/teacher/modules'" 
+                       title="Gérer mes modules">
+            <i class="fas fa-book w-6"></i>
+            <span class="ml-3">Mes modules</span>
+          </RouterButton>
 
-    <!-- Séparateur -->
-    <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+          <!-- Séparateur -->
+          <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
 
-    <!-- Thème -->
-    <div class="px-4 py-3">
-      <ChangeThemeButton :show-text="true" class="w-full" />
-    </div>
+          <!-- Thème -->
+          <div class="px-4 py-3">
+            <ChangeThemeButton :show-text="true" class="w-full" />
+          </div>
 
-    <!-- Séparateur -->
-    <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+          <!-- Séparateur -->
+          <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
 
-    <!-- Actions Utilisateur -->
-    <template v-if="!userStore.isLogged">
-      <RouterButton :to="'/user/connect'" 
-                   title="Se connecter">
-        <i class="fas fa-power-off w-6"></i>
-        <span class="ml-3">Se connecter</span>
-      </RouterButton>
-    </template>
+          <!-- Actions Utilisateur -->
+          <template v-if="!userStore.isLogged">
+            <RouterButton :to="'/user/connect'" 
+                         title="Se connecter">
+              <i class="fas fa-power-off w-6"></i>
+              <span class="ml-3">Se connecter</span>
+            </RouterButton>
+          </template>
 
-    <!-- Actions Utilisateur Connecté -->
-    <template v-else>
-      <RouterButton v-if="userStore.isAdmin" :to="'/admin'"
-                   title="Accéder au Back Office">
-        <i class="fas fa-cog w-6"></i>
-        <span class="ml-3">Administration</span>
-      </RouterButton>
-      <RouterButton :to="'/user/profile'" 
-                   title="Mon profil">
-        <i class="fas fa-user w-6"></i>
-        <span class="ml-3">Mon profil</span>
-      </RouterButton>
-      <Button @click="logOut()" 
-             title="Se déconnecter">
-        <i class="fas fa-sign-out-alt w-6"></i>
-        <span class="ml-3">Se déconnecter</span>
-      </Button>
-    </template>
-  </div>
-</div>
+          <!-- Actions Utilisateur Connecté -->
+          <template v-else>
+            <RouterButton v-if="userStore.isAdmin" :to="'/admin'"
+                         title="Accéder au Back Office">
+              <i class="fas fa-cog w-6"></i>
+              <span class="ml-3">Administration</span>
+            </RouterButton>
+            <RouterButton :to="'/user/profile'" 
+                         title="Mon profil">
+              <i class="fas fa-user w-6"></i>
+              <span class="ml-3">Mon profil</span>
+            </RouterButton>
+            <Button @click="logOut()" 
+                   title="Se déconnecter">
+              <i class="fas fa-sign-out-alt w-6"></i>
+              <span class="ml-3">Se déconnecter</span>
+            </Button>
+          </template>
+        </div>
+      </div>
     </nav>
   </header>
 </template>

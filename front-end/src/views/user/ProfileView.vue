@@ -5,7 +5,6 @@ import InputField from '@/components/structure/forms/inputs/InputField.vue';
 import { onMounted } from 'vue';
 
 const userStore = useUserStore();
-const url = import.meta.env.VITE_API_URL;
 const userProfile = ref({
     name: '',
     surname: '',
@@ -58,7 +57,7 @@ onMounted(() => {
             name: userStore.name,
             surname: userStore.surname,
             pseudo: userStore.pseudo,
-            image: url + '/assets/img/' + userStore.imageId
+            image: userStore.image
         };
     }
 });
@@ -71,7 +70,7 @@ watch (() => userStore.isInit, (isInit) => {
             name: userStore.name,
             surname: userStore.surname,
             pseudo: userStore.pseudo,
-            image: url + '/assets/img/' + userStore.imageId
+            image: userStore.image
         };
     }
 });

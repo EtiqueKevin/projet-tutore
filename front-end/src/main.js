@@ -23,7 +23,8 @@ app.use(api, {
 const pinia = createPinia()
 pinia.use(piniaPersist)
 pinia.use(({ store }) => {
-    store.$api = app.config.globalProperties.$api
+    store.$api = app.config.globalProperties.$api,
+    store.$imageUrl = url + '/assets/img/'
 })
 
 app.use(Toast, {
