@@ -43,6 +43,7 @@ services:
       - '7080:80'
     volumes:
       - ./gateway:/var/php
+      - ./user-pictures:/var/php/public/assets/img/
     working_dir: /var/php
     networks:
       - jeancademie.net
@@ -73,7 +74,7 @@ services:
 
     volumes:
       - ./api-utilisateur/app:/var/php
-
+      - ./user-pictures:/var/php/public/assets/img/
     working_dir: /var/php
     networks:
       - jeancademie.net

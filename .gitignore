@@ -23,3 +23,6 @@ composer.lock
 /api/var/logs
 #env
 *.env
+/user-pictures/*
+# tout les dossier img
+**/img/*
