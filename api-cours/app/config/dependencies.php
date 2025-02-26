@@ -5,13 +5,19 @@ use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
+use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
+use apiCours\application\middleware\AuthMiddleware;
+use apiCours\core\repositoryInterface\AuthRepositoryInterface;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
+use apiCours\core\services\auth\AuthService;
+use apiCours\core\services\auth\AuthServiceInterface;
 use apiCours\core\services\lesson\LessonService;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use apiCours\core\services\module\ModuleService;
 use apiCours\core\services\module\ModuleServiceInterface;
+use apiCours\infrastructure\AdapterAuthRepository;
 use apiCours\infrastructure\LessonRepository;
 use apiCours\infrastructure\ModuleRepository;
 use Psr\Container\ContainerInterface;
@@ -26,7 +32,7 @@ return [
     },
 
     PostLessonAction::class => function(ContainerInterface $c){
-        return new PostLessonAction($c->get(LessonServiceInterface::class));
+        return new PostLessonAction($c->get(LessonServiceInterface::class),$c->get(ModuleServiceInterface::class));
     },
     PutLessonByIdAction::class => function(ContainerInterface $c){
         return new PutLessonByIdAction($c->get(LessonServiceInterface::class));
@@ -39,12 +45,19 @@ return [
         return new GetExerciseByIndexByIdLesson($c->get(LessonServiceInterface::class));
     },
 
+    GetModulesByProfAction::class => function(ContainerInterface $c){
+        return new GetModulesByProfAction($c->get(ModuleServiceInterface::class));
+    },
+
     //services
     LessonServiceInterface::class => function(ContainerInterface $c){
         return new LessonService($c->get(LessonRepositoryInterface::class));
     },
     ModuleServiceInterface::class => function(ContainerInterface $c){
         return new ModuleService($c->get(ModuleRepositoryInterface::class));
+    },
+    AuthServiceInterface::class => function(ContainerInterface $c){
+        return new AuthService($c->get(AuthRepositoryInterface::class), $c->get(ModuleRepositoryInterface::class));
     },
 
     //repository
@@ -54,5 +67,13 @@ return [
     },
     ModuleRepositoryInterface::class => function(ContainerInterface $c){
         return new ModuleRepository($c->get('database'));
-    }
+    },
+    AuthRepositoryInterface::class => function(ContainerInterface $c){
+        return new AdapterAuthRepository($c->get('client_auth'));
+    },
+
+    // middleware
+    AuthMiddleware::class => function(ContainerInterface $c){
+        return new AuthMiddleware($c->get(AuthServiceInterface::class));
+    },
 ];

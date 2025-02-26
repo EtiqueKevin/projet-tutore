@@ -6,8 +6,11 @@ use apiCours\core\domain\entities\lesson\Content;
 use apiCours\core\domain\entities\lesson\File;
 use apiCours\core\domain\entities\lesson\Lesson;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\services\UUIDConverter\UUIDConverter;
+use DateTime;
+use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Database;
 use PHPUnit\Framework\Exception;
@@ -49,27 +52,49 @@ class LessonRepository implements LessonRepositoryInterface
             }
             $contentTab[] = $content;
         }
-
-        $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description);
+        $date = $lessonsDB->date_update->toDateTime()->getTimestamp();
+        $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description, date("d/m/Y", $date));
 
         $lesson->setId(UUIDConverter::fromUUID($lessonsDB->_id));
 
         return $lesson;
     }
 
-    public function createLesson(Lesson $lesson): Lesson
+    public function createLesson(array $lesson): string
     {
-        $lesson->setId(1);
-        return $lesson;
+        try{
+            $lesson['_id'] = UUIDConverter::toUUID($lesson['id']);
+            $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
+            unset($lesson['id']);
+            //var_dump($lesson);
+            //echo $lesson;
+            $res = $this->lessonCollection->insertOne($lesson);
+            return UUIDConverter::fromUUID($res->getInsertedId());
+        }catch(Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
     }
 
-    public function updateLesson(Lesson $lesson): Lesson
+    public function updateLesson(array $lesson): void
     {
-        return $lesson;
+        try{
+            $idUUID = UUIDConverter::toUUID($lesson['id']);
+            unset($lesson['id']);
+            $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
+            $this->lessonCollection->updateOne( ['_id' => $idUUID],['$set' => $lesson]);
+        }catch (Exception $e){
+            throw new LessonRepositoryException("erreur lors de l'update : ". $e->getMessage());
+        }
     }
 
     public function deleteLesson(string $id): void
     {
+        try{
+            $this->lessonCollection->deleteOne(['_id' => UUIDConverter::toUUID($id)]);
+            $this->modulelessonCollection->deleteOne(['id_lesson' => UUIDConverter::toUUID($id)]);
+        }catch (Exception $e){
+            throw new LessonRepositoryException("erreur lors de la suppression : ".$e->getMessage());
+        }
 
     }
 
@@ -83,7 +108,6 @@ class LessonRepository implements LessonRepositoryInterface
         foreach ($moduleLessons as $moduleLesson) {
             $lessonIds[] = $moduleLesson['id_lesson'];
         }
-
         $lessonsEntity = [];
         foreach ($lessonIds as $lessonId) {
             $lessonsDB= $this->lessonCollection->findOne(['_id' => $lessonId]);
@@ -101,7 +125,8 @@ class LessonRepository implements LessonRepositoryInterface
                 $contentTab[] = $content;
             }
 
-            $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description);
+            $date = $lessonsDB->date_update->toDateTime()->getTimestamp();
+            $lesson = new Lesson($lessonsDB->name, $lessonsDB->type, $contentTab, $lessonsDB->description, date("d/m/Y", $date));
 
             $lesson->setId(UUIDConverter::fromUUID($lessonsDB->_id));
             $lessonsEntity[] = $lesson;
@@ -135,7 +160,5 @@ class LessonRepository implements LessonRepositoryInterface
         }
 
         return $content;
-
-
     }
 }

@@ -1,16 +1,20 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import ExerciceCreateView from '@/views/exercices/ExerciceCreateView.vue';
-import CreateCoursSidebar from '@/components/metier/cours/CreateCoursSidebar.vue';
-import CreateCoursContentEditor from '@/components/metier/cours/CreateCoursContentEditor.vue';
-import CreateCoursPreview from '@/components/metier/cours/CreateCoursPreview.vue';
-import { useTeacherStore } from '@/stores/teacher';
+import LessonCreateSidebar from '@/components/metier/cours/LessonCreateSidebar.vue';
+import LessonCreateContentEditor from '@/components/metier/cours/LessonCreateContentEditor.vue';
+import LessonCreatePreview from '@/components/metier/cours/LessonCreatePreview.vue';
+import { useLessonStore } from '@/stores/lesson';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
+const router = useRouter();
 const mode = ref(0);
 const currentExerciceIndex = ref(null);
-const teacherStore = useTeacherStore();
+const lessonStore = useLessonStore();
+const toast = useToast();
 
-const cours = computed(() => teacherStore.getCurrentLesson);
+const cours = computed(() => lessonStore.getCurrentLesson);
 
 const isMobile = computed(() => window.innerWidth <= 768);
 
@@ -44,14 +48,26 @@ const drop = (e) => {
   if (dropPosition !== -1) {
     const newContent = [...cours.value.content];
     newContent.splice(dropPosition, 0, newContent);
-    teacherStore.overWriteContent(newContent);
+    lessonStore.overWriteContent(newContent);
   } else {
-    teacherStore.addContent(newContent);
+    lessonStore.addContent(newContent);
   }
 };
 
-const saveCours = () => {
-  console.log(cours.value);
+const saveCours = async () => {
+  if(!lessonStore.isValid){
+    toast.error("La leçon n'est pas valide (titre, description, type et contenu requis)");
+    return;
+  }
+
+  const moduleId = lessonStore.getCurrentLesson.moduleId;
+  const success = await lessonStore.saveCurrentLesson();
+  if (success){
+    toast.success("Leçon enregistré avec succès");
+    router.push({ name: 'teacher-module-id', params: { id: moduleId } });
+  }else{
+    toast.error("Erreur lors de l'enregistrement de la leçon");
+  }
 };
 
 const switchToCoursCreateView = () => {
@@ -59,7 +75,7 @@ const switchToCoursCreateView = () => {
 };
 
 const saveExercice = (exercice) => {
-  teacherStore.updateContent(currentExerciceIndex.value, exercice);
+  lessonStore.updateContent(currentExerciceIndex.value, exercice);
   switchToCoursCreateView();
 };
 
@@ -72,7 +88,7 @@ const editExercice = (index) => {
 
 <template>
   <main v-if="mode !== 3" class="flex-grow flex p-4 gap-4" :class="{'flex-col': isMobile, 'flex-row': !isMobile}">
-    <CreateCoursSidebar 
+    <LessonCreateSidebar 
       :mode="mode"
       :is-mobile="isMobile"
       @update:mode="mode = $event"
@@ -85,28 +101,36 @@ const editExercice = (index) => {
         <h1 class="text-2xl mb-4 text-black dark:text-white">Création d'un cours</h1>
         <input 
           type="text" 
-          v-model="teacherStore.currentLesson.title" 
+          v-model="lessonStore.currentLesson.title" 
           placeholder="Titre du cours" 
           class="w-full mb-4 p-2 border text-black"
         >
         <textarea 
-          v-model="teacherStore.currentLesson.description" 
+          v-model="lessonStore.currentLesson.description" 
           placeholder="Description du cours" 
           class="w-full mb-4 p-2 border text-black"
         ></textarea>
-        <button @click="mode = 1" class="py-2 px-4 bg-primary-light hover:bg-primary-dark">Suivant</button>
+
+        <input
+          type="text"
+          v-model="lessonStore.currentLesson.type"
+          placeholder="Type du cours (ex: java, python, ...)"
+          class="w-full mb-4 p-2 border text-black"
+        >
+
+        <button @click="mode = 1" class="py-2 px-4 bg-primary-light hover:bg-primary-dark dark:bg-primary-dark dark:hover:bg-primary-light text-white">Suivant</button>
       </div>
 
-      <CreateCoursContentEditor
+      <LessonCreateContentEditor
         v-if="mode === 1"
-        v-model:content="teacherStore.currentLesson.content"
+        v-model:content="lessonStore.currentLesson.content"
         @editExercice="editExercice"
         @dragover="allowDrop"
         @drop="drop"
-        @reorder="teacherStore.overWriteContent($event)"
+        @reorder="lessonStore.overWriteContent($event)"
       />
 
-      <CreateCoursPreview
+      <LessonCreatePreview
         v-if="mode === 2"
         :cours="cours"
       />

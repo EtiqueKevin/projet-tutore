@@ -24,7 +24,8 @@ class UsersService implements UsersServiceInterface{
     public function getUsersId(string $id): UserDTO{
 
         $user = $this->repositoryUsers->getUserById($id);
-
+        $role = $this->repositoryAuth->getRoleById($id);
+        $user->setRole($role);
         return $user->toDTO();
 
     }
@@ -59,6 +60,54 @@ class UsersService implements UsersServiceInterface{
             $this->repositoryCours->changeToJohnDoe($id);
         }catch (\Exception $e){
             throw new \Exception('Impossible de changer l\'utilisateur en John Doe: '.$e->getMessage());
+        }
+    }
+
+    function getUsers(): array
+    {
+        $users = $this->repositoryUsers->getUsers();
+        $usersDTO = [];
+        foreach ($users as $user){
+            $role = $this->repositoryAuth->getRoleById($user->getID());
+            $email = $this->repositoryAuth->getEmailById($user->getID());
+            $user->setRole($role);
+
+            $usersDTO[] = $user->toDTO();
+        }
+        return $usersDTO;
+    }
+
+    function finishLesson(string $idUser, string $idLesson): void
+    {
+        try {
+            $this->repositoryUsers->finishLesson($idUser, $idLesson);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de terminer le cours: '.$e->getMessage());
+        }
+    }
+
+    function startLesson(string $idUser, string $idLesson): void
+    {
+        try {
+            $this->repositoryUsers->startLesson($idUser, $idLesson);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de commencer le cours: '.$e->getMessage());
+        }
+    }
+
+    public function getModuleStatusByUser(string $id): array{
+        try{
+            return $this->repositoryUsers->getModuleStatusByUser($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+        }
+    }
+
+    public function getLessonStatusByUser(string $id): array{
+        try {
+            return $this->repositoryUsers->getLessonStatusByUser($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
         }
     }
 }

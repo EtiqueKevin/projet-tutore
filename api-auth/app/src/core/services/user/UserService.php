@@ -81,4 +81,22 @@ class UserService implements UserServiceInterface
             throw new UserServiceException('Erreur lors de la suppression de l\'utilisateur');
         }
     }
+
+    public function getRoleById(string $ID): string
+    {
+        try {
+            return $this->authRepository->getRoleById($ID);
+        } catch (\Exception $e) {
+            throw new UserServiceException('Erreur lors de la recherche du role de l\'utilisateur' . $e->getMessage());
+        }
+    }
+
+    public function getEmailByRole(string $ID): string
+    {
+        try {
+            return $this->authRepository->getEmailByRole($ID);
+        } catch (\Exception $e) {
+            throw new UserServiceException('Erreur lors de la recherche de l\'email de l\'utilisateur');
+        }
+    }
 }

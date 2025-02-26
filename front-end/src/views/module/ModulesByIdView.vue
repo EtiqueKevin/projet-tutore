@@ -15,8 +15,8 @@ const currentModule = ref({})
 
 const loadModuleWithDelay = async () => {
     try {
-        //await new Promise(resolve => setTimeout(resolve, 1000))
         currentModule.value = await loadModule(route.params.id)
+        console.log('Module:', currentModule.value)
     } catch (error) {
         console.error('Failed to fetch module:', error)
     } finally {
@@ -35,13 +35,11 @@ onMounted(() => {
             <ModuleHeader 
                 :is-loading="isLoading"
                 :module="currentModule"
-                :is-teacher="userStore.isTeacher"
             />
             <ModuleLessons 
                 :is-loading="isLoading"
                 :module="currentModule"
                 :is-user-logged="userStore.isLogged"
-                :is-teacher="userStore.isTeacher"
             />
         </div>
 

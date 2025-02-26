@@ -69,7 +69,6 @@ const navigateToExercise = (idLesson, index) => {
 
 onMounted(async () => {
     try {
-        //await new Promise(resolve => setTimeout(resolve, 2000))
         cours.value = await loadCours(route.params.id);
     } catch (error) {
         console.error(error);
@@ -118,7 +117,7 @@ onMounted(async () => {
             </header>
 
             <!-- Sommaire -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-8">
+            <div class="bg-white dark:bg-background-dark rounded-lg shadow-sm p-4 mb-8">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
                     Table des matières
                 </h2>
@@ -126,7 +125,7 @@ onMounted(async () => {
                     <li v-for="item in generateTableOfContents()" 
                         :key="item.index"
                         @click="scrollToSection(item.index)"
-                        class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-1.5 rounded transition-colors duration-200 text-sm">
+                        class="flex items-center gap-2 cursor-pointer p-1.5 rounded transition-colors duration-200 text-sm hover:border-b-2 hover:border-black dark:hover:border-white">
                         <span v-if="item.type === 'text'" class="text-gray-600 dark:text-gray-400 flex-shrink-0 w-5">
                             <i class="fas fa-book-open text-xs"></i>
                         </span>
@@ -145,14 +144,14 @@ onMounted(async () => {
                 <article v-for="(item, index) in cours.content" 
                          :key="`${item.type}-${index}`"
                          :id="`section-${item.index}`"
-                         class="bg-background-light dark:bg-background-dark rounded-lg shadow-sm p-6 transition-all duration-200 hover:shadow-md scroll-mt-8">
+                         class="bg-white dark:bg-background-dark rounded-lg shadow-sm p-6 scroll-mt-8">
                     <div v-if="item.type === 'text'" 
                          class="prose dark:prose-invert max-w-none"
                          v-html="toMarkdown(item.content)">
                     </div>
                     <div v-else-if="item.type === 'code'" class="flex justify-center sm:justify-start">
                         <Button @click="navigateToExercise(cours.id, index)"
-                               class="bg-blue-600 hover:bg-white text-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 flex items-center gap-2">
+                               class="bg-blue-600 hover:bg-white text-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 flex items-center gap-2 p-2 rounded-lg transition-colors duration-200">
                             <span>Faire l'exercice</span>
                             <i class="fas fa-arrow-right"></i>
                         </Button>

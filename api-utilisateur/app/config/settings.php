@@ -12,6 +12,7 @@ return  [
     'logs.dir' => __DIR__ . '/../var/logs',
     'logs.name' => 'apiGestion.log',
     'logs.level' => Level::Info,
+    'upload_dir' => __DIR__ . '/../public/assets/',
 
     'logger' => function( ContainerInterface $c) {
         $log = new Logger( $c->get('logs.name'));

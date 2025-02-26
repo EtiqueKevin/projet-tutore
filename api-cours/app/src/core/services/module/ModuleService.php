@@ -6,21 +6,44 @@ use apiCours\core\dto\module\ModuleDTO;
 use apiCours\core\repositoryInterface\ModuleRepositoryException;
 use apiCours\core\repositoryInterface\ModuleRepositoryInterface;
 use apiCours\core\repositoryInterface\ModuleRepositoryNotFoundException;
+use apiCours\core\dto\module\searchModuleDTO;
+use apiCours\core\repositoryInterface\UtilisateurRepositoryInterface;
 use Ramsey\Uuid\Uuid;
+use function PHPUnit\Framework\isEmpty;
 
 class ModuleService implements ModuleServiceInterface
 {
     private ModuleRepositoryInterface $moduleRepository;
 
-    public function __construct(ModuleRepositoryInterface $moduleRepository)
+    private UtilisateurRepositoryInterface $utilisateurRepository;
+
+    public function __construct(ModuleRepositoryInterface $moduleRepository, UtilisateurRepositoryInterface $utilisateurRepository)
     {
         $this->moduleRepository = $moduleRepository;
+        $this->utilisateurRepository = $utilisateurRepository;
     }
 
-    public function getAllModules()
+    public function getAllModules(searchModuleDTO $searchDTO)
     {
         try {
-            $modules = $this->moduleRepository->getAllModules();
+            $modules = $this->moduleRepository->getAllModules($searchDTO->name, $searchDTO->description);
+            $modulesDTO = [];
+            foreach ($modules as $module) {
+                $modulesDTO[] = $module->toDTO();
+            }
+            return $modulesDTO;
+        } catch (ModuleRepositoryException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        } catch (ModuleRepositoryNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
+        }
+    }
+
+    public function getAllModulesUtilisateur(searchModuleDTO $searchDTO): array{
+        try {
+            $modulesTabStatus = $this->utilisateurRepository->getModulesStatus();
+
+            $modules = $this->moduleRepository->getAllModules($searchDTO->name, $searchDTO->description);
             $modulesDTO = [];
             foreach ($modules as $module) {
                 $modulesDTO[] = $module->toDTO();
@@ -83,6 +106,38 @@ class ModuleService implements ModuleServiceInterface
             $this->moduleRepository->changeToJohnDoe($id);
         }catch (\Exception $e) {
             throw new ModuleServiceException($e->getMessage());
+        }
+    }
+
+    public function liaisonModuleLesson(string $idLesson, string $idModule):void{
+        try{
+            $this->moduleRepository->liaisonModuleLesson($idLesson,$idModule);
+        }catch (\Exception $e){
+            throw new ModuleServiceException($e->getMessage());
+        }
+    }
+
+    public function decrementationModuleLesson(string $idModule):void{
+        try{
+            $this->moduleRepository->decrementationModuleLesson($idModule);
+        }catch (\Exception $e){
+            throw new ModuleServiceException($e->getMessage());
+        }
+    }
+
+    public function getModulesByCreater(searchModuleDTO $searchDTO)
+    {
+        try {
+            $modules = $this->moduleRepository->getModulesByCreater($searchDTO->name, $searchDTO->description,$searchDTO->id_creater);
+            $modulesDTO = [];
+            foreach ($modules as $module) {
+                $modulesDTO[] = $module->toDTO();
+            }
+            return $modulesDTO;
+        } catch (ModuleRepositoryException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        } catch (ModuleRepositoryNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
         }
     }
 }

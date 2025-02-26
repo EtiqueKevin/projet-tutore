@@ -38,7 +38,7 @@ class RegisterAction extends AbstractAction
             $pseudo = filter_var($params['pseudo'], FILTER_SANITIZE_SPECIAL_CHARS);
         }
 
-        $linkpic = "johndoe.jpg";
+        $linkpic = "default.jpg";
 
         try {
             $this->userService->createUser(new InputUserDTO($email, $params['mdp'], $name, $surname, $linkpic, $pseudo));

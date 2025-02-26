@@ -83,4 +83,30 @@ class PDOAuthRepository implements AuthRepositoryInterface
             throw new AuthRepositoryException($e->getMessage());
         }
     }
+
+    public function getRoleById(string $id): string
+    {
+        $stmt = $this->pdo->prepare('SELECT role FROM users WHERE id = ?');
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        if ($row) {
+            return $row['role'];
+        } else {
+            throw new AuthRepositoryException("Role non trouvé" );
+        }
+    }
+
+    public function getEmailByRole(string $id): string
+    {
+        $stmt = $this->pdo->prepare('SELECT email FROM users WHERE id = ?');
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $row = $stmt->fetch();
+        if ($row) {
+            return $row['email'];
+        } else {
+            throw new AuthRepositoryException("Email non trouvé");
+        }
+    }
 }

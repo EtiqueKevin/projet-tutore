@@ -45,7 +45,6 @@ class GeneriqueAuthnAction extends AbstractAction
         } catch (ConnectException | ServerException $e) {
             throw new HttpInternalServerErrorException($rq, "The remote server is not available");
         }catch (ClientException $e) {
-            var_dump($e->getMessage());
             match($e->getCode()) {
                 400 => throw new HttpBadRequestException($rq, "The request is invalid"),
                 401 => throw new HttpUnauthorizedException($rq, "You are not authorized to access this resource"),

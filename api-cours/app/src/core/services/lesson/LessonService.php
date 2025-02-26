@@ -5,6 +5,7 @@ namespace apiCours\core\services\lesson;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
+use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 
 class LessonService implements LessonServiceInterface
@@ -34,26 +35,34 @@ class LessonService implements LessonServiceInterface
         return $lesson->toDTO();
     }
 
-    public function createLesson(LessonDTO $lessonDTO): LessonDTO
+    public function createLesson(LessonDTO $lessonDTO): string
     {
-        $lesson = $lessonDTO->toEntity();
-        $newLesson = $this->lessonRepository->createLesson($lesson);
-        $newLessonDTO = $newLesson->toDTO();
-        $newLessonDTO->setId($newLesson->getId());
-        return $newLessonDTO;
+        try{
+            $res =$this->lessonRepository->createLesson($lessonDTO->jsonSerialize());
+            return $res;
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
+
     }
 
-    public function updateLesson(LessonDTO $lessonDTO): LessonDTO
+    public function updateLesson(LessonDTO $lessonDTO): void
     {
-        $lesson = $lessonDTO->toEntity();
-        $newLesson = $this->lessonRepository->updateLesson($lesson);
-        $newLessonDTO = $newLesson->toDTO();
-        return $newLessonDTO;
+        try{
+            $this->lessonRepository->updateLesson($lessonDTO->jsonSerialize());
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
     }
 
     public function deleteLesson(string $id): void
     {
-        $this->lessonRepository->deleteLesson($id);
+        try {
+            $this->lessonRepository->deleteLesson($id);
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
+
     }
 
     public function getLessonByModuleId(string $moduleId): array

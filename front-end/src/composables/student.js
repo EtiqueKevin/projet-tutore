@@ -12,7 +12,7 @@ export function useStudent() {
                 description: res.data.module.description,
                 creator: res.data.module.idCreator,
                 lessonCount: res.data.module.nblesson,
-                lastUpdate: new Date(parseInt(res.data.module.dateupdate)),
+                lastUpdate: res.data.module.dateupdate,
                 lessons: []
             }
             
@@ -48,6 +48,22 @@ export function useStudent() {
         }
     }
 
+    async function searchModule(name, description) {
+        try {
+            let query = ''
+            if(name) {
+                query += `name=${name}`
+            }
+            if(description) {
+                query == '' ? query += `description=${description}` : query += `&description=${description}`
+            }
+            const res = await api.get(`/modules?${query}`)
+            return res.data.modules
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     async function loadExercice(idLesson, nbContent) {
         const lesson = await loadCours(idLesson)
         if(lesson.content[nbContent].type !== 'code') {
@@ -60,6 +76,7 @@ export function useStudent() {
         loadModule,
         loadCours,
         getModules,
-        loadExercice
+        loadExercice,
+        searchModule
     }
 }

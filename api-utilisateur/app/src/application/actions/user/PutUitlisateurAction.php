@@ -20,49 +20,61 @@ class PutUitlisateurAction extends AbstractAction
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
-    {
-        $params = $rq->getParsedBody() ?? null;
-        $id = $rq->getAttribute('idUser');
+{
+    $params = [];
+    
+    // Handle multipart form data
+    $uploadedFiles = $rq->getUploadedFiles();
+    $body = $rq->getParsedBody();
 
-        if(!isset($params['name'])) {
-            throw new HttpBadRequestException($rq, "Le nom est obligatoire.");
-        }else if (!isset($params['surname'])) {
-            throw new HttpBadRequestException($rq, "Le prénom est obligatoire.");
-        }else if (!isset($params['pseudo'])) {
-            throw new HttpBadRequestException($rq, "Le pseudo est obligatoire.");
-        }
+    // Get form fields
+    $params['name'] = $body['name'] ?? null;
+    $params['surname'] = $body['surname'] ?? null;
+    $params['pseudo'] = $body['pseudo'] ?? null;
+    
+    // Validate required fields
+    if(!isset($params['name'])) {
+        throw new HttpBadRequestException($rq, "Le nom est obligatoire.");
+    }
+    if (!isset($params['surname'])) {
+        throw new HttpBadRequestException($rq, "Le prénom est obligatoire.");
+    }
+    if (!isset($params['pseudo'])) {
+        throw new HttpBadRequestException($rq, "Le pseudo est obligatoire.");
+    }
 
+    $fileNameNew = "default.jpg";
 
-        $fileNameNew = "default.png";
-
-        if (isset($_FILES['image']) && $_FILES['image']['size'] != 0 && $_FILES['image']['type'] != "") {
-            $file = $_FILES['image'];
-            $fileName = $file['name'];
-            $fileTmpName = $file['tmp_name'];
-            $fileSize = $file['size'];
-            $fileError = $file['error'];
-            $fileType = $file['type'];
-
+    // Handle image upload if present
+    if (isset($uploadedFiles['image'])) {
+        $uploadedFile = $uploadedFiles['image'];
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $fileType = $uploadedFile->getClientMediaType();
+            
             $allowed = ['image/jpg', 'image/jpeg', 'image/png'];
+            
+            if(in_array($fileType, $allowed)) {
+                $dir = __DIR__ . '/../../../../public/assets/';
 
-            if(in_array($fileType, $allowed)){
-                //générer un nom unique pour l'image
-                $fileNameNew = uniqid('', true).".".explode("/",$fileType)[1];
-                $fileDestination = './assets/'.$fileNameNew;
-                move_uploaded_file($fileTmpName, $fileDestination);
-            }else{
+                $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+                $fileNameNew = uniqid('', true) . '.' . $extension;
+                $uploadedFile->moveTo($dir . $fileNameNew);
+            } else {
                 throw new HttpBadRequestException($rq, "Le type de fichier d'image n'est pas autorisé.");
             }
         }
-
-        $inputDTO = new InputUserDTO($id, $params['name'], $params['surname'], $fileNameNew, $params['pseudo']);
-
-        try{
-            $this->utilisateurService->update($inputDTO);
-        }catch (Exception $e){
-            throw new HttpBadRequestException($rq, $e->getMessage());
-        }
-
-        return $rs->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
+
+    $id = $rq->getAttribute('idUser');
+    
+    $inputDTO = new InputUserDTO($id, $params['name'], $params['surname'], $fileNameNew, $params['pseudo']);
+
+    try {
+        $this->utilisateurService->update($inputDTO);
+    } catch (Exception $e) {
+        throw new HttpBadRequestException($rq, $e->getMessage());
+    }
+
+    return $rs->withHeader('Content-Type', 'application/json')->withStatus(201);
+}
 }

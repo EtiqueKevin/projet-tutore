@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Client;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
@@ -26,5 +27,13 @@ return  [
         $client = new MongoDB\Client('mongodb://mongo.jeancademie:27017', ["username" => "root", "password" => "root"]);
         $database = $client->cours;
         return $database;
+    },
+
+    'client_utilisateur' => function (ContainerInterface $c){
+        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:8889']);
+    },
+
+    'client_auth' => function (ContainerInterface $c){
+        return new Client(['base_uri' => 'http://api.auth.jeancademie:8890']);
     },
 ];

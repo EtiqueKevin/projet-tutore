@@ -3,9 +3,13 @@
 use apiAuth\application\actions\DeleteUserByIdAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetUserById;
+use apiUtilisateur\application\middleware\AuthMiddleware;
+use apiUtilisateur\application\middleware\AuthzMiddleware;
 use apiUtilisateur\core\repositoryInterface\AuthRepositoryInterface;
 use apiUtilisateur\core\repositoryInterface\CoursRepositoryInterface;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
+use apiUtilisateur\core\services\auth\AuthService;
+use apiUtilisateur\core\services\auth\AuthServiceInterface;
 use apiUtilisateur\core\services\user\UsersService;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use apiUtilisateur\infrastructure\adaptater\AdaptaterAuthRepository;
@@ -42,6 +46,18 @@ return [
 
     DeleteUserByIdAction::class => function (ContainerInterface $c) {
         return new DeleteUserByIdAction($c->get(UsersServiceInterface::class));
+    },
+
+    AuthServiceInterface::class => function (ContainerInterface $c) {
+        return new AuthService($c->get(AuthRepositoryInterface::class));
+    },
+
+    AuthMiddleware::class => function (ContainerInterface $c) {
+        return new AuthMiddleware($c->get(AuthServiceInterface::class));
+    },
+
+    AuthzMiddleware::class => function (ContainerInterface $c) {
+        return new AuthzMiddleware($c->get(AuthServiceInterface::class));
     },
 
 ];

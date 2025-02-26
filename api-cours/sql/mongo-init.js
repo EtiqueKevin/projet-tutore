@@ -1,12 +1,12 @@
-db = db.getSiblingDB('cours'); // Remplace par le nom de ta BD
+db = db.getSiblingDB('cours');
 
 db.modules.insertMany([
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440000"),
-    id_creator: UUID("123e4567-e89b-12d3-a456-426614174000"),
-    name: "Module de test",
-    description: "Exemple de module",
-    nblesson: 5,
+    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    name: "Introduction à Java",
+    description: "Apprentissage des bases de la programmation en Java",
+    nblesson: 1,
     date_update: new Date()
   }
 ]);
@@ -14,59 +14,88 @@ db.modules.insertMany([
 db.lessons.insertMany([
   {
     _id: UUID("660e8400-e29b-41d4-a716-446655440000"),
-    name: "Cours de programmation",
-    description: "Exemple de lesçon",
+    name: "Les bases des fonctions en Java",
+    description: "Apprendre à créer et utiliser des fonctions en Java",
     type: "langage",
-    content : [
+    content: [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "Une **fonction** en Java (appelée aussi **méthode**) est un bloc de code réutilisable qui effectue une tâche spécifique. Elles permettent :\n\n- D'organiser notre code de manière plus claire.\n- D'éviter la répétition du code en encapsulant des comportements réutilisables.\n- D'améliorer la lisibilité et la maintenabilité du programme."
+      },
+      {
+        index: 1,
+        type: 'code',
+        content: '## Adition \n Créez une fonction qui calcule la somme de deux nombres.\n\n Pour ajouter deux nombres, on utilise l\'opérateur `+`.',
+        files: [
           {
-              index : 0,
-              type: 'text',
-              content: 'Le premier text de la leçon'
+            content: `public class Calculator {
+    public static int add(int a, int b) {
+        // TODO: Retourner la somme de a et b
+        return 0;
+    }
+}`,
+            filename: 'Calculator.java',
+            language: 'java',
+            type: 'file'
           },
           {
-              index : 1,
-              type: 'code',
-              content: 'blablablabla',
-              files: [
-                  {
-                      content: 'l',
-                      filename: 'file.java',
-                      language: 'java',
-                      type: 'file'
-                  },
-                  {
-                      content: 'testl',
-                      filename: 'test.java',
-                      language: 'java',
-                      type: 'test'
-                  }
-              ]
-          },
-          {
-              index : 2,
-              type: 'text',
-              content: 'Le deuxième text de la leçon'
-          },
-          {
-              index : 3,
-              type: 'code',
-              content: 'blablablabla2',
-              files: [
-                  {
-                      content: 'x',
-                      filename: 'filex.java',
-                      language: 'java',
-                      type: 'file'
-                  },
-                  {
-                      content: 'xl',
-                      filename: 'testx.java',
-                      language: 'java',
-                      type: 'test'
-                  }
-              ]
+            content: `import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class CalculatorTest {
+    @Test
+    public void testAdd() {
+        assertEquals(5, Calculator.add(2, 3));
+        assertEquals(0, Calculator.add(0, 0));
+        assertEquals(-5, Calculator.add(-2, -3));
+    }
+}`,
+            filename: 'CalculatorTest.java',
+            language: 'java',
+            type: 'test'
           }
-      ],
+        ]
+      },
+      {
+        index: 2,
+        type: 'text',
+        content: 'Les fonctions peuvent aussi retourner des chaînes de caractères. Voyons comment créer une fonction qui formate un message de bienvenue.'
+      },
+      {
+        index: 3,
+        type: 'code',
+        content: 'Créez une fonction qui génère un message de bienvenue personnalisé',
+        files: [
+          {
+            content: `public class Greeter {
+    public static String createWelcomeMessage(String name) {
+        // TODO: Retourner "Bonjour, [name]!"
+        return "";
+    }
+}`,
+            filename: 'Greeter.java',
+            language: 'java',
+            type: 'file'
+          },
+          {
+            content: `import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class GreeterTest {
+    @Test
+    public void testCreateWelcomeMessage() {
+        assertEquals("Bonjour, Alice!", Greeter.createWelcomeMessage("Alice"));
+        assertEquals("Bonjour, Bob!", Greeter.createWelcomeMessage("Bob"));
+    }
+}`,
+            filename: 'GreeterTest.java',
+            language: 'java',
+            type: 'test'
+          }
+        ]
+      }
+    ],
     date_update: new Date()
   }
 ]);
@@ -79,14 +108,32 @@ db.module_lessons.insertMany([
   }
 ]);
 
-db.module_users.insertMany([
+db.lesson_erreurs.insertMany([
   {
     _id: UUID("880e8400-e29b-41d4-a716-446655440000"),
-    id_module: UUID("550e8400-e29b-41d4-a716-446655440000"),
-    id_users: UUID("990e8400-e29b-41d4-a716-446655440000"),
-    stage: 1,
-    status: "En cours",
-    rate: 4,
-    date_update: new Date()
+    id_lesson: UUID("660e8400-e29b-41d4-a716-446655440000"),
+    errors: [
+      {
+        index: 0,
+        errors: {
+          test_1: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+           test_2: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+          test_3: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          }
+        },
+      },
+    ]
   }
 ]);
+    

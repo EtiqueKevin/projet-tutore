@@ -26,8 +26,6 @@ class PutModuleByIdAction extends AbstractAction
 
         if(!isset($body['name']) ) {
             throw new HttpBadRequestException($rq, "Le nom du module est obligatoire.");
-        }else if(!isset($body['idCreator']) ) {
-            throw new HttpBadRequestException($rq, "L'id du créateur du module est obligatoire.");
         }else if(!isset($body['description']) ) {
             throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
         }else if(!isset($body['nblesson']) ) {
@@ -38,10 +36,12 @@ class PutModuleByIdAction extends AbstractAction
             throw new HttpBadRequestException($rq, "l'UUID du module n'est pas valide.");
         }
 
+        $id_creator = $rq->getAttribute('idUser');
+
         $moduleDTO = new ModuleDTO(
             $id,
             $body['name'],
-            $body['idCreator'],
+            "",
             $body['description'],
             $body['nblesson'],
             null

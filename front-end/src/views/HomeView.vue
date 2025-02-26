@@ -2,6 +2,9 @@
 import studentImage from '@/assets/student.jpg';
 import teacherImage from '@/assets/teacher.jpg';
 import adminImage from '@/assets/admin.jpg';
+
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -16,10 +19,10 @@ import adminImage from '@/assets/admin.jpg';
           Une plateforme d'apprentissage interactive pour maîtriser de nouveaux langages de programmation
         </p>
         <div class="flex justify-center gap-4">
-          <router-link to="/modules" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+          <router-link to="/modules" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
             Commencer à Apprendre
           </router-link>
-          <router-link to="/user/connect" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded-lg transition">
+          <router-link v-if="!userStore.isLogged" to="/user/connect" class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-bold py-3 px-6 rounded-lg">
             S'inscrire
           </router-link>
         </div>
@@ -71,12 +74,8 @@ import adminImage from '@/assets/admin.jpg';
 </template>
 
 <style scoped>
-.transition {
-  transition: all 0.3s ease;
-}
 
 .profil {
-  transition: transform 0.3s ease;
   @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg;
 }
 

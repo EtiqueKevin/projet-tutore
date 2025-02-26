@@ -2,8 +2,10 @@
 
 namespace apiCours\core\dto\lesson;
 
+use apiCours\core\domain\entities\Entity;
 use apiCours\core\domain\entities\lesson\Lesson;
 use apiCours\core\dto\DTO;
+use Ramsey\Uuid\Uuid;
 
 class LessonDTO extends DTO implements \JsonSerializable
 {
@@ -13,25 +15,54 @@ class LessonDTO extends DTO implements \JsonSerializable
     private string $description;
     private array $content;
 
-    public function __construct(?string $id, string $name, string $type, array $content, string $description)
+    private ?string $dateUpdate;
+
+    public function __construct(?string $id, string $name, string $type, array $content, string $description, ?string $dateUpdate = null)
     {
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->description = $description;
-        foreach ($content as $c) {
-            $this->content[] = $c->toDTO();
+
+        if($content['0'] instanceof Entity){
+            foreach ($content as $c) {
+                $this->content[] = $c->toDTO();
+            }
         }
+        else{
+            $this->content = $content;
+        }
+        $this->dateUpdate = $dateUpdate;
     }
 
     public function jsonSerialize(): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'content' => $this->content
-        ];
+
+        $ct = [];
+        foreach ($this->content as $c) {
+            $ct[] = $c->jsonSerialize();
+        }
+
+        if($this->id == null){
+            return [
+                'id' => Uuid::uuid4()->toString(),
+                'name' => $this->name,
+                'description' => $this->description,
+                'type' => $this->type,
+                'content' => $ct,
+                'date_update' => $this->dateUpdate
+            ];
+        }else{
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+                'description' => $this->description,
+                'type' => $this->type,
+                'content' => $ct,
+                'date_update' => $this->dateUpdate
+            ];
+        }
+
     }
 
     public function toEntity(): Lesson {

@@ -12,12 +12,15 @@ class Lesson extends Entity
     private string $description;
     private array $content;
 
-    public function __construct(string $name, string $type, array $content, string $description)
+    private string $dateUpdate;
+
+    public function __construct(string $name, string $type, array $content, string $description, string $dateUpdate)
     {
         $this->name = $name;
         $this->type = $type;
         $this->content = $content;
         $this->description = $description;
+        $this->dateUpdate = $dateUpdate;
     }
 
     public function toDTO(): LessonDTO
@@ -26,6 +29,6 @@ class Lesson extends Entity
         foreach ($this->content as $content) {
             $contentDTO[] = $content->toDTO();
         }
-        return new LessonDTO($this->id, $this->name, $this->type, $this->content, $this->description);
+        return new LessonDTO($this->id, $this->name, $this->type, $this->content, $this->description, $this->dateUpdate);
     }
 }

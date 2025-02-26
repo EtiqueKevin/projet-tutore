@@ -13,6 +13,7 @@ class ModuleDTO extends DTO{
     protected string $description;
     protected int $nblesson;
     protected ?string $dateupdate;
+    protected ?bool $status = null;
 
     public function __construct(?string $id, string $name, string $idCreator, string $description, int $nblesson, ?string $dateupdate){
         $this->id = $id;
@@ -31,6 +32,10 @@ class ModuleDTO extends DTO{
         $this->id = $id;
     }
 
+    public function setStatus(?bool $status): void{
+        $this->status = $status;
+    }
+
     public function toEntity(){
         $module = new Module($this->name, $this->idCreator, $this->description, $this->nblesson, $this->dateupdate);
         $module->setId($this->id);
@@ -45,7 +50,8 @@ class ModuleDTO extends DTO{
             'idCreator' => $this->idCreator,
             'description' => $this->description,
             'nblesson' => $this->nblesson,
-            'dateupdate' => $this->dateupdate
+            'dateupdate' => $this->dateupdate,
+            'status' => $this->status
         ];
     }
 }

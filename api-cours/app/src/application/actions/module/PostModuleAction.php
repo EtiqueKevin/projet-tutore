@@ -23,20 +23,22 @@ class PostModuleAction  extends AbstractAction
     {
         $body = $rq->getParsedBody();
 
+
+
         if(!isset($body['name']) ) {
             throw new HttpBadRequestException($rq, "Le nom du module est obligatoire.");
-        }else if(!isset($body['idCreator']) ) {
-            throw new HttpBadRequestException($rq, "L'id du créateur du module est obligatoire.");
         }else if(!isset($body['description']) ) {
             throw new HttpBadRequestException($rq, "La description du module est obligatoire.");
         }else if(!isset($body['nblesson']) ) {
             throw new HttpBadRequestException($rq, "Le nombre de leçon du module est obligatoire.");
         }
 
+        $id_creator = $rq->getAttribute('idUser');
+
         $moduleDTO = new ModuleDTO(
             null,
             $body['name'],
-            $body['idCreator'],
+            $id_creator,
             $body['description'],
             $body['nblesson'],
             null

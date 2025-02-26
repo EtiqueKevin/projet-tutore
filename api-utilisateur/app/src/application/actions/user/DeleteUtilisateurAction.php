@@ -36,8 +36,6 @@ class DeleteUtilisateurAction extends AbstractAction
             $this->utilisateurService->deleteUser($id);
             if ($role == 100) {
                 $this->utilisateurService->changeToJohnDoe($id);
-            } else {
-                throw new HttpBadRequestException($rq, "Vous n'avez pas les droits pour supprimer un utilisateur.");
             }
         }catch (Exception $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
