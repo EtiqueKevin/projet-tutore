@@ -11,7 +11,7 @@ export default [
     {
       path: 'teacher/modules',
       name: 'teacher-modules',
-      component: () => import('@/views/module/TeacherModulesView.vue'),
+      component: () => import('@/views/module/EditorModulesView.vue'),
       meta: { 
         requiresAuth: true,
         requiresTeacher: true
@@ -20,7 +20,7 @@ export default [
     {
       path: 'teacher/modules/:id',
       name: 'teacher-module-id',
-      component: () => import('@/views/module/TeacherModulesByIdView.vue'),
+      component: () => import('@/views/module/EditorModulesByIdView.vue'),
       meta: { 
         requiresAuth: true,
         requiresTeacher: true

@@ -25,7 +25,7 @@ export default [
         {
           path: 'modules/:id',
           name: 'admin-module-details',
-          component: () => import('@/views/module/TeacherModulesByIdView.vue'),
+          component: () => import('@/views/module/EditorModulesByIdView.vue'),
           meta: { 
             requiresAuth: true,
             requiresAdmin: true
