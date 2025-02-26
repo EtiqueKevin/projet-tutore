@@ -76,7 +76,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
                     }
                 });
         
-                // Update local state
+                // met a jour en local
                 this.name = data.name;
                 this.surname = data.surname;
                 this.pseudo = data.pseudo;

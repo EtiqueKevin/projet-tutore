@@ -2,9 +2,10 @@
 import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 import InputField from '@/components/structure/forms/inputs/InputField.vue';
+import { onMounted } from 'vue';
 
 const userStore = useUserStore();
-
+const url = import.meta.env.VITE_API_URL;
 const userProfile = ref({
     name: '',
     surname: '',
@@ -44,19 +45,33 @@ const saveProfile = async () => {
         const success = await userStore.updateProfile(userProfile.value);
         if (success) {
             isEditing.value = false;
+            imagePreview = null
         }
     } catch (error) {
         console.error('Error updating profile:', error);
     }
 };
 
+onMounted(() => {
+    if(userStore.isInit){
+        userProfile.value = {
+            name: userStore.name,
+            surname: userStore.surname,
+            pseudo: userStore.pseudo,
+            image: url + '/assets/img/' + userStore.imageId
+        };
+    }
+});
+
+
 watch (() => userStore.isInit, (isInit) => {
+    // afin de ne pas afficher les données de l'utilisateur avant qu'elles ne soient chargées si on va sur la page directement
     if (isInit) {
         userProfile.value = {
             name: userStore.name,
             surname: userStore.surname,
             pseudo: userStore.pseudo,
-            image: null
+            image: url + '/assets/img/' + userStore.imageId
         };
     }
 });
@@ -80,9 +95,7 @@ watch (() => userStore.isInit, (isInit) => {
                     <div class="relative flex flex-col space-y-2 items-center justify-center">
                         <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center overflow-hidden">
                             <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
-                            <span v-else class="text-4xl text-black">
-                                {{ userProfile.name[0] }}{{ userProfile.surname[0] }}
-                            </span>
+                            <img v-else="userProfile.image" :src="userProfile.image" class="w-full h-full object-cover" />
                         </div>
                         <input
                             v-if="isEditing"

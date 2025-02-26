@@ -16,7 +16,6 @@ const currentModule = ref({})
 const loadModuleWithDelay = async () => {
     try {
         currentModule.value = await loadModule(route.params.id)
-        console.log('Module:', currentModule.value)
     } catch (error) {
         console.error('Failed to fetch module:', error)
     } finally {

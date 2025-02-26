@@ -54,7 +54,7 @@ class PutUitlisateurAction extends AbstractAction
             $allowed = ['image/jpg', 'image/jpeg', 'image/png'];
             
             if(in_array($fileType, $allowed)) {
-                $dir = __DIR__ . '/../../../../public/assets/';
+                $dir = __DIR__ . '/../../../../public/assets/img/';
 
                 $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
                 $fileNameNew = uniqid('', true) . '.' . $extension;
