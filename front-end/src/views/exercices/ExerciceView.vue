@@ -7,21 +7,34 @@ import { useStudent } from '@/composables/student'
 import { useRouter, useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification'
 
+const route = useRoute();
+const router = useRouter();
+const toast = useToast();
+
 const page = ref(0);
-const { loadExercice } = useStudent();
+const { loadExercice, correctExercice } = useStudent();
 
 const sujet = ref("");
 const files = ref([]);
-const consoleText = ref(``);
+const consoleOutput = ref({output: "", error: "", status: ""});
 const loading = ref(true);
 
 const isMobile = computed(() => window.innerWidth < 768);
 const isLoaded = computed(() => sujet.value !== "" && files.value.length > 0);
 
+const correct = async () => {
+  const formatedFiles = files.value.map(file => {
+    return {
+      fileName: file.filename,
+      code: file.content
+    }
+  });
+  consoleOutput.value = await correctExercice(route.params.id, route.params.nbContent, formatedFiles, files.value[0].language);
+};
+
+
+
 onMounted(async () => {
-  const route = useRoute();
-  const router = useRouter();
-  const toast = useToast();
 
   try{
     const currentExercice = await loadExercice(route.params.id, route.params.nbContent);
@@ -87,8 +100,14 @@ onMounted(async () => {
         <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
       </div>
       <MarkdownArea v-if="(!isMobile || page === 0) && isLoaded" :markdown-text="sujet" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2'"/>
-      <Editor v-if="(!isMobile || page === 1) && isLoaded" :files="files" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2'"/>
-      <Console v-if="(!isMobile || page === 2) && isLoaded" :results="consoleText" :class="isMobile ? 'w-full' : 'w-[20%]'"/>
+      <Editor 
+        v-if="(!isMobile || page === 1) && isLoaded" 
+        :files="files" 
+        @correct-code="correct"
+        class="dark:border-gray-300 border-slate-800" 
+        :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2'"
+      />
+      <Console v-if="(!isMobile || page === 2) && isLoaded" :results="consoleOutput" :class="isMobile ? 'w-full' : 'w-[20%]'"/>
     </template>
   </main>
 </template>

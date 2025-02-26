@@ -24,32 +24,38 @@ class GeneriqueExecutionAction extends AbstractAction
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
-    {
-        $method = $rq->getMethod();
-        $path = $rq->getUri()->getPath();
-        $options = ['query' => $rq->getQueryParams()];
+{
+    $method = $rq->getMethod();
+    $path = $rq->getUri()->getPath();
+    $options = ['query' => $rq->getQueryParams()];
 
-        if ($method === 'POST' || $method === 'PUT' || $method === 'PATCH') {
-            $options['json'] = $rq->getParsedBody();
-        }
+    if (in_array($method, ['POST', 'PUT', 'PATCH'])) {
+        $options['json'] = $rq->getParsedBody();
+    }
 
-        $auth = $rq->getHeader('Authorization') ?? null;
-        if (!empty($auth)) {
-            $options['headers'] = ['Authorization' => $auth];
-        }
+    $auth = $rq->getHeader('Authorization') ?? null;
+    if (!empty($auth)) {
+        $options['headers'] = ['Authorization' => $auth];
+    }
 
-        try {
-            $rs = $this->remote_api->request($method, $path,$options);
-        } catch (ConnectException | ServerException $e) {
-            throw new HttpInternalServerErrorException($rq, "The remote server is not available");
-        }catch (ClientException $e) {
-            match($e->getCode()) {
-                400 => throw new HttpBadRequestException($rq, "The request is invalid"),
-                401 => throw new HttpUnauthorizedException($rq, "You are not authorized to access this resource"),
-                403 => throw new HttpForbiddenException($rq, "You are not allowed to access this resource"),
-                404 => throw new HttpNotFoundException($rq, "The requested resource was not found"),
-            };
-        }
-        return $rs;
+    try {
+        $response = $this->remote_api->request($method, $path, $options);
+        
+        // Pour être sur que le body n'est pas écrasé/raccourci afin qu'il soit bien écrit dans la réponse
+        $body = (string) $response->getBody(); 
+        $rs->getBody()->write($body);
+        
+        return $rs->withHeader('Content-Type', 'application/json')->withStatus($response->getStatusCode());
+    } catch (ConnectException | ServerException $e) {
+        throw new HttpInternalServerErrorException($rq, "The remote server is not available");
+    } catch (ClientException $e) {
+        match ($e->getCode()) {
+            400 => throw new HttpBadRequestException($rq, "The request is invalid"),
+            401 => throw new HttpUnauthorizedException($rq, "You are not authorized to access this resource"),
+            403 => throw new HttpForbiddenException($rq, "You are not allowed to access this resource"),
+            404 => throw new HttpNotFoundException($rq, "The requested resource was not found"),
+        };
     }
 }
+}
+
