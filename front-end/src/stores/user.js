@@ -1,3 +1,4 @@
+
 import { defineStore } from 'pinia'
 import { useToast } from 'vue-toastification';
 
@@ -12,6 +13,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
         pseudo: null,
         email: null,
         role: null,
+        imageId: null,
         preferences: {
             themeDark: null,
         }
@@ -28,13 +30,9 @@ export const useUserStore = defineStore('jeanCademieUser', {
                 });
                 this.accessToken = res.data.atoken;
                 this.refreshToken = res.data.rtoken;
-                this.role = res.data.role;
-
-                this.email = email;
-                this.name = "Martin";
-                this.surname = "Marie";
-                this.pseudo = "kevin";
-
+                
+                await this.loadInfo();
+                
                 toast.success('Connexion réussie');
 
                 return true;
@@ -51,10 +49,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
                 this.refreshToken = res.data.rtoken;
                 this.role = res.data.role;
 
-                this.email = data.email;
-                this.name = data.name;
-                this.surname = data.surname;
-                this.pseudo = data.pseudo;
+                await this.loadInfo();
 
                 toast.success('Inscription réussie');
 
@@ -94,6 +89,25 @@ export const useUserStore = defineStore('jeanCademieUser', {
             }
         },
 
+        async loadInfo() {
+            if(!this.accessToken) return;
+            if(this.role !== null) return;
+
+
+            try {
+                const res = await this.$api.get('/user');
+                const user = res.data.user;
+
+                this.name = user.name;
+                this.surname = user.surname;
+                this.pseudo = user.pseudo;
+                this.role = user.role;
+                this.imageId = user.linkpic;
+            }catch{
+                this.signOut();
+            }
+        },
+
         signOut() {
             this.accessToken = null;
             this.refreshToken = null;
@@ -118,6 +132,11 @@ export const useUserStore = defineStore('jeanCademieUser', {
         isLogged(state) {
             return state.accessToken !== null;
         },
+
+        isInit(state) {
+            return state.role !== null;
+        },
+
         token(state){
             return state.accessToken
         },
@@ -147,7 +166,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
     persist: {
         enabled: true,
         strategies: [
-            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'role', 'name', 'surname', 'email', 'pseudo', 'preferences'] }
+            { storage: localStorage, paths: ['accessToken', 'refreshToken', 'preferences'] }
         ]
     }
 })

@@ -17,8 +17,9 @@ const checkTheme = () => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   checkTheme() // stocker le theme du navigateur de l'utilisateur de la page (sauvegarder les préférences de theme pour plutard)
+  await userStore.loadInfo()
 })
 
 </script>

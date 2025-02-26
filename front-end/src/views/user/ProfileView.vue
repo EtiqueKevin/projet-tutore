@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 import InputField from '@/components/structure/forms/inputs/InputField.vue';
 
@@ -16,7 +16,6 @@ const imagePreview = ref(null);
 const fileInput = ref(null);
 
 const isEditing = ref(false);
-const isInit = ref(false);
 
 const toggleEdit = () => {
     if (isEditing.value) {
@@ -51,20 +50,21 @@ const saveProfile = async () => {
     }
 };
 
-onMounted(async () => {
-    userProfile.value = {
-        name: userStore.name,
-        surname: userStore.surname,
-        pseudo: userStore.pseudo,
-        image: null
-    };
-    isInit.value = true;
+watch (() => userStore.isInit, (isInit) => {
+    if (isInit) {
+        userProfile.value = {
+            name: userStore.name,
+            surname: userStore.surname,
+            pseudo: userStore.pseudo,
+            image: null
+        };
+    }
 });
 </script>
 
 <template>
     <main class="flex-grow p-6">
-        <div class="max-w-2xl mx-auto bg-background-light dark:bg-background-dark rounded-lg shadow-md p-8" v-if="isInit">
+        <div class="max-w-2xl mx-auto bg-background-light dark:bg-background-dark rounded-lg shadow-md p-8" v-if="userStore.isInit">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-black dark:text-white">Profile</h1>
                 <button
@@ -154,6 +154,17 @@ onMounted(async () => {
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- skeleton loader -->
+        <div v-else>
+            <div class="animate-pulse flex space-x-4">
+                <div class="flex-1 space-y-4 py-1">
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                    <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                </div>
+            </div> 
         </div>
     </main>
 </template>
