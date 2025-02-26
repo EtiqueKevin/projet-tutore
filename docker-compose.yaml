@@ -3,6 +3,17 @@ networks:
     driver: bridge
 
 services:
+  # BROKER
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    #    volumes:
+    #      - redis-data:/data
+    networks:
+      - jeancademie.net
+
   # FRONTEND
 
   frontend.jeancademie:
@@ -90,7 +101,59 @@ services:
 
     command: php -S 0.0.0.0:8890 -t /var/php/public
 
-# DATABASES
+  api.execution:
+    build: ./api-execution/router # Dockerfile dans le dossier ./router
+    container_name: router
+    ports:
+      - "8891:3000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - redis
+    networks:
+      - jeancademie.net
+
+  java:
+    image: yoxan/node-java
+    container_name: java
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./api-execution/worker/creation/:/usr/src/worker/creation
+      - ./api-execution/worker/logs/:/usr/src/worker/logs
+      - ./api-execution/worker/java/:/usr/src/worker/java
+      - ./api-execution/worker/script_system/:/usr/src/worker/script_system
+      - ./api-execution/worker/traitement/:/usr/src/worker/traitement
+      - ./api-execution/worker/logger.js:/usr/src/worker/logger.js
+    depends_on:
+      - redis
+    command: node java/index.js
+    networks:
+      - jeancademie.net
+
+  # Service Python
+  python:
+    image: yoxan/node-python
+    container_name: python
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./api-execution/worker/creation/:/usr/src/worker/creation
+      - ./api-execution/worker/logs/:/usr/src/worker/logs
+      - ./api-execution/worker/python/:/usr/src/worker/python
+      - ./api-execution/worker/script_system/:/usr/src/worker/script_system
+      - ./api-execution/worker/traitement/:/usr/src/worker/traitement
+      - ./api-execution/worker/logger.js:/usr/src/worker/logger.js
+    #    depends_on:
+    #      - rabbitmq
+    command: node python/index.js
+    networks:
+      - jeancademie.net
+
+
+  # DATABASES
 
   adminer.jeancademie:
     image: adminer
