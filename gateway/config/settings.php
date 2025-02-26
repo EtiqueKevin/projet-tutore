@@ -13,7 +13,7 @@ return  [
     },
 
     'client_execution' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.execution.jeancademie:80']);
+        return new Client(['base_uri' => 'http://api.execution:3000']);
     },
 
     'client_authn' => function (ContainerInterface $c){

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use gateway\application\actions\GeneriqueCoursAction;
+use gateway\application\actions\GeneriqueExecutionAction;
 use gateway\application\actions\GeneriqueUtilisateurAction;
 use gateway\application\middleware\AuthMiddleware;
 use gateway\application\actions\GeneriqueAuthnAction;
@@ -39,10 +40,6 @@ return function( App $app): App {
 
     $app->get('/users/modules[/]', GeneriqueCoursAction::class);
     
-    /*************************
-     * Routes de l'API Execution
-     *************************/
-
 
 
     /*************************
@@ -68,6 +65,14 @@ return function( App $app): App {
     $app->get('/user[/]', GeneriqueUtilisateurAction::class);
     $app->get('/assets/{file}', GeneriqueUtilisateurAction::class);
     $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class);
+
+
+    /*************************
+     * Routes de l'API Execution
+     *************************/
+    $app->post('/{language}', GeneriqueExecutionAction::class)
+        ->setName('execution');
+
 
     return $app;
 };

@@ -2,25 +2,20 @@
 
 namespace gateway\application\actions;
 
-use gateway\application\actions\AbstractAction;
-
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\ServerException;
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
 use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpInternalServerErrorException;
-use Slim\Exception\HttpUnauthorizedException;
 use Slim\Exception\HttpForbiddenException;
+use Slim\Exception\HttpInternalServerErrorException;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpUnauthorizedException;
 
 class GeneriqueExecutionAction extends AbstractAction
 {
-
     private ClientInterface $remote_api;
 
     public function __construct(ClientInterface $api_client)
@@ -44,7 +39,6 @@ class GeneriqueExecutionAction extends AbstractAction
         }
 
         try {
-            
             $rs = $this->remote_api->request($method, $path,$options);
         } catch (ConnectException | ServerException $e) {
             throw new HttpInternalServerErrorException($rq, "The remote server is not available");

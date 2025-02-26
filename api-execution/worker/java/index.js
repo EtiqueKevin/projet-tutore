@@ -1,96 +1,80 @@
-const { exec } = require('child_process');
+const redis = require('redis');
+const {exec} = require('child_process');
 const util = require('util');
-const amqp = require('amqplib');
 const createFiles = require("../creation/CreateFiles");
 const traitementCode = require("../traitement/TraitementCode");
 const createDir = require("../creation/CreateDir");
 const Logger = require('../logger');
 
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
-const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://user:password@rabbitmq';
-const EXCHANGE_NAME = 'code_exchange';
-const JAVA_QUEUE = 'java_queue';
-const RESULT_JAVA_QUEUE = 'result_java_queue';
-Logger.setLanguage('JAVA');
+const JAVA_STREAM = 'java_stream';
+const RESULT_STREAM_KEY = 'result_java_stream';
 
-// Promisifier exec pour l'utiliser avec await
 const execPromise = util.promisify(exec);
 
+async function startWorker() {
+    const redisClient = redis.createClient({url: REDIS_URL});
 
-async function startWorker(){
-    let connection, channel;
-    let retries = 5;
+    redisClient.on('error', (err) => console.error('❌ Redis Client Error:', err));
 
-    // Tentative de connexion à RabbitMQ avec des réessais
-    while (!connection && retries > 0) {
-        try {
-            connection = await amqp.connect(RABBITMQ_URL);
-        } catch (err) {
-            console.error('Erreur de connexion à RabbitMQ, nouvelle tentative dans 5 secondes...', err);
-            retries--;
-            await new Promise(resolve => setTimeout(resolve, 10000));
-        }
-    }
-
-    if (!connection) {
-        console.error('Impossible de se connecter à RabbitMQ après plusieurs tentatives.');
-        process.exit(1);
-    }
+    await redisClient.connect();
+    console.log('✅ Connexion à Redis réussie');
 
     try {
-        channel = await connection.createChannel();
+        while (true) {
+            try {
 
-        await channel.assertQueue(JAVA_QUEUE, { durable: true });
-        await channel.assertQueue(RESULT_JAVA_QUEUE, { durable: true });
+                const messages = await redisClient.xRead(
+                    [{key: 'java_stream', id: '0'}],
+                    {block: 0, count: 1}
+                );
+
+                const id = messages[0].messages[0].id;
+                const message = messages[0].messages;
+                const {data} = message[0].message;
+                const parsedData = JSON.parse(data);
+
+                const codes = parsedData.codes;
+                const testCode = parsedData.testCode;
+                const fileTest = parsedData.fileTest;
+                console.log(`🔄 Traitement de la requête`);
+
+                await redisClient.xDel('java_stream', id);
+
+                let output = '', error = '', status = 200;
+
+                try {
+                    let newDir = await createDir();
+                    await execPromise(createFiles(newDir, {codes, testCode, fileTest}));
+                    output = await traitementCode(newDir, 'java');
+                    const match = output.replace(/\n\t.*?(?=\n\t|$)/g, "");
+                    output = match
+                    Logger.info(`✅ Résultat envoyé pour la requête `);
+                } catch (err) {
+                    error = err.message;
+                    status = err.code;
+                    Logger.error(`❌ Erreur dans le traitement: ${error}`);
+                }
+
+                const resultMessage = {output, error, status};
+                await redisClient.xAdd(RESULT_STREAM_KEY, '*', {message: JSON.stringify(resultMessage)});
 
 
-        await channel.consume(JAVA_QUEUE, async (msg) => {
-            if (!msg) return;
-
-            const { request_id, codes, testCode, fileTest} = JSON.parse(msg.content.toString());
-            let output, error, status;
-
-            try{
-
-                let newDir = await createDir()
-
-                const fileCreationCommands = createFiles(newDir, {codes, testCode, fileTest});
-                await execPromise(fileCreationCommands);
-
-                output = await traitementCode(newDir,'java')
-                error = ''
-                status = 200
-                Logger.info(`Résultat envoyé pour la requête ${request_id}`);
-
-            }catch (err){
-                error = err.message || err
-                status = err.status || err.statusText || err.status
-                console.error(error)
-                Logger.error(`Erreur lors du traitement du code pour la requête ${request_id} : ${error}`);
+            } catch (err) {
+                //console.error('❌ Erreur lors de la réception du message:', err);
+                // Logger.error('❌ Erreur lors de la lecture du stream:', err);
             }
-
-            const resultMessage = {request_id, output, error, status };
-            await channel.publish(EXCHANGE_NAME, 'result_java', Buffer.from(JSON.stringify(resultMessage)));
-            channel.ack(msg);
-
-        })
-    } catch (err) {
-        Logger.error('Erreur lors de la configuration du canal ou du traitement des messages :', err);
-
-        if (connection) {
-            await connection.close();
         }
+    } catch (err) {
+        Logger.error('❌ Erreur critique:', err.message);
         process.exit(1);
     }
-
-    process.on('SIGINT', async () => {
-        if (channel) await channel.close();
-        if (connection) await connection.close();
-        process.exit(0);
-    });
 }
 
-startWorker().catch((err) => {
-    console.error('Erreur dans le worker :', err);
+process.on('SIGINT', async () => {
+    console.log('🔴 Arrêt du worker...');
+    process.exit(0);
 });
 
+startWorker().catch((err) => console.error('❌ Erreur dans le worker:', err));

@@ -1,12 +1,18 @@
-# Utiliser l'image officielle Python 3.12
-FROM python:3.12
+FROM node:22-alpine
 
-# Définir le répertoire de travail dans le conteneur
-WORKDIR /code
+ENV VIRTUAL_ENV=/usr/src/worker/venv
 
-# Installer les dépendances si vous avez un fichier requirements.txt
-# (assurez-vous d'ajouter les bibliothèques nécessaires pour les tests comme pytest)
-#RUN pip install --no-cache-dir -r requirements.txt
+RUN apk add --no-cache \
+    ca-certificates \
+    bash \
+    python3 \
+    py3-pip
 
-# Ou installer pytest directement si vous n'avez pas de requirements.txt
- RUN pip install --no-cache-dir pytest
+WORKDIR /usr/src/worker
+
+COPY requirements.txt .
+
+RUN python3 -m venv $VIRTUAL_ENV && \
+    $VIRTUAL_ENV/bin/pip install --no-cache-dir -r requirements.txt
+
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
