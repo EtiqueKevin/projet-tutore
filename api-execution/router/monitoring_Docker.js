@@ -11,8 +11,11 @@ async function monitorContainers() {
             for (const containerInfo of containers) {
                 const container = docker.getContainer(containerInfo.Id);
 
+                const containerDetails = await container.inspect();
+                const containerNetworks = Object.keys(containerDetails.NetworkSettings.Networks);
+
                 // Vérifiez si le conteneur est arrêté
-                if (containerInfo.State === 'exited') {
+                if (containerNetworks.includes('jeancademie.net') && containerInfo.State === 'exited') {
                     console.log(`Conteneur arrêté détecté : ${containerInfo.Names[0]}. Redémarrage en cours...`);
 
                     try {
