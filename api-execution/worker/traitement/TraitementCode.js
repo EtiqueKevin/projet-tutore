@@ -10,10 +10,10 @@ async function traitementCode(newDir,langage) {
 
         switch (langage) {
             case 'java':
-                ({ stdout, stderr } = await execPromise(`cd java && sh ./executeCode.sh ${newDir}`));
+                ({ stdout, stderr } = await execPromise(`sh ./executeCode.sh ${newDir}`));
                 break;
             case 'python':
-                ({ stdout, stderr } = await execPromise(`cd python && sh ./executeCode.sh ${newDir}`));
+                ({ stdout, stderr } = await execPromise(`sh ./executeCode.sh ${newDir}`));
                 break;
             default:
         }

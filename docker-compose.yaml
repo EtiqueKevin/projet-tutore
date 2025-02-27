@@ -121,6 +121,7 @@ services:
     container_name: java
     environment:
       - REDIS_URL=redis://redis:6379
+    working_dir: /usr/src/worker/java
     volumes:
       - ./api-execution/worker/creation/:/usr/src/worker/creation
       - ./api-execution/worker/logs/:/usr/src/worker/logs
@@ -130,7 +131,7 @@ services:
       - ./api-execution/worker/logger.js:/usr/src/worker/logger.js
     depends_on:
       - redis
-    command: node java/index.js
+    command: sh -c "ls && npm install && node index.js"
     networks:
       - jeancademie.net
 
@@ -138,6 +139,7 @@ services:
   python:
     image: yoxan/node-python
     container_name: python
+    working_dir: /usr/src/worker/python
     environment:
       - REDIS_URL=redis://redis:6379
     volumes:
@@ -149,7 +151,7 @@ services:
       - ./api-execution/worker/logger.js:/usr/src/worker/logger.js
     #    depends_on:
     #      - rabbitmq
-    command: node python/index.js
+    command: sh -c "ls && npm install && node index.js"
     networks:
       - jeancademie.net
 
