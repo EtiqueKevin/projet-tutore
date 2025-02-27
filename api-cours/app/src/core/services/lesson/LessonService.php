@@ -6,6 +6,7 @@ use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
 use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
+use apiCours\core\dto\lesson\UneLessonDTO;
 use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
 use apiCours\core\repositoryInterface\UtilisateurRepositoryInterface;
@@ -34,10 +35,15 @@ class LessonService implements LessonServiceInterface
         return $tabLessonDTO;
     }
 
-    public function getLessonById(?string $id): LessonDTO
+    public function getLessonById(UneLessonDTO $ulD): LessonDTO
     {
-        $lesson = $this->lessonRepository->getLessonById($id);
-        return $lesson->toDTO();
+        $lesson = $this->lessonRepository->getLessonById($ulD->id);
+        $lessonDTO = $lesson->toDTO();
+        if($ulD->token !== null){
+            $status = $this->utilisateurRepository->getLessonStatus($ulD->token ,$ulD->id);
+            $lessonDTO->setStatus($status);
+        }
+        return $lessonDTO;
     }
 
     public function createLesson(LessonDTO $lessonDTO): string
@@ -78,7 +84,7 @@ class LessonService implements LessonServiceInterface
              $tabLessonDTO[] = $lesson->toDTO();
          }
         return $tabLessonDTO;
-
+           $retour = 2;
     }
 
     public function getLessonByModuleIdUtilisateur(LessonModuleUtilisateurConnecteDTO $LMUCD): array{
@@ -110,5 +116,13 @@ class LessonService implements LessonServiceInterface
     {
         $res = $this->lessonRepository->getExerciseLesson($ld->idLesson, $ld->indexExercise);
         return $res->toDTO();
+    }
+
+    public function getLessonErreurs(string $idLesson): array{
+        try{
+            return $this->lessonRepository->getLessonErreurs($idLesson);
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
     }
 }

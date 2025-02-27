@@ -14,4 +14,5 @@ interface LessonRepositoryInterface
     public function updateLesson(array $lesson): void;
     public function deleteLesson(string $id): void;
     public function getExerciseLesson(string $idLesson, string $indexExercise): Content;
+    public function getLessonErreurs(string $idLesson): array;
 }

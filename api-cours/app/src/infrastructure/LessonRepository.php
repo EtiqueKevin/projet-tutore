@@ -23,11 +23,14 @@ class LessonRepository implements LessonRepositoryInterface
     private Collection $lessonCollection;
     private Collection $modulelessonCollection;
 
+    private Collection $lessonErreurCollection;
+
     public function __construct(Database $db)
     {
         $this->db = $db;
         $this->lessonCollection = $this->db->selectCollection("lessons");
         $this->modulelessonCollection = $this->db->selectCollection("module_lessons");
+        $this->lessonErreurCollection = $this->db->selectCollection("lesson_erreurs");
     }
 
     public function getALlLessons(): array
@@ -160,5 +163,16 @@ class LessonRepository implements LessonRepositoryInterface
         }
 
         return $content;
+    }
+
+    public function getLessonErreurs(string $idLesson): array{
+        try{
+            $lessonErreur = $this->lessonErreurCollection->findOne(['id_lesson' => UUIDConverter::toUUID($idLesson)]);
+            var_dump($lessonErreur);
+
+        }catch (Exception $e){
+
+        }
+        return $lessonErreur;
     }
 }
