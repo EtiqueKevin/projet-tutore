@@ -41,12 +41,22 @@ class ModuleService implements ModuleServiceInterface
 
     public function getAllModulesUtilisateur(searchModuleDTO $searchDTO): array{
         try {
-            $modulesTabStatus = $this->utilisateurRepository->getModulesStatus();
+            $modulesTabStatus = $this->utilisateurRepository->getModulesStatus($searchDTO->token);
 
             $modules = $this->moduleRepository->getAllModules($searchDTO->name, $searchDTO->description);
             $modulesDTO = [];
             foreach ($modules as $module) {
-                $modulesDTO[] = $module->toDTO();
+                $moduleDTO = $module->toDTO();
+                if(isset($modulesTabStatus[$module->getId()])){
+                    if($modulesTabStatus[$module->getId()]){
+                        $moduleDTO->setStatus(1);
+                    }else{
+                        $moduleDTO->setStatus(0);
+                    }
+                }else{
+                    $moduleDTO->setStatus(2);
+                }
+                $modulesDTO[] = $moduleDTO;
             }
             return $modulesDTO;
         } catch (ModuleRepositoryException $e) {

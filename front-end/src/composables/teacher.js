@@ -54,7 +54,7 @@ export function useTeacher() {
     async function getModuleUser(){
         try {
             const res = await api.get(`/users/modules`)
-            return res.data;
+            return res.data.modules;
         } catch(error) {
             console.error(error);
             return false;

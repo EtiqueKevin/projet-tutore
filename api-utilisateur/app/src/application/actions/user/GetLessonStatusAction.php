@@ -22,14 +22,14 @@ class GetLessonStatusAction extends AbstractAction
         $id = $rq->getAttribute('idUser');
 
         try{
-            $res = $this->usersService->getLessonStatusByUser($id);
+            $r = $this->usersService->getLessonStatusByUser($id);
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq," ". $e->getMessage());
         }
 
         $res = [
             'type' => 'collection',
-            'lessons' => $res
+            'lessons' => $r
         ];
 
         $rs->getBody()->write(json_encode($res));

@@ -5,12 +5,14 @@ use apiCours\application\actions\lesson\DeleteLessonByIdAction;
 use apiCours\application\actions\lesson\GetExerciseByIndexByIdLesson;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\GetLessonsAction;
+use apiCours\application\actions\lesson\GetLessonsWithStatusAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\DeleteModuleByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
 use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
+use apiCours\application\actions\module\GetModulesWithStatusAction;
 use apiCours\application\actions\module\PostModuleAction;
 use apiCours\application\actions\module\PutChangeToJohnDoe;
 use apiCours\application\actions\module\PutModuleByIdAction;
@@ -21,6 +23,7 @@ use Slim\App;
 
 return function( App $app): App {
     //module, lesson
+
     $app->get('/modules[/]', GetModulesAction::class);
 
     $app->get('/users/modules[/]', GetModulesByProfAction::class)
@@ -28,6 +31,7 @@ return function( App $app): App {
 
     $app->post('/modules[/]', PostModuleAction::class)
     ->add(AuthMiddleware::class);
+
 
     $app->get('/modules/{id}[/]', GetModuleByIdAction::class);
 
@@ -42,6 +46,7 @@ return function( App $app): App {
         ->setName('putModule');
 
     $app->get('/modules/{id}/lessons[/]', GetLessonsAction::class);
+
 
     $app->post('/modules/{id}/lessons[/]', PostLessonAction::class)
         ->add(AuthzMiddleware::class)
@@ -66,5 +71,7 @@ return function( App $app): App {
         ->setName('putLesson');;
 
     $app->get('/lessons/{id_lesson}/exercise/{index}[/]', GetExerciseByIndexByIdLesson::class);
+
+
     return $app;
 };

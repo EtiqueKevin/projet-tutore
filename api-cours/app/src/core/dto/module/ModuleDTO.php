@@ -13,7 +13,7 @@ class ModuleDTO extends DTO{
     protected string $description;
     protected int $nblesson;
     protected ?string $dateupdate;
-    protected ?bool $status = null;
+    protected ?int $status = null;
 
     public function __construct(?string $id, string $name, string $idCreator, string $description, int $nblesson, ?string $dateupdate){
         $this->id = $id;
@@ -32,7 +32,7 @@ class ModuleDTO extends DTO{
         $this->id = $id;
     }
 
-    public function setStatus(?bool $status): void{
+    public function setStatus(int $status): void{
         $this->status = $status;
     }
 

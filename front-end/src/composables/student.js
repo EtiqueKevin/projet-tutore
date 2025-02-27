@@ -72,11 +72,26 @@ export function useStudent() {
         return lesson.content[nbContent]
     }
 
+    async function correctExercice(idLesson, nbContent, files, language) {
+        try{
+            const res = await api.post('/'+language, {
+                id_lesson: idLesson,
+                index: nbContent,
+                codes: files
+            })
+            console.log(res)
+            return res.data;
+        }catch(error) {
+            console.log(error)
+        }
+    }
+
     return {
         loadModule,
         loadCours,
         getModules,
         loadExercice,
-        searchModule
+        searchModule,
+        correctExercice
     }
 }

@@ -15,7 +15,7 @@ class AdapterUtilisateurRepository implements UtilisateurRepositoryInterface
 
     public function getModulesStatus(string $token): array
     {
-        $reponse = $this->client->post('/modules/status', [
+        $reponse = $this->client->get('/modules/status', [
             'headers' => ['Authorization' => 'Bearer '.$token]
         ]);
 
@@ -26,7 +26,7 @@ class AdapterUtilisateurRepository implements UtilisateurRepositoryInterface
 
     public function getLessonsStatus(string $token): array
     {
-        $reponse = $this->client->post('/lessons/status', [
+        $reponse = $this->client->get('/lessons/status', [
             'headers' => ['Authorization' => 'Bearer '.$token]
         ]);
 
