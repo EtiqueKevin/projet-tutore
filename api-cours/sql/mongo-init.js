@@ -86,7 +86,7 @@ import static org.junit.Assert.*;
 public class CalculatorTest {
     @Test
     public void testAdd() {
-        assertEquals( 5, Calculator.add(2, 3));
+        assertEquals("Avez-vous bien utilisé l'opérateur + ?", 5, Calculator.add(2, 3));
         assertEquals(0, Calculator.add(0, 0));
         assertEquals( -5, Calculator.add(-2, -3));
     }

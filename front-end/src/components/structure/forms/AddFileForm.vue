@@ -43,7 +43,7 @@ const addFile = () => {
                 <label for="file-language">Language</label>
                 <select id="file-language" v-model="language" class="border rounded p-2 text-black">
                     <option value="java">Java</option>
-                    <option value="javascript">Python</option>
+                    <option value="python">Python</option>
                 </select>
                 <span class="italic">Un fichier de test sera automatiquement créé ! </span>
                 <button type="submit" @click.stop.prevent="addFile" class="bg-primary-dark text-white rounded p-2">Ajouter</button>

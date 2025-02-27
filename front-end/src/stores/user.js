@@ -91,8 +91,6 @@ export const useUserStore = defineStore('jeanCademieUser', {
 
         async loadInfo() {
             if(!this.accessToken) return;
-            if(this.role !== null) return;
-
 
             try {
                 const res = await this.$api.get('/user');

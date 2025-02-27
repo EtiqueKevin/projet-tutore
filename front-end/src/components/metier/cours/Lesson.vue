@@ -33,6 +33,16 @@ const emit = defineEmits(['delete', 'update'])
                     <h3 class="text-lg font-semibold text-black dark:text-white">
                         {{ lesson.name }}
                     </h3>
+                    <!-- Icon de status -->
+                    <i v-if="lesson.status === 2" 
+                       class="fas fa-circle-notch text-gray-400" 
+                       title="Leçon non commencée"></i>
+                    <i v-if="lesson.status === 1" 
+                       class="fas fa-check-circle text-green-500" 
+                       title="Leçon terminée"></i>
+                    <i v-else-if="lesson.status === 0" 
+                       class="fas fa-clock text-yellow-500" 
+                       title="Leçon en cours"></i>
                 </div>
                 <p class="text-gray-600 dark:text-gray-300">
                     {{ lesson.description }}
@@ -70,7 +80,7 @@ const emit = defineEmits(['delete', 'update'])
                     ]"
                     @click="router.push({ name: 'lesson-by-id', params: { id: lesson.id } })"
                 >
-                    <span class="hidden sm:inline">{{ isLoggedIn ? 'Commencer la leçon' : 'Se connecter' }}</span>
+                    <span class="hidden sm:inline">{{ isLoggedIn ? 'Consulter la leçon' : 'Se connecter' }}</span>
                     <span class="sm:hidden">{{ isLoggedIn ? 'Commencer' : 'Login' }}</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

@@ -47,7 +47,20 @@ const viewModule = (moduleId) => {
 <template>
     <div :key="module.id" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg border border-gray-200 dark:border-gray-700">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
-            <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">{{ module.name }}</h2>
+            <div class="flex items-center gap-2">
+                <h2 class="text-lg sm:text-lg font-semibold text-gray-900 dark:text-white">{{ module.name }}</h2>
+                
+                <!-- Icon de status -->
+                <i v-if="module.status === 2" 
+                    class="fas fa-circle-notch text-gray-400" 
+                    title="Module non commencé"></i>
+                <i v-if="module.status === 1" 
+                   class="fas fa-check-circle text-green-500" 
+                   title="Module terminé"></i>
+                <i v-else-if="module.status === 0" 
+                   class="fas fa-clock text-yellow-500" 
+                   title="Module commencé"></i>
+            </div>
             <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded">
                 {{ module.nblesson }} leçons
             </span>

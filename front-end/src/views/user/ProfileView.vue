@@ -3,7 +3,9 @@ import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 import InputField from '@/components/structure/forms/inputs/InputField.vue';
 import { onMounted } from 'vue';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const userStore = useUserStore();
 const userProfile = ref({
     name: '',
@@ -34,12 +36,40 @@ const toggleEdit = () => {
 const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+        if(!file.type.includes('image')){
+            toast.warning('Le fichier doit être une image');
+            return;
+        }
+
+        if(!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)){
+            toast.warning('Le fichier doit être une image de type jpeg, jpg ou png');
+            return;
+        }
+        
+        if(file.size > 1000000){
+            toast.warning('L\'image ne doit pas dépasser 1Mo');
+            return;
+        }
+
         userProfile.value.image = file;
         imagePreview.value = URL.createObjectURL(file);
     }
 };
 
 const saveProfile = async () => {
+    if(!userProfile.value.name){
+        toast.warning('Le prénom est requis');
+        return;
+    }
+    if(!userProfile.value.surname){
+        toast.warning('Le nom est requis');
+        return;
+    }
+    if(!userProfile.value.pseudo){
+        toast.warning('Le pseudo est requis');
+        return;
+    }
+
     try {
         const success = await userStore.updateProfile(userProfile.value);
         if (success) {

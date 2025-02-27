@@ -29,6 +29,7 @@ const correct = async () => {
       code: file.content
     }
   });
+  consoleOutput.value = null;
   consoleOutput.value = await correctExercice(route.params.id, route.params.nbContent, formatedFiles, files.value[0].language);
 };
 
@@ -99,7 +100,17 @@ onMounted(async () => {
         <button @click="page=1" :class="['button-mobile', page==1?'selected':'']">Editeur</button>
         <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
       </div>
-      <MarkdownArea v-if="(!isMobile || page === 0) && isLoaded" :markdown-text="sujet" class="dark:border-gray-300 border-slate-800" :class="isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2'"/>
+      <div v-if="(!isMobile || page === 0) && isLoaded" :class="[isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2', 'dark:border-gray-300 border-slate-800']">
+        <!-- retour a la lesson -->
+        <RouterLink 
+          :to="{name: 'lesson-by-id', params: {id: route.params.id}}" 
+          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform" 
+          title="Retour à la leçon"
+        >
+          <i class="fas fa-arrow-left"></i> Retour à la leçon
+        </RouterLink>
+        <MarkdownArea :markdown-text="sujet"/>
+      </div>
       <Editor 
         v-if="(!isMobile || page === 1) && isLoaded" 
         :files="files" 

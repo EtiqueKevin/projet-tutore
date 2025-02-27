@@ -7,6 +7,10 @@ export function useStudent() {
 
     async function loadModule(id) {
         try {
+            let query = ''
+            if(userStore.isLogged) {
+                query += `?connecte=oui`
+            }
             const res = await api.get(`/modules/${id}`)
             let currentModule = {
                 id: res.data.module.id,
@@ -18,7 +22,7 @@ export function useStudent() {
                 lessons: []
             }
             
-            const resLessons = await api.get(`/modules/${id}/lessons`)
+            const resLessons = await api.get(`/modules/${id}/lessons`+query)
             currentModule.lessons = resLessons.data.lessons
             return currentModule
         } catch(error) {
@@ -28,7 +32,12 @@ export function useStudent() {
 
     async function loadCours(id) {
         try {
-            const res = await api.get(`/lessons/${id}`)
+            let query = ''
+            if(userStore.isLogged) {
+                query += `?connecte=oui`
+            }
+            const res = await api.get(`/lessons/${id}`+query)
+            console.log(res.data)
             const currentLesson = {
                 id: res.data.lesson.id,
                 title: res.data.lesson.name,
@@ -44,8 +53,10 @@ export function useStudent() {
     async function getModules() {
         try {
             let query = ''
-            const res = await api.get('/modules')
-            console.log(res.data.modules)
+            if(userStore.isLogged) {
+                query += `?connecte=oui`
+            }
+            const res = await api.get('/modules'+query)
             return res.data.modules
         } catch(error) {
             console.log(error)
@@ -60,6 +71,9 @@ export function useStudent() {
             }
             if(description) {
                 query == '' ? query += `description=${description}` : query += `&description=${description}`
+            }
+            if(userStore.isLogged) {
+                query == '' ? query += `connecte=oui` : query += `&connecte=oui`
             }
             const res = await api.get(`/modules?${query}`)
             return res.data.modules
