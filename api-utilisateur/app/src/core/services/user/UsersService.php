@@ -152,4 +152,22 @@ class UsersService implements UsersServiceInterface{
             throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
         }
     }
+
+    function rateModule(string $idUser, string $idModule, int $rate): void
+    {
+        try {
+            $this->repositoryUsers->rateModule($idUser, $idModule, $rate);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de noter le module: '.$e->getMessage());
+        }
+    }
+
+    function getRateOfModule(string $idModule): int
+    {
+        try {
+            return $this->repositoryUsers->getRateModule($idModule);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de noter le module: '.$e->getMessage());
+        }
+    }
 }

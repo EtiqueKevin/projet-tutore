@@ -260,4 +260,30 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
     }
+
+    public function rateModule(string $idUser, string $idModule, int $rate): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('UPDATE user_modules SET rate = ? WHERE id_module = ? AND id_users = ?');
+            $stmt->bindParam(1, $rate);
+            $stmt->bindParam(2, $idModule);
+            $stmt->bindParam(3, $idUser);
+            $stmt->execute();
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function getRateModule(string $idModule): int
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ?');
+            $stmt->bindParam(1, $idModule);
+            $stmt->execute();
+            $rate = $stmt->fetchColumn();
+            return $rate;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
 }

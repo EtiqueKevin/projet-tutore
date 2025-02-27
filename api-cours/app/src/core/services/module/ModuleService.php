@@ -70,7 +70,9 @@ class ModuleService implements ModuleServiceInterface
     {
         try {
             $module = $this->moduleRepository->getModuleById($id);
+            $note = $this->utilisateurRepository->getMoyenneNoteModule($id);
             $module = $module->toDTO();
+            $module->setRate($note);
             return $module;
         }catch(ModuleServiceException $e) {
             throw new ModuleServiceException($e->getMessage());

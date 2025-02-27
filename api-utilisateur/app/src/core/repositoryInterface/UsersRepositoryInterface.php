@@ -18,5 +18,7 @@ interface UsersRepositoryInterface{
     public function getLessonStatusById(string $id): int;
     public function getModuleStatusById(string $id): int;
     public function updateStatusModule(string $idUser, string $idModule, int $status): void;
+    public function rateModule(string $idUser, string $idModule, int $rate): void;
+    public function getRateModule(string $idModule): int;
 
 }
