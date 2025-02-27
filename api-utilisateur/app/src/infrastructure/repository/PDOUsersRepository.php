@@ -281,6 +281,9 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $stmt->bindParam(1, $idModule);
             $stmt->execute();
             $rate = $stmt->fetchColumn();
+            if ($rate == null){
+                $rate = 0;
+            }
             return $rate;
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
