@@ -1,28 +1,27 @@
 const Docker = require('dockerode');
-const docker = new Docker({ socketPath: '/var/run/docker.sock' });
+const docker = new Docker();
 
-async function monitorContainers() {
+const CONTAINERS_TO_MONITOR = ["java", "python"];
+
+async function monitorSpecificContainers() {
     try {
-        console.log('Démarrage du script de surveillance des conteneurs...');
+        console.log('Démarrage du script de surveillance des conteneurs spécifiques...');
 
         while (true) {
             const containers = await docker.listContainers({ all: true });
 
             for (const containerInfo of containers) {
-                const container = docker.getContainer(containerInfo.Id);
+                const containerName = containerInfo.Names[0].replace("/", ""); // Retirer le "/" au début du nom
 
-                const containerDetails = await container.inspect();
-                const containerNetworks = Object.keys(containerDetails.NetworkSettings.Networks);
+                if (CONTAINERS_TO_MONITOR.includes(containerName) && containerInfo.State === 'exited') {
+                    console.log(`Conteneur arrêté détecté : ${containerName}. Redémarrage en cours...`);
 
-                // Vérifiez si le conteneur est arrêté
-                if (containerNetworks.includes('jeancademie.net') && containerInfo.State === 'exited') {
-                    console.log(`Conteneur arrêté détecté : ${containerInfo.Names[0]}. Redémarrage en cours...`);
-
+                    const container = docker.getContainer(containerInfo.Id);
                     try {
                         await container.start();
-                        console.log(`Conteneur ${containerInfo.Names[0]} redémarré avec succès.`);
+                        console.log(`Conteneur ${containerName} redémarré avec succès.`);
                     } catch (err) {
-                        console.error(`Erreur lors du redémarrage du conteneur ${containerInfo.Names[0]} :`, err.message);
+                        console.error(`Erreur lors du redémarrage du conteneur ${containerName} :`, err.message);
                     }
                 }
             }
@@ -35,5 +34,4 @@ async function monitorContainers() {
     }
 }
 
-// Lancer le script
-monitorContainers();
+monitorSpecificContainers();
