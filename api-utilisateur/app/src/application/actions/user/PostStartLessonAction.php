@@ -22,7 +22,9 @@ class PostStartLessonAction extends AbstractAction
         try {
             $idLesson = $args['ID-LESSON'];
             $idUser = $rq->getAttribute('idUser');
-            $this->userService->startLesson($idUser, $idLesson);
+            preg_match('/Bearer\s(\S+)/', $rq->getHeaderLine('Authorization'), $matches);
+            $token = $matches[1];
+            $this->userService->startLesson($idUser, $idLesson, $token);
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq, $e->getMessage());
         }

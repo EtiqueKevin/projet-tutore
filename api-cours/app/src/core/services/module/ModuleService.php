@@ -150,4 +150,16 @@ class ModuleService implements ModuleServiceInterface
             throw new ModuleServiceNotFoundException($e->getMessage());
         }
     }
+
+    public function getModuleByLesson(string $idLesson): ModuleDTO
+    {
+        try {
+            $module = $this->moduleRepository->getModuleByLessonId($idLesson);
+            return $module->toDTO();
+        } catch (ModuleRepositoryException $e) {
+            throw new ModuleServiceException($e->getMessage());
+        } catch (ModuleRepositoryNotFoundException $e) {
+            throw new ModuleServiceNotFoundException($e->getMessage());
+        }
+    }
 }

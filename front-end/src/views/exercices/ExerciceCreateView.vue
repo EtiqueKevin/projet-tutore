@@ -14,7 +14,7 @@ const page = ref(0);
 const sujet = ref(null);
 const exercicefiles = ref([]);
 
-const consoleResults = ref('');
+const consoleResults = ref({output: "", error: "", status: ""});
 const isWriting = ref(true);
 
 const emit = defineEmits(['save', 'cancel']);
@@ -78,7 +78,7 @@ const isMobile = computed(() => window.innerWidth < 768);
       <Editor :files="exercicefiles" class="w-[60%] border-r-2 dark:border-gray-300 border-slate-800" v-if="!isMobile || page === 1"/>
       <Console :results="consoleResults" class="w-[20%]" v-if="!isMobile || page === 2"/>
   </main>
-  </template>
+</template>
 
 <style scoped>
 .button {

@@ -1,7 +1,9 @@
-import { ref, inject } from 'vue'
+import { inject } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 export function useStudent() {
     const api = inject('api')
+    const userStore = useUserStore()
 
     async function loadModule(id) {
         try {
@@ -41,7 +43,9 @@ export function useStudent() {
 
     async function getModules() {
         try {
+            let query = ''
             const res = await api.get('/modules')
+            console.log(res.data.modules)
             return res.data.modules
         } catch(error) {
             console.log(error)

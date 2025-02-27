@@ -170,9 +170,15 @@ class ModuleRepository implements ModuleRepositoryInterface {
 
     public function getModuleByLessonId(string $idLesson)
     {
-      $moduleId = $this->moduleLessonCollection->findOne(["id_lesson" => UUIDConverter::toUUID($idLesson)], ["id_module"]);
-      $module = $this->moduleCollection->findOne(["_id" => $moduleId->id_module]);
-      return new Module($module->name, $module->id_creator, $module->description, $module->nblesson, $module->date_update);
+        try {
+            $moduleId = $this->moduleLessonCollection->findOne(["id_lesson" => UUIDConverter::toUUID($idLesson)], ["id_module"]);
+            $module = $this->moduleCollection->findOne(["_id" => $moduleId->id_module]);
+            $moduleEntity= new Module($module->name, UUIDConverter::fromUUID($module->id_creator), $module->description, $module->nblesson, $module->date_update);
+            $moduleEntity->setID(UUIDConverter::fromUUID($module->_id));
+            return $moduleEntity;
+        }catch (\Exception $e) {
+            throw new ModuleRepositoryException("Impossible de trouver le module.");
+        }
     }
 
     public function decrementationModuleLesson(string $idModule):void{

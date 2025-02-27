@@ -18,6 +18,7 @@ interface ModuleServiceInterface
     public function changeToJohnDoe(string $id);
     public function liaisonModuleLesson(string $idLesson, string $idModule):void;
     public function decrementationModuleLesson(string $idModule):void;
+    public function getModuleByLesson(string $idLesson): ModuleDTO;
 
 
 }

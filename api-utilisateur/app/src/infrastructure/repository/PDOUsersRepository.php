@@ -191,4 +191,73 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching module from database: '. $e->getMessage());
         }
     }
+
+    public function getLessonStatusById(string $id): int
+    {
+        try {
+            $retour = 2;
+            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $lesson = $stmt->fetch();
+
+            if($lesson){
+                if ($lesson['status'] == 1){
+                    $retour = 1;
+                }else{
+                    $retour = 0;
+                }
+            }
+            return $retour;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function getModuleStatusById(string $id): int
+    {
+        try {
+            $retour = 2;
+            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $module = $stmt->fetch();
+
+            if($module){
+                if ($module['status'] == 1){
+                    $retour = 1;
+                }else{
+                    $retour = 0;
+                }
+            }
+            return $retour;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function updateStatusModule(string $idUser, string $idModule, int $status): void
+    {
+        try {
+            $date = new DateTime();
+            $date = $date->format('Y-m-d H:i:s');
+
+            if ($status == 0) {
+                $stmt = $this->pdo->prepare('INSERT INTO user_modules (id_module, id_users, status) VALUES (?, ?, ?)');
+                $stmt->bindParam(1, $idModule);
+                $stmt->bindParam(2, $idUser);
+                $stmt->bindParam(3, $status);
+                $stmt->execute();
+            } else {
+                $stmt = $this->pdo->prepare('UPDATE user_modules SET status = ?, date_update = ? WHERE id_module = ? AND id_users = ?');
+                $stmt->bindParam(1, $status);
+                $stmt->bindParam(2, $date);
+                $stmt->bindParam(3, $idModule);
+                $stmt->bindParam(4, $idUser);
+                $stmt->execute();
+            }
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
 }

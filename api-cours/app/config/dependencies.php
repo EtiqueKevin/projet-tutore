@@ -5,6 +5,7 @@ use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
+use apiCours\application\actions\module\GetModuleByIdLessonAction;
 use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
 use apiCours\application\middleware\AuthMiddleware;
@@ -76,6 +77,10 @@ return [
 
     UtilisateurRepositoryInterface::class => function(ContainerInterface $c){
         return new AdapterUtilisateurRepository($c->get('client_utilisateur'));
+    },
+
+    GetModuleByIdLessonAction::class => function(ContainerInterface $c){
+        return new GetModuleByIdLessonAction($c->get(ModuleServiceInterface::class));
     },
 
     // middleware

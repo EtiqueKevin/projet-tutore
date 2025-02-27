@@ -4,21 +4,32 @@ import { ref } from 'vue';
 const name = ref('');
 const language = ref('java');
 const type = ref('file');
+const extensions = {
+    java: '.java',
+    python: '.py'
+};
 
 const emit = defineEmits(['fileAdded', 'close']);
 
 const addFile = () => {
-    const extension = language.value === 'java' ? '.java' : '.py';
-    
     const firstPart = name.value.split('.')[0];
-    
-    const file = {
-        type: type.value,
-        filename: firstPart + extension,
-        content: '',
-        language: language.value
-    };
-    emit('fileAdded', file);
+
+    const files = [
+        {
+            type: type.value,
+            filename: firstPart + extensions[language.value],
+            content: '',
+            language: language.value
+        },
+        {
+            type: 'test',
+            filename: firstPart + 'Test' + extensions[language.value],
+            content: '',
+            language: language.value
+        }
+    ]
+
+    emit('fileAdded', files);
     emit('close');
 };
 </script>
@@ -34,11 +45,7 @@ const addFile = () => {
                     <option value="java">Java</option>
                     <option value="javascript">Python</option>
                 </select>
-                <label for="file-type">Type de fichier</label>
-                <select id="file-type" v-model="type" class="border rounded p-2 text-black">
-                    <option value="file">Fichier</option>
-                    <option value="test">Test</option>
-                </select>
+                <span class="italic">Un fichier de test sera automatiquement créé ! </span>
                 <button type="submit" @click.stop.prevent="addFile" class="bg-primary-dark text-white rounded p-2">Ajouter</button>
             </form>
         </div>
