@@ -27,15 +27,10 @@ const deleteFile = (file) => {
     }
 };
 
-const addFile = (file) => {
-    if(file.type == "test" && props.files.find(f => f.type == "test")) {
-        alert("Un seul fichier de test est autorisé");
-        return;
-    }
-
-    props.files.push(file);
-    console.log(props.files);
-    selectFile(file);
+const addFile = (files) => {
+    props.files.push(...files);
+    selectedFile.value = files[0];
+    emit('fileSelected', files[0]);
 };
 
 onMounted(() => {
