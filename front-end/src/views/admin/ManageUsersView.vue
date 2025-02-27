@@ -68,8 +68,9 @@ onMounted(async () => {
                     <div>
                         <button 
                             @click="deleteUserById(user.id)"
+                            :disabled="user.role === 100"
                             title="Supprimer l'utilisateur"
-                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                            :class="['px-3 py-1 text-white rounded transition-colors', user.role === 100 ? 'cursor-not-allowed bg-red-900/95' : 'bg-red-500 hover:bg-red-600']"
                         >
                             Supprimer
                         </button>

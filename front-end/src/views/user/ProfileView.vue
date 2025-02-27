@@ -92,7 +92,6 @@ onMounted(() => {
     }
 });
 
-
 watch (() => userStore.isInit, (isInit) => {
     // afin de ne pas afficher les données de l'utilisateur avant qu'elles ne soient chargées si on va sur la page directement
     if (isInit) {
@@ -195,6 +194,17 @@ watch (() => userStore.isInit, (isInit) => {
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div v-if="!userStore.isTeacher">
+                <button
+                    title="Demander a devenir professeur"
+                    @click="userStore.askToBecomeTeacher"
+                    class="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Demander a devenir professeur
+                </button>
             </div>
         </div>
 

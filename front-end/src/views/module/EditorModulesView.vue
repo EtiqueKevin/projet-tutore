@@ -52,7 +52,6 @@ const reload = async () => {
     modal.value = false
 
     modules.value = await getModuleUser()
-    console.log(modules.value)
   } catch (error) {
     console.error('Failed to fetch modules:', error)
   } finally {

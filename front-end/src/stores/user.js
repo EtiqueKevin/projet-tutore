@@ -106,6 +106,10 @@ export const useUserStore = defineStore('jeanCademieUser', {
             }
         },
 
+        async askToBecomeTeacher() {
+            console.log('askToBecomeTeacher');
+        },
+
         signOut() {
             this.accessToken = null;
             this.refreshToken = null;

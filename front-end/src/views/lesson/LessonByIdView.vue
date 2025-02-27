@@ -87,7 +87,6 @@ const finishLesson = async () => {
 onMounted(async () => {
     try {
         cours.value = await loadCours(route.params.id);
-        console.log(cours.value);
         if (cours.value.status && cours.value.status === 2) {
             const res = await startCours(route.params.id);
             if(res) cours.value.status = 0; // met a jour en local le status du cours pour afficher le bouton de fin

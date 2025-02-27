@@ -37,7 +37,6 @@ export function useStudent() {
                 query += `?connecte=oui`
             }
             const res = await api.get(`/lessons/${id}`+query)
-            console.log(res.data)
             const currentLesson = {
                 id: res.data.lesson.id,
                 title: res.data.lesson.name,
