@@ -42,11 +42,32 @@ export function useStudent() {
                 id: res.data.lesson.id,
                 title: res.data.lesson.name,
                 description: res.data.lesson.description,
-                content: res.data.lesson.content
+                content: res.data.lesson.content,
+                status: res.data.lesson.status,
             }
             return currentLesson
         } catch(error) {
             console.log(error)
+        }
+    }
+
+    async function startCours(id) {
+        try {
+            const res = await api.post(`/lessons/${id}/start_lesson`)
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
+        }
+    }
+
+    async function endCours(id) {
+        try {
+            const res = await api.post(`/lessons/${id}/finish_lesson`)
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
         }
     }
 
@@ -110,6 +131,8 @@ export function useStudent() {
         getModules,
         loadExercice,
         searchModule,
-        correctExercice
+        correctExercice,
+        startCours,
+        endCours
     }
 }

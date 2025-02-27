@@ -5,11 +5,16 @@ import Button from '@/components/structure/buttons/Button.vue';
 import ReturnTopButton from '@/components/structure/buttons/ReturnTopButton.vue';
 import { onMounted, ref } from 'vue';
 import { useTools } from '@/composables/tools';
+import { useToast } from 'vue-toastification';
 
 const { toMarkdown, cleanMarkdown } = useTools();
-const { loadCours } = useStudent();
+const { loadCours, startCours, endCours } = useStudent();
+
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
+
+
 const cours = ref(null);
 const isLoading = ref(true);
 
@@ -67,9 +72,26 @@ const navigateToExercise = (idLesson, index) => {
     })
 };
 
+const finishLesson = async () => {
+    try {
+        const res = await endCours(route.params.id);
+        if(res){
+            cours.value.status = 1;
+            toast.success('Cours terminé');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 onMounted(async () => {
     try {
         cours.value = await loadCours(route.params.id);
+        console.log(cours.value);
+        if (cours.value.status && cours.value.status === 2) {
+            const res = await startCours(route.params.id);
+            if(res) cours.value.status = 0; // met a jour en local le status du cours pour afficher le bouton de fin
+        }
     } catch (error) {
         console.error(error);
     } finally {
@@ -158,6 +180,15 @@ onMounted(async () => {
                     </div>
                 </article>
             </div>
+
+            <!-- Footer -->
+            <footer class="mt-8" v-if="cours.status === 0">
+                <Button @click="finishLesson"
+                        class="bg-red-600 hover:bg-white text-white hover:text-red-600 border border-red-600 hover:border-red-600 flex items-center gap-2 p-2 rounded-lg transition-colors duration-200">
+                    <span>Terminer le cours</span>
+                    <i class="fas fa-check"></i>
+                </Button>
+            </footer>
         </div>
 
         <ReturnTopButton />
