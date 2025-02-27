@@ -39,7 +39,8 @@ CREATE TABLE "public"."reporting" (
     "description" text,
     "status" character varying(50),
     "date_report" date DEFAULT CURRENT_DATE,
-    CONSTRAINT "reporting_id" PRIMARY KEY ("id")
+    CONSTRAINT "reporting_id" PRIMARY KEY ("id"),
+    CONSTRAINT "reporting_id_user" FOREIGN KEY ("id_user") REFERENCES "users" ("id")
 ) WITH (oids = false);
 
 DROP TABLE IF EXISTS "user_modules";
@@ -51,7 +52,8 @@ CREATE TABLE "public"."user_modules" (
     "index" smallint DEFAULT 0 NOT NULL,
     "rate" smallint,
     "date_update" date DEFAULT CURRENT_DATE,
-    CONSTRAINT "user_modules_id" PRIMARY KEY ("id")
+    CONSTRAINT "user_modules_id" PRIMARY KEY ("id"),
+    CONSTRAINT "user_modules_id_user" FOREIGN KEY ("id_users") REFERENCES "users" ("id") ON DELETE CASCADE
 ) WITH (oids = false);
 
 DROP TABLE IF EXISTS "user_lessons";
@@ -62,5 +64,14 @@ CREATE TABLE "public"."user_lessons" (
     "status" boolean DEFAULT false NOT NULL,
     "date_update" date DEFAULT CURRENT_DATE,
     CONSTRAINT "user_lessons_id" PRIMARY KEY ("id"),
+    CONSTRAINT "user_lessons_id_user" FOREIGN KEY ("id_user") REFERENCES "users" ("id") ON DELETE CASCADE,
     CONSTRAINT "unique_user_lessons" UNIQUE ("id_lesson", "id_users")
+) WITH (oids = false);
+
+DROP TABLE IF EXISTS "demmands";
+CREATE TABLE "public"."demmands" (
+    "id" uuid DEFAULT uuid_generate_v4() NOT NULL,
+    "id_utilisateur" uuid NOT NULL,
+    CONSTRAINT "demmands_id" PRIMARY KEY ("id"),
+    CONSTRAINT "demmands_id_user" FOREIGN KEY ("id_user") REFERENCES "users" ("id") ON DELETE CASCADE
 ) WITH (oids = false);
