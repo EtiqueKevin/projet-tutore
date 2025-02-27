@@ -23,6 +23,36 @@ async function connectToRedis() {
     console.log('✅ Connexion à Redis réussie');
 }
 
+async function redisFunction (res, streamName, resultStream, message){
+    try {
+        console.log(`Stream: ${streamName}`)
+        await redisClient.xAdd(streamName, '*', { data: JSON.stringify(message) });
+        console.log(`📤 Message publié dans ${streamName}`);
+
+        // Attendre la réponse du worker
+        const startTime = Date.now();
+        while (Date.now() - startTime < 10000) {
+            const result = await redisClient.xRead(
+                [{ key: resultStream, id: '0' }],
+                { COUNT: 1 }
+            );
+
+            if (result) {
+                const responseData = JSON.parse(result[0].messages[0].message.message);
+                await redisClient.xDel(resultStream, result[0].messages[0].id);
+                console.log(`✅ Résultat reçu`);
+                return res.status(200).json(responseData);
+            }
+        }
+
+        return res.status(408).json({ error: 'Timeout en attente du résultat' });
+
+    } catch (error) {
+        console.error('❌ Erreur lors du traitement :', error.message);
+        res.status(500).json({ error: 'Erreur interne du serveur.' });
+    }
+}
+
 app.post('/:language', async (req, res) => {
     const { language } = req.params;
     const { id_lesson, index, codes } = req.body;
@@ -67,34 +97,46 @@ app.post('/:language', async (req, res) => {
         fileTest
     };
 
-    try {
-        console.log(`Stream: ${streamName}`)
-        await redisClient.xAdd(streamName, '*', { data: JSON.stringify(message) });
-        console.log(`📤 Message publié dans ${streamName}`);
-
-        // Attendre la réponse du worker
-        const startTime = Date.now();
-        while (Date.now() - startTime < 10000) {
-            const result = await redisClient.xRead(
-                [{ key: resultStream, id: '0' }],
-                { COUNT: 1 }
-            );
-
-            if (result) {
-                const responseData = JSON.parse(result[0].messages[0].message.message);
-                await redisClient.xDel(resultStream, result[0].messages[0].id);
-                console.log(`✅ Résultat reçu`);
-                return res.status(200).json(responseData);
-            }
-        }
-
-        return res.status(408).json({ error: 'Timeout en attente du résultat' });
-
-    } catch (error) {
-        console.error('❌ Erreur lors du traitement :', error.message);
-        res.status(500).json({ error: 'Erreur interne du serveur.' });
-    }
+    await redisFunction(res, streamName, resultStream, message)
 });
+
+app.post('/teacher/:language', async (req, res) => {
+    const { language } = req.params;
+    const { codes, fileTest, testCode } = req.body;
+
+    console.log(codes)
+    console.log(fileTest)
+    console.log(testCode)
+
+    if (!codes || !fileTest || !testCode) {
+        return res.status(400).json({ error: 'Code source manquant GG' });
+    }
+
+    console.log(`Requête reçue pour le professeur pour langage: ${language}`);
+
+    let streamName, resultStream;
+    switch (language) {
+        case 'java':
+            streamName = JAVA_STREAM;
+            resultStream = RESULT_JAVA_STREAM;
+            break;
+        case 'python':
+            streamName = PYTHON_STREAM;
+            resultStream = RESULT_PYTHON_STREAM;
+            break;
+        default:
+            return res.status(400).json({ error: 'Langage non supporté.' });
+    }
+
+    const message = {
+        codes,
+        fileTest,
+        testCode
+    };
+
+    await redisFunction(res, streamName, resultStream, message)
+
+})
 
 // Démarrer le serveur
 app.listen(PORT, async () => {
