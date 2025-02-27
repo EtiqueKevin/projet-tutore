@@ -17,7 +17,9 @@ interface UsersServiceInterface{
     public function getModuleStatusByUser(string $id): array;
 
     public function getLessonStatusByUser(string $id): array;
-    function finishLesson(string $idUser, string $idLesson): void;
-    function startLesson(string $idUser, string $idLesson): void;
+    public function getLessonStatusById(string $id): int;
+    public function getModuleStatusById(string $id): int;
+    function finishLesson(string $idUser, string $idLesson, $token): void;
+    function startLesson(string $idUser, string $idLesson, $token): void;
 
 }

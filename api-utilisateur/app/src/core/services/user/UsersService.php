@@ -77,19 +77,43 @@ class UsersService implements UsersServiceInterface{
         return $usersDTO;
     }
 
-    function finishLesson(string $idUser, string $idLesson): void
+    function finishLesson(string $idUser, string $idLesson, $token): void
     {
         try {
             $this->repositoryUsers->finishLesson($idUser, $idLesson);
+            $id_module = $this->repositoryCours->getModuleByLesson($idLesson, $token);
+            $lessonsIds = $this->repositoryCours->getLessonsIdsByModule($id_module, $token);
+            $nbLesson = count($lessonsIds);
+            $countTerminer = 0;
+            foreach ($lessonsIds as $id){
+                if($this->repositoryUsers->getLessonStatusById($id) == 1){
+                    $countTerminer++;
+                }
+            }
+            if($countTerminer == $nbLesson){
+                $this->repositoryUsers->updateStatusModule($idUser, $id_module, 1);
+            }
         }catch (\Exception $e){
             throw new \Exception('Impossible de terminer le cours: '.$e->getMessage());
         }
     }
 
-    function startLesson(string $idUser, string $idLesson): void
+    function startLesson(string $idUser, string $idLesson, $token): void
     {
         try {
+            $id_module = $this->repositoryCours->getModuleByLesson($idLesson, $token);
+            $lessonsIds = $this->repositoryCours->getLessonsIdsByModule($id_module, $token);
+            $countTerminer = 0;
+            foreach ($lessonsIds as $id){
+                if($this->repositoryUsers->getLessonStatusById($id) == 2){
+                    $countTerminer++;
+                }
+            }
+            if($countTerminer == 0){
+                $this->repositoryUsers->updateStatusModule($idUser, $id_module, 0);
+            }
             $this->repositoryUsers->startLesson($idUser, $idLesson);
+
         }catch (\Exception $e){
             throw new \Exception('Impossible de commencer le cours: '.$e->getMessage());
         }
@@ -106,6 +130,24 @@ class UsersService implements UsersServiceInterface{
     public function getLessonStatusByUser(string $id): array{
         try {
             return $this->repositoryUsers->getLessonStatusByUser($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+        }
+    }
+
+    public function getLessonStatusById(string $id): int
+    {
+        try {
+            return $this->repositoryUsers->getLessonStatusById($id);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+        }
+    }
+
+    public function getModuleStatusById(string $id): int
+    {
+        try {
+            return $this->repositoryUsers->getModuleStatusById($id);
         }catch (\Exception $e){
             throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
         }

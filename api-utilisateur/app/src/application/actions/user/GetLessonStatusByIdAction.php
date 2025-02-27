@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 
-class PostFinishLessonAction extends AbstractAction
+class GetLessonStatusByIdAction extends AbstractAction
 {
     private UsersServiceInterface $userService;
 
@@ -19,16 +19,20 @@ class PostFinishLessonAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
+        $id = $args['ID-LESSON'];
+
         try {
-            $idLesson = $args['ID-LESSON'];
-            $idUser = $rq->getAttribute('idUser');
-            preg_match('/Bearer\s(\S+)/', $rq->getHeaderLine('Authorization'), $matches);
-            $token = $matches[1];
-            $this->userService->finishLesson($idUser, $idLesson, $token);
+            $lesson_status = $this->userService->getLessonStatusById($id);
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
+        $res = [
+            'type' => 'ressource',
+            'status' => $lesson_status
+        ];
+
+        $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

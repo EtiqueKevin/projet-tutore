@@ -10,6 +10,7 @@ use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\DeleteModuleByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
+use apiCours\application\actions\module\GetModuleByIdLessonAction;
 use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
 use apiCours\application\actions\module\GetModulesWithStatusAction;
@@ -68,7 +69,9 @@ return function( App $app): App {
     $app->put('/lessons/{id_lesson}[/]', PutLessonByIdAction::class)
         ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
-        ->setName('putLesson');;
+        ->setName('putLesson');
+
+    $app->get('/lessons/{id_lesson}/module[/]', GetModuleByIdLessonAction::class);
 
     $app->get('/lessons/{id_lesson}/exercise/{index}[/]', GetExerciseByIndexByIdLesson::class);
 

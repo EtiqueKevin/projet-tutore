@@ -5,7 +5,9 @@ use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
+use apiUtilisateur\application\actions\user\GetLessonStatusByIdAction;
 use apiUtilisateur\application\actions\user\GetModuleStatusAction;
+use apiUtilisateur\application\actions\user\GetModuleStatusByIdAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUserByTokenAction;
 use apiUtilisateur\application\actions\user\GetUsersAction;
@@ -63,6 +65,14 @@ return function( App $app): App {
         ->setName('getLessonStatus');
 
     $app->get('/modules/status[/]', GetModuleStatusAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getModuleStatus');
+
+    $app->get('/lessons/{ID-LESSON}/status[/]', GetLessonStatusByIdAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getLessonStatus');
+
+    $app->get('/modules/{ID-MODULE}/status[/]', GetModuleStatusByIdAction::class)
         ->add(AuthMiddleware::class)
         ->setName('getModuleStatus');
 
