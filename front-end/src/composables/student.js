@@ -102,9 +102,9 @@ export function useStudent() {
         }
     }
 
-    async function loadExercice(idLesson, nbContent) {
+    async function loadContent(idLesson, nbContent) {
         const lesson = await loadCours(idLesson)
-        if(lesson.content[nbContent].type !== 'code') {
+        if(lesson.content[nbContent].type === 'text') {
             return null
         }
         return lesson.content[nbContent]
@@ -128,7 +128,7 @@ export function useStudent() {
         loadModule,
         loadCours,
         getModules,
-        loadExercice,
+        loadContent,
         searchModule,
         correctExercice,
         startCours,

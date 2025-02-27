@@ -41,6 +41,13 @@ const dragStart = (e, type) => {
       >
         Exercice
       </div>
+      <div 
+        @dragstart="dragStart($event, 'quizz')"
+        draggable="true"
+        class="cursor-pointer drag-element"
+      >
+        Quizz
+      </div>
     </div>
   </div>
 </template>

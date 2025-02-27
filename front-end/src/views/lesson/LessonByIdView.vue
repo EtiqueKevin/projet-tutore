@@ -62,9 +62,9 @@ const generateTableOfContents = () => {
     return toc;
 };
 
-const navigateToExercise = (idLesson, index) => {
+const navigateToContent = (idLesson, index) => {
     router.push({
-        name:'exercice',
+        name:'content',
         params:{
             id:idLesson,
             nbContent:index
@@ -170,10 +170,11 @@ onMounted(async () => {
                          class="prose dark:prose-invert max-w-none"
                          v-html="toMarkdown(item.content)">
                     </div>
-                    <div v-else-if="item.type === 'code'" class="flex justify-center sm:justify-start">
-                        <Button @click="navigateToExercise(cours.id, index)"
+                    <div v-else class="flex justify-center sm:justify-start">
+                        <Button @click="navigateToContent(cours.id, index)"
                                class="bg-blue-600 hover:bg-white text-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 flex items-center gap-2 p-2 rounded-lg transition-colors duration-200">
-                            <span>Faire l'exercice</span>
+                            <span v-if="item.type=='code'">Faire l'exercice</span>
+                            <span v-if="item.type=='quizz'">Faire le quizz</span>
                             <i class="fas fa-arrow-right"></i>
                         </Button>
                     </div>

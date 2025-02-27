@@ -17,8 +17,8 @@ export default [
     },
     {
         path: 'lessons/:id/content/:nbContent',
-        name: 'exercice',
-        component: () => import('@/views/exercices/ExerciceView.vue'),
+        name: 'content',
+        component: () => import('@/views/lesson/LessonContent.vue'),
         meta: { requiresAuth: true }
     },
   ]

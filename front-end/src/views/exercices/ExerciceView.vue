@@ -4,15 +4,22 @@ import Editor from '@/components/metier/exercice/student/ExerciceEditor.vue';
 import MarkdownArea from '@/components/metier/exercice/MarkdownArea.vue';
 import { ref, computed, onMounted } from 'vue'
 import { useStudent } from '@/composables/student'
-import { useRouter, useRoute } from 'vue-router';
-import { useToast } from 'vue-toastification'
+import { useRoute } from 'vue-router';
 
+const props = defineProps({
+  sujetP:{
+    type:String,
+    required:true,
+  },
+  filesP:{
+    type:Array,
+    required:true,
+  }
+});
 const route = useRoute();
-const router = useRouter();
-const toast = useToast();
 
 const page = ref(0);
-const { loadExercice, correctExercice } = useStudent();
+const { correctExercice } = useStudent();
 
 const sujet = ref("");
 const files = ref([]);
@@ -33,31 +40,10 @@ const correct = async () => {
   consoleOutput.value = await correctExercice(route.params.id, route.params.nbContent, formatedFiles, files.value[0].language);
 };
 
-
-
-onMounted(async () => {
-
-  try{
-    const currentExercice = await loadExercice(route.params.id, route.params.nbContent);
-    if(currentExercice){
-      sujet.value = currentExercice.content;
-      files.value = currentExercice.files.filter(file => file.type === 'file');
-    }else{
-      toast.error("L'exercice n'a pas pu être chargé ou n'existe pas")
-      router.push({
-        name: 'lesson-by-id',
-        params:{id:route.params.id}
-      })
-    }
-  }catch (e){
-    toast.error("L'exercice n'a pas pu être chargé ou n'existe pas")
-    router.push({
-      name: 'lesson-by-id',
-      params:{id:route.params.id}
-    })
-  } finally {
-    loading.value = false;
-  }
+onMounted(() => {
+    sujet.value = props.sujetP;
+    files.value = props.filesP;
+    loading.value=false;
 });
 </script>
 

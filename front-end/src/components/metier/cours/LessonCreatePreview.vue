@@ -103,6 +103,12 @@ const generateTableOfContents = () => {
       <i class="fas fa-arrow-right"></i>
     </Button>
   </div>
+  <div v-else-if="item.type === 'quizz'" class="flex justify-center sm:justify-start">
+    <Button class="bg-blue-600 hover:bg-white text-white hover:text-blue-600 border border-blue-600 hover:border-blue-600 flex items-center gap-2 p-2 rounded-lg transition-colors duration-200">
+      <span>Faire le Quizz</span>
+      <i class="fas fa-arrow-right"></i>
+    </Button>
+  </div>
 </article>
 </div>
 </div>

@@ -7,6 +7,7 @@ import LessonCreatePreview from '@/components/metier/cours/LessonCreatePreview.v
 import { useLessonStore } from '@/stores/lesson';
 import { useRouter } from 'vue-router';
 import { useToast } from 'vue-toastification';
+import QuizzCreateView from '../exercices/QuizzCreateView.vue';
 
 const router = useRouter();
 const mode = ref(0);
@@ -17,6 +18,8 @@ const toast = useToast();
 const cours = computed(() => lessonStore.getCurrentLesson);
 
 const isMobile = computed(() => window.innerWidth <= 768);
+
+// gestion du drag and drop 
 
 const dragStart = (e, type) => {
   e.dataTransfer.setData('text/plain', type);
@@ -30,16 +33,20 @@ const drop = (e) => {
   e.preventDefault();
 
   const type = e.dataTransfer.getData('text/plain');
-  if (!type || (type !== 'text' && type !== 'code')) {
+  if (!type || (type !== 'text' && type !== 'code' && type !== 'quizz')) {
     return;
   }
 
   const dropZone = document.getElementById('drop-zones');
   const dropPosition = Array.from(dropZone.children).indexOf(e.target.closest('.droppable'));
   
-  const newContent = type === 'text' 
-    ? { type: 'text', content: '' }
-    : { type: 'code', statement: '', files: [] };
+  const posibleContent = {
+    text: { type: 'text', content: '' },
+    code: { type: 'code', statement: '', files: [] },
+    quizz: { type: 'quizz', title:'', questions: [] }
+  }
+
+  const newContent = posibleContent[type];
     
   if (type === 'code') {
     currentExerciceIndex.value = dropPosition !== -1 ? dropPosition : cours.value.content.length;
@@ -53,6 +60,9 @@ const drop = (e) => {
     lessonStore.addContent(newContent);
   }
 };
+
+
+// gestion des données
 
 const saveCours = async () => {
   if(!lessonStore.isValid){
@@ -74,7 +84,8 @@ const switchToCoursCreateView = () => {
   mode.value = 1;
 };
 
-const saveExercice = (exercice) => {
+const saveContent = (exercice) => {
+  console.log(exercice);
   lessonStore.updateContent(currentExerciceIndex.value, exercice);
   switchToCoursCreateView();
 };
@@ -84,10 +95,17 @@ const editExercice = (index) => {
   mode.value = 3;
 };
 
+const editQuizz = (index) => {
+  currentExerciceIndex.value = index;
+  mode.value = 4;
+};
+
+const isEditingLesson = computed(() => mode.value === 0 || mode.value === 1 || mode.value === 2);
+
 </script>
 
 <template>
-  <main v-if="mode !== 3" class="flex-grow flex p-4 gap-4" :class="{'flex-col': isMobile, 'flex-row': !isMobile}">
+  <main v-if="isEditingLesson" class="flex-grow flex p-4 gap-4" :class="{'flex-col': isMobile, 'flex-row': !isMobile}">
     <LessonCreateSidebar 
       :mode="mode"
       :is-mobile="isMobile"
@@ -125,6 +143,7 @@ const editExercice = (index) => {
         v-if="mode === 1"
         v-model:content="lessonStore.currentLesson.content"
         @editExercice="editExercice"
+        @editQuizz="editQuizz"
         @dragover="allowDrop"
         @drop="drop"
         @reorder="lessonStore.overWriteContent($event)"
@@ -141,7 +160,15 @@ const editExercice = (index) => {
     v-if="mode === 3" 
     :sujet="cours.content[currentExerciceIndex]?.content" 
     :files="cours.content[currentExerciceIndex]?.files" 
-    @save="saveExercice" 
+    @save="saveContent" 
     @cancel="switchToCoursCreateView" 
+  />
+
+  <QuizzCreateView 
+    v-if="mode === 4" 
+    :titre="cours.content[currentExerciceIndex]?.title" 
+    :questions="cours.content[currentExerciceIndex]?.questions"
+    @save="saveContent"
+    @cancel="switchToCoursCreateView"
   />
 </template>
