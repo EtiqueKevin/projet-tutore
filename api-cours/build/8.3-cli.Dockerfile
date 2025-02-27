@@ -20,7 +20,7 @@ RUN install-php-extensions  pdo_mysql pdo_pgsql
 RUN install-php-extensions  xdebug
 RUN install-php-extensions  redis
 RUN install-php-extensions @composer
-EXPOSE 8888
+EXPOSE 80
 
 
 

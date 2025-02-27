@@ -30,7 +30,7 @@ return  [
     },
 
     'client_utilisateur' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:8889']);
+        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:80']);
     },
 
     'SECRET_KEY' => getenv('JWT_SECRET_KEY'),

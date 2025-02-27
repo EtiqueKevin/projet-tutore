@@ -5,11 +5,11 @@ use Psr\Container\ContainerInterface;
 
 return  [
     'client_utilisateur' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:8889']);
+        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:80']);
     },
 
     'client_cours' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.cours.jeancademie:8888']);
+        return new Client(['base_uri' => 'http://api.cours.jeancademie:80']);
     },
 
     'client_execution' => function (ContainerInterface $c){
@@ -17,6 +17,6 @@ return  [
     },
 
     'client_authn' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.auth.jeancademie:8890']);
+        return new Client(['base_uri' => 'http://api.auth.jeancademie:80']);
     },
 ];

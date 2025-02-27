@@ -58,7 +58,7 @@ app.post('/:language', async (req, res) => {
     const { id_lesson, index, codes } = req.body;
     let testCode = '';
     let fileTest = '';
-    await axios.get(`http://api.cours.jeancademie:8888/lessons/${id_lesson}/exercise/${index}`).then(
+    await axios.get(`http://api.cours.jeancademie:80/lessons/${id_lesson}/exercise/${index}`).then(
         response => {
             const { data } = response;
             data.exercise.files.forEach(file => {

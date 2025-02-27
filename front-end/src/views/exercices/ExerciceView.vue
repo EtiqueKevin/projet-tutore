@@ -41,7 +41,7 @@ onMounted(async () => {
     const currentExercice = await loadExercice(route.params.id, route.params.nbContent);
     if(currentExercice){
       sujet.value = currentExercice.content;
-      files.value = currentExercice.files.filter(file => file.type === 'file');      
+      files.value = currentExercice.files.filter(file => file.type === 'file');
     }else{
       toast.error("L'exercice n'a pas pu être chargé ou n'existe pas")
       router.push({
@@ -66,7 +66,7 @@ onMounted(async () => {
     <template v-if="loading">
       <div :class="isMobile ? 'w-full' : 'w-[20%] border-r-2'" class="p-4">
         <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-3/4 animate-pulse"></div>
-        <div v-for="i in 8" :key="i" 
+        <div v-for="i in 8" :key="i"
              class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"
              :style="{ width: `${Math.random() * 40 + 60}%` }">
         </div>
@@ -78,7 +78,7 @@ onMounted(async () => {
           <div class="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse opacity-60"></div>
         </div>
         <div class="border dark:border-gray-700 rounded-md p-4">
-          <div v-for="i in 12" :key="i" 
+          <div v-for="i in 12" :key="i"
                class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"
                :style="{ width: `${Math.random() * 50 + 50}%` }">
           </div>
@@ -87,7 +87,7 @@ onMounted(async () => {
 
       <div :class="isMobile ? 'w-full' : 'w-[20%]'" class="p-4">
         <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-1/2 animate-pulse"></div>
-        <div v-for="i in 5" :key="i" 
+        <div v-for="i in 5" :key="i"
              class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"
              :style="{ width: `${Math.random() * 30 + 70}%` }">
         </div>
@@ -102,20 +102,20 @@ onMounted(async () => {
       </div>
       <div v-if="(!isMobile || page === 0) && isLoaded" :class="[isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2', 'dark:border-gray-300 border-slate-800']">
         <!-- retour a la lesson -->
-        <RouterLink 
-          :to="{name: 'lesson-by-id', params: {id: route.params.id}}" 
-          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform" 
+        <RouterLink
+          :to="{name: 'lesson-by-id', params: {id: route.params.id}}"
+          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform"
           title="Retour à la leçon"
         >
           <i class="fas fa-arrow-left"></i> Retour à la leçon
         </RouterLink>
         <MarkdownArea :markdown-text="sujet"/>
       </div>
-      <Editor 
-        v-if="(!isMobile || page === 1) && isLoaded" 
-        :files="files" 
+      <Editor
+        v-if="(!isMobile || page === 1) && isLoaded"
+        :files="files"
         @correct-code="correct"
-        class="dark:border-gray-300 border-slate-800" 
+        class="dark:border-gray-300 border-slate-800"
         :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2'"
       />
       <Console v-if="(!isMobile || page === 2) && isLoaded" :results="consoleOutput" :class="isMobile ? 'w-full' : 'w-[20%]'"/>
