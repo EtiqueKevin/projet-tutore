@@ -33,4 +33,13 @@ class AdapterUtilisateurRepository implements UtilisateurRepositoryInterface
         $data = json_decode($reponse->getBody()->getContents(), true);
         return $data["lessons"];
     }
+
+    public function getLessonStatus(string $token, string $idLesson): int{
+        $reponse = $this->client->get('/lessons/'.$idLesson.'/status', [
+            'headers' => ['Authorization' => 'Bearer '.$token]
+        ]);
+
+        $data = json_decode($reponse->getBody()->getContents(), true);
+        return $data["status"];
+    }
 }
