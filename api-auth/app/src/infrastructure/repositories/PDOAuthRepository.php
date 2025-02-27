@@ -19,39 +19,47 @@ class PDOAuthRepository implements AuthRepositoryInterface
 
     function findByEmail(string $email): null| User
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
-        $stmt->bindParam(1, $email);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if ($row) {
-            $auth = new User(
-                $row['email'],
-                $row['password'],
-                intval($row['role'])
-            );
-            $auth->setID($row['id']);
-            return $auth;
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
+            $stmt->bindParam(1, $email);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if ($row) {
+                $auth = new User(
+                    $row['email'],
+                    $row['password'],
+                    intval($row['role'])
+                );
+                $auth->setID($row['id']);
+                return $auth;
 
-        } else {
-            return null;
+            } else {
+                return null;
+            }
+        }catch (Exception $e){
+            throw new AuthRepositoryException($e->getMessage());
         }
     }
 
     function findById(string $id):User{
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if ($row) {
-            $auth = new User(
-                $row['email'],
-                $row['password'],
-                $row['role']
-            );
-            $auth->setID($row['id']);
-            return $auth;
-        } else {
-            throw new AuthRepositoryException("Utilisateur non trouvé");
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if ($row) {
+                $auth = new User(
+                    $row['email'],
+                    $row['password'],
+                    $row['role']
+                );
+                $auth->setID($row['id']);
+                return $auth;
+            } else {
+                throw new AuthRepositoryException("Utilisateur non trouvé");
+            }
+        }catch (Exception $e){
+            throw new AuthRepositoryException($e->getMessage());
         }
     }
 
@@ -86,27 +94,35 @@ class PDOAuthRepository implements AuthRepositoryInterface
 
     public function getRoleById(string $id): string
     {
-        $stmt = $this->pdo->prepare('SELECT role FROM users WHERE id = ?');
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if ($row) {
-            return $row['role'];
-        } else {
-            throw new AuthRepositoryException("Role non trouvé" );
+        try {
+            $stmt = $this->pdo->prepare('SELECT role FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if ($row) {
+                return $row['role'];
+            } else {
+                throw new AuthRepositoryException("Role non trouvé" );
+            }
+        }catch (Exception $e){
+            throw new AuthRepositoryException($e->getMessage());
         }
     }
 
     public function getEmailByRole(string $id): string
     {
-        $stmt = $this->pdo->prepare('SELECT email FROM users WHERE id = ?');
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        $row = $stmt->fetch();
-        if ($row) {
-            return $row['email'];
-        } else {
-            throw new AuthRepositoryException("Email non trouvé");
+        try {
+            $stmt = $this->pdo->prepare('SELECT email FROM users WHERE id = ?');
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            if ($row) {
+                return $row['email'];
+            } else {
+                throw new AuthRepositoryException("Email non trouvé");
+            }
+        }catch (Exception $e){
+            throw new AuthRepositoryException($e->getMessage());
         }
     }
 }

@@ -11,12 +11,20 @@ class AdaptaterUtilisateurRepository implements UtilisateurRepositoryInterface
 
     public function __construct($client)
     {
-        $this->client = $client;
+        try {
+            $this->client = $client;
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
     }
     public function createUtilisateur(User $user): void
     {
-        $this->client->post('/users', [
-            'json' => ['id' => $user->getID(), 'name' => $user->name, 'surname' => $user->surname, 'linkpic' => $user->linkpic, 'pseudo'=> $user->pseudo],
-        ]);
+        try {
+            $this->client->post('/users', [
+                'json' => ['id' => $user->getID(), 'name' => $user->name, 'surname' => $user->surname, 'linkpic' => $user->linkpic, 'pseudo'=> $user->pseudo],
+            ]);
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
     }
 }
