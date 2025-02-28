@@ -24,4 +24,5 @@ interface UsersServiceInterface{
     function rateModule(string $idUser, string $idModule, int $rate): void;
     function getRateOfModule(string $idModule): float;
     function getDemandes() : array;
+    function ajouterDemande(string $idUser): void;
 }

@@ -301,14 +301,25 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $demandes = $stmt->fetchAll();
 
             $demandeTab = [];
-
             foreach ($demandes as $demande){
                 $userEntity = new User($demande['name'],$demande['surname'],$demande['linkpic'],$demande['pseudo']);
                 $userEntity->setID($demande['id_utilisateur']);
                 $demandeEntity = new Demande($userEntity);
                 $demandeEntity->setID($demande['id']);
+                $demandeTab[] = $demandeEntity;
             }
             return $demandeTab;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function ajouterDemande(string $idUser): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO demmands (id_utilisateur) VALUES (?)');
+            $stmt->bindParam(1, $idUser);
+            $stmt->execute();
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }

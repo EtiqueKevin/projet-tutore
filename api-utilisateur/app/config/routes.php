@@ -13,6 +13,7 @@ use apiUtilisateur\application\actions\user\GetRateOfModuleAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUserByTokenAction;
 use apiUtilisateur\application\actions\user\GetUsersAction;
+use apiUtilisateur\application\actions\user\PostDemandeAction;
 use apiUtilisateur\application\actions\user\PostFinishLessonAction;
 use apiUtilisateur\application\actions\user\PostRateOfModuleAction;
 use apiUtilisateur\application\actions\user\PostStartLessonAction;
@@ -88,6 +89,10 @@ return function( App $app): App {
         ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
         ->setName('getDemandes');
-    return $app;
 
+    $app->post('/demandes[/]', PostDemandeAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('postDemande');
+
+    return $app;
 };

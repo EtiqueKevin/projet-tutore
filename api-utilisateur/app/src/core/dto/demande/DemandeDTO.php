@@ -10,8 +10,9 @@ class DemandeDTO extends DTO
     private string $id;
     private UserDTO $user;
 
-    public function __construct(UserDTO $user)
+    public function __construct(string $id ,UserDTO $user)
     {
+        $this->id = $id;
         $this->user = $user;
     }
 

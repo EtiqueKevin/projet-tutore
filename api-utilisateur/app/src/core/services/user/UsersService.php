@@ -191,4 +191,13 @@ class UsersService implements UsersServiceInterface{
             throw new \Exception('Impossible de trouver les demandes: '.$e->getMessage());
         }
     }
+
+    function ajouterDemande(string $idUser): void
+    {
+        try {
+            $this->repositoryUsers->ajouterDemande($idUser);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible d\'ajouter la demande: '.$e->getMessage());
+        }
+    }
 }

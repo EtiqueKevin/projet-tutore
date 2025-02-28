@@ -4,6 +4,7 @@ namespace apiUtilisateur\core\domain\entities\demande;
 
 use apiUtilisateur\core\domain\entities\Entity;
 use apiUtilisateur\core\domain\entities\user\User;
+use apiUtilisateur\core\dto\demande\DemandeDTO;
 
 class Demande extends Entity
 {
@@ -16,6 +17,6 @@ class Demande extends Entity
 
     public function toDTO(): DemandeDTO
     {
-        return new DemandeDTO($this->user);
+        return new DemandeDTO($this->getID() , $this->user->toDTO());
     }
 }
