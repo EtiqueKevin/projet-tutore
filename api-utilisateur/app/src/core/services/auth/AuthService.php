@@ -30,4 +30,10 @@ class AuthService implements AuthServiceInterface
     {
         return $idUser == $id;
     }
+
+    public function isStudent(string $id): bool
+    {
+        $role = $this->repositoryAuth->getRoleById($id);
+        return $role == 10;
+    }
 }

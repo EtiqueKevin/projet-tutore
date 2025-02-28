@@ -200,4 +200,23 @@ class UsersService implements UsersServiceInterface{
             throw new \Exception('Impossible d\'ajouter la demande: '.$e->getMessage());
         }
     }
+
+    function validerDemande(string $idDemande, string $token): void
+    {
+        try {
+            $idUser = $this->repositoryUsers->supprimerDemande($idDemande);
+            $this->repositoryAuth->updateRole($idUser, 10, $token);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de valider la demande: '.$e->getMessage());
+        }
+    }
+
+    function deleteDemande(string $idDemande): void
+    {
+        try {
+            $this->repositoryUsers->supprimerDemande($idDemande);
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de supprimer la demande: '.$e->getMessage());
+        }
+    }
 }

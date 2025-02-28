@@ -40,4 +40,11 @@ class AdaptaterAuthRepository implements AuthRepositoryInterface
         $data = json_decode($response->getBody()->getContents(), true);
         return $data["email"];
     }
+
+    public function updateRole(string $id, string $role, string $token): void
+    {
+        $response = $this->client->put('/users/'.$id.'/role?role='.$role, [
+            'headers' => ['Authorization' => 'Bearer '.$token]
+        ]);
+    }
 }

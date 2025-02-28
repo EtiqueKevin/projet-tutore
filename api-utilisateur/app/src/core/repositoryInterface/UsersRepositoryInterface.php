@@ -22,5 +22,6 @@ interface UsersRepositoryInterface{
     public function getRateModule(string $idModule): float;
     public function getDemandes() : array;
     public function ajouterDemande(string $idUser): void;
+    public function supprimerDemande(string $idDemande): string;
 
 }

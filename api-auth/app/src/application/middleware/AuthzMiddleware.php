@@ -1,8 +1,9 @@
 <?php
 
-namespace apiUtilisateur\application\middleware;
+namespace apiAuth\application\middleware;
 
-use apiUtilisateur\core\services\auth\AuthServiceInterface;
+use apiAuth\core\services\auth\AuthServiceInterface;
+use apiAuth\core\services\user\UserServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -12,9 +13,11 @@ use Slim\Routing\RouteContext;
 class AuthzMiddleware
 {
     private AuthServiceInterface $authService;
+    private UserServiceInterface $userService;
 
-    public function __construct(AuthServiceInterface $authService){
+    public function __construct(AuthServiceInterface $authService, UserServiceInterface $userService){
         $this->authService = $authService;
+        $this->userService = $userService;
     }
 
     public function __invoke(ServerRequestInterface $rq, RequestHandlerInterface $next): ResponseInterface{
@@ -34,21 +37,9 @@ class AuthzMiddleware
         // Vérification des droits d'accès selon la route
         switch ($routeName) {
 
-            case 'deleteUtilisateur':
-                if (!$this->authService->adminVerification($id) && !$this->authService->himselfVerification($args['ID-USER'], $id)) {
-                    throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
-                }
-                break;
-            case 'getDemandes':
-            case 'validerDemande':
-            case 'deleteDemande':
-                if (!$this->authService->adminVerification($id)) {
-                    throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
-                }
-                break;
-            case 'postDemande':
-                if (!$this->authService->isStudent($id)) {
-                    throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
+            case 'updateRole':
+                if (!$this->userService->getRoleById($id) == 100) {
+                    throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource ');
                 }
                 break;
             default:

@@ -296,16 +296,16 @@ class PDOUsersRepository implements UsersRepositoryInterface {
     public function getDemandes(): array
     {
         try {
-            $stmt = $this->pdo->prepare('SELECT * FROM demmands inner join users on demmands.id_utilisateur = users.id');
+            $stmt = $this->pdo->prepare('SELECT demmands.id AS demande_id, users.id AS user_id, users.name, users.surname, users.linkpic, users.pseudo FROM demmands INNER JOIN users ON demmands.id_utilisateur = users.id');
             $stmt->execute();
             $demandes = $stmt->fetchAll();
 
             $demandeTab = [];
             foreach ($demandes as $demande){
                 $userEntity = new User($demande['name'],$demande['surname'],$demande['linkpic'],$demande['pseudo']);
-                $userEntity->setID($demande['id_utilisateur']);
+                $userEntity->setID($demande['user_id']);
                 $demandeEntity = new Demande($userEntity);
-                $demandeEntity->setID($demande['id']);
+                $demandeEntity->setID($demande['demande_id']);
                 $demandeTab[] = $demandeEntity;
             }
             return $demandeTab;
@@ -320,6 +320,25 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $stmt = $this->pdo->prepare('INSERT INTO demmands (id_utilisateur) VALUES (?)');
             $stmt->bindParam(1, $idUser);
             $stmt->execute();
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function supprimerDemande(string $idDemande): string
+    {
+        try {
+
+            $stmt = $this->pdo->prepare('SELECT id_utilisateur FROM demmands WHERE id = ?');
+            $stmt->bindParam(1, $idDemande);
+            $stmt->execute();
+            $idUser = $stmt->fetchColumn();
+
+            $stmt = $this->pdo->prepare('DELETE FROM demmands WHERE id = ?');
+            $stmt->bindParam(1, $idDemande);
+            $stmt->execute();
+
+            return $idUser;
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }

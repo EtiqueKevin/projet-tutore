@@ -15,4 +15,5 @@ interface AuthRepositoryInterface
     public function deleteById(string $id): void;
     public function getRoleById(string $id): string;
     public function getEmailByRole(string $id): string;
+    public function updateRole(string $id, string $role): void;
 }

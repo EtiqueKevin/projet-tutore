@@ -9,6 +9,8 @@ use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
 use apiAuth\application\actions\SignInAction;
 use apiAuth\application\actions\ValidateAction;
+use apiAuth\application\middleware\AuthMiddleware;
+use apiAuth\application\middleware\AuthzMiddleware;
 use apiAuth\application\providers\auth\AuthProvider;
 use apiAuth\application\providers\auth\AuthProviderInterface;
 use apiAuth\application\providers\auth\JWTManager;
@@ -80,4 +82,11 @@ return [
         return new JWTManager($c->get('SECRET_KEY'));
     },
 
+    AuthMiddleware::class => function(ContainerInterface $c){
+        return new AuthMiddleware($c->get(AuthServiceInterface::class), $c->get(AuthProviderInterface::class));
+    },
+
+    AuthzMiddleware::class => function(ContainerInterface $c) {
+        return new AuthzMiddleware($c->get(AuthServiceInterface::class), $c->get(UserServiceInterface::class));
+    }
 ];

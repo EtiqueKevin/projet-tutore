@@ -25,4 +25,6 @@ interface UsersServiceInterface{
     function getRateOfModule(string $idModule): float;
     function getDemandes() : array;
     function ajouterDemande(string $idUser): void;
+    function validerDemande(string $idDemande,string $token): void;
+    function deleteDemande(string $idDemande): void;
 }

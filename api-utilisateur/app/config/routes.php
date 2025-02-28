@@ -14,6 +14,7 @@ use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUserByTokenAction;
 use apiUtilisateur\application\actions\user\GetUsersAction;
 use apiUtilisateur\application\actions\user\PostDemandeAction;
+use apiUtilisateur\application\actions\user\PostDemandeValidateAction;
 use apiUtilisateur\application\actions\user\PostFinishLessonAction;
 use apiUtilisateur\application\actions\user\PostRateOfModuleAction;
 use apiUtilisateur\application\actions\user\PostStartLessonAction;
@@ -91,8 +92,19 @@ return function( App $app): App {
         ->setName('getDemandes');
 
     $app->post('/demandes[/]', PostDemandeAction::class)
+        ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
         ->setName('postDemande');
+
+    $app->post('/demandes/{ID-DEMANDE}/validate[/]', PostDemandeValidateAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('validerDemande');
+
+    $app->delete('/demandes/{ID-DEMANDE}[/]', DeleteDemandeAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('deleteDemande');
 
     return $app;
 };

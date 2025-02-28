@@ -6,10 +6,13 @@ use apiAuth\application\actions\GetEmailByIdAction;
 use apiAuth\application\actions\GetRoleByIdAction;
 use apiAuth\application\actions\GetUserIdAction;
 use apiAuth\application\actions\HomeAction;
+use apiAuth\application\actions\PutRoleUtilisateurAction;
 use apiAuth\application\actions\RefreshAction;
 use apiAuth\application\actions\RegisterAction;
 use apiAuth\application\actions\SignInAction;
 use apiAuth\application\actions\ValidateAction;
+use apiAuth\application\middleware\AuthMiddleware;
+use apiAuth\application\middleware\AuthzMiddleware;
 use Slim\App;
 
 return function( App $app): App {
@@ -48,6 +51,11 @@ return function( App $app): App {
 
     $app->get('/users/{id}/email', GetEmailByIdAction::class)
         ->setName('getEmailById');
+
+    $app->put('/users/{ID-USER}/role[/]', PutRoleUtilisateurAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('updateRole');
 
     return $app;
 };

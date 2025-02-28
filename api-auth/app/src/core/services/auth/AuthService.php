@@ -36,4 +36,13 @@ class AuthService implements AuthServiceInterface
             throw new AuthServiceException('Erreur de connexion');
         }
     }
+
+    function updateRole(string $id, string $role): void
+    {
+        try {
+            $this->authRepository->updateRole($id, $role);
+        }catch (\Exception $e){
+            throw new AuthServiceException('Impossible de mettre à jour le role');
+        }
+    }
 }

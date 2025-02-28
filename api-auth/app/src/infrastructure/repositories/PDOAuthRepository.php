@@ -125,4 +125,16 @@ class PDOAuthRepository implements AuthRepositoryInterface
             throw new AuthRepositoryException($e->getMessage());
         }
     }
+
+    public function updateRole(string $id, string $role): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('UPDATE users SET role = ? WHERE id = ?');
+            $stmt->bindParam(1, $role);
+            $stmt->bindParam(2, $id);
+            $stmt->execute();
+        } catch (Exception $e) {
+            throw new AuthRepositoryException($e->getMessage());
+        }
+    }
 }
