@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class PostDemandeAction extends AbstractAction
 {
@@ -22,7 +23,7 @@ class PostDemandeAction extends AbstractAction
             $idUser = $rq->getAttribute('idUser');
             $this->userService->ajouterDemande($idUser);
         }catch (\Exception $e){
-            throw new \Exception($e->getMessage());
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');

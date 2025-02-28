@@ -30,6 +30,15 @@ export default [
             requiresAuth: true,
             requiresAdmin: true
           }
+        },
+        {
+          path: 'demandes',
+          name: 'admin-demandes',
+          component: () => import('@/views/admin/ManageDemandesView.vue'),
+          meta: { 
+            requiresAuth: true,
+            requiresAdmin: true
+          }
         }
       ],
       meta: { 
