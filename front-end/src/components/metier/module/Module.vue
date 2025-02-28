@@ -45,8 +45,10 @@ const viewModule = (moduleId) => {
 </script>
 
 <template>
-    <div :key="module.id" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg border border-gray-200 dark:border-gray-700">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
+    <div :key="module.id" class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
+        <!-- Informations -->
+        <div class="flex flex-col">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
             <div class="flex items-center gap-2">
                 <h2 class="text-lg sm:text-lg font-semibold text-gray-900 dark:text-white">{{ module.name }}</h2>
                 
@@ -66,6 +68,8 @@ const viewModule = (moduleId) => {
             </span>
         </div>
         <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm sm:text-base">{{ module.description }}</p>
+        </div>
+        <!-- Actions -->
         <div class="flex flex-col space-y-2">
             <div class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                 Mis à jour le : {{ module.dateupdate }}

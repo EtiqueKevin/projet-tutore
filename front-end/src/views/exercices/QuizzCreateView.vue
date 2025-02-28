@@ -135,7 +135,7 @@ onMounted(() => {
       </button>
     </div>
 
-    <span class="separator"></span>
+    <span class="separator" v-if="currentQuestions.length > 0"></span>
 
     <!-- Liste des questions -->
     <div v-if="currentQuestions.length > 0">

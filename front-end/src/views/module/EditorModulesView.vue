@@ -62,7 +62,17 @@ const reload = async () => {
 
 <template>
   <main class="px-4 py-8 min-h-screen w-full ">
-    <h1 class="text-3xl font-semibold text-gray-900 dark:text-white mb-4">Vos Modules</h1>
+    <div class="flex space-x-4 items-center mb-4">
+      <h1 class="text-3xl font-semibold text-gray-900 dark:text-white">Vos Modules</h1>
+      <button 
+            title="Ajouter un module" 
+            class="text-primary-dark dark:text-primary-light hover:underline"
+            @click="openModule(null)"
+          >
+            <i class="fas fa-plus"></i>
+            Ajouter un module
+          </button>
+    </div>
 
 
     <div v-if="lessonStore.isInit" class="flex space-x-4 items-center bg-yellow-300 dark:bg-yellow-500 p-4 rounded-lg mb-4">
@@ -72,9 +82,13 @@ const reload = async () => {
         Reprendre l'édition
         <i class="fas fa-arrow-right"></i>
       </button>
+      <button  @click="lessonStore.clearCurrentLesson()" class="hover:underline border-l-2 border-black pl-4">
+        Abandonner l'édition
+        <i class="fas fa-trash"></i>
+      </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       <!-- Skeleton loader -->
       <template v-if="loading">
         <div v-for="n in 6" :key="n" 
@@ -99,14 +113,6 @@ const reload = async () => {
         <template v-for="module in modules" >
           <Module :module="module" :canUpdate="true" @delete="deleteModuleId(module.id)" @open="openModule(module)"/>
         </template> 
-          <button 
-            title="Ajouter un module" 
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg border border-gray-200 dark:border-gray-700 text-black dark:text-white text-2xl"
-            @click="openModule(null)"
-          >
-            <i class="fas fa-plus"></i>
-            Ajouter un module
-          </button>
       </template>
     </div>
   </main>
