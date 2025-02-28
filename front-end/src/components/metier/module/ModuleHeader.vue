@@ -26,19 +26,20 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['rate'])
+const emit = defineEmits(['refresh'])
 
 const handleRating = async (rating) => {
     const res = await rateModule(props.module.id, rating)
     if(res) {
         toast.success('Note enregistrée')
+        emit('refresh')
     }else{
         toast.error('Erreur lors de l\'enregistrement de la note')
     }
 }
 
 const isStarted = computed(() => {
-    return props.module.status && props.module.status !== 2;
+    return props.module.lessons.length > 0 && props.module.lessons[0].status !== 2;
 })
 </script>
 

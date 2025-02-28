@@ -116,7 +116,7 @@ class UsersService implements UsersServiceInterface{
                 }
             }
 
-            if ($commenceCount >= 1 && $terminerCount < $nbLesson){
+            if ($commenceCount == 1 && $terminerCount < $nbLesson){
                 $this->repositoryUsers->updateStatusModule($idUser, $id_module, 0);
             }
 
