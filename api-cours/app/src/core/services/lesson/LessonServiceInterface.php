@@ -3,6 +3,7 @@
 namespace apiCours\core\services\lesson;
 
 use apiCours\core\dto\lesson\ContentDTO;
+use apiCours\core\dto\lesson\ErreurDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
 use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
@@ -20,4 +21,5 @@ interface LessonServiceInterface
     public function deleteLesson(string $id): void;
     public function getExerciseLesson(LessonExeciseDTO $ld): ContentDTO;
     public function getLessonErreurs(string $idLesson): array;
+    public function postLessonErreurs(ErreurDTO $erreurDTO): void;
 }

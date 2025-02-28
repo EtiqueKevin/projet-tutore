@@ -7,9 +7,12 @@ use apiCours\core\dto\lesson\ErreurDTO;
 
 class Erreur extends Entity {
 
+    protected $id_lesson;
+
     protected array $errors = [];
 
-    public function __construct(array $e){
+    public function __construct(string $id_lesson, array $e){
+        $this->id_lesson = $id_lesson;
         $this->errors = $e;
     }
 
@@ -18,7 +21,7 @@ class Erreur extends Entity {
     }
 
     public function toDTO(): ErreurDTO{
-        return new ErreurDTO($this->errors);
+        return new ErreurDTO($this->id_lesson, $this->errors);
     }
 
 }
