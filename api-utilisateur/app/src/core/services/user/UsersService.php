@@ -103,15 +103,21 @@ class UsersService implements UsersServiceInterface{
         try {
             $id_module = $this->repositoryCours->getModuleByLesson($idLesson, $token);
             $lessonsIds = $this->repositoryCours->getLessonsIdsByModule($id_module, $token);
-            $countTerminer = 0;
+            $commenceCount = 0;
+            $terminerCount = 0;
+            $nbLesson = count($lessonsIds);
             foreach ($lessonsIds as $id){
-                if($this->repositoryUsers->getLessonStatusById($id) == 2){
-                    $countTerminer++;
+                if ($this->repositoryUsers->getLessonStatusById($id) == 0){
+                    $commenceCount++;
+                }elseif ($this->repositoryUsers->getLessonStatusById($id) == 1){
+                    $terminerCount++;
                 }
             }
-            if($countTerminer == 0){
+
+            if ($commenceCount > 1 && $terminerCount < $nbLesson){
                 $this->repositoryUsers->updateStatusModule($idUser, $id_module, 0);
             }
+
             $this->repositoryUsers->startLesson($idUser, $idLesson);
 
         }catch (\Exception $e){
