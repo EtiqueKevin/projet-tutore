@@ -33,7 +33,8 @@ class AdaptaterCoursRepository implements CoursRepositoryInterface
             ['headers' => ['Authorization' => 'Bearer '.$token]]
         );
         $lessonsIds = [];
-        foreach ($response->getBody() as $lesson) {
+        $data = json_decode($response->getBody()->getContents(), true);
+        foreach ($data['lessons'] as $lesson){
             $lessonsIds[] = $lesson['id'];
         }
         return $lessonsIds;
