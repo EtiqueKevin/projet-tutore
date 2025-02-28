@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
+use apiUtilisateur\application\actions\user\DeleteDemandeAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetDemandesAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
