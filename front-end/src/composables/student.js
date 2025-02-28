@@ -19,6 +19,7 @@ export function useStudent() {
                 creator: res.data.module.idCreator,
                 lessonCount: res.data.module.nblesson,
                 lastUpdate: res.data.module.dateupdate,
+                note: res.data.module.note,
                 lessons: []
             }
             

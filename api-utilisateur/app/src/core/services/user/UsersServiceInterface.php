@@ -22,5 +22,5 @@ interface UsersServiceInterface{
     function finishLesson(string $idUser, string $idLesson, $token): void;
     function startLesson(string $idUser, string $idLesson, $token): void;
     function rateModule(string $idUser, string $idModule, int $rate): void;
-    function getRateOfModule(string $idModule): int;
+    function getRateOfModule(string $idModule): float;
 }

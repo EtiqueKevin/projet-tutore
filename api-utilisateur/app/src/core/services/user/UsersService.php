@@ -169,7 +169,7 @@ class UsersService implements UsersServiceInterface{
         }
     }
 
-    function getRateOfModule(string $idModule): int
+    function getRateOfModule(string $idModule): float
     {
         try {
             return $this->repositoryUsers->getRateModule($idModule);

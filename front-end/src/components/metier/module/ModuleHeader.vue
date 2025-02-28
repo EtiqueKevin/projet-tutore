@@ -39,6 +39,7 @@ defineProps({
                 <p class="text-gray-600 mb-4 text-gray-500 dark:text-gray-400">
                     {{ module.description }}
                 </p>
+                <p>{{ module.note }}</p>
             </div>
             <div class="text-right text-black dark:text-white">
                 <p class="text-sm">

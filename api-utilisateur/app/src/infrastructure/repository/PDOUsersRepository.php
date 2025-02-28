@@ -274,7 +274,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getRateModule(string $idModule): int
+    public function getRateModule(string $idModule): float
     {
         try {
             $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ?');
