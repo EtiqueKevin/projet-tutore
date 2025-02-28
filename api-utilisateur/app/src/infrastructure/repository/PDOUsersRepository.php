@@ -199,6 +199,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $retour = 2;
             $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
+            $stmt->bindParam(2, $idUser);
             $stmt->execute();
             $lesson = $stmt->fetch();
 
@@ -221,6 +222,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $retour = 2;
             $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
+            $stmt->bindParam(2, $idUser);
             $stmt->execute();
             $module = $stmt->fetch();
 

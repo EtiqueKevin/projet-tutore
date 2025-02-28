@@ -89,4 +89,5 @@ return function( App $app): App {
         ->add(AuthMiddleware::class)
         ->setName('getDemandes');
     return $app;
+
 };
