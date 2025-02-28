@@ -103,6 +103,7 @@ class UsersService implements UsersServiceInterface{
         try {
             $id_module = $this->repositoryCours->getModuleByLesson($idLesson, $token);
             $lessonsIds = $this->repositoryCours->getLessonsIdsByModule($id_module, $token);
+            $this->repositoryUsers->startLesson($idUser, $idLesson);
             $commenceCount = 0;
             $terminerCount = 0;
             $nbLesson = count($lessonsIds);
@@ -118,7 +119,6 @@ class UsersService implements UsersServiceInterface{
                 $this->repositoryUsers->updateStatusModule($idUser, $id_module, 0);
             }
 
-            $this->repositoryUsers->startLesson($idUser, $idLesson);
 
         }catch (\Exception $e){
             throw new \Exception('Impossible de commencer le cours: '.$e->getMessage());
