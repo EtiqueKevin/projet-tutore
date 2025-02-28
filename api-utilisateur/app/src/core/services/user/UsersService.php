@@ -101,12 +101,13 @@ class UsersService implements UsersServiceInterface{
     function startLesson(string $idUser, string $idLesson, $token): void
     {
         try {
+            $this->repositoryUsers->startLesson($idUser, $idLesson);
             $id_module = $this->repositoryCours->getModuleByLesson($idLesson, $token);
             $lessonsIds = $this->repositoryCours->getLessonsIdsByModule($id_module, $token);
-            $this->repositoryUsers->startLesson($idUser, $idLesson);
             $commenceCount = 0;
             $terminerCount = 0;
             $nbLesson = count($lessonsIds);
+
             foreach ($lessonsIds as $id){
                 if ($this->repositoryUsers->getLessonStatusById($id) == 0){
                     $commenceCount++;
@@ -115,7 +116,7 @@ class UsersService implements UsersServiceInterface{
                 }
             }
 
-            if ($commenceCount > 1 && $terminerCount < $nbLesson){
+            if ($commenceCount >= 1 && $terminerCount < $nbLesson){
                 $this->repositoryUsers->updateStatusModule($idUser, $id_module, 0);
             }
 
