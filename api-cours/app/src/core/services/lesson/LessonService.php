@@ -2,7 +2,9 @@
 
 namespace apiCours\core\services\lesson;
 
+use apiCours\core\domain\entities\lesson\Erreur;
 use apiCours\core\dto\lesson\ContentDTO;
+use apiCours\core\dto\lesson\ErreurDTO;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\dto\lesson\LessonExeciseDTO;
 use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
@@ -124,5 +126,15 @@ class LessonService implements LessonServiceInterface
         }catch (\Exception $e){
             throw new LessonRepositoryException($e->getMessage());
         }
+    }
+
+    public function postLessonErreurs(ErreurDTO $erreurDTO): void{
+        try{
+            $this->lessonRepository->postLessonErreurs(new Erreur($erreurDTO->id_lesson, $erreurDTO->getErrors()));
+
+        }catch (\Exception $e){
+            throw new LessonRepositoryException($e->getMessage());
+        }
+
     }
 }

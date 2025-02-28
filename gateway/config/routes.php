@@ -69,6 +69,9 @@ return function( App $app): App {
     $app->post('/lessons/{ID-LESSON}/start_lesson[/]', GeneriqueUtilisateurAction::class);
     $app->post('/modules/{ID-MODULE}/rate[/]', GeneriqueUtilisateurAction::class);
 
+    $app->get('/demandes[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/demandes[/]', GeneriqueUtilisateurAction::class);
+
 
     /*************************
      * Routes de l'API Execution

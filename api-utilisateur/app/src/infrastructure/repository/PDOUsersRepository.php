@@ -227,7 +227,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             $module = $stmt->fetch();
 
             if($module){
-                if ($module['status'] == 1){
+                if ($module['status'] == true){
                     $retour = 1;
                 }else{
                     $retour = 0;
@@ -280,7 +280,7 @@ class PDOUsersRepository implements UsersRepositoryInterface {
     public function getRateModule(string $idModule): float
     {
         try {
-            $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ?');
+            $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ? AND rate > 0');
             $stmt->bindParam(1, $idModule);
             $stmt->execute();
             $rate = $stmt->fetchColumn();
@@ -317,6 +317,13 @@ class PDOUsersRepository implements UsersRepositoryInterface {
     public function ajouterDemande(string $idUser): void
     {
         try {
+            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM demmands WHERE id_utilisateur = ?');
+            $stmt->bindParam(1, $idUser);
+            $stmt->execute();
+            if ($stmt->fetchColumn() > 0) {
+                throw new \Exception('La demande existe déjà');
+            }
+
             $stmt = $this->pdo->prepare('INSERT INTO demmands (id_utilisateur) VALUES (?)');
             $stmt->bindParam(1, $idUser);
             $stmt->execute();

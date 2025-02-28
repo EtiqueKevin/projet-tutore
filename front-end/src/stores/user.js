@@ -107,7 +107,14 @@ export const useUserStore = defineStore('jeanCademieUser', {
         },
 
         async askToBecomeTeacher() {
-            console.log('askToBecomeTeacher');
+            try{
+                const res = await this.$api.post('/demandes');
+                toast.success('Demande envoyée');
+                return true;
+            }catch{
+                toast.error('Erreur lors de l\'envoi de la demande');
+                return false;
+            }
         },
 
         signOut() {

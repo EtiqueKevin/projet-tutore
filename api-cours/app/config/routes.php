@@ -8,6 +8,7 @@ use apiCours\application\actions\lesson\GetLessonErreursAction;
 use apiCours\application\actions\lesson\GetLessonsAction;
 use apiCours\application\actions\lesson\GetLessonsWithStatusAction;
 use apiCours\application\actions\lesson\PostLessonAction;
+use apiCours\application\actions\lesson\PostLessonErreursAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
 use apiCours\application\actions\module\DeleteModuleByIdAction;
 use apiCours\application\actions\module\GetModuleByIdAction;
@@ -78,6 +79,7 @@ return function( App $app): App {
 
     $app->get('/lessons/{id}/erreurs[/]', GetLessonErreursAction::class);
 
+    $app->post('/lessons/{id}/erreurs[/]', PostLessonErreursAction::class);
 
     return $app;
 };

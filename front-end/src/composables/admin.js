@@ -23,8 +23,19 @@ export function useAdmin() {
         }
     }
 
+    async function getDemandes() {
+        try{
+            const res = await api.get(`/demandes/`)
+            return res.data.data;
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    }
+
     return {
         getUsers,
-        deleteUser
+        deleteUser,
+        getDemandes,
     }
 }

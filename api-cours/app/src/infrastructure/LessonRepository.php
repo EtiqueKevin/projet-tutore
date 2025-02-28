@@ -3,6 +3,7 @@
 namespace apiCours\infrastructure;
 
 use apiCours\core\domain\entities\lesson\Content;
+use apiCours\core\domain\entities\lesson\Erreur;
 use apiCours\core\domain\entities\lesson\File;
 use apiCours\core\domain\entities\lesson\Lesson;
 use apiCours\core\dto\lesson\LessonDTO;
@@ -168,11 +169,66 @@ class LessonRepository implements LessonRepositoryInterface
     public function getLessonErreurs(string $idLesson): array{
         try{
             $lessonErreur = $this->lessonErreurCollection->findOne(['id_lesson' => UUIDConverter::toUUID($idLesson)]);
-            var_dump($lessonErreur);
-
         }catch (Exception $e){
-
+            throw new Exception($e->getMessage());
         }
-        return $lessonErreur;
+        return iterator_to_array($lessonErreur['errors']);
     }
+
+    public function postLessonErreurs(Erreur $erreur): void{
+
+        $le = $this->lessonErreurCollection->find(['id_lesson' => UUIDConverter::toUUID($erreur->id_lesson)]);
+
+        if($le->isDead()){
+            $tabErreur = [];
+            foreach ($erreur->getErrors() as $l) {
+
+                $tabErreur['index'] = $l['index'];
+                var_dump($l['errors']);
+
+                foreach ($l['errors'] as $err) {
+
+
+                    $key =array_search($err, $l['errors']);
+                    foreach ($err as $e) {
+
+                        $tabErreur['errors'][$key][$e] = 1;
+                    }
+                }
+            }
+            $this->lessonErreurCollection->insertOne([
+                'id_lesson' => UUIDConverter::toUUID($erreur->id_lesson),
+                'errors' => $tabErreur,
+                ]);
+
+        }else{
+            foreach ($erreur->getErrors() as $entry) {
+                $index = $entry["index"];
+                foreach ($entry["errors"] as $test => $functions) {
+                    foreach ($functions as $function) {
+                        $updateQuery = [
+                            "errors.index" => $index,
+                            "errors.errors.$test.$function" => ['$exists' => true]
+                        ];
+                        $updateOperation = [
+                            '$inc' => ["errors.$.errors.$test.$function" => 1]
+                        ];
+
+                        $updateResult = $this->lessonErreurCollection->updateOne($updateQuery, $updateOperation);
+
+                        if ($updateResult->getModifiedCount() == 0) {
+                            $updateQuery = ["errors.index" => $index];
+                            $updateOperation = [
+                                '$set' => ["errors.$.errors.$test.$function" => 1]
+                            ];
+                            $this->lessonErreurCollection->updateOne($updateQuery, $updateOperation);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
 }
