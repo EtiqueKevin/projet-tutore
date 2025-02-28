@@ -4,6 +4,7 @@ declare(strict_types=1);
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
+use apiUtilisateur\application\actions\user\GetDemandesAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusByIdAction;
 use apiUtilisateur\application\actions\user\GetModuleStatusAction;
@@ -82,5 +83,10 @@ return function( App $app): App {
         ->add(AuthMiddleware::class);
 
     $app->get('/modules/{ID-MODULE}/rate[/]', GetRateOfModuleAction::class);
+
+    $app->get('/demandes[/]', GetDemandesAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getDemandes');
     return $app;
 };

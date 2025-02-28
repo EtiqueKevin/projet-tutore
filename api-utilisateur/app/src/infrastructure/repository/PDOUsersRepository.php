@@ -2,6 +2,7 @@
 
 namespace apiUtilisateur\infrastructure\repository;
 
+use apiUtilisateur\core\domain\entities\demande\Demande;
 use apiUtilisateur\core\domain\entities\user\User;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use DateTime;
@@ -192,11 +193,11 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getLessonStatusById(string $id): int
+    public function getLessonStatusById(string $id, $idUser): int
     {
         try {
             $retour = 2;
-            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ?');
+            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
             $stmt->execute();
             $lesson = $stmt->fetch();
@@ -214,11 +215,11 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getModuleStatusById(string $id): int
+    public function getModuleStatusById(string $id, $idUser): int
     {
         try {
             $retour = 2;
-            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ?');
+            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
             $stmt->execute();
             $module = $stmt->fetch();
@@ -285,6 +286,27 @@ class PDOUsersRepository implements UsersRepositoryInterface {
                 $rate = 0;
             }
             return $rate;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function getDemandes(): array
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM demmands inner join users on demmands.id_utilisateur = users.id');
+            $stmt->execute();
+            $demandes = $stmt->fetchAll();
+
+            $demandeTab = [];
+
+            foreach ($demandes as $demande){
+                $userEntity = new User($demande['name'],$demande['surname'],$demande['linkpic'],$demande['pseudo']);
+                $userEntity->setID($demande['id_utilisateur']);
+                $demandeEntity = new Demande($userEntity);
+                $demandeEntity->setID($demande['id']);
+            }
+            return $demandeTab;
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }

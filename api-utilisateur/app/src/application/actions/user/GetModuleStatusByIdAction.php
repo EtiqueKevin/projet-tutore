@@ -20,8 +20,10 @@ class GetModuleStatusByIdAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['ID-MODULE'];
+        $id_user = $rq->getAttribute('idUser');
+
         try {
-            $module_status = $this->userService->getModuleStatusById($id);
+            $module_status = $this->userService->getModuleStatusById($id, $id_user);
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq, $e->getMessage());
         }

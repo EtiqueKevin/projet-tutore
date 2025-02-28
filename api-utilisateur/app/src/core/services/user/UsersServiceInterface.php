@@ -17,10 +17,11 @@ interface UsersServiceInterface{
     public function getModuleStatusByUser(string $id): array;
 
     public function getLessonStatusByUser(string $id): array;
-    public function getLessonStatusById(string $id): int;
-    public function getModuleStatusById(string $id): int;
+    public function getLessonStatusById(string $id, $idUser): int;
+    public function getModuleStatusById(string $id, $idUser): int;
     function finishLesson(string $idUser, string $idLesson, $token): void;
     function startLesson(string $idUser, string $idLesson, $token): void;
     function rateModule(string $idUser, string $idModule, int $rate): void;
     function getRateOfModule(string $idModule): float;
+    function getDemandes() : array;
 }

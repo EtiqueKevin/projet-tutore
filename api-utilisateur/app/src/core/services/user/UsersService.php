@@ -86,7 +86,7 @@ class UsersService implements UsersServiceInterface{
             $nbLesson = count($lessonsIds);
             $countTerminer = 0;
             foreach ($lessonsIds as $id){
-                if($this->repositoryUsers->getLessonStatusById($id) == 1){
+                if($this->repositoryUsers->getLessonStatusById($id, $idUser) == 1){
                     $countTerminer++;
                 }
             }
@@ -109,9 +109,9 @@ class UsersService implements UsersServiceInterface{
             $nbLesson = count($lessonsIds);
 
             foreach ($lessonsIds as $id){
-                if ($this->repositoryUsers->getLessonStatusById($id) == 0){
+                if ($this->repositoryUsers->getLessonStatusById($id, $idUser) == 0){
                     $commenceCount++;
-                }elseif ($this->repositoryUsers->getLessonStatusById($id) == 1){
+                }elseif ($this->repositoryUsers->getLessonStatusById($id, $idUser) == 1){
                     $terminerCount++;
                 }
             }
@@ -142,21 +142,21 @@ class UsersService implements UsersServiceInterface{
         }
     }
 
-    public function getLessonStatusById(string $id): int
+    public function getLessonStatusById(string $id, $idUser): int
     {
         try {
-            return $this->repositoryUsers->getLessonStatusById($id);
+            return $this->repositoryUsers->getLessonStatusById($id, $idUser);
         }catch (\Exception $e){
-            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+            throw new \Exception('Impossible de trouver le coursr: '.$e->getMessage());
         }
     }
 
-    public function getModuleStatusById(string $id): int
+    public function getModuleStatusById(string $id, $idUser): int
     {
         try {
-            return $this->repositoryUsers->getModuleStatusById($id);
+            return $this->repositoryUsers->getModuleStatusById($id, $idUser);
         }catch (\Exception $e){
-            throw new \Exception('Impossible de trouver l\'utilisateur: '.$e->getMessage());
+            throw new \Exception('Impossible de trouver le status: '.$e->getMessage());
         }
     }
 
@@ -175,6 +175,20 @@ class UsersService implements UsersServiceInterface{
             return $this->repositoryUsers->getRateModule($idModule);
         }catch (\Exception $e){
             throw new \Exception('Impossible de noter le module: '.$e->getMessage());
+        }
+    }
+
+    function getDemandes(): array
+    {
+        try {
+            $demandes = $this->repositoryUsers->getDemandes();
+            $demandesDTO = [];
+            foreach ($demandes as $demande){
+                $demandesDTO[] = $demande->toDTO();
+            }
+            return $demandesDTO;
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de trouver les demandes: '.$e->getMessage());
         }
     }
 }
