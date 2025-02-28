@@ -43,7 +43,7 @@ class AdapterUtilisateurRepository implements UtilisateurRepositoryInterface
         return $data["status"];
     }
 
-    public function getMoyenneNoteModule(string $id_module) : int
+    public function getMoyenneNoteModule(string $id_module) : float
     {
         $reponse = $this->client->get('/modules/'.$id_module.'/rate');
         $data = json_decode($reponse->getBody()->getContents(), true);

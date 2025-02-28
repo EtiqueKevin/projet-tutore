@@ -46,7 +46,7 @@ const handleImageUpload = (event) => {
             return;
         }
         
-        if(file.size > 1000000){
+        if(file.size > 1048576){
             toast.warning('L\'image ne doit pas dépasser 1Mo');
             return;
         }

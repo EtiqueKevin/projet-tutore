@@ -20,6 +20,7 @@ export function useStudent() {
                 lessonCount: res.data.module.nblesson,
                 lastUpdate: res.data.module.dateupdate,
                 note: res.data.module.note,
+                status: res.data.module.status,
                 lessons: []
             }
             
@@ -125,6 +126,16 @@ export function useStudent() {
         }
     }
 
+    async function rateModule(idModule, note) {
+        try {
+            const res = await api.post(`/modules/${idModule}/rate?rate=`+note, {})
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
+        }
+    }
+
     return {
         loadModule,
         loadCours,
@@ -133,6 +144,7 @@ export function useStudent() {
         searchModule,
         correctExercice,
         startCours,
-        endCours
+        endCours,
+        rateModule
     }
 }

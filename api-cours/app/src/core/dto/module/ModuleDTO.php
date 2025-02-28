@@ -14,7 +14,7 @@ class ModuleDTO extends DTO{
     protected int $nblesson;
     protected ?string $dateupdate;
     protected ?int $status = null;
-    protected ?int $rate = null;
+    protected ?float $rate = null;
 
     public function __construct(?string $id, string $name, string $idCreator, string $description, int $nblesson, ?string $dateupdate){
         $this->id = $id;
@@ -37,7 +37,7 @@ class ModuleDTO extends DTO{
         $this->status = $status;
     }
 
-    public function setRate(int $rate): void{
+    public function setRate(float $rate): void{
         $this->rate = $rate;
     }
 
