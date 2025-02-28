@@ -65,6 +65,9 @@ return function( App $app): App {
     $app->get('/user[/]', GeneriqueUtilisateurAction::class);
     $app->get('/assets/{file}', GeneriqueUtilisateurAction::class);
     $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/modules/{ID-MODULE}/rate[/]', GeneriqueUtilisateurAction::class);
 
 
     /*************************

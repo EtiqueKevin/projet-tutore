@@ -2,6 +2,7 @@
 
 namespace apiUtilisateur\infrastructure\repository;
 
+use apiUtilisateur\core\domain\entities\demande\Demande;
 use apiUtilisateur\core\domain\entities\user\User;
 use apiUtilisateur\core\repositoryInterface\UsersRepositoryInterface;
 use DateTime;
@@ -192,12 +193,13 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getLessonStatusById(string $id): int
+    public function getLessonStatusById(string $id, $idUser): int
     {
         try {
             $retour = 2;
-            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ?');
+            $stmt = $this->pdo->prepare('SELECT * FROM user_lessons WHERE id_lesson = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
+            $stmt->bindParam(2, $idUser);
             $stmt->execute();
             $lesson = $stmt->fetch();
 
@@ -214,17 +216,18 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getModuleStatusById(string $id): int
+    public function getModuleStatusById(string $id, $idUser): int
     {
         try {
             $retour = 2;
-            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ?');
+            $stmt = $this->pdo->prepare('SELECT * FROM user_modules WHERE id_module = ? AND id_users = ?');
             $stmt->bindParam(1, $id);
+            $stmt->bindParam(2, $idUser);
             $stmt->execute();
             $module = $stmt->fetch();
 
             if($module){
-                if ($module['status'] == 1){
+                if ($module['status'] == true){
                     $retour = 1;
                 }else{
                     $retour = 0;
@@ -274,14 +277,49 @@ class PDOUsersRepository implements UsersRepositoryInterface {
         }
     }
 
-    public function getRateModule(string $idModule): int
+    public function getRateModule(string $idModule): float
     {
         try {
-            $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ?');
+            $stmt = $this->pdo->prepare('SELECT AVG(rate) FROM user_modules WHERE id_module = ? AND rate > 0');
             $stmt->bindParam(1, $idModule);
             $stmt->execute();
             $rate = $stmt->fetchColumn();
+            if ($rate == null){
+                $rate = 0;
+            }
             return $rate;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function getDemandes(): array
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM demmands inner join users on demmands.id_utilisateur = users.id');
+            $stmt->execute();
+            $demandes = $stmt->fetchAll();
+
+            $demandeTab = [];
+            foreach ($demandes as $demande){
+                $userEntity = new User($demande['name'],$demande['surname'],$demande['linkpic'],$demande['pseudo']);
+                $userEntity->setID($demande['id_utilisateur']);
+                $demandeEntity = new Demande($userEntity);
+                $demandeEntity->setID($demande['id']);
+                $demandeTab[] = $demandeEntity;
+            }
+            return $demandeTab;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
+
+    public function ajouterDemande(string $idUser): void
+    {
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO demmands (id_utilisateur) VALUES (?)');
+            $stmt->bindParam(1, $idUser);
+            $stmt->execute();
         }catch (Exception $e) {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }

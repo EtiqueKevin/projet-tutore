@@ -26,7 +26,6 @@ async function monitorSpecificContainers() {
                 }
             }
 
-            // Attendre 30 secondes avant la prochaine vérification
             await new Promise(resolve => setTimeout(resolve, 30000));
         }
     } catch (err) {

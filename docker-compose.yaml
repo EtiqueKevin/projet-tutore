@@ -62,10 +62,10 @@ services:
     working_dir: /var/php
 
     ports:
-      - "8888:8888"
+      - "8888:80"
     networks:
       - jeancademie.net
-    command: php -S 0.0.0.0:8888 -t /var/php/public
+    command: php -S 0.0.0.0:80 -t /var/php/public
 
   api.utilisateur.jeancademie:
     build:
@@ -79,9 +79,9 @@ services:
     networks:
       - jeancademie.net
     ports:
-      - "8889:8889"
+      - "8889:80"
 
-    command: php -S 0.0.0.0:8889 -t /var/php/public
+    command: php -S 0.0.0.0:80 -t /var/php/public
 
   api.auth.jeancademie:
     build:
@@ -98,9 +98,9 @@ services:
     networks:
       - jeancademie.net
     ports:
-      - "8890:8890"
+      - "8890:80"
 
-    command: php -S 0.0.0.0:8890 -t /var/php/public
+    command: php -S 0.0.0.0:80 -t /var/php/public
 
   api.execution:
     build: ./api-execution/router # Dockerfile dans le dossier ./router
@@ -168,8 +168,6 @@ services:
 
   db.auth.jeancademie:
     image: postgres:latest
-    ports:
-      - "5435:5432"
     networks:
       - jeancademie.net
     env_file: ./api-auth/env/db.env
@@ -179,8 +177,6 @@ services:
 
   db.utilisateur.jeancademie:
     image: postgres:latest
-    ports:
-      - "5436:5432"
     networks:
       - jeancademie.net
     env_file: ./api-utilisateur/env/db.env

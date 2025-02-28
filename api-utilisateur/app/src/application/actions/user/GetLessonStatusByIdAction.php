@@ -20,9 +20,9 @@ class GetLessonStatusByIdAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['ID-LESSON'];
-
+        $idUser = $rq->getAttribute('idUser');
         try {
-            $lesson_status = $this->userService->getLessonStatusById($id);
+            $lesson_status = $this->userService->getLessonStatusById($id, $idUser);
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq, $e->getMessage());
         }

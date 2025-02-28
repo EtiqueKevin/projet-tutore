@@ -48,7 +48,12 @@ class PutUitlisateurAction extends AbstractAction
     // Handle image upload if present
     if (isset($uploadedFiles['image'])) {
         $uploadedFile = $uploadedFiles['image'];
+        
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            if ($uploadedFile->getSize() > 1048576) {
+                throw new HttpBadRequestException($rq, "L'image ne doit pas dépasser 1MB.");
+            }
+
             $fileType = $uploadedFile->getClientMediaType();
             
             $allowed = ['image/jpg', 'image/jpeg', 'image/png'];

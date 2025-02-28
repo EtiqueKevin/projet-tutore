@@ -34,6 +34,8 @@ onMounted(() => {
             <ModuleHeader 
                 :is-loading="isLoading"
                 :module="currentModule"
+                :is-user-logged="userStore.isLogged"
+                @refresh="loadModuleWithDelay"
             />
             <ModuleLessons 
                 :is-loading="isLoading"

@@ -2,13 +2,12 @@
 
 namespace apiUtilisateur\application\actions\user;
 
-use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
+use apiUtilisateur\application\actions\AbstractAction;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpBadRequestException;
 
-class GetModuleStatusByIdAction extends AbstractAction
+class GetDemandesAction extends AbstractAction
 {
     private UsersServiceInterface $userService;
 
@@ -19,19 +18,15 @@ class GetModuleStatusByIdAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $id = $args['ID-MODULE'];
-        $id_user = $rq->getAttribute('idUser');
-
         try {
-            $module_status = $this->userService->getModuleStatusById($id, $id_user);
+            $demandes = $this->userService->getDemandes();
+            $res = [
+                'type' => 'collection',
+                'data' => $demandes
+            ];
         }catch (\Exception $e){
-            throw new HttpBadRequestException($rq, $e->getMessage());
+            throw new \Exception($e->getMessage());
         }
-
-        $res = [
-            'type' => 'ressource',
-            'status' => $module_status
-        ];
 
         $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');

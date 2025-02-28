@@ -15,10 +15,12 @@ interface UsersRepositoryInterface{
     function startLesson(string $idUser, string $idLesson):void;
     public function getModuleStatusByUser(string $id): array;
     public function getLessonStatusByUser(string $id): array;
-    public function getLessonStatusById(string $id): int;
-    public function getModuleStatusById(string $id): int;
+    public function getLessonStatusById(string $id, $idUser): int;
+    public function getModuleStatusById(string $id, $idUser): int;
     public function updateStatusModule(string $idUser, string $idModule, int $status): void;
     public function rateModule(string $idUser, string $idModule, int $rate): void;
-    public function getRateModule(string $idModule): int;
+    public function getRateModule(string $idModule): float;
+    public function getDemandes() : array;
+    public function ajouterDemande(string $idUser): void;
 
 }

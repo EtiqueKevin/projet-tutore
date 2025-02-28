@@ -11,7 +11,7 @@ const route = useRoute();
       <RouterLink 
         to="/admin/users"
         class="text-black dark:text-white hover:text-secondary-light dark:hover:text-secondary-light p-2 rounded flex items-center gap-2 hover:scale-105 transition-transform">
-        <i class="fas fa-list w-5 text-center"></i>
+        <i class="fas fa-chalkboard-user w-5 text-center"></i>
         <span>Gérer les utilisateurs</span>
       </RouterLink>
 
@@ -20,6 +20,13 @@ const route = useRoute();
         class="text-black dark:text-white hover:text-secondary-light dark:hover:text-secondary-light p-2 rounded flex items-center gap-2 hover:scale-105 transition-transform">
         <i class="fas fa-th-large w-5 text-center"></i>
         <span>Gérer le contenu</span>
+      </RouterLink>
+
+      <RouterLink 
+        to="/admin/demandes"
+        class="text-black dark:text-white hover:text-secondary-light dark:hover:text-secondary-light p-2 rounded flex items-center gap-2 hover:scale-105 transition-transform">
+        <i class="fas fa-envelope-open-text w-5 text-center"></i>
+        <span>Gérer les demandes</span>
       </RouterLink>
       
       <RouterLink 

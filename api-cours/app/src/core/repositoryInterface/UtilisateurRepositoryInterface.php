@@ -8,7 +8,7 @@ interface UtilisateurRepositoryInterface
 
     public function getLessonsStatus(string $token): array;
 
-    public function getMoyenneNoteModule(string $id_module) : int;
+    public function getMoyenneNoteModule(string $id_module) : float;
 
     public function getLessonStatus(string $token, string $idLesson): int;
 }

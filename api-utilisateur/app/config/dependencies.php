@@ -1,7 +1,7 @@
 <?php
 
-use apiAuth\application\actions\DeleteUserByIdAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
+use apiUtilisateur\application\actions\user\GetDemandesAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\middleware\AuthMiddleware;
 use apiUtilisateur\application\middleware\AuthzMiddleware;
@@ -44,8 +44,8 @@ return [
     return new CreateUtilisateurAction($c->get(UsersServiceInterface::class));
     },
 
-    DeleteUserByIdAction::class => function (ContainerInterface $c) {
-        return new DeleteUserByIdAction($c->get(UsersServiceInterface::class));
+    GetDemandesAction::class => function (ContainerInterface $c) {
+        return new GetDemandesAction($c->get(UsersServiceInterface::class));
     },
 
     AuthServiceInterface::class => function (ContainerInterface $c) {

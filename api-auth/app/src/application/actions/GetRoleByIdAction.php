@@ -4,6 +4,8 @@ namespace apiAuth\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
+use TheSeer\Tokenizer\Exception;
 
 class GetRoleByIdAction extends AbstractAction
 {
@@ -16,13 +18,17 @@ class GetRoleByIdAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $id = $args['id'];
-        $role = $this->usersService->getRoleById($id);
+        try {
+            $id = $args['id'];
+            $role = $this->usersService->getRoleById($id);
 
-        $res = [
-            'type' => 'ressource',
-            'role' => $role
-        ];
+            $res = [
+                'type' => 'ressource',
+                'role' => $role
+            ];
+        }catch (Exception $e){
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
 
         $rs->getBody()->write(json_encode($res));
         return $rs->withStatus(200)->withHeader('Content-Type', 'application/json');

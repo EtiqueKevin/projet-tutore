@@ -30,10 +30,10 @@ return  [
     },
 
     'client_utilisateur' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:8889']);
+        return new Client(['base_uri' => 'http://api.utilisateur.jeancademie:80']);
     },
 
     'client_auth' => function (ContainerInterface $c){
-        return new Client(['base_uri' => 'http://api.auth.jeancademie:8890']);
+        return new Client(['base_uri' => 'http://api.auth.jeancademie:80']);
     },
 ];

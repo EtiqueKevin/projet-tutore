@@ -5,7 +5,7 @@ const props = defineProps({
   content: Array,
 });
 
-const emit = defineEmits(['update:content', 'editExercice']);
+const emit = defineEmits(['update:content', 'editExercice', 'editQuizz']);
 
 const draggedItem = ref(null);
 const dragOverIndex = ref(null);
@@ -100,6 +100,18 @@ const updateItemContent = (index, newContent) => {
           <div class="flex flex-col">
             <p>Fichiers : </p>
             <p>{{ item.files.map(file => file.filename).join(', ') }}</p>
+          </div>
+        </div>
+
+        <div v-if="item.type === 'quizz'" class="exercice">
+          <div class="mr-4">
+            <button @click="$emit('editQuizz', index)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Editer Quizz
+            </button>
+          </div>
+          <div class="flex flex-col">
+            <p>Questions : </p>
+            <p>{{ item.questions.length }}</p>
           </div>
         </div>
       </div>

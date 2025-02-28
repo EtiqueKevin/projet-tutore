@@ -19,6 +19,8 @@ export function useStudent() {
                 creator: res.data.module.idCreator,
                 lessonCount: res.data.module.nblesson,
                 lastUpdate: res.data.module.dateupdate,
+                note: res.data.module.note,
+                status: res.data.module.status,
                 lessons: []
             }
             
@@ -37,16 +39,36 @@ export function useStudent() {
                 query += `?connecte=oui`
             }
             const res = await api.get(`/lessons/${id}`+query)
-            console.log(res.data)
             const currentLesson = {
                 id: res.data.lesson.id,
                 title: res.data.lesson.name,
                 description: res.data.lesson.description,
-                content: res.data.lesson.content
+                content: res.data.lesson.content,
+                status: res.data.lesson.status,
             }
             return currentLesson
         } catch(error) {
             console.log(error)
+        }
+    }
+
+    async function startCours(id) {
+        try {
+            const res = await api.post(`/lessons/${id}/start_lesson`)
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
+        }
+    }
+
+    async function endCours(id) {
+        try {
+            const res = await api.post(`/lessons/${id}/finish_lesson`)
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
         }
     }
 
@@ -82,9 +104,9 @@ export function useStudent() {
         }
     }
 
-    async function loadExercice(idLesson, nbContent) {
+    async function loadContent(idLesson, nbContent) {
         const lesson = await loadCours(idLesson)
-        if(lesson.content[nbContent].type !== 'code') {
+        if(lesson.content[nbContent].type === 'text') {
             return null
         }
         return lesson.content[nbContent]
@@ -104,12 +126,25 @@ export function useStudent() {
         }
     }
 
+    async function rateModule(idModule, note) {
+        try {
+            const res = await api.post(`/modules/${idModule}/rate?rate=`+note, {})
+            return true;
+        } catch(error) {
+            console.log(error)
+            return false;
+        }
+    }
+
     return {
         loadModule,
         loadCours,
         getModules,
-        loadExercice,
+        loadContent,
         searchModule,
-        correctExercice
+        correctExercice,
+        startCours,
+        endCours,
+        rateModule
     }
 }

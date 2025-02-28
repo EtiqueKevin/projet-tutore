@@ -73,6 +73,7 @@ router.beforeEach((to, from, next) => {
   }
 
   if(to.meta.requiresTeacher && !userStore.isTeacher){
+    console.log(userStore.isTeacher);
     next({ name: 'home' })
     return
   }
@@ -85,6 +86,7 @@ router.beforeEach((to, from, next) => {
   // Vérifications spécifiques
   const lessonStore = useLessonStore()
   if(to.name === 'teacher-lesson-create' && !lessonStore.isInit){
+    console.log('redirect')
     next({ name: 'teacher-modules' })
     return
   }

@@ -39,6 +39,11 @@ class AuthzMiddleware
                     throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
                 }
                 break;
+            case 'getDemandes':
+                if (!$this->authService->adminVerification($id)) {
+                    throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
+                }
+                break;
             default:
                 throw new HttpUnauthorizedException($rq, 'Route non autorisée');
         }

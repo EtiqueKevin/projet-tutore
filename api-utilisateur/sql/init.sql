@@ -50,7 +50,7 @@ CREATE TABLE "public"."user_modules" (
     "id_users" uuid NOT NULL,
     "status" boolean DEFAULT false NOT NULL,
     "index" smallint DEFAULT 0 NOT NULL,
-    "rate" smallint,
+    "rate" smallint DEFAULT 0 NOT NULL,
     "date_update" date DEFAULT CURRENT_DATE,
     CONSTRAINT "user_modules_id" PRIMARY KEY ("id"),
     CONSTRAINT "user_modules_id_user" FOREIGN KEY ("id_users") REFERENCES "users" ("id") ON DELETE CASCADE

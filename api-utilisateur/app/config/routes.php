@@ -4,6 +4,7 @@ declare(strict_types=1);
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
+use apiUtilisateur\application\actions\user\GetDemandesAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusByIdAction;
 use apiUtilisateur\application\actions\user\GetModuleStatusAction;
@@ -12,6 +13,7 @@ use apiUtilisateur\application\actions\user\GetRateOfModuleAction;
 use apiUtilisateur\application\actions\user\GetUserById;
 use apiUtilisateur\application\actions\user\GetUserByTokenAction;
 use apiUtilisateur\application\actions\user\GetUsersAction;
+use apiUtilisateur\application\actions\user\PostDemandeAction;
 use apiUtilisateur\application\actions\user\PostFinishLessonAction;
 use apiUtilisateur\application\actions\user\PostRateOfModuleAction;
 use apiUtilisateur\application\actions\user\PostStartLessonAction;
@@ -82,5 +84,15 @@ return function( App $app): App {
         ->add(AuthMiddleware::class);
 
     $app->get('/modules/{ID-MODULE}/rate[/]', GetRateOfModuleAction::class);
+
+    $app->get('/demandes[/]', GetDemandesAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getDemandes');
+
+    $app->post('/demandes[/]', PostDemandeAction::class)
+        ->add(AuthMiddleware::class)
+        ->setName('postDemande');
+
     return $app;
 };
