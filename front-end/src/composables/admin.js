@@ -33,9 +33,31 @@ export function useAdmin() {
         }
     }
 
+    async function deleteDemande(id) {
+        try{
+            const res = await api.delete(`/demandes/${id}`)
+            return true;
+        }catch (error){
+            console.error(error);
+            return false;
+        }
+    }
+
+    async function validateDemande(id) {
+        try{
+            const res = await api.post(`/demandes/${id}/validate`)
+            return true;
+        }catch (error){
+            console.error(error);
+            return false;
+        }
+    }
+
     return {
         getUsers,
         deleteUser,
         getDemandes,
+        deleteDemande,
+        validateDemande
     }
 }

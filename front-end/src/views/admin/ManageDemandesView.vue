@@ -1,10 +1,32 @@
 <script setup>
 import { useAdmin } from '@/composables/admin'
+import { useToast } from 'vue-toastification'
 import { onMounted, ref } from 'vue'
 
-const { getDemandes } = useAdmin()
+const { getDemandes, deleteDemande, validateDemande } = useAdmin()
 const demandes = ref([])
 const loading = ref(true)
+const toast = useToast()
+
+const handleDelete = async (id) => {
+    const res = await deleteDemande(id)
+    if(res) {
+        toast.success('Demande supprimée avec succès')
+        demandes.value = demandes.value.filter(demande => demande.id !== id)
+    }else{
+        toast.error('Erreur lors de la suppression de la demande')
+    }
+}
+
+const handleValidate = async (id) => {
+    const res = await validateDemande(id)
+    if(res) {
+        toast.success('Demande validée avec succès')
+        demandes.value = demandes.value.filter(demande => demande.id !== id)
+    }else{
+        toast.error('Erreur lors de la validation de la demande')
+    }
+}
 
 onMounted(async () => {
     demandes.value = await getDemandes()
@@ -35,17 +57,26 @@ onMounted(async () => {
                      class="grid grid-cols-3 gap-4 p-4 items-center">
                     <div>{{ demande.user.surname }}</div>
                     <div>{{ demande.user.name }}</div>
-                    <div>
+                    <div class="flex items-center space-x-4 md:flex-col md:space-x-0 md:space-y-4">
                         <button 
-                            @click="console.log('Accepter demande')"
+                            @click="handleValidate(demande.id)"
                             title="Valider la demande"
                             :class="['px-3 py-1 text-white rounded transition-colors bg-secondary-dark hover:bg-secondary-light']"
                         >
                             <i class="fas fa-check"></i>
                             Valider la demande
                         </button>
+                        <button 
+                            @click="handleDelete(demande.id)"
+                            title="Supprimer la demande"
+                            :class="['px-3 py-1 text-white rounded transition-colors bg-red-500 hover:bg-red-600']"
+                        >
+                            <i class="fas fa-trash"></i>
+                            Supprimer la demande
+                        </button>
                     </div>
                 </div>
+                <div v-if="demandes.length === 0" class="p-4 text-center">Aucune demande</div>
             </div>
         </div>
     </div>

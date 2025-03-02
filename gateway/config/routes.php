@@ -71,6 +71,8 @@ return function( App $app): App {
 
     $app->get('/demandes[/]', GeneriqueUtilisateurAction::class);
     $app->post('/demandes[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/demandes/{ID-DEMANDE}/validate[/]', GeneriqueUtilisateurAction::class);
+    $app->delete('/demandes/{ID-DEMANDE}[/]', GeneriqueUtilisateurAction::class);
 
 
     /*************************
