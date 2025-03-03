@@ -109,6 +109,11 @@ export function useStudent() {
         if(lesson.content[nbContent].type === 'text') {
             return null
         }
+        if(lesson.content[nbContent].type === 'code') {
+            const files =  lesson.content[nbContent].files.filter(file => file.type === 'file')
+            console.log(files)
+            lesson.content[nbContent].files = files
+        }
         return lesson.content[nbContent]
     }
 

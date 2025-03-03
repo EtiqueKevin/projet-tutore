@@ -9,23 +9,23 @@ const props = defineProps({
 
 const selectedFile = ref(null);
 
-const selectFile = (file) => {
+const selectFile = (file, index) => {
     selectedFile.value = file;
-    emit('fileSelected', file);
+    emit('fileSelected', { file, index });
 };
 
 onMounted(() => {
     selectedFile.value = props.files[0];
-    emit('fileSelected', selectedFile.value);
+    emit('fileSelected', { file: selectedFile.value, index: 0 });
 });
 </script>
 
 <template>
     <div class="file-switcher flex gap-4 p-4 pt-0 bg-main-light dark:bg-main-dark">
         <button
-            v-for="file in files"
+            v-for="(file, index) in files"
             :key="file.filename"
-            @click="selectFile(file)"
+            @click="selectFile(file, index)"
             :class="['file-button', file === selectedFile ? 'selected' : '']"
         >
             {{ file.filename }}
