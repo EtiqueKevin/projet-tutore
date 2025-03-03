@@ -26,5 +26,6 @@ composer.lock
 /user-pictures/*
 # tout les dossier img
 **/img/*
+*.ini
 
 package-lock.json
