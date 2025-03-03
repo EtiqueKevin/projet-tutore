@@ -32,6 +32,12 @@ class PostLessonAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $body = $rq->getParsedBody();
+
+        if (!isset($body['name']) || !isset($body['type']) || !isset($body['content']) || !isset($body['description'])) {
+            throw new HttpBadRequestException($rq, 'il manque des paramètres');
+        }
+
+
         $contents = [];
 
         $index = 0;

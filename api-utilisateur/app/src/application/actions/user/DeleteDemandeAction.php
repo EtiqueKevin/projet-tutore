@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 
 class DeleteDemandeAction extends AbstractAction
 {
@@ -20,6 +21,11 @@ class DeleteDemandeAction extends AbstractAction
     {
         try {
             $idDemande = $args['ID-DEMANDE'];
+
+            if (!Validator::uuid()->validate($idDemande)) {
+                throw new \Exception('id de la demande invalide');
+            }
+
             $this->userService->deleteDemande($idDemande);
         }catch (\Exception $e){
             throw new \Exception($e->getMessage());

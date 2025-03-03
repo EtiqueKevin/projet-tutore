@@ -26,6 +26,10 @@ class CreateUtilisateurAction extends AbstractAction
     {
         $params = $rq->getParsedBody() ?? null;
 
+        if(!isset($params['name']) || !isset($params['surname']) || !isset($params['linkpic']) || !isset($params['pseudo'])){
+            throw new HttpBadRequestException($rq, "Les paramètres name, surname, linkpic et pseudo sont obligatoires.");
+        }
+
 
         try{
             $this->utilisateurService->save(new InputUserDTO($params['id'],$params['name'],$params['surname'],$params['linkpic'], $params['pseudo']));

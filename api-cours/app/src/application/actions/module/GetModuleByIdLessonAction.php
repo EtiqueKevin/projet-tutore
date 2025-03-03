@@ -6,6 +6,7 @@ use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetModuleByIdLessonAction extends AbstractAction
@@ -21,6 +22,11 @@ class GetModuleByIdLessonAction extends AbstractAction
     {
         try {
             $idLesson = $args['id_lesson'];
+
+            if (!Validator::uuid()->validate($idLesson)) {
+                throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+            }
+
             $module = $this->moduleService->getModuleByLesson($idLesson);
 
             $res = [

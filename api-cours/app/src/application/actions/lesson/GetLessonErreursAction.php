@@ -6,6 +6,7 @@ use apiCours\application\actions\AbstractAction;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetLessonErreursAction extends AbstractAction
@@ -20,6 +21,10 @@ class GetLessonErreursAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['id'];
+
+        if (!Validator::uuid()->validate($id)) {
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        }
 
         try {
 

@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetLessonStatusByIdAction extends AbstractAction
@@ -20,6 +21,11 @@ class GetLessonStatusByIdAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['ID-LESSON'];
+
+        if (!Validator::uuid()->validate($id)) {
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        }
+
         $idUser = $rq->getAttribute('idUser');
         try {
             $lesson_status = $this->userService->getLessonStatusById($id, $idUser);

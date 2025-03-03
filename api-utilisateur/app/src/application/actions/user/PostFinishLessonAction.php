@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class PostFinishLessonAction extends AbstractAction
@@ -21,6 +22,11 @@ class PostFinishLessonAction extends AbstractAction
     {
         try {
             $idLesson = $args['ID-LESSON'];
+
+            if (!Validator::uuid()->validate($idLesson)) {
+                throw new HttpBadRequestException('id de la leçon invalide');
+            }
+
             $idUser = $rq->getAttribute('idUser');
             preg_match('/Bearer\s(\S+)/', $rq->getHeaderLine('Authorization'), $matches);
             $token = $matches[1];

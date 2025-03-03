@@ -8,6 +8,7 @@ use apiCours\core\services\module\ModuleService;
 use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class DeleteLessonByIdAction extends AbstractAction
@@ -25,6 +26,13 @@ class DeleteLessonByIdAction extends AbstractAction
     {
         $idl = $args['id_lesson'];
         $idm = $args['id_module'];
+
+        if (!Validator::uuid()->validate($idl)) {
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        } elseif (!Validator::uuid()->validate($idm)) {
+            throw new HttpBadRequestException($rq, 'id du module invalide');
+        }
+
         try{
             $this->lessonService->deleteLesson($idl);
             $this->moduleService->decrementationModuleLesson($idm);

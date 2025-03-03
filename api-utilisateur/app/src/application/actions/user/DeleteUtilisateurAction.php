@@ -24,6 +24,8 @@ class DeleteUtilisateurAction extends AbstractAction
         $id = $args['ID-USER'];
         $role = $rq->getAttribute('role');
 
+
+
         if (!isset($id)) {
             throw new HttpBadRequestException($rq, "L'identifiant de l'utilisateur est obligatoire.");
         }

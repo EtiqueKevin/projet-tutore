@@ -6,6 +6,8 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
+use Slim\Exception\HttpBadRequestException;
 
 class PostDemandeValidateAction extends AbstractAction
 {
@@ -20,6 +22,11 @@ class PostDemandeValidateAction extends AbstractAction
     {
         try {
             $idDemande = $args['ID-DEMANDE'];
+
+            if (!Validator::uuid()->validate($idDemande)) {
+                throw new HttpBadRequestException('id de la demande invalide');
+            }
+
             preg_match('/Bearer\s(\S+)/', $rq->getHeaderLine('Authorization'), $matches);
             $token = $matches[1];
             $this->userService->validerDemande($idDemande, $token);

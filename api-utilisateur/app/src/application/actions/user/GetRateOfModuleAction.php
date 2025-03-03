@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetRateOfModuleAction extends AbstractAction
@@ -21,6 +22,11 @@ class GetRateOfModuleAction extends AbstractAction
     {
         try {
             $idModule = $args['ID-MODULE'];
+
+            if (!Validator::uuid()->validate($idModule)) {
+                throw new HttpBadRequestException('id du module invalide');
+            }
+
             $rate = $this->userService->getRateOfModule($idModule);
 
             $res = [

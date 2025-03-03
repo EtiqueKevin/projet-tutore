@@ -7,6 +7,7 @@ use apiCours\core\dto\lesson\UneLessonDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetLessonByIdAction extends AbstractAction
@@ -23,6 +24,9 @@ class GetLessonByIdAction extends AbstractAction
         $query = $rq->getQueryParams();
         $connecte = $query["connecte"] ?? '';
 
+        if (!Validator::uuid()->validate($args['id_lesson'])) {
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        }
 
         $dto = new UneLessonDTO($args['id_lesson']);
         if($connecte === "oui"){

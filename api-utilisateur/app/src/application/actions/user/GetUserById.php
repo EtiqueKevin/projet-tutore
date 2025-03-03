@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 
 class GetUserById extends AbstractAction{
 
@@ -17,6 +18,11 @@ class GetUserById extends AbstractAction{
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface{
         $id = $args['ID-USER'];
+
+        if (!Validator::uuid()->validate($id)) {
+            throw new HttpBadRequestException('id de l\'utilisateur invalide');
+        }
+
         $user = $this->usersService->getUsersId($id);
 
         $response = [

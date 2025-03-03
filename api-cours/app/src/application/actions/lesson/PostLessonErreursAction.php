@@ -7,6 +7,7 @@ use apiCours\core\dto\lesson\ErreurDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class PostLessonErreursAction extends AbstractAction
@@ -21,6 +22,15 @@ class PostLessonErreursAction extends AbstractAction
     {
         $id = $args['id'];
         $body = $rq->getParsedBody();
+
+        if(!Validator::uuid()->validate($id)){
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        } else
+
+        if (!isset($body['errors'])) {
+            throw new HttpBadRequestException($rq, 'il manque des paramètres');
+        }
+
         try{
             $this->lessonService->postLessonErreurs(new ErreurDTO($id, $body['errors']));
 

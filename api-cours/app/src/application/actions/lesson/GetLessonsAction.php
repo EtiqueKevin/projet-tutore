@@ -7,6 +7,7 @@ use apiCours\core\dto\lesson\LessonModuleUtilisateurConnecteDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetLessonsAction extends AbstractAction
@@ -24,6 +25,11 @@ class GetLessonsAction extends AbstractAction
         $idModule = $args['id'];
         $query = $rq->getQueryParams();
         $connecte = $query["connecte"] ?? '';
+
+        if (!Validator::uuid()->validate($idModule)) {
+            throw new HttpBadRequestException($rq, 'id du module invalide');
+        }
+
         $lessons = [];
 
         if($connecte === "oui"){

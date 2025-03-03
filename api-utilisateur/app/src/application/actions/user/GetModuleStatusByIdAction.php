@@ -6,6 +6,7 @@ use apiUtilisateur\application\actions\AbstractAction;
 use apiUtilisateur\core\services\user\UsersServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class GetModuleStatusByIdAction extends AbstractAction
@@ -20,6 +21,11 @@ class GetModuleStatusByIdAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['ID-MODULE'];
+
+        if (!Validator::uuid()->validate($id)) {
+            throw new HttpBadRequestException('id du module invalide');
+        }
+
         $id_user = $rq->getAttribute('idUser');
 
         try {

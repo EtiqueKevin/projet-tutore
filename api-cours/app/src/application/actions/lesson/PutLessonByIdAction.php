@@ -11,6 +11,7 @@ use apiCours\core\services\lesson\LessonServiceInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 
 class PutLessonByIdAction extends AbstractAction
@@ -26,6 +27,15 @@ class PutLessonByIdAction extends AbstractAction
     {
         $id = $args['id_lesson'];
         $body = $rq->getParsedBody();
+
+        if (!isset($body['name']) || !isset($body['type']) || !isset($body['content']) || !isset($body['description'])) {
+            throw new HttpBadRequestException($rq, 'il manque des paramètres');
+        }
+
+        if (!Validator::uuid()->validate($id)) {
+            throw new HttpBadRequestException($rq, 'id de la leçon invalide');
+        }
+
         $contents = [];
 
         $index = 0;
