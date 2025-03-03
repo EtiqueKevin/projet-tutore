@@ -11,9 +11,9 @@ const props = defineProps({
 const selectedFile = ref(null);
 const showAddFileForm = ref(false);
 
-const selectFile = (file) => {
+const selectFile = (file, index) => {
     selectedFile.value = file;
-    emit('fileSelected', file);
+    emit('fileSelected', { file, index });
 };
 
 const deleteFile = (file) => {
@@ -22,29 +22,30 @@ const deleteFile = (file) => {
         props.files.splice(index, 1);
         if (selectedFile.value === file) {
             selectedFile.value = props.files[0];
-            emit('fileSelected', props.files[0]);
+            emit('fileSelected', { file: props.files[0], index: 0 });
         }
     }
 };
 
 const addFile = (files) => {
+    const startIndex = props.files.length;
     props.files.push(...files);
     selectedFile.value = files[0];
-    emit('fileSelected', files[0]);
+    emit('fileSelected', { file: files[0], index: startIndex });
 };
 
 onMounted(() => {
     selectedFile.value = props.files[0];
-    emit('fileSelected', props.files[0]);
+    emit('fileSelected', { file: props.files[0], index: 0 });
 });
 </script>
 
 <template>
     <div class="file-switcher flex gap-4 p-4 pt-0 bg-main-light dark:bg-main-dark">
         <div
-            v-for="file in files"
+            v-for="(file, index) in files"
             :key="file.filename"
-            @click.prevent.stop="selectFile(file)"
+            @click.prevent.stop="selectFile(file, index)"
             :class="['file-button', 
                  (file === selectedFile && file.type != 'test') ? 'selected' : '', 
                  (file === selectedFile && file.type === 'test') ? 'testselected' : '', 
@@ -52,11 +53,11 @@ onMounted(() => {
         >
             {{ file.filename }}
             <button
-            :key="file.filename + '-delete'"
-            @click.prevent.stop="deleteFile(file)"
-            class="delete-button hover:bg-red-500 w-6 h-6 rounded-full"
+                :key="file.filename + '-delete'"
+                @click.prevent.stop="deleteFile(file)"
+                class="delete-button hover:bg-red-500 w-6 h-6 rounded-full"
             >
-            <i class="fa-solid fa-xmark"></i>
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <button id="add-file" class="file-button bg-gray-500 dark:bg-gray-700" @click="showAddFileForm = true">

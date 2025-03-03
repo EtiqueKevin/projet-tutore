@@ -8,31 +8,41 @@ const props = defineProps({
 });
 
 const currentFile = ref(props.files[0]);
+const currentFileIndex = ref(0);
 
-const handleFileSelected = (file) => {
+const handleFileSelected = ({ file, index }) => {
   currentFile.value = file;
+  currentFileIndex.value = index;
 };
 
 const handleContentUpdate = (newContent) => {
-  const file = props.files.find(f => f.filename === currentFile.value.filename);
-  if (file) {
-    file.content = newContent;
-  }
+  props.files[currentFileIndex.value].content = newContent;
 };
 
 watch(currentFile, (newFile) => {
-  const file = props.files.find(f => f.filename === newFile.filename);
-  if (file) {
-    file.content = newFile.content;
+  const index = props.files.findIndex(f => f.filename === newFile.filename);
+  if (index !== -1) {
+    props.files[index].content = newFile.content;
   }
 });
 </script>
 
 <template>
   <div class="container">
-    <FileSwitcher :files="props.files" @fileSelected="handleFileSelected" />
-    <MonacoEditor v-if="currentFile" :language="currentFile.language" :value="currentFile.content" @update:value="handleContentUpdate"/>
-    <button @click="$emit('correct-code')" class="bg-primary-dark hover:bg-primary-light p-4 rounded-full h-15 w-15 flex items-center justify-center absolute group gap-4 text-white">
+    <FileSwitcher 
+      :files="props.files" 
+      @fileSelected="handleFileSelected" 
+    />
+    <MonacoEditor 
+      v-if="currentFile" 
+      :language="currentFile.language" 
+      :value="currentFile.content" 
+      @update:value="handleContentUpdate"
+    />
+    <button 
+      @click="$emit('correct-code')" 
+      class="bg-primary-dark hover:bg-primary-light p-4 rounded-full h-15 w-15 flex items-center justify-center absolute group gap-4 text-white"
+    >
       <p class="hidden group-hover:block">Corriger l'exercice</p>
       <i class="fas fa-check text-lg"></i>
     </button>
