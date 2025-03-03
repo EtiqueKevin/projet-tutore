@@ -41,6 +41,7 @@ class AuthzMiddleware
                 }
                 break;
             case 'postLesson':
+            case 'getModulesByProf':
                 if (!$this->authService->adminVerification($id) && !$this->authService->isProf($id)) {
                     throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
                 }

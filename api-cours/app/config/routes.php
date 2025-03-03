@@ -6,7 +6,6 @@ use apiCours\application\actions\lesson\GetExerciseByIndexByIdLesson;
 use apiCours\application\actions\lesson\GetLessonByIdAction;
 use apiCours\application\actions\lesson\GetLessonErreursAction;
 use apiCours\application\actions\lesson\GetLessonsAction;
-use apiCours\application\actions\lesson\GetLessonsWithStatusAction;
 use apiCours\application\actions\lesson\PostLessonAction;
 use apiCours\application\actions\lesson\PostLessonErreursAction;
 use apiCours\application\actions\lesson\PutLessonByIdAction;
@@ -15,13 +14,11 @@ use apiCours\application\actions\module\GetModuleByIdAction;
 use apiCours\application\actions\module\GetModuleByIdLessonAction;
 use apiCours\application\actions\module\GetModulesByProfAction;
 use apiCours\application\actions\module\GetModulesAction;
-use apiCours\application\actions\module\GetModulesWithStatusAction;
 use apiCours\application\actions\module\PostModuleAction;
 use apiCours\application\actions\module\PutChangeToJohnDoe;
 use apiCours\application\actions\module\PutModuleByIdAction;
 use apiCours\application\middleware\AuthMiddleware;
 use apiCours\application\middleware\AuthzMiddleware;
-use apiUtilisateur\application\actions\user\GetUsersAction;
 use Slim\App;
 
 return function( App $app): App {
@@ -30,7 +27,9 @@ return function( App $app): App {
     $app->get('/modules[/]', GetModulesAction::class);
 
     $app->get('/users/modules[/]', GetModulesByProfAction::class)
-        ->add(AuthMiddleware::class);
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('getModulesByProf');
 
     $app->post('/modules[/]', PostModuleAction::class)
     ->add(AuthMiddleware::class);
