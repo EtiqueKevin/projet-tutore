@@ -42,11 +42,12 @@ return function( App $app): App {
         ->setName('getUserByToken');
 
     $app->get('/users[/]', GetUsersAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
         ->setName('getUtilisateurs');
 
     $app->get('/users/{ID-USER}[/]',GetUserById::class)
         ->setName('getUtilisateur');
-
 
     $app->post('/users[/]',CreateUtilisateurAction::class)
         ->setName('createUtilisateur');

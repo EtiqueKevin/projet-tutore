@@ -42,6 +42,7 @@ class AuthzMiddleware
             case 'getDemandes':
             case 'validerDemande':
             case 'deleteDemande':
+            case 'getUtilisateurs':
                 if (!$this->authService->adminVerification($id)) {
                     throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
                 }
