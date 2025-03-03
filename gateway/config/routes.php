@@ -26,19 +26,27 @@ return function( App $app): App {
     * Routes de l'API Cours
     *************************/
     $app->get('/modules[/]', GeneriqueCoursAction::class);
-    $app->post('/modules[/]', GeneriqueCoursAction::class);
+    $app->post('/modules[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
     $app->get('/modules/{id}[/]', GeneriqueCoursAction::class);
-    $app->delete('/modules/{id}[/]', GeneriqueCoursAction::class);
-    $app->put('/modules/{id}[/]', GeneriqueCoursAction::class);
-
-    $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
-    $app->post('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
-    $app->get('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
-    $app->delete('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
-    $app->put('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
-    $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class);
-
-    $app->get('/users/modules[/]', GeneriqueCoursAction::class);
+    $app->delete('/modules/{id}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->put('/modules/{id}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/modules/{id}/lessons[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->delete('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->put('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/users/modules[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
     
 
 
@@ -60,19 +68,30 @@ return function( App $app): App {
      * Routes de l'API Utilisateur
      *************************/
 
-    $app->post('/users/profile[/]', GeneriqueUtilisateurAction::class);
-    $app->get('/users[/]', GeneriqueUtilisateurAction::class);
-    $app->get('/user[/]', GeneriqueUtilisateurAction::class);
-    $app->get('/assets/{file}', GeneriqueUtilisateurAction::class);
-    $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class);
-    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', GeneriqueUtilisateurAction::class);
-    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', GeneriqueUtilisateurAction::class);
-    $app->post('/modules/{ID-MODULE}/rate[/]', GeneriqueUtilisateurAction::class);
-
-    $app->get('/demandes[/]', GeneriqueUtilisateurAction::class);
-    $app->post('/demandes[/]', GeneriqueUtilisateurAction::class);
-    $app->post('/demandes/{ID-DEMANDE}/validate[/]', GeneriqueUtilisateurAction::class);
-    $app->delete('/demandes/{ID-DEMANDE}[/]', GeneriqueUtilisateurAction::class);
+    $app->post('/users/profile[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/users[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/user[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/assets/{file}', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->delete('/users/{id}[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/lessons/{ID-LESSON}/finish_lesson[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/lessons/{ID-LESSON}/start_lesson[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/modules/{ID-MODULE}/rate[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->get('/demandes[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/demandes[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->post('/demandes/{ID-DEMANDE}/validate[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+    $app->delete('/demandes/{ID-DEMANDE}[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
 
 
     /*************************
