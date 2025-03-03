@@ -27,4 +27,5 @@ interface UsersServiceInterface{
     function ajouterDemande(string $idUser): void;
     function validerDemande(string $idDemande,string $token): void;
     function deleteDemande(string $idDemande): void;
+    function deleteImagesUnused(): void;
 }

@@ -43,6 +43,7 @@ class AuthzMiddleware
             case 'validerDemande':
             case 'deleteDemande':
             case 'getUtilisateurs':
+            case 'deleteImagesUnused':
                 if (!$this->authService->adminVerification($id)) {
                     throw new HttpUnauthorizedException($rq, 'Vous n\'avez pas les droits pour accéder à cette ressource');
                 }

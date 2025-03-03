@@ -219,4 +219,22 @@ class UsersService implements UsersServiceInterface{
             throw new \Exception('Impossible de supprimer la demande: '.$e->getMessage());
         }
     }
+
+    function deleteImagesUnused(): void
+    {
+        try {
+            $pics = $this->repositoryUsers->getAllLinkPic();
+            $dir = __DIR__ . '/../../../../public/assets/img/';
+            $files = scandir($dir);
+            foreach ($files as $file){
+                if($file != '.' && $file != '..'){
+                    if(!in_array($file, $pics)){
+                        unlink($dir.$file);
+                    }
+                }
+            }
+        }catch (\Exception $e){
+            throw new \Exception('Impossible de supprimer les images: '.$e->getMessage());
+        }
+    }
 }

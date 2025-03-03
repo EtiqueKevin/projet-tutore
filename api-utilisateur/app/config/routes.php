@@ -4,6 +4,7 @@ declare(strict_types=1);
 use apiUtilisateur\application\actions\HomeAction;
 use apiUtilisateur\application\actions\user\CreateUtilisateurAction;
 use apiUtilisateur\application\actions\user\DeleteDemandeAction;
+use apiUtilisateur\application\actions\user\DeleteImagesUnsuedAction;
 use apiUtilisateur\application\actions\user\DeleteUtilisateurAction;
 use apiUtilisateur\application\actions\user\GetDemandesAction;
 use apiUtilisateur\application\actions\user\GetLessonStatusAction;
@@ -107,6 +108,11 @@ return function( App $app): App {
         ->add(AuthzMiddleware::class)
         ->add(AuthMiddleware::class)
         ->setName('deleteDemande');
+
+    $app->delete('/linkpic/unused[/]', DeleteImagesUnsuedAction::class)
+        ->add(AuthzMiddleware::class)
+        ->add(AuthMiddleware::class)
+        ->setName('deleteImagesUnused');
 
     return $app;
 };

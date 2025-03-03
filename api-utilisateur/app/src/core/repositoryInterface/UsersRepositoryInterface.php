@@ -23,5 +23,6 @@ interface UsersRepositoryInterface{
     public function getDemandes() : array;
     public function ajouterDemande(string $idUser): void;
     public function supprimerDemande(string $idDemande): string;
+    public function getAllLinkPic(): array;
 
 }

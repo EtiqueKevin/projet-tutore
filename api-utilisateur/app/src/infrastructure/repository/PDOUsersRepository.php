@@ -350,4 +350,20 @@ class PDOUsersRepository implements UsersRepositoryInterface {
             throw new \Exception('Error fetching user from database: '. $e->getMessage());
         }
     }
+
+    public function getAllLinkPic(): array
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT linkpic FROM users');
+            $stmt->execute();
+            $linkPics = $stmt->fetchAll();
+            $linkPicsList = [];
+            foreach ($linkPics as $linkPic){
+                $linkPicsList[] = $linkPic['linkpic'];
+            }
+            return $linkPicsList;
+        }catch (Exception $e) {
+            throw new \Exception('Error fetching user from database: '. $e->getMessage());
+        }
+    }
 }
