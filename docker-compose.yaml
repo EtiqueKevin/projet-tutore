@@ -8,7 +8,7 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-      - "6379:6379"
+      - "44319:6379"
     #    volumes:
     #      - redis-data:/data
     networks:
@@ -25,8 +25,8 @@ services:
 
     working_dir: /app
     ports:
-      - "5173:5173"
-
+      - "44310:5173"
+      # - "44310:4173"
     command: sh -c "npm install && npm run dev -- --host"
 
     networks:
@@ -40,7 +40,7 @@ services:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
     ports:
-      - '7080:80'
+      - '44311:80'
     volumes:
       - ./gateway:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -62,7 +62,7 @@ services:
     working_dir: /var/php
 
     ports:
-      - "8888:80"
+      - "44312:80"
     networks:
       - jeancademie.net
     command: php -S 0.0.0.0:80 -t /var/php/public
@@ -79,7 +79,7 @@ services:
     networks:
       - jeancademie.net
     ports:
-      - "8889:80"
+      - "44313:80"
 
     command: php -S 0.0.0.0:80 -t /var/php/public
 
@@ -98,7 +98,7 @@ services:
     networks:
       - jeancademie.net
     ports:
-      - "8890:80"
+      - "44314:80"
 
     command: php -S 0.0.0.0:80 -t /var/php/public
 
@@ -106,7 +106,7 @@ services:
     build: ./api-execution/router # Dockerfile dans le dossier ./router
     container_name: router
     ports:
-      - "8891:3000"
+      - "44315:3000"
     environment:
       - REDIS_URL=redis://redis:6379
     volumes:
@@ -161,7 +161,7 @@ services:
   adminer.jeancademie:
     image: adminer
     ports:
-      - "5434:8080"
+      - "44316:8080"
     networks:
       - jeancademie.net
     command: 'php -S 0.0.0.0:8080 -t /var/www/html'
@@ -193,7 +193,7 @@ services:
     networks:
       - jeancademie.net
     ports:
-      - "27018:27017"
+      - "44317:27017"
 
   mongo-express:
     image: mongo-express
@@ -202,7 +202,7 @@ services:
     depends_on:
       - mongo.jeancademie
     ports:
-      - "8089:8081"
+      - "44318:8081"
     networks:
       - jeancademie.net
 
