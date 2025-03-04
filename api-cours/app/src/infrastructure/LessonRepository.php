@@ -6,6 +6,7 @@ use apiCours\core\domain\entities\lesson\Content;
 use apiCours\core\domain\entities\lesson\Erreur;
 use apiCours\core\domain\entities\lesson\File;
 use apiCours\core\domain\entities\lesson\Lesson;
+use apiCours\core\domain\entities\lesson\Question;
 use apiCours\core\dto\lesson\LessonDTO;
 use apiCours\core\repositoryInterface\LessonRepositoryException;
 use apiCours\core\repositoryInterface\LessonRepositoryInterface;
@@ -14,6 +15,7 @@ use DateTime;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Database;
+use MongoDB\Model\BSONArray;
 use PHPUnit\Framework\Exception;
 
 class LessonRepository implements LessonRepositoryInterface
@@ -53,6 +55,16 @@ class LessonRepository implements LessonRepositoryInterface
                     $files[] = $file;
                 }
                 $content->setFiles($files);
+            }
+            if($c->type=="quizz"){
+                $content = new Content($c->type, $c->content,$c->index);
+                $questions = [];
+                foreach($c->questions as $q){
+                    $optionsArray =  (array) $q->options;
+                    $question = new Question($q->question, $optionsArray, $q->correctAnswer);
+                    $questions[] = $question;
+                }
+                $content->setQuestion($questions);
             }
             $contentTab[] = $content;
         }
@@ -125,6 +137,16 @@ class LessonRepository implements LessonRepositoryInterface
                         $files[] = $file;
                     }
                     $content->setFiles($files);
+                }
+                if($c->type=="quizz"){
+                    $content = new Content($c->type, $c->content,$c->index);
+                    $questions = [];
+                    foreach($c->questions as $q){
+                        $optionsArray =  (array) $q->options;
+                        $question = new Question($q->question, $optionsArray, $q->correctAnswer);
+                        $questions[] = $question;
+                    }
+                    $content->setQuestion($questions);
                 }
                 $contentTab[] = $content;
             }

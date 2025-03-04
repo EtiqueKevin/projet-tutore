@@ -13,6 +13,8 @@ class Content extends Entity
     private ?array $files;
     private int $index;
 
+    private ?array $questions = null;
+
     public function __construct(string $type, ?string $content,int $index, ?array $files = null)
     {
         $this->type = $type;
@@ -25,8 +27,17 @@ class Content extends Entity
         $this->files = $files;
     }
 
+    public function setQuestion(?array $question){
+        $this->questions = $question;
+
+    }
+
     public function toDTO(): ContentDTO
     {
-        return new ContentDTO($this->type, $this->content, $this->index, $this->files);
+        $c = new ContentDTO($this->type, $this->content, $this->index, $this->files);
+        if($this->questions !=null){
+            $c->setQuestions($this->questions);
+        }
+        return $c;
     }
 }

@@ -8,6 +8,7 @@ use apiCours\core\domain\entities\lesson\File;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\FileDTO;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\dto\lesson\QuestionDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use apiCours\core\services\module\ModuleServiceInterface;
 use DateTime;
@@ -52,6 +53,16 @@ class PostLessonAction extends AbstractAction
                         $files[] = $file;
                     }
                     $content = new ContentDTO($c['type'], $c['content'],$index,$files);
+                }else if($c['type']=="quizz"){
+
+                    $content = new ContentDTO($c['type'],$c['content'],$index);
+
+                    $questions = [];
+                    foreach($c['questions'] as $q){
+                        $question = new QuestionDTO($q['question'], $q['options'], $q['correctAnswer']);
+                        $questions[] = $question;
+                    }
+                    $content->setQuestions($questions);
                 }else{
                     $content = new ContentDTO($c['type'],$c['content'],$index);
                 }

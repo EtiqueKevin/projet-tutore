@@ -7,6 +7,7 @@ use apiCours\core\domain\entities\lesson\Content;
 use apiCours\core\dto\lesson\ContentDTO;
 use apiCours\core\dto\lesson\FileDTO;
 use apiCours\core\dto\lesson\LessonDTO;
+use apiCours\core\dto\lesson\QuestionDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -50,6 +51,16 @@ class PutLessonByIdAction extends AbstractAction
                         $files[] = $file;
                     }
                     $content = new ContentDTO($c['type'], $c['content'],$index,$files);
+                }else if($c['type']=="quizz"){
+
+                    $content = new ContentDTO($c['type'],$c['content'],$index);
+
+                    $questions = [];
+                    foreach($c['questions'] as $q){
+                        $question = new QuestionDTO($q['question'], $q['options'], $q['correctAnswer']);
+                        $questions[] = $question;
+                    }
+                    $content->setQuestions($questions);
                 }else{
                     $content = new ContentDTO($c['type'],$c['content'],$index);
                 }
