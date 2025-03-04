@@ -61,28 +61,7 @@ onMounted(async () => {
     <QuizzView
         v-if="page==2"
         :titre="content.content"
-        :questions="[
-    {
-      question: 'Quelle est la capitale de la France?',
-      options: ['Londres', 'Berlin', 'Paris', 'Madrid'],
-      correctAnswer: 'Paris'
-    },
-    {
-      question: 'Quelle est la capitale de l\'Allemagne?',
-      options: ['Londres', 'Berlin', 'Paris', 'Madrid'],
-      correctAnswer: 'Berlin'
-    },
-    {
-      question: 'Quelle est la capitale de l\'Espagne?',
-      options: ['Londres', 'Berlin', 'Paris', 'Madrid'],
-      correctAnswer: 'Madrid'
-    },
-    {
-      question: 'Quelle est la capitale des Royaumes unis?',
-      options: ['Londres', 'Berlin', 'Paris', 'Madrid'],
-      correctAnswer: 'Londres'
-    },
-  ]"
+        :questions="content.questions"
   ></QuizzView>
 </template>
 

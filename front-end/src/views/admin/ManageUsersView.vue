@@ -2,7 +2,7 @@
 import { useAdmin } from '@/composables/admin'
 import { onMounted, ref } from 'vue'
 
-const { getUsers, deleteUser } = useAdmin()
+const { getUsers, deleteUser, deleteUnusedImages } = useAdmin()
 const users = ref([])
 const loading = ref(true)
 
@@ -24,6 +24,10 @@ const deleteUserById = async (id) => {
     users.value = users.value.filter(user => user.id !== id)
 }
 
+const handleDeleteUnusedImages = async () => {
+    await deleteUnusedImages()
+}
+
 onMounted(async () => {
     users.value = await getUsers()
     loading.value = false
@@ -32,7 +36,17 @@ onMounted(async () => {
 
 <template>
     <div class="p-6">
-        <h1 class="text-2xl font-bold mb-6">Gérer les utilisateurs</h1>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold mb-6">Gérer les utilisateurs</h1>
+            <button
+                @click="handleDeleteUnusedImages"
+                class="px-3 py-1 text-white rounded bg-red-500 hover:bg-red-600 transition-colors"
+            >
+                <i class="fas fa-trash-alt"></i>
+                Supprimer les photos de profil inutilisées
+            </button>
+
+        </div>
         <div class="bg-white dark:bg-background-dark rounded-lg shadow">
             <div class="grid grid-cols-4 gap-4 p-4  font-semibold border-b">
                 <div>Nom</div>

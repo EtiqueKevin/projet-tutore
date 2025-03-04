@@ -2,16 +2,16 @@
 
 namespace apiUtilisateur\application\actions\user;
 
-use apiAuth\core\services\user\UserServiceInterface;
+use apiUtilisateur\core\services\user\UsersServiceInterface;
 use apiUtilisateur\application\actions\AbstractAction;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class DeleteImagesUnsuedAction extends AbstractAction
 {
-    private UserServiceInterface $userService;
+    private UsersServiceInterface $userService;
 
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UsersServiceInterface $userService)
     {
         $this->userService = $userService;
     }

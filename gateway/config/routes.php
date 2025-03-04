@@ -93,6 +93,9 @@ return function( App $app): App {
     $app->delete('/demandes/{ID-DEMANDE}[/]', GeneriqueUtilisateurAction::class)
         ->add(AuthMiddleware::class);
 
+    $app->delete('/linkpic/unused[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
+
 
     /*************************
      * Routes de l'API Execution

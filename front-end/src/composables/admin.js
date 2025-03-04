@@ -53,11 +53,22 @@ export function useAdmin() {
         }
     }
 
+    async function deleteUnusedImages() {
+        try{
+            const res = await api.delete(`linkpic/unused`)
+            return true;
+        }catch (error){
+            console.error(error);
+            return false;
+        }
+    }
+
     return {
         getUsers,
         deleteUser,
         getDemandes,
         deleteDemande,
-        validateDemande
+        validateDemande,
+        deleteUnusedImages
     }
 }
