@@ -33,8 +33,8 @@ return function( App $app): App {
         ->add(AuthMiddleware::class);
     $app->put('/modules/{id}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
-    $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class)
-        ->add(AuthMiddleware::class);
+    $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
+
     $app->post('/modules/{id}/lessons[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
     $app->get('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
