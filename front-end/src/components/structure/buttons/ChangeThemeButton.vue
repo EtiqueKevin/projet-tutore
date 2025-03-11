@@ -62,14 +62,6 @@ watch(isDark, (newTheme) => {
   color: white;
 }
 
-.toggle-button:hover {
-  transform: scale(1.05);
-}
-
-.toggle-button.dark-mode:hover {
-  transform: scale(1.05);
-}
-
 .toggle-button i {
   transition: transform 0.3s;
   font-size: 1.5rem

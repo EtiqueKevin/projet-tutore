@@ -25,5 +25,10 @@ export default [
         requiresAuth: true,
         requiresTeacher: true
       }
+    },
+    {
+      path: 'teacher/statistics',
+      name: 'teacher-statistics',
+      component: () => import('@/views/teacher/TeacherStatisticsView.vue'),
     }
 ]
