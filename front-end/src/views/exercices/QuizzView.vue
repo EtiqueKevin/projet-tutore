@@ -1,29 +1,38 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useRoute, RouterLink } from 'vue-router';
 
 const props = defineProps({
   titre: String,
   questions: Array
 });
+const route = useRoute();
 
 const currentQuestionIndex = ref(0);
 const userAnswers = ref([]);
 const showScore = ref(false);
 const score = ref(0);
+const answerSubmitted = ref(false);
+const selectedAnswer = ref(null);
 
 const currentQuestion = computed(() => {
   return props.questions[currentQuestionIndex.value];
 });
 
-const handleAnswer = (selectedAnswer) => {
-  userAnswers.value.push(selectedAnswer);
+const handleAnswer = (answer) => {
+  selectedAnswer.value = answer;
+  answerSubmitted.value = true;
   
-  if (selectedAnswer === currentQuestion.value.correctAnswer) {
+  if (answer === currentQuestion.value.correctAnswer) {
     score.value++;
   }
+};
 
+const nextQuestion = () => {
   if (currentQuestionIndex.value < props.questions.length - 1) {
     currentQuestionIndex.value++;
+    answerSubmitted.value = false;
+    selectedAnswer.value = null;
   } else {
     showScore.value = true;
   }
@@ -34,42 +43,93 @@ const resetQuiz = () => {
   userAnswers.value = [];
   showScore.value = false;
   score.value = 0;
+  answerSubmitted.value = false;
+  selectedAnswer.value = null;
 };
 
 onMounted(() => {
   resetQuiz();
 });
+
 </script>
 
 <template>
-  <main class="max-w-3xl mx-auto p-5 flex-grow">
-    <h1 class="text-2xl font-bold mb-6">{{ titre }}</h1>
+  <main class="p-5 flex-grow flex justify-center relative">
+    <div class="min-w-96 bg-white rounded-lg shadow-lg p-6">
+      <h1 class="text-2xl font-bold mb-6 text-center">{{ titre }}</h1>
 
-    <div v-if="!showScore" class="mt-5">
-      <h2 class="text-xl mb-4">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</h2>
-      <p class="text-lg mb-6">{{ currentQuestion.question }}</p>
-      
-      <div class="flex flex-col space-y-3">
-        <button
-          v-for="option in currentQuestion.options"
-          :key="option"
-          @click="handleAnswer(option)"
-          class="py-3 px-6 text-base border-2 border-gray-300 rounded-lg bg-white hover:bg-gray-100 hover:border-gray-600 transition-all duration-300"
+      <div v-if="!showScore" class="mt-5">
+        <div class="flex justify-between items-center mb-6 flex-col">
+          <h2 class="text-xl font-semibold">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</h2>
+          <span class="text-lg font-medium">Score: {{ score }}</span>
+        </div>
+
+        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+          <p class="text-lg font-medium">{{ currentQuestion.question }}</p>
+        </div>
+        
+        <div class="grid gap-4">
+          <button
+            v-for="option in currentQuestion.options"
+            :key="option"
+            @click="handleAnswer(option)"
+            :disabled="answerSubmitted"
+            :class="[
+              'py-4 px-6 text-left text-lg border-2 rounded-lg transition-all duration-300',
+              answerSubmitted ? (
+                option === currentQuestion.correctAnswer 
+                  ? 'bg-green-100 border-green-500 text-green-700'
+                  : option === selectedAnswer
+                    ? 'bg-red-100 border-red-500 text-red-700'
+                    : 'bg-white border-gray-300'
+              ) : 'bg-white border-gray-300 hover:border-blue-500 hover:bg-blue-50'
+            ]"
+          >
+            {{ option }}
+          </button>
+        </div>
+
+        <div class="mt-6 flex justify-between items-center flex-col">
+          <div v-if="answerSubmitted" class="text-lg">
+            <span v-if="selectedAnswer === currentQuestion.correctAnswer" class="text-green-600">
+              <i class="fas fa-check-circle"></i>
+              Bonne réponse!
+            </span>
+            <span v-else class="text-red-600">
+              <i class="fas fa-times-circle"></i>
+              La bonne réponse était: {{ currentQuestion.correctAnswer }}
+            </span>
+          </div>
+          
+          <button 
+            v-if="answerSubmitted"
+            @click="nextQuestion"
+            class="py-3 px-6 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300"
+          >
+            {{ currentQuestionIndex === questions.length - 1 ? 'Voir le résultat' : 'Question suivante' }}
+          </button>
+        </div>
+      </div>
+
+      <div v-else class="text-center mt-5">
+        <h2 class="text-2xl font-bold mb-4">Quiz terminé!</h2>
+        <p class="text-lg mb-2">Votre score final:</p>
+        <p class="text-4xl font-bold text-blue-600 mb-6">{{ score }} / {{ questions.length }}</p>
+        <button 
+          @click="resetQuiz" 
+          class="py-3 px-6 text-base bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-300"
         >
-          {{ option }}
+          Recommencer le quiz
         </button>
       </div>
     </div>
 
-    <div v-else class="text-center mt-5">
-      <h2 class="text-2xl font-bold mb-4">Quiz terminé!</h2>
-      <p class="text-lg mb-6">Votre score: {{ score }} / {{ questions.length }}</p>
-      <button 
-        @click="resetQuiz" 
-        class="py-3 px-6 text-base bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-300"
-      >
-        Recommencer
-      </button>
-    </div>
+    <RouterLink
+          :to="{name: 'lesson-by-id', params: {id: route.params.id}}"
+          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform absolute top-5 left-5"
+          title="Retour à la leçon"
+        >
+          <i class="fas fa-arrow-left"></i> Retour à la leçon
+        </RouterLink>
   </main>
 </template>
