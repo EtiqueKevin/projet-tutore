@@ -5,6 +5,7 @@ import { useToast } from 'vue-toastification'
 
 export default {
   install: (app, options) => {
+    let isLoading = false;
     const api = axios.create({
       baseURL: options.baseURL,
       timeout: 30000,
@@ -27,7 +28,7 @@ export default {
     api.interceptors.response.use((response) => {
       return response
     }, async (error) => {
-      if (error.response.status === 401) { // Unauthorized
+      if (error.response.status === 401 && !isLoading) { // Unauthorized
         const userStore = useUserStore();
         const toast = useToast();
 
@@ -39,18 +40,20 @@ export default {
         }
         
         try { // on tente de rafraîchir le token
+          isLoading = true;
           const res = await api.post('/refresh', {}, {
             headers: {
               Authorization: `Bearer ${userStore.getRefreshToken}`
             }
           });
-
+          isLoading = false;
           // si le rafraîchissement a réussi, on met à jour les tokens et on relance la requête
           userStore.setTokens(res.data.accessToken, res.data.refreshToken);
           error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
           return api(error.config);
         
         } catch(e) {
+          isLoading=false;
           // si le rafraîchissement a échoué, on déconnecte l'utilisateur
           userStore.logout();
           toast.error("Votre session a expiré. Veuillez vous reconnecter.");
