@@ -12,6 +12,8 @@ class Cors{
 
     private $allowedOrigins = [
         'http://localhost:44310',
+        'http://jeancademie.paul-bruson.fr',
+        'http://jeancademie.api.paul-bruson.fr',
     ];
 
     /**

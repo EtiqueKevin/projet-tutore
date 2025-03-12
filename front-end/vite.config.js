@@ -17,5 +17,8 @@ export default defineConfig({
   },
   define: {
     'process.env': process.env
+  },
+  server: {
+    allowedHosts: ['jeancademie.paul-bruson.fr']
   }
 })
