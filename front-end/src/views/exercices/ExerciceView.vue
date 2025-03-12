@@ -48,9 +48,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <main :class="['flex-grow flex', isMobile ? 'flex-col' : '']">
+  <main :class="['flex-grow flex h-[calc(100vh-96px)]', isMobile ? 'flex-col' : '']">
     <template v-if="loading">
-      <div :class="isMobile ? 'w-full' : 'w-[20%] border-r-2'" class="p-4">
+      <div :class="isMobile ? 'w-full' : 'w-[20%] border-r-2'" class="p-4 h-full overflow-y-auto">
         <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-3/4 animate-pulse"></div>
         <div v-for="i in 8" :key="i"
              class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"
@@ -58,7 +58,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div :class="isMobile ? 'w-full' : 'w-[60%] border-r-2'" class="p-4">
+      <div :class="isMobile ? 'w-full' : 'w-[60%] border-r-2'" class="p-4 h-full overflow-y-auto">
         <div class="flex gap-2 mb-4">
           <div class="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
           <div class="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse opacity-60"></div>
@@ -71,7 +71,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div :class="isMobile ? 'w-full' : 'w-[20%]'" class="p-4">
+      <div :class="isMobile ? 'w-full' : 'w-[20%]'" class="p-4 h-full overflow-y-auto">
         <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-4 w-1/2 animate-pulse"></div>
         <div v-for="i in 5" :key="i"
              class="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2 animate-pulse"
@@ -86,8 +86,8 @@ onMounted(() => {
         <button @click="page=1" :class="['button-mobile', page==1?'selected':'']">Editeur</button>
         <button @click="page=2" :class="['button-mobile', page==2?'selected':'']">Console</button>
       </div>
-      <div v-if="(!isMobile || page === 0) && isLoaded" :class="[isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2', 'dark:border-gray-300 border-slate-800']">
-        <!-- retour a la lesson -->
+      <div v-if="(!isMobile || page === 0) && isLoaded" 
+           :class="[isMobile ? 'max-w-none flex-grow' : 'w-[20%] border-r-2', 'dark:border-gray-300 border-slate-800 h-full overflow-y-auto']">
         <RouterLink
           :to="{name: 'lesson-by-id', params: {id: route.params.id}}"
           class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform"
@@ -102,9 +102,13 @@ onMounted(() => {
         :files="files"
         @correct-code="correct"
         class="dark:border-gray-300 border-slate-800"
-        :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2'"
+        :class="isMobile ? 'max-w-none flex-grow' : 'w-[60%] border-r-2 h-full overflow-y-auto'"
       />
-      <Console v-if="(!isMobile || page === 2) && isLoaded" :results="consoleOutput" :class="isMobile ? 'w-full' : 'w-[20%]'"/>
+      <Console 
+        v-if="(!isMobile || page === 2) && isLoaded" 
+        :results="consoleOutput" 
+        :class="isMobile ? 'w-full' : 'w-[20%] h-full overflow-y-auto'"
+      />
     </template>
   </main>
 </template>

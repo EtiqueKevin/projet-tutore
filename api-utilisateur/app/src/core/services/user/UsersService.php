@@ -227,11 +227,11 @@ class UsersService implements UsersServiceInterface{
             $dir = __DIR__ . '/../../../../public/assets/img/';
             $files = scandir($dir);
             foreach ($files as $file){
-                if($file != '.' && $file != '..'){
-                    if(!in_array($file, $pics)){
-                        unlink($dir.$file);
-                    }
+            if($file != '.' && $file != '..' && $file != 'default.jpg'){
+                if(!in_array($file, $pics)){
+                unlink($dir.$file);
                 }
+            }
             }
         }catch (\Exception $e){
             throw new \Exception('Impossible de supprimer les images: '.$e->getMessage());

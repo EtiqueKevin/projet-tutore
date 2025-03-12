@@ -22,7 +22,7 @@ const toggleMobileMenu = () => {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 backdrop-blur-sm shadow-lg dark:bg-background-dark/95 bg-background-light/95">
+  <header class="sticky top-0 z-50 backdrop-blur-sm shadow-lg dark:bg-background-dark/95 bg-background-light/95 h-12">
     <nav class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-12">
         <!-- Logo -->

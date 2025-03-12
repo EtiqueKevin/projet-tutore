@@ -15,7 +15,7 @@ const htmlContent = computed(() => marked(markdown.value));
 </script>
 
 <template>
- <div v-html="htmlContent" class="p-4 prose dark:prose-white prose-base"></div>
+ <div v-html="htmlContent" class="p-4 prose dark:prose-white prose-base overflow-y-scroll"></div>
 </template>
 
 <style scoped>

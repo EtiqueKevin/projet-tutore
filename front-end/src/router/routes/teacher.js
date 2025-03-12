@@ -1,8 +1,10 @@
+import LessonCreateView from '@/views/lesson/LessonCreateView.vue'
+
 export default [
     {
         path: 'teacher/lesson/create',
         name: 'teacher-lesson-create',
-        component: () => import('@/views/lesson/LessonCreateView.vue'),
+        component: LessonCreateView,
         meta: { 
           requiresAuth: true,
           requiresTeacher: true

@@ -16,7 +16,7 @@ const isSuccess = () => {
 
 const getStatusIcon = () => {
     
-    if(!props.results) return 'fas fa-circle-minus text-yellow-800 dark:text-yellow-500';
+    if(!props.results) return 'fas fa-circle-minus text-yellow-500 dark:text-yellow-500';
     if(props.results.error === '' && props.results.output === '') return 'hidden';
 
     return isSuccess() ? 'fas fa-circle-check text-green-800 dark:text-green-500' : 'fas fa-circle-xmark text-red-800 dark:text-red-500';
@@ -28,7 +28,7 @@ const formatOutput = (text) => {
 </script>
 
 <template>
-    <div class="p-4 dark:text-white shadow-md bg-white dark:bg-gray-900 font-mono flex flex-col">
+    <div class="p-4 dark:text-white shadow-md bg-white dark:bg-gray-900 font-mono flex flex-col overflow-y-scroll">
         <div class="flex items-center gap-2 mb-4">
             <h2 class="text-lg font-bold">Console</h2>
             <i :class="[getStatusIcon(), 'text-lg']"></i>

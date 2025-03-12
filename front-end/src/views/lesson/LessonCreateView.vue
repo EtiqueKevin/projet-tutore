@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import ExerciceCreateView from '@/views/exercices/ExerciceCreateView.vue';
 import LessonCreateSidebar from '@/components/metier/cours/LessonCreateSidebar.vue';
 import LessonCreateContentEditor from '@/components/metier/cours/LessonCreateContentEditor.vue';
@@ -101,7 +101,6 @@ const editQuizz = (index) => {
 };
 
 const isEditingLesson = computed(() => mode.value === 0 || mode.value === 1 || mode.value === 2);
-
 </script>
 
 <template>

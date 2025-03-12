@@ -53,6 +53,11 @@ const reload = async () => {
     modal.value = false
 
     modules.value = await getModules()
+    // filtre pour enlever le status (pas besoin ici)
+    modules.value = modules.value.map(module => {
+      module.status = null
+      return module
+    })
   } catch (error) {
     console.error('Failed to fetch modules:', error)
   } finally {
