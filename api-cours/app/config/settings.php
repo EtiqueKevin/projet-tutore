@@ -24,8 +24,14 @@ return  [
     'SECRET_KEY' => getenv('JWT_SECRET_KEY'),
 
     'database' => function (ContainerInterface $c) {
-        $client = new MongoDB\Client('mongodb://mongo.jeancademie:27017', ["username" => "root", "password" => "root"]);
-        $database = $client->cours;
+        $config = parse_ini_file(__DIR__ . '/iniconf/mydatabasedb.ini');
+        $uri = "mongodb://{$config['host']}:{$config['port']}";
+        $options = [
+            "username" => $config['username'],
+            "password" => $config['password']
+        ];
+        $client = new MongoDB\Client($uri, $options);
+        $database = $client->{$config['database']};
         return $database;
     },
 
