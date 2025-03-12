@@ -14,6 +14,8 @@ class Cors{
         'http://localhost:44310',
         'http://jeancademie.paul-bruson.fr',
         'http://jeancademie.api.paul-bruson.fr',
+        'https://jeancademie.paul-bruson.fr',
+        'https://jeancademie.api.paul-bruson.fr',
     ];
 
     /**
