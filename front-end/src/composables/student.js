@@ -3,6 +3,7 @@ import { useUserStore } from '@/stores/user'
 
 export function useStudent() {
     const api = inject('api')
+    const imageUrl = inject('imageUrl')
     const userStore = useUserStore()
 
     async function loadModule(id) {
@@ -22,6 +23,13 @@ export function useStudent() {
                 note: res.data.module.note,
                 status: res.data.module.status,
                 lessons: []
+            }
+
+            const user = await api.get('/users/'+currentModule.creator)
+            currentModule.creator = {
+                name: user.data.user.name,
+                surname: user.data.user.surname,
+                linkpic: imageUrl+user.data.user.linkpic
             }
             
             const resLessons = await api.get(`/modules/${id}/lessons`+query)

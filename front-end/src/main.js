@@ -14,6 +14,8 @@ import router from '@/router'
 const url = import.meta.env.VITE_API_URL
 const app = createApp(App)
 
+app.provide('imageUrl', url + '/assets/img/')
+
 //setup api
 app.use(api, {
     baseURL: url,

@@ -80,6 +80,7 @@ export const useUserStore = defineStore('jeanCademieUser', {
                 this.name = data.name;
                 this.surname = data.surname;
                 this.pseudo = data.pseudo;
+                this.image = this.$imageUrl + res.data.data.linkpic;
         
                 toast.success('Profile updated successfully');
                 return true;

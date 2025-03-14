@@ -74,6 +74,8 @@ return function( App $app): App {
 
     $app->post('/users/profile[/]', GeneriqueUtilisateurAction::class)
         ->add(AuthMiddleware::class);
+    $app->get('/users/{ID-USER}[/]', GeneriqueUtilisateurAction::class)
+        ->add(AuthMiddleware::class);
     $app->get('/users[/]', GeneriqueUtilisateurAction::class)
         ->add(AuthMiddleware::class);
     $app->get('/user[/]', GeneriqueUtilisateurAction::class)

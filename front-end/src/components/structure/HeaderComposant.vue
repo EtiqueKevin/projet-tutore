@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import RouterButton from '@/components/structure/buttons/RouterButton.vue';
 import Button from '@/components/structure/buttons/Button.vue';
 import ChangeThemeButton from '@/components/structure/buttons/ChangeThemeButton.vue';
@@ -19,6 +19,7 @@ const logOut = async () => {
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
 </script>
 
 <template>
@@ -108,7 +109,7 @@ const toggleMobileMenu = () => {
             <div v-if="userStore.isLogged" class="p-4 border-b dark:border-gray-700 border-gray-200">
               <div class="flex items-center space-x-3">
                 <RouterButton :to="'/user/profile'" title="Mon profil" :other="'min-w-8 h-8 flex items-center gap-2'">
-                <img :src="userStore.getImage" class="w-12 h-12 rounded-full" />
+                <img :src="userStore.getImage" class="w-12 h-12 rounded-full" :key="userStore.getImage" />
                 <div>
                   <h3 class="font-bold dark:text-white text-main-dark">{{ userStore.getName }}</h3>
                   <p class="text-sm text-gray-500 dark:text-gray-400">{{ userStore.getEmail }}</p>

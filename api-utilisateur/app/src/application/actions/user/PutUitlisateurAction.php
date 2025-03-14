@@ -80,6 +80,18 @@ class PutUitlisateurAction extends AbstractAction
         throw new HttpBadRequestException($rq, $e->getMessage());
     }
 
+    $res = [
+        'type' => 'ressource',
+        'data' => [
+            'id' => $id,
+            'name' => $params['name'],
+            'surname' => $params['surname'],
+            'pseudo' => $params['pseudo'],
+            'linkpic' => $fileNameNew
+        ]
+    ];
+
+    $rs->getBody()->write(json_encode($res));
     return $rs->withHeader('Content-Type', 'application/json')->withStatus(201);
 }
 }

@@ -93,9 +93,16 @@ const isStarted = computed(() => {
                 <p class="text-sm">
                     Mis à jour le : {{ module.lastUpdate }}
                 </p>
-                <p class="text-sm">
-                    Crée par: {{ module.creator }}
-                </p>
+                <div class="flex items-center justify-end gap-2">
+        <p class="text-sm">
+            Crée par: {{ module.creator.name }} {{ module.creator.surname }}
+        </p>
+        <img 
+            :src="module.creator.linkpic" 
+            :alt="`Photo de ${module.creator.name}`"
+            class="w-8 h-8 rounded-full object-cover"
+        />
+    </div>
                 <button v-if="isTeacher" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md mt-4">
                     <i class="fas fa-edit"></i>
                     <span>Modifier</span>

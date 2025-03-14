@@ -74,7 +74,8 @@ const saveProfile = async () => {
         const success = await userStore.updateProfile(userProfile.value);
         if (success) {
             isEditing.value = false;
-            imagePreview = null
+            imagePreview.value = null;
+            userProfile.value.image = userStore.getImage;
         }
     } catch (error) {
         console.error('Error updating profile:', error);
@@ -123,7 +124,7 @@ watch (() => userStore.isInit, (isInit) => {
                     <div class="relative flex flex-col space-y-2 items-center justify-center">
                         <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center overflow-hidden">
                             <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
-                            <img v-else="userProfile.image" :src="userProfile.image" class="w-full h-full object-cover" />
+                            <img v-else="userProfile.image" :src="userProfile.image" class="w-full h-full object-cover" :key="userStore.getImage" />
                         </div>
                         <input
                             v-if="isEditing"
