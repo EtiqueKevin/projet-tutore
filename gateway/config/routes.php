@@ -28,14 +28,17 @@ return function( App $app): App {
     $app->get('/modules[/]', GeneriqueCoursAction::class);
     $app->post('/modules[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
-    $app->get('/modules/{id}[/]', GeneriqueCoursAction::class);
+    
+        $app->get('/modules/{id}[/]', GeneriqueCoursAction::class);
     $app->delete('/modules/{id}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
     $app->put('/modules/{id}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
     $app->get('/modules/{id}/lessons[/]', GeneriqueCoursAction::class);
-
     $app->post('/modules/{id}/lessons[/]', GeneriqueCoursAction::class)
+        ->add(AuthMiddleware::class);
+
+    $app->get('/lessons/{id_lesson}/erreurs', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
     $app->get('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
@@ -43,7 +46,8 @@ return function( App $app): App {
         ->add(AuthMiddleware::class);
     $app->put('/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
-    $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
+    
+        $app->delete('/modules/{id_module}/lessons/{id_lesson}[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);
     $app->get('/users/modules[/]', GeneriqueCoursAction::class)
         ->add(AuthMiddleware::class);

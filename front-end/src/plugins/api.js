@@ -33,9 +33,9 @@ export default {
         const toast = useToast();
 
         if(userStore.getRefreshToken === null) {
-          userStore.logout();
+          userStore.signOut();
           toast.error("Votre session a expiré. Veuillez vous reconnecter.");
-          router.push('/');
+          router.push({ name: 'home' });
           return Promise.reject(error);
         }
         
@@ -55,9 +55,9 @@ export default {
         } catch(e) {
           isLoading=false;
           // si le rafraîchissement a échoué, on déconnecte l'utilisateur
-          userStore.logout();
+          userStore.signOut();
           toast.error("Votre session a expiré. Veuillez vous reconnecter.");
-          router.push('/');
+          router.push({ name: 'home' });
           return Promise.reject(error);
         }
       }

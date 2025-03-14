@@ -318,6 +318,42 @@ db.lesson_erreurs.insertMany([
         },
       },
     ]
+  },
+  {
+    _id: UUID("880e8400-e29b-41d4-a716-446655440001"),
+    id_lesson: UUID("660e8400-e29b-41d4-a716-446655440001"),
+    errors: [
+      {
+        index: 0,
+        errors: {
+          test_1: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+           test_2: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          },
+          test_3: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          }
+        },
+      },
+      {
+        index: 1,
+        errors: {
+          test_1: {
+            fonction_1: 36,
+            fonction_2: 12,
+            fonction_3: 24
+          }
+        },
+      },
+    ]
   }
 ]);
     
