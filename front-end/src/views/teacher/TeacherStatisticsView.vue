@@ -141,7 +141,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <main class="p-6 flex-grow dark:bg-gray-900">
+    <main class="p-6 flex-grow dark:bg-gray-900" v-if="modules.length > 0">
         <h1 class="text-2xl font-bold mb-6 dark:text-white">Statistiques des erreurs</h1>
         
         <Selector
@@ -197,6 +197,15 @@ onMounted(async () => {
                     />
                 </div>
             </div>
+        </div>
+    </main>
+    <main class="p-6 flex-grow dark:bg-gray-900" v-else>
+        <h1 class="text-2xl font-bold mb-6 dark:text-white">Statistiques des erreurs</h1>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 text-center">
+            <i class="fas fa-exclamation-triangle text-4xl text-yellow-500"></i>
+            <p class="text-lg mt-4 dark:text-gray-300">
+                Vous n'avez pas encore de module pour afficher les statistiques
+            </p>
         </div>
     </main>
 </template>
