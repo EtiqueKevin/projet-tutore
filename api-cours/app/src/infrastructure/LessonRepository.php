@@ -47,20 +47,20 @@ class LessonRepository implements LessonRepositoryInterface
         $lessonsDB = $this->lessonCollection->findOne(['_id' => $idUUID]);
         $contentTab = [];
         foreach ($lessonsDB->content as $c) {
-            $content = new Content($c->type, $c->content,$c->index);
-            if($c->type=="code"){
+            $content = new Content($c->type, $c->content, $c->index);
+            if ($c->type == "code") {
                 $files = [];
                 foreach ($c->files as $f) {
-                    $file = new File($f->type,$f->filename,$f->language,$f->content);
+                    $file = new File($f->type, $f->filename, $f->language, $f->content);
                     $files[] = $file;
                 }
                 $content->setFiles($files);
             }
-            if($c->type=="quizz"){
-                $content = new Content($c->type, $c->content,$c->index);
+            if ($c->type == "quizz") {
+                $content = new Content($c->type, $c->content, $c->index);
                 $questions = [];
-                foreach($c->questions as $q){
-                    $optionsArray =  (array) $q->options;
+                foreach ($c->questions as $q) {
+                    $optionsArray = (array)$q->options;
                     $question = new Question($q->question, $optionsArray, $q->correctAnswer);
                     $questions[] = $question;
                 }
@@ -78,7 +78,7 @@ class LessonRepository implements LessonRepositoryInterface
 
     public function createLesson(array $lesson): string
     {
-        try{
+        try {
             $lesson['_id'] = UUIDConverter::toUUID($lesson['id']);
             $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
             unset($lesson['id']);
@@ -86,30 +86,30 @@ class LessonRepository implements LessonRepositoryInterface
             //echo $lesson;
             $res = $this->lessonCollection->insertOne($lesson);
             return UUIDConverter::fromUUID($res->getInsertedId());
-        }catch(Exception $e){
+        } catch (Exception $e) {
             throw new LessonRepositoryException($e->getMessage());
         }
     }
 
     public function updateLesson(array $lesson): void
     {
-        try{
+        try {
             $idUUID = UUIDConverter::toUUID($lesson['id']);
             unset($lesson['id']);
             $lesson['date_update'] = new UTCDateTime((new DateTime())->getTimestamp() * 1000);
-            $this->lessonCollection->updateOne( ['_id' => $idUUID],['$set' => $lesson]);
-        }catch (Exception $e){
-            throw new LessonRepositoryException("erreur lors de l'update : ". $e->getMessage());
+            $this->lessonCollection->updateOne(['_id' => $idUUID], ['$set' => $lesson]);
+        } catch (Exception $e) {
+            throw new LessonRepositoryException("erreur lors de l'update : " . $e->getMessage());
         }
     }
 
     public function deleteLesson(string $id): void
     {
-        try{
+        try {
             $this->lessonCollection->deleteOne(['_id' => UUIDConverter::toUUID($id)]);
             $this->modulelessonCollection->deleteOne(['id_lesson' => UUIDConverter::toUUID($id)]);
-        }catch (Exception $e){
-            throw new LessonRepositoryException("erreur lors de la suppression : ".$e->getMessage());
+        } catch (Exception $e) {
+            throw new LessonRepositoryException("erreur lors de la suppression : " . $e->getMessage());
         }
 
     }
@@ -126,23 +126,23 @@ class LessonRepository implements LessonRepositoryInterface
         }
         $lessonsEntity = [];
         foreach ($lessonIds as $lessonId) {
-            $lessonsDB= $this->lessonCollection->findOne(['_id' => $lessonId]);
+            $lessonsDB = $this->lessonCollection->findOne(['_id' => $lessonId]);
             $contentTab = [];
             foreach ($lessonsDB->content as $c) {
-                $content = new Content($c->type, $c->content,$c->index);
-                if($c->type=="code"){
+                $content = new Content($c->type, $c->content, $c->index);
+                if ($c->type == "code") {
                     $files = [];
                     foreach ($c->files as $f) {
-                        $file = new File($f->type,$f->filename,$f->language,$f->content);
+                        $file = new File($f->type, $f->filename, $f->language, $f->content);
                         $files[] = $file;
                     }
                     $content->setFiles($files);
                 }
-                if($c->type=="quizz"){
-                    $content = new Content($c->type, $c->content,$c->index);
+                if ($c->type == "quizz") {
+                    $content = new Content($c->type, $c->content, $c->index);
                     $questions = [];
-                    foreach($c->questions as $q){
-                        $optionsArray =  (array) $q->options;
+                    foreach ($c->questions as $q) {
+                        $optionsArray = (array)$q->options;
                         $question = new Question($q->question, $optionsArray, $q->correctAnswer);
                         $questions[] = $question;
                     }
@@ -165,15 +165,15 @@ class LessonRepository implements LessonRepositoryInterface
 
         $idUUID = UUIDConverter::toUUID($idLesson);
         $intIndex = intval($indexExercise);
-        try{
+        try {
             $lessonsDB = $this->lessonCollection->findOne(['_id' => $idUUID]);
             foreach ($lessonsDB->content as $c) {
 
-                if($c->type=="code" && $c->index == $intIndex){
-                    $content = new Content($c->type, $c->content,$c->index);
+                if ($c->type == "code" && $c->index == $intIndex) {
+                    $content = new Content($c->type, $c->content, $c->index);
                     $files = [];
                     foreach ($c->files as $f) {
-                        $file = new File($f->type,$f->filename,$f->language,$f->content);
+                        $file = new File($f->type, $f->filename, $f->language, $f->content);
                         $files[] = $file;
                     }
                     $content->setFiles($files);
@@ -181,75 +181,149 @@ class LessonRepository implements LessonRepositoryInterface
                 }
             }
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new Exception($exception->getMessage());
         }
 
         return $content;
     }
 
-    public function getLessonErreurs(string $idLesson): array{
-        try{
+    public function getLessonErreurs(string $idLesson): array
+    {
+        try {
             $lessonErreur = $this->lessonErreurCollection->findOne(['id_lesson' => UUIDConverter::toUUID($idLesson)]);
-        }catch (Exception $e){
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
+        }
+
+        if ($lessonErreur == null) {
+            return [];
         }
         return iterator_to_array($lessonErreur['errors']);
     }
 
-    public function postLessonErreurs(Erreur $erreur): void{
 
-        $le = $this->lessonErreurCollection->find(['id_lesson' => UUIDConverter::toUUID($erreur->id_lesson)]);
+    /* NOTE
+     *
+     * La function postLessonErreurs est vraiment complexe du fait que la forme d'enregistrement des données mongoDB vraiment pas optimisé
+     * , j'ai du la diviser en plusieurs fonctions :
+     *
+     * postLessonErreur est la fonction principale : enregistre de nouvelles erreurs pour une leçon, elle coordonne et utilise les autres fonctions
+     * fusionErrorArrays : fusionne deux tableaux d'erreurs (dans le cas ou il y a déjà des données, fusionne les données existantes avec les nouvelles)
+     * fusionErrorDetails : fusionne les détails des erreurs avec incrémentation (appelé dans un foreach)
+     * formatageErrorData : Transforme les données d'erreur entrantes au format plus traitable par MongoDB
+     * 
+     */
+    public function postLessonErreurs(Erreur $erreur): void
+    {
 
-        if($le->isDead()){
-            $tabErreur = [];
-            foreach ($erreur->getErrors() as $l) {
+        try {
 
-                $tabErreur['index'] = $l['index'];
-                var_dump($l['errors']);
+            $insertion['errors'] = $erreur->getErrors();
+            $insertion['id_lesson'] = UUIDConverter::toUUID($erreur->id_lesson);
 
-                foreach ($l['errors'] as $err) {
+            $processedErrors = $this->formatageErrorData($insertion);
 
+            $existingDocument = $this->lessonErreurCollection->findOne([
+                'id_lesson' => $insertion['id_lesson']
+            ]);
 
-                    $key =array_search($err, $l['errors']);
-                    foreach ($err as $e) {
+            if ($existingDocument && !empty($existingDocument['errors'])) {
 
-                        $tabErreur['errors'][$key][$e] = 1;
-                    }
-                }
+                $existingErrors = $existingDocument['errors'];
+
+                $mergedErrors = $this->fusionErrorArrays($existingErrors, $processedErrors);
+
+                $this->lessonErreurCollection->updateOne(
+                    ['id_lesson' => $insertion['id_lesson']],
+                    ['$set' => ['errors' => $mergedErrors]]
+                );
+
+            } else {
+                $this->lessonErreurCollection->updateOne(
+                    ['id_lesson' => $insertion['id_lesson']],
+                    ['$set' => ['errors' => $processedErrors]],
+                    ['upsert' => true]
+                );
+
             }
-            $this->lessonErreurCollection->insertOne([
-                'id_lesson' => UUIDConverter::toUUID($erreur->id_lesson),
-                'errors' => $tabErreur,
-                ]);
 
-        }else{
-            foreach ($erreur->getErrors() as $entry) {
-                $index = $entry["index"];
-                foreach ($entry["errors"] as $test => $functions) {
-                    foreach ($functions as $function) {
-                        $updateQuery = [
-                            "errors.index" => $index,
-                            "errors.errors.$test.$function" => ['$exists' => true]
-                        ];
-                        $updateOperation = [
-                            '$inc' => ["errors.$.errors.$test.$function" => 1]
-                        ];
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
 
-                        $updateResult = $this->lessonErreurCollection->updateOne($updateQuery, $updateOperation);
+    }
 
-                        if ($updateResult->getModifiedCount() == 0) {
-                            $updateQuery = ["errors.index" => $index];
-                            $updateOperation = [
-                                '$set' => ["errors.$.errors.$test.$function" => 1]
-                            ];
-                            $this->lessonErreurCollection->updateOne($updateQuery, $updateOperation);
-                        }
+    private function fusionErrorArrays($existingErrors, $newErrors)
+    {
+        $errorMap = [];
+
+        foreach ($existingErrors as $existingError) {
+            $errorMap[$existingError['index']] = $existingError;
+        }
+
+        foreach ($newErrors as $newError) {
+            $index = $newError['index'];
+
+            if (!isset($errorMap[$index])) {
+                $errorMap[$index] = $newError;
+            } else {
+                $errorMap[$index]['errors'] = $this->fusionErrorDetails(
+                    $errorMap[$index]['errors'],
+                    $newError['errors']
+                );
+            }
+        }
+        return array_values($errorMap);
+    }
+
+    private function fusionErrorDetails($existingDetails, $newDetails)
+    {
+        foreach ($newDetails as $testName => $functions) {
+            if (!isset($existingDetails[$testName])) {
+                $existingDetails[$testName] = array_reduce(
+                    array_keys($functions),
+                    function ($carry, $function) {
+                        $carry[$function] = 1;
+                        return $carry;
+                    },
+                    []
+                );
+            } else {
+                foreach ($functions as $functionName => $errorValue) {
+                    if (!isset($existingDetails[$testName][$functionName])) {
+                        $existingDetails[$testName][$functionName] = 1;
+                    } else {
+                        $existingDetails[$testName][$functionName]++;
                     }
                 }
             }
         }
 
+        return $existingDetails;
+    }
+
+    private function formatageErrorData($errorData)
+    {
+        $processedErrors = [];
+
+        foreach ($errorData['errors'] as $errorEntry) {
+            $processedEntry = [
+                'index' => $errorEntry['index'],
+                'errors' => []
+            ];
+
+            foreach ($errorEntry['errors'] as $testName => $functions) {
+                $processedEntry['errors'][$testName] = array_reduce($functions, function ($carry, $function) {
+                    $carry[$function] = 1;
+                    return $carry;
+                }, []);
+            }
+
+            $processedErrors[] = $processedEntry;
+        }
+
+        return $processedErrors;
     }
 
 

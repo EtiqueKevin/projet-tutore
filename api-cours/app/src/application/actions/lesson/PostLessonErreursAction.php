@@ -25,7 +25,7 @@ class PostLessonErreursAction extends AbstractAction
 
         if(!Validator::uuid()->validate($id)){
             throw new HttpBadRequestException($rq, 'id de la leçon invalide');
-        } else
+        }
 
         if (!isset($body['errors'])) {
             throw new HttpBadRequestException($rq, 'il manque des paramètres');
@@ -33,6 +33,7 @@ class PostLessonErreursAction extends AbstractAction
 
         try{
             $this->lessonService->postLessonErreurs(new ErreurDTO($id, $body['errors']));
+
 
         }catch (\Exception $e){
             throw new HttpBadRequestException($rq,$e->getMessage());
