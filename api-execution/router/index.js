@@ -23,7 +23,7 @@ async function connectToRedis() {
     console.log('✅ Connexion à Redis réussie');
 }
 
-async function redisFunction (res, streamName, resultStream, message){
+async function redisFunction (res, streamName, resultStream, message, lesson, index){
     try {
         console.log(`Stream: ${streamName}`)
         await redisClient.xAdd(streamName, '*', { data: JSON.stringify(message) });
@@ -41,6 +41,15 @@ async function redisFunction (res, streamName, resultStream, message){
                 const responseData = JSON.parse(result[0].messages[0].message.message);
                 await redisClient.xDel(resultStream, result[0].messages[0].id);
                 console.log(`✅ Résultat reçu`);
+                if (responseData.output.includes('FAILURES')){
+                    const failureMessage = responseData.output.match(/\btest\w*\s*\(.*?\)/g)
+                    console.log(failureMessage)
+                    const body = {
+                        index,
+                        error: failureMessage
+                    }
+                    await axios.post(`/lesson/${lesson}/erreurs`, body)
+                }
                 return res.status(200).json(responseData);
             }
         }
@@ -97,7 +106,7 @@ app.post('/:language', async (req, res) => {
         fileTest
     };
 
-    await redisFunction(res, streamName, resultStream, message)
+    await redisFunction(res, streamName, resultStream, message, id_lesson, index)
 });
 
 app.post('/teacher/:language', async (req, res) => {

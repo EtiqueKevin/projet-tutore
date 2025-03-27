@@ -9,7 +9,7 @@ if [ -d "$repertoire" ]; then
   javac -cp ./packageTest/junit-4.12.jar:./packageTest/hamcrest-core-1.3.jar "$repertoire"/*.java
 
   if [ -n "${filetest}" ]; then
-    java -cp ./packageTest/junit-4.12.jar:./packageTest/hamcrest-core-1.3.jar:"$repertoire" org.junit.runner.JUnitCore "$filetest" || true
+    java -cp ./packageTest/junit-4.12.jar:./packageTest/hamcrest-core-1.3.jar:"$repertoire" org.junit.runner.JUnitCore $filetest
   else
     echo "Aucun fichier de test trouvé."
   fi
