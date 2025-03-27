@@ -277,6 +277,39 @@ public class GreeterTest {
       }
     ],
     "date_update": new Date()
+},
+{
+  _id: UUID("660e8400-e29b-41d4-a716-446655440003"),
+  name: "Les bases de l'addition en Python",
+  description: "Apprendre à effectuer des additions en Python",
+  type: "langage",
+  content: [
+    {
+      "index": 0,
+      "type": "text",
+      "content": "# L'addition en Python\n\nL'addition est une opération mathématique fondamentale en programmation. En Python, elle se réalise avec l'opérateur `+`.\n\n## Points clés :\n\n- L'opérateur `+` permet d'additionner des nombres\n- Python supporte l'addition de différents types numériques (entiers, décimaux)\n- Le résultat de l'addition suit les règles mathématiques classiques"
+    },
+    {
+      index: 1,
+      type: 'code',
+      content: '## Addition simple\n\nCréez une fonction qui additionne deux nombres.\n\nPour ajouter deux nombres, utilisez l\'opérateur `+`.',
+      files: [
+        {
+          content: "def add_numbers(a: int, b: int) -> int:\n    # TODO: Retourner la somme de a et b\n    pass",
+          filename: 'Calculator.py',
+          language: 'python',
+          type: 'file'
+        },
+        {
+          content: "import pytest\nfrom Calculator import add_numbers\n\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5, 'La somme de 2 + 3 devrait être 5'\n    assert add_numbers(0, 0) == 0, 'La somme de 0 + 0 devrait être 0'\n    assert add_numbers(-2, -3) == -5, 'La somme de -2 + -3 devrait être -5'",
+          filename: 'CalculatorTest.py',
+          language: 'python',
+          type: 'test'
+        }
+      ]
+    }
+  ],
+  date_update: new Date()
 }
 ]);
 
@@ -289,6 +322,11 @@ db.module_lessons.insertMany([
     _id: UUID("770e8400-e29b-41d4-a716-446655440001"),
     id_module: UUID("550e8400-e29b-41d4-a716-446655440000"),
     id_lesson: UUID("660e8400-e29b-41d4-a716-446655440001")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440003"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440004"), // ID of the Python module
+    id_lesson: UUID("660e8400-e29b-41d4-a716-446655440003")
   }
 ]);
 

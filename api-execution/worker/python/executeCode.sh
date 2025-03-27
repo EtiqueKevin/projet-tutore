@@ -7,7 +7,7 @@ repertoire=$1
 # Vérifie si le répertoire existe
 if [ -d "$repertoire" ]; then
 
-  filetest=$(find "$repertoire" -type f -name "*_test.py")
+  filetest=$(find "$repertoire" -type f -name "*Test.py")
   echo "$filetest"
 
   if [ -n "$filetest" ]; then
