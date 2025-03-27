@@ -14,7 +14,7 @@ const props = defineProps({
     hover: {
         type: String,
         required: false,
-        default: "hover:text-primary-dark dark:hover:text-primary-light"
+        default: "hover:text-primary-dark dark:hover:text-primary-light hover:scale-105"
     },
     other: {
         type: String,
@@ -28,7 +28,7 @@ const props = defineProps({
     <RouterLink 
         :to="to" 
         :title="title" 
-        :class="`${hover} ${other} font-bold text-lg text-center transform hover:scale-105 dark:text-white text-main-dark`"
+        :class="`${hover} ${other} font-bold text-lg text-center transform dark:text-white text-main-dark`"
     >
         <slot></slot>
     </RouterLink>

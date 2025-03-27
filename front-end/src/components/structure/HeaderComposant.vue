@@ -11,7 +11,12 @@ const router = useRouter();
 const userStore = useUserStore();
 const isMobileMenuOpen = ref(false);
 
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false;
+};
+
 const logOut = async () => {
+  closeMobileMenu();
   await router.push('/');
   userStore.signOut();
 };
@@ -28,6 +33,7 @@ const toggleMobileMenu = () => {
       <div class="flex items-center justify-between h-12">
         <!-- Logo -->
         <router-link to="/" 
+                     @click="closeMobileMenu"
                      class="flex-shrink-0 flex items-center hover:opacity-80" 
                      title="Retour a l'accueil">
           <img class="h-8 w-auto" src="@/assets/logo.png" alt="Logo" />
@@ -89,7 +95,7 @@ const toggleMobileMenu = () => {
                          v-if="userStore.isAdmin"
                          title="Accéder au Back Office" 
                          class="dark:text-white text-main-dark hover:text-primary-dark dark:hover:text-primary-light">
-              <i class="fas fa-cog"></i>
+              <i class="fas fa-shield"></i>
             </RouterButton>
             <RouterButton :to="'/user/profile'" title="Mon profil" :other="'min-w-8 h-8'">
               <img :src="userStore.getImage" class="w-8 h-8 rounded-full" />
@@ -108,13 +114,16 @@ const toggleMobileMenu = () => {
             <!-- User Profile Section (if logged in) -->
             <div v-if="userStore.isLogged" class="p-4 border-b dark:border-gray-700 border-gray-200">
               <div class="flex items-center space-x-3">
-                <RouterButton :to="'/user/profile'" title="Mon profil" :other="'min-w-8 h-8 flex items-center gap-2'">
-                <img :src="userStore.getImage" class="w-12 h-12 rounded-full" :key="userStore.getImage" />
-                <div>
-                  <h3 class="font-bold dark:text-white text-main-dark">{{ userStore.getName }}</h3>
-                  <p class="text-sm text-gray-500 dark:text-gray-400">{{ userStore.getEmail }}</p>
-                </div>
-              </RouterButton>
+                <RouterButton :to="'/user/profile'" 
+                            @click="closeMobileMenu"
+                            title="Mon profil" 
+                            :other="'min-w-8 h-8 flex items-center gap-2'">
+                  <img :src="userStore.getImage" class="w-12 h-12 rounded-full" :key="userStore.getImage" />
+                  <div>
+                    <h3 class="font-bold dark:text-white text-main-dark">{{ userStore.getName }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ userStore.getEmail }}</p>
+                  </div>
+                </RouterButton>
               </div>
             </div>
 
@@ -124,6 +133,7 @@ const toggleMobileMenu = () => {
               <div class="space-y-3">
                 <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Navigation</h3>
                 <RouterButton :to="'/modules'" 
+                            @click="closeMobileMenu"
                             class="w-full justify-start py-2"
                             title="Voir les modules">
                   <i class="fas fa-th-large w-5"></i>
@@ -135,13 +145,17 @@ const toggleMobileMenu = () => {
               <div v-if="userStore.isTeacher" class="space-y-3">
                 <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Espace Professeur</h3>
                 <RouterButton :to="'/teacher/modules'" 
-                            :other="'block text-left'"
+                            @click="closeMobileMenu"
+                            :other="'block text-left w-full flex items-center'"
+                            :hover="'hover:text-primary-dark dark:hover:text-primary-light'"
                             title="Gérer mes modules">
                   <i class="fas fa-book w-5"></i>
                   <span class="ml-3">Mes modules</span>
                 </RouterButton>
                 <RouterButton :to="'/teacher/statistics'" 
-                            :other="'block text-left'"
+                            @click="closeMobileMenu"
+                            :other="'block text-left w-full flex items-center'"
+                            :hover="'hover:text-primary-dark dark:hover:text-primary-light'"
                             title="Mes statistiques">
                   <i class="fa-solid fa-chart-line w-5"></i>
                   <span class="ml-3">Mes Statistiques</span>
@@ -152,9 +166,10 @@ const toggleMobileMenu = () => {
               <div v-if="userStore.isAdmin" class="space-y-3">
                 <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Administration</h3>
                 <RouterButton :to="'/admin'"
+                            @click="closeMobileMenu"
                             class="w-full justify-start py-2"
                             title="Accéder au Back Office">
-                  <i class="fas fa-cog w-5"></i>
+                  <i class="fas fa-shield w-5"></i>
                   <span class="ml-3">Administration</span>
                 </RouterButton>
               </div>
@@ -172,6 +187,7 @@ const toggleMobileMenu = () => {
             <div class="border-t dark:border-gray-700 border-gray-200 p-4">
               <template v-if="!userStore.isLogged">
                 <RouterButton :to="'/user/connect'" 
+                            @click="closeMobileMenu"
                             class="w-full justify-center py-2 text-gray-500 dark:text-gray-400 rounded-lg"
                             title="Se connecter">
                   <i class="fas fa-power-off"></i>
