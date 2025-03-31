@@ -48,8 +48,7 @@ async function startWorker() {
                     let newDir = await createDir();
                     await execPromise(createFiles(newDir, {codes, testCode, fileTest}));
                     output = await traitementCode(newDir, 'python');
-                    const match = output.replace(/\n\t.*?(?=\n\t|$)/g, "");
-                    output = match
+                    output = output.replace(/\n\t.*?(?=\n\t|$)/g, "")
                     Logger.info(`✅ Résultat envoyé pour la requête `);
                 } catch (err) {
                     error = err.message;

@@ -11,7 +11,8 @@ if [ -d "$repertoire" ]; then
   echo "$filetest"
 
   if [ -n "$filetest" ]; then
-    pytest "$filetest"
+     echo "$filetest"
+     pytest "$filetest"
   else
     echo "Aucun fichier de test trouvé."
   fi
