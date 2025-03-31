@@ -211,9 +211,9 @@ class LessonRepository implements LessonRepositoryInterface
      * postLessonErreur est la fonction principale : enregistre de nouvelles erreurs pour une leçon, elle coordonne et utilise les autres fonctions
      * fusionErrorArrays : fusionne deux tableaux d'erreurs (dans le cas ou il y a déjà des données, fusionne les données existantes avec les nouvelles)
      * fusionErrorDetails : fusionne les détails des erreurs avec incrémentation (appelé dans un foreach)
-     * formatageErrorData : Transforme les données d'erreur entrantes au format plus traitable par MongoDB
-     * 
+     * formatageErrorData : permet de changer le format des erreurs
      */
+
     public function postLessonErreurs(Erreur $erreur): void
     {
 
@@ -283,9 +283,9 @@ class LessonRepository implements LessonRepositoryInterface
             if (!isset($existingDetails[$testName])) {
                 $existingDetails[$testName] = array_reduce(
                     array_keys($functions),
-                    function ($carry, $function) {
-                        $carry[$function] = 1;
-                        return $carry;
+                    function ($t, $function) {
+                        $t[$function] = 1;
+                        return $t;
                     },
                     []
                 );
@@ -314,9 +314,9 @@ class LessonRepository implements LessonRepositoryInterface
             ];
 
             foreach ($errorEntry['errors'] as $testName => $functions) {
-                $processedEntry['errors'][$testName] = array_reduce($functions, function ($carry, $function) {
-                    $carry[$function] = 1;
-                    return $carry;
+                $processedEntry['errors'][$testName] = array_reduce($functions, function ($c, $function) {
+                    $c[$function] = 1;
+                    return $c;
                 }, []);
             }
 
