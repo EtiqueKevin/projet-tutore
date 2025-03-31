@@ -2,19 +2,28 @@ import { defineStore } from 'pinia'
 
 export const useLessonStore = defineStore('jeanCademieLesson', {
     state: () => ({
-        currentLesson: {
-            id: null,
-            moduleId: null,
-            type: '',
-            title: '',
-            description: '',
-            content: [],
-        }
+        lessons: {},
+        activeUserEmail: null
     }),
 
     actions: {
+        setActiveUser(email) {
+            this.activeUserEmail = email;
+            if (!this.lessons[email]) {
+                this.lessons[email] = {
+                    id: null,
+                    moduleId: null,
+                    type: '',
+                    title: '',
+                    description: '',
+                    content: [],
+                }
+            }
+        },
+
         clearCurrentLesson() {
-            this.currentLesson = {
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail] = {
                 id: null,
                 title: '',
                 description: '',
@@ -25,19 +34,23 @@ export const useLessonStore = defineStore('jeanCademieLesson', {
         },
 
         addContent(content) {
-            this.currentLesson.content.push(content);
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail].content.push(content);
         },
         
         updateContent(index, content) {
-            this.currentLesson.content[index] = content;
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail].content[index] = content;
         },
         
         overWriteContent(content) {
-            this.currentLesson.content = content;
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail].content = content;
         },
 
-        setLesson(lesson, id){
-            this.currentLesson = {
+        setLesson(lesson, id) {
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail] = {
                 id: lesson.id,
                 title: lesson.name,
                 description: lesson.description,
@@ -47,30 +60,36 @@ export const useLessonStore = defineStore('jeanCademieLesson', {
             }
         },
 
-        setModuleId(id){
-            this.currentLesson.moduleId = id;
+        setModuleId(id) {
+            if (!this.activeUserEmail) return;
+            this.lessons[this.activeUserEmail].moduleId = id;
         },
 
-        async saveCurrentLesson(){
-            try{
-                if(this.currentLesson.id === null){
-                    const res = await this.$api.post('modules/'+this.currentLesson.moduleId+'/lessons', {
-                        name: this.currentLesson.title,
-                        description: this.currentLesson.description,
-                        type: this.currentLesson.type,
-                        content: this.currentLesson.content
+        async saveCurrentLesson() {
+            if (!this.activeUserEmail) return false;
+            const currentLesson = this.lessons[this.activeUserEmail];
+
+            try {
+                if (currentLesson.id === null) {
+                    const res = await this.$api.post('modules/' + currentLesson.moduleId + '/lessons', {
+                        name: currentLesson.title,
+                        description: currentLesson.description,
+                        type: currentLesson.type,
+                        content: currentLesson.content,
+                        userEmail: this.activeUserEmail
                     });
-                }else{
-                    const res = await this.$api.put('lessons/'+this.currentLesson.id, {
-                        name: this.currentLesson.title,
-                        description: this.currentLesson.description,
-                        type: this.currentLesson.type,
-                        content: this.currentLesson.content
+                } else {
+                    const res = await this.$api.put('lessons/' + currentLesson.id, {
+                        name: currentLesson.title,
+                        description: currentLesson.description,
+                        type: currentLesson.type,
+                        content: currentLesson.content,
+                        userEmail: this.activeUserEmail
                     });
                 }
                 this.clearCurrentLesson();
                 return true;
-            }catch(e){
+            } catch(e) {
                 console.log(e);
                 return false;
             }
@@ -78,23 +97,28 @@ export const useLessonStore = defineStore('jeanCademieLesson', {
     },
 
     getters: {
-        getCurrentLesson(state){
-            return state.currentLesson;
+        getCurrentLesson(state) {
+            return state.activeUserEmail ? state.lessons[state.activeUserEmail] : null;
         },
-        isLessonEmpty(state){
-            return state.currentLesson.title === '' && state.currentLesson.description === '' && state.currentLesson.content.length === 0;
+        isLessonEmpty(state) {
+            if (!state.activeUserEmail) return true;
+            const lesson = state.lessons[state.activeUserEmail];
+            return lesson.title === '' && lesson.description === '' && lesson.content.length === 0;
         },
-        isInit(state){
-            return state.currentLesson.moduleId !== null
+        isInit(state) {
+            if (!state.activeUserEmail) return false;
+            return state.lessons[state.activeUserEmail].moduleId !== null;
         },
-        isValid(state){
-            return state.currentLesson.title !== '' && state.currentLesson.description !== '' && state.currentLesson.content.length !== 0;
+        isValid(state) {
+            if (!state.activeUserEmail) return false;
+            const lesson = state.lessons[state.activeUserEmail];
+            return lesson.title !== '' && lesson.description !== '' && lesson.content.length !== 0;
         }
     },
     persist: {
         enabled: true,
         strategies: [
-            { storage: localStorage, paths: ['currentLesson'] }
+            { storage: localStorage, paths: ['lessons', 'activeUserEmail'] }
         ]
     }
 })

@@ -107,6 +107,7 @@ onMounted(() => {
       <Console 
         v-if="(!isMobile || page === 2) && isLoaded" 
         :results="consoleOutput" 
+        :language="files[0].language"
         :class="isMobile ? 'w-full' : 'w-[20%] h-full overflow-y-auto'"
       />
     </template>

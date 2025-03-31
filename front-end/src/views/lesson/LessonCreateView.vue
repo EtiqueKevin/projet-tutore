@@ -118,19 +118,19 @@ const isEditingLesson = computed(() => mode.value === 0 || mode.value === 1 || m
         <h1 class="text-2xl mb-4 text-black dark:text-white">Création d'un cours</h1>
         <input 
           type="text" 
-          v-model="lessonStore.currentLesson.title" 
+          v-model="cours.title" 
           placeholder="Titre du cours" 
           class="w-full mb-4 p-2 border text-black"
         >
         <textarea 
-          v-model="lessonStore.currentLesson.description" 
+          v-model="cours.description" 
           placeholder="Description du cours" 
           class="w-full mb-4 p-2 border text-black"
         ></textarea>
 
         <input
           type="text"
-          v-model="lessonStore.currentLesson.type"
+          v-model="cours.type"
           placeholder="Type du cours (ex: java, python, ...)"
           class="w-full mb-4 p-2 border text-black"
         >
@@ -140,7 +140,7 @@ const isEditingLesson = computed(() => mode.value === 0 || mode.value === 1 || m
 
       <LessonCreateContentEditor
         v-if="mode === 1"
-        v-model:content="lessonStore.currentLesson.content"
+        v-model:content="cours.content"
         @editExercice="editExercice"
         @editQuizz="editQuizz"
         @dragover="allowDrop"

@@ -1,14 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useToast } from 'vue-toastification'
 import { useUserStore } from '@/stores/user';
+import { useLessonStore } from '@/stores/lesson';
 import InputField from '@/components/structure/forms/inputs/InputField.vue'
 import PasswordInputField from '@/components/structure/forms/inputs/PasswordInputField.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
-const toast = useToast();
+const lessonStore = useLessonStore();
 
 const email = ref('');
 const password = ref('');
@@ -20,6 +20,7 @@ const formValid = computed(() => {
 const handleSubmit = async () => {
     if (!formValid.value) return
     const success = await userStore.signIn(email.value, password.value);
+    lessonStore.setActiveUser(email.value);
     if (success) {
         const redirectPath = router.currentRoute.value.redirectedFrom?.name || 'home';
         const redirectParams = router.currentRoute.value.redirectedFrom?.params || {};
