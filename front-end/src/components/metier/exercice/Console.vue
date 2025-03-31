@@ -4,18 +4,29 @@ const props = defineProps({
         type: Object,
         required: false,
         default: null
+    },
+    language: {
+        type: String,
+        required: false,
+        default: 'java'
     }
 });
 
 const isSuccess = () => {
     if (!props.results) return false;
+    
+    if (props.language === 'python') {
+        return props.results.status === 200 && 
+               props.results.error === '' && 
+               props.results.output?.includes('xpassed');
+    }
+    
     return props.results.status === 200 && 
            props.results.error === '' && 
-           !props.results.output?.includes('FAILURES!!!');
+           props.results.output?.includes('OK');
 };
 
 const getStatusIcon = () => {
-    
     if(!props.results) return 'fas fa-circle-minus text-yellow-500 dark:text-yellow-500';
     if(props.results.error === '' && props.results.output === '') return 'hidden';
 
@@ -24,6 +35,30 @@ const getStatusIcon = () => {
 
 const formatOutput = (text) => {
     return text.split('\n').filter(line => line.trim() !== '');
+};
+
+const getLineClass = (line) => {
+    // Common success patterns
+    if (line.includes('OK') || line.includes('xpassed')) {
+        return 'text-green-800 dark:text-green-500';
+    }
+    
+    // Common error patterns
+    if (line.includes('FAILURES!!!') || 
+        line.includes('failure') || 
+        line.includes('error:') ||
+        line.includes('xfailed')) {
+        return 'text-red-800 dark:text-red-500';
+    }
+    
+    // Time information
+    if (line.includes('Time:') || 
+        line.includes('test session starts') ||
+        line.includes('collected')) {
+        return 'text-yellow-800 dark:text-yellow-500';
+    }
+    
+    return '';
 };
 </script>
 
@@ -39,11 +74,7 @@ const formatOutput = (text) => {
             <template v-if="results.output">
                 <div v-for="(line, index) in formatOutput(results.output)" 
                      :key="index"
-                     :class="{
-                         'text-green-800 dark:text-green-500': line.includes('OK'),
-                         'text-red-800 dark:text-red-500': line.includes('FAILURES!!!') || line.includes('failure'),
-                         'text-yellow-800 dark:text-yellow-500': line.includes('Time:')
-                     }">
+                     :class="getLineClass(line)">
                     {{ line }}
                 </div>
             </template>
@@ -64,11 +95,3 @@ const formatOutput = (text) => {
         </div>
     </div>
 </template>
-
-<style scoped>
-.console-content {
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
-</style>

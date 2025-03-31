@@ -76,7 +76,7 @@ const isMobile = computed(() => window.innerWidth < 768);
           </div>
       </div>
       <Editor :files="exercicefiles" class="w-[60%] border-r-2 dark:border-gray-300 border-slate-800" v-if="!isMobile || page === 1"/>
-      <Console :results="consoleResults" class="w-[20%]" v-if="!isMobile || page === 2"/>
+      <Console :results="consoleResults" :language="exercicefiles[0].language" class="w-[20%]" v-if="!isMobile || page === 2"/>
   </main>
 </template>
 

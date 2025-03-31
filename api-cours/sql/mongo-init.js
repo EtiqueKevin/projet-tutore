@@ -301,7 +301,7 @@ public class GreeterTest {
           type: 'file'
         },
         {
-          content: "import pytest\nfrom Calculator import add_numbers\n\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5, 'La somme de 2 + 3 devrait être 5'\n    assert add_numbers(0, 0) == 0, 'La somme de 0 + 0 devrait être 0'\n    assert add_numbers(-2, -3) == -5, 'La somme de -2 + -3 devrait être -5'",
+          content: "import pytest\nfrom Calculator import add_numbers\n\n@pytest.mark.xfail\ndef test_add_numbers():\n    assert add_numbers(2, 3) == 5, 'La somme de 2 + 3 devrait être 5'\n    assert add_numbers(0, 0) == 0, 'La somme de 0 + 0 devrait être 0'\n    assert add_numbers(-2, -3) == -5, 'La somme de -2 + -3 devrait être -5'",
           filename: 'CalculatorTest.py',
           language: 'python',
           type: 'test'
