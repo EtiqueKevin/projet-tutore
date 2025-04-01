@@ -83,12 +83,27 @@ export function useTeacher() {
         }
     }
 
+    async function correctCode(langage, codes, test){
+        try{
+            const res = await api.post(`/teacher/${langage}`, {
+                codes: codes,
+                fileTest: test.fileName,
+                testCode: test.code
+            })
+            return res.data;
+        }catch(error){
+            console.error(error);
+            return {output: "", error: "", status: ""};
+        }
+    }
+
     return {
         postModule,
         deleteModule,
         putModule,
         deleteLesson,
         getModuleUser,
-        getErrorsByModule
+        getErrorsByModule,
+        correctCode
     }
 }

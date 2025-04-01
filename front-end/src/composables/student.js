@@ -119,7 +119,6 @@ export function useStudent() {
         }
         if(lesson.content[nbContent].type === 'code') {
             const files =  lesson.content[nbContent].files.filter(file => file.type === 'file')
-            console.log(files)
             lesson.content[nbContent].files = files
         }
         return lesson.content[nbContent]
@@ -132,7 +131,6 @@ export function useStudent() {
                 index: nbContent,
                 codes: files
             })
-            console.log(res)
             return res.data;
         }catch(error) {
             console.log(error)

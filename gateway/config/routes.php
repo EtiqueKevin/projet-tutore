@@ -107,6 +107,9 @@ return function( App $app): App {
      *************************/
     $app->post('/{language}', GeneriqueExecutionAction::class)
         ->setName('execution');
+    
+    $app->post('/teacher/{language}', GeneriqueExecutionAction::class)
+        ->setName('execution-teacher');
 
 
     return $app;

@@ -85,7 +85,6 @@ const switchToCoursCreateView = () => {
 };
 
 const saveContent = (exercice) => {
-  console.log(exercice);
   lessonStore.updateContent(currentExerciceIndex.value, exercice);
   switchToCoursCreateView();
 };
