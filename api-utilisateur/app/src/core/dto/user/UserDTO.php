@@ -36,4 +36,17 @@ class UserDTO extends DTO{
 
        ];
     }
+
+    public function getLinkPic(): ?string
+    {
+        return $this->linkpic;
+    }
+    public function getNom(): string
+    {
+        return $this->name;
+    }
+    public function getPrenom(): string
+    {
+        return $this->surname;
+    }
 }

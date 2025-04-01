@@ -27,8 +27,12 @@ class GetUserById extends AbstractAction{
         $user = $this->usersService->getUsersId($id);
 
         $response = [
-            "type"=>"ressource",
-            "user"=>$user,
+            "type" => "ressource",
+            "user" => [
+                "linkpic" => $user->getLinkPic(),
+                "name" => $user->getNom(),
+                "surname" => $user->getPrenom()
+            ]
         ];
 
         $rs->getBody()->write(json_encode($response));
