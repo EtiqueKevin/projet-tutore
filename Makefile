@@ -19,6 +19,7 @@ define auth_setup
 		db_pass=$${db_pass:-root}; \
 		sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$$db_user/" ./api-auth/env/db.env; \
 		sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$$db_pass/" ./api-auth/env/db.env; \
+		sed -i "s/POSTGRES_DB=.*/POSTGRES_DB=auth/" ./api-auth/env/db.env; \
 		sed -i "s/username=.*/username=$$db_user/" ./api-auth/app/config/iniconf/auth.db.ini; \
 		sed -i "s/password=.*/password=$$db_pass/" ./api-auth/app/config/iniconf/auth.db.ini; \
 		echo "\nConfiguration de la base de données mise à jour avec succès !"; \
@@ -46,6 +47,7 @@ define cours_setup
 		db_pass=$${db_pass:-root}; \
 		sed -i "s/MONGO_INITDB_ROOT_USERNAME=.*/MONGO_INITDB_ROOT_USERNAME=$$db_user/" ./api-cours/env/db.env; \
 		sed -i "s/MONGO_INITDB_ROOT_PASSWORD=.*/MONGO_INITDB_ROOT_PASSWORD=$$db_pass/" ./api-cours/env/db.env; \
+		sed -i "s/MONGO_INITDB_DATABASE=.*/MONGO_INITDB_DATABASE=cours/" ./api-cours/env/db.env; \
 		sed -i "s/ME_CONFIG_MONGODB_AUTH_USERNAME=.*/ME_CONFIG_MONGODB_AUTH_USERNAME=$$db_user/" ./api-cours/env/mongoexpress.env; \
 		sed -i "s/ME_CONFIG_MONGODB_AUTH_PASSWORD=.*/ME_CONFIG_MONGODB_AUTH_PASSWORD=$$db_pass/" ./api-cours/env/mongoexpress.env; \
 		sed -i "s/username=.*/username=$$db_user/" ./api-cours/app/config/iniconf/cours.db.ini; \
@@ -68,6 +70,7 @@ define utilisateur_setup
 		db_pass=$${db_pass:-root}; \
 		sed -i "s/POSTGRES_USER=.*/POSTGRES_USER=$$db_user/" ./api-utilisateur/env/db.env; \
 		sed -i "s/POSTGRES_PASSWORD=.*/POSTGRES_PASSWORD=$$db_pass/" ./api-utilisateur/env/db.env; \
+		sed -i "s/POSTGRES_DB=.*/POSTGRES_DB=utilisateur/" ./api-utilisateur/env/db.env; \
 		sed -i "s/username=.*/username=$$db_user/" ./api-utilisateur/app/config/iniconf/utilisateur.db.ini; \
 		sed -i "s/password=.*/password=$$db_pass/" ./api-utilisateur/app/config/iniconf/utilisateur.db.ini; \
 		echo "\nConfiguration de la base de données mise à jour avec succès !"; \
