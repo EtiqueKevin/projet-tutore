@@ -36,6 +36,7 @@ const generateTableOfContents = () => {
     const toc = [];
     let textCounter = 1;
     let exerciseCounter = 1;
+    let quizzCounter = 1;
     
     cours.value.content.forEach(item => {
         if (item.type === 'text') {
@@ -56,6 +57,13 @@ const generateTableOfContents = () => {
                 index: item.index
             });
             exerciseCounter++;
+        } else if (item.type === 'quizz') {
+            toc.push({
+                title: `Quizz ${quizzCounter}`,
+                type: 'quizz',
+                index: item.index
+            });
+            quizzCounter++;
         }
     });
     
@@ -150,8 +158,11 @@ onMounted(async () => {
                         <span v-if="item.type === 'text'" class="text-gray-600 dark:text-gray-400 flex-shrink-0 w-5">
                             <i class="fas fa-book-open text-xs"></i>
                         </span>
-                        <span v-else class="text-blue-600 dark:text-blue-400 flex-shrink-0 w-5">
+                        <span v-else-if="item.type === 'code'" class="text-blue-600 dark:text-blue-400 flex-shrink-0 w-5">
                             <i class="fas fa-code text-xs"></i>
+                        </span>
+                        <span v-else-if="item.type === 'quizz'" class="text-green-600 dark:text-green-400 flex-shrink-0 w-5">
+                            <i class="fas fa-question-circle text-xs"></i>
                         </span>
                         <span class="text-gray-700 dark:text-gray-300 truncate">
                             {{ item.type === 'text' ? item.title.split(':')[1].trim() : item.title }}
