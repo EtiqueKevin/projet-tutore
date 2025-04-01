@@ -46,7 +46,7 @@ cd projet-tutore
 ```bash
 sudo make install
 ```
-> [!Caution]
+> [!NOTE]
 > Répondre "y" lorsque le makefile vous le demande pour configurer les mots de passes des bases de données.
 
 
@@ -59,5 +59,18 @@ cd projet-tutore
 ```bash
 make update
 ```
-> [!Caution]
+> [!NOTE]
 > Répondre "y" lorsque le makefile vous le demande pour configurer les mots de passes des bases de données.
+
+### Reset de l'environnement
+1. Se placer dans le dossier du projet
+```bash
+cd projet-tutore
+```
+2. Lancer le makefile avec droits administrateurs (nécéssaire pour supprimer les dépendances)
+```bash
+sudo make reset
+```
+
+> [!NOTE]
+> Cela supprimera aussi les volumes de docker, ce qui supprimera toutes les données de la base de données. Il est donc conseillé de faire un backup avant de faire cette opération.
