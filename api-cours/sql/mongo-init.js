@@ -48,7 +48,7 @@ db.modules.insertMany([
     description: "Utilisation de Python pour l'automatisation des tâches répétitives",
     nblesson: 2,
     date_update: new Date()
-  },
+  }
 ]);
 
 db.lessons.insertMany([
@@ -135,7 +135,65 @@ public class GreeterTest {
             type: 'test'
           }
         ]
+      },
+      {
+        "index": 4,
+        "type": "quizz",
+        "content": "Les bases des fonctions en Java",
+        "questions": [
+          {
+            "question": "Comment définit-on une fonction en Java ?",
+            "options": [
+              "def maFonction() {}",
+              "function maFonction() {}",
+              "void maFonction() {}",
+              "public void maFonction() {}"
+            ],
+            "correctAnswer": 3
+          },
+          {
+            "question": "Quelle est la valeur de retour d'une fonction déclarée avec void ?",
+            "options": [
+              "null",
+              "void",
+              "Aucune",
+              "0"
+            ],
+            "correctAnswer": 2
+          },
+          {
+            "question": "Comment appelle-t-on une fonction statique 'calcul' de la classe 'Utils' ?",
+            "options": [
+              "Utils.calcul()",
+              "calcul(Utils)",
+              "new Utils().calcul()",
+              "Utils->calcul()"
+            ],
+            "correctAnswer": 0
+          },
+          {
+            "question": "Quel mot-clé est utilisé pour retourner une valeur dans une fonction ?",
+            "options": [
+              "break",
+              "return",
+              "exit",
+              "yield"
+            ],
+            "correctAnswer": 1
+          },
+          {
+            "question": "Que se passe-t-il si une fonction retourne un entier mais ne contient pas d'instruction return ?",
+            "options": [
+              "La valeur 0 est retournée par défaut",
+              "Le programme ne compile pas",
+              "Une exception est levée à l'exécution",
+              "Une valeur aléatoire est retournée"
+            ],
+            "correctAnswer": 1
+          }
+        ]
       }
+
     ],
     date_update: new Date()
   },
@@ -307,7 +365,65 @@ public class GreeterTest {
           type: 'test'
         }
       ]
+    },
+    {
+      index: 2,
+      "type": "quizz",
+      "content": "Additions en Python",
+      "questions": [
+        {
+          "question": "Quel est l'opérateur d'addition en Python ?",
+          "options": [
+            "+",
+            "-",
+            "/",
+            "%"
+          ],
+          "correctAnswer": 0
+        },
+        {
+          "question": "Quel est le résultat de 5 + 3 en Python ?",
+          "options": [
+            "53",
+            "8",
+            "2",
+            "15"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "Comment additionner deux variables a et b en Python ?",
+          "options": [
+            "add(a,b)",
+            "a plus b",
+            "a + b",
+            "a & b"
+          ],
+          "correctAnswer": 2
+        },
+        {
+          "question": "Que fait l'opérateur += en Python ?",
+          "options": [
+            "Il soustrait puis assigne",
+            "Il additionne puis assigne",
+            "Il multiplie puis assigne",
+            "Il compare deux valeurs"
+          ],
+          "correctAnswer": 1
+        },
+        {
+          "question": "Quel est le résultat de '123' + '456' en Python ?",
+          "options": [
+            "579",
+            "Erreur",
+            "123456",
+            "909"
+          ],
+          "correctAnswer": 2
+        }
+      ]
     }
+
   ],
   date_update: new Date()
 },
