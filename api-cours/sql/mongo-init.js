@@ -14,7 +14,7 @@ db.modules.insertMany([
     id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Programmation Orientée Objet en Java",
     description: "Approfondissement des concepts de la POO avec Java",
-    nblesson: 0,
+    nblesson: 2,
     date_update: new Date()
   },
   {
@@ -22,7 +22,7 @@ db.modules.insertMany([
     id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Structures de Données et Algorithmes en Java",
     description: "Étude des structures de données et des algorithmes classiques en Java",
-    nblesson: 0,
+    nblesson: 2,
     date_update: new Date()
   },
   {
@@ -38,7 +38,7 @@ db.modules.insertMany([
     id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Programmation Orientée Objet en Python",
     description: "Exploration des principes de la POO avec Python",
-    nblesson: 0,
+    nblesson: 2,
     date_update: new Date()
   },
   {
@@ -46,7 +46,7 @@ db.modules.insertMany([
     id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
     name: "Automatisation avec Python",
     description: "Utilisation de Python pour l'automatisation des tâches répétitives",
-    nblesson: 0,
+    nblesson: 2,
     date_update: new Date()
   },
 ]);
@@ -611,10 +611,309 @@ public class GreeterTest {
     ],
     date_update: new Date()
   },
+  {
+    "_id": UUID("aec53a95-cc7c-4632-977c-50aca2454f60"),
+    "name": "Les listes chaînées en Java",
+    "description": "Comprendre et implémenter une liste chaînée simple en Java",
+    "type": "algorithmes",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Les listes chaînées en Java\n\nUne liste chaînée est une structure de données linéaire composée de nœuds, où chaque nœud contient une donnée et une référence vers le nœud suivant.\n\n## Points clés :\n\n- Structure dynamique (taille variable)\n- Insertion et suppression efficaces (O(1) si on connaît le nœud)\n- Accès séquentiel (O(n) dans le pire des cas)\n- Implémentation à l'aide de classes Node et LinkedList"
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Implémentation d'une liste chaînée\n\nCréez une classe `Node` et une classe `LinkedList` pour implémenter une liste chaînée simple.\n\nLa classe LinkedList doit implémenter les méthodes suivantes :\n- `add(int value)` : ajoute un élément à la fin de la liste\n- `get(int index)` : retourne l'élément à l'index spécifié\n- `size()` : retourne la taille de la liste",
+        "files": [
+          {
+            "content": "public class Node {\n    private int data;\n    private Node next;\n    \n    public Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n    \n    public int getData() {\n        return data;\n    }\n    \n    public void setData(int data) {\n        this.data = data;\n    }\n    \n    public Node getNext() {\n        return next;\n    }\n    \n    public void setNext(Node next) {\n        this.next = next;\n    }\n}\n\npublic class LinkedList {\n    private Node head;\n    private int size;\n    \n    public LinkedList() {\n        this.head = null;\n        this.size = 0;\n    }\n    \n    public void add(int value) {\n        // TODO: Ajouter un nouvel élément à la fin de la liste\n        // Créer un nouveau nœud avec la valeur donnée\n        // Si la liste est vide, le nouveau nœud devient la tête\n        // Sinon, parcourir la liste jusqu'au dernier nœud et l'attacher\n        // N'oubliez pas d'incrémenter la taille\n        pass;\n    }\n    \n    public int get(int index) {\n        // TODO: Retourner l'élément à l'index spécifié\n        // Vérifier si l'index est valide\n        // Parcourir la liste jusqu'à l'index et retourner la valeur\n        return 0;\n    }\n    \n    public int size() {\n        // TODO: Retourner la taille de la liste\n        return 0;\n    }\n}",
+            "filename": "LinkedList.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "import org.junit.Test;\nimport static org.junit.Assert.*;\n\npublic class LinkedListTest {\n    @Test\n    public void testEmptyList() {\n        LinkedList list = new LinkedList();\n        assertEquals(0, list.size());\n    }\n    \n    @Test\n    public void testAddOneElement() {\n        LinkedList list = new LinkedList();\n        list.add(10);\n        assertEquals(1, list.size());\n        assertEquals(10, list.get(0));\n    }\n    \n    @Test\n    public void testAddMultipleElements() {\n        LinkedList list = new LinkedList();\n        list.add(10);\n        list.add(20);\n        list.add(30);\n        assertEquals(3, list.size());\n        assertEquals(10, list.get(0));\n        assertEquals(20, list.get(1));\n        assertEquals(30, list.get(2));\n    }\n    \n    @Test(expected = IndexOutOfBoundsException.class)\n    public void testGetInvalidIndex() {\n        LinkedList list = new LinkedList();\n        list.add(10);\n        list.get(1); // Devrait lancer une exception\n    }\n}",
+            "filename": "LinkedListTest.java",
+            "language": "java",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    "_id": UUID("aec53a95-cc7c-4632-977c-50aca2454f61"),
+    "name": "Implémentation d'un tri à bulles en Java",
+    "description": "Apprendre à implémenter l'algorithme de tri à bulles et comprendre sa complexité",
+    "type": "algorithmes",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Le tri à bulles en Java\n\nLe tri à bulles est un algorithme de tri simple qui parcourt plusieurs fois un tableau, compare les éléments adjacents et les échange si nécessaire.\n\n## Points clés :\n\n- Algorithme simple à implémenter\n- Complexité temporelle : O(n²) dans le pire et cas moyen\n- Complexité spatiale : O(1) (tri en place)\n- Stable (préserve l'ordre des éléments égaux)\n- Inefficace pour les grands tableaux"
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Implémentation du tri à bulles\n\nCréez une classe `BubbleSort` qui implémente l'algorithme de tri à bulles.\n\nLa méthode `sort(int[] array)` doit trier le tableau en place.",
+        "files": [
+          {
+            "content": "public class BubbleSort {\n    \n    /**\n     * Trie un tableau d'entiers en utilisant l'algorithme du tri à bulles\n     * @param array Le tableau à trier\n     */\n    public void sort(int[] array) {\n        // TODO: Implémenter l'algorithme de tri à bulles\n        // 1. Parcourir le tableau plusieurs fois\n        // 2. À chaque parcours, comparer les éléments adjacents\n        // 3. Échanger les éléments si celui de gauche est plus grand que celui de droite\n        // 4. Optimisation possible : arrêter si aucun échange n'a été effectué lors d'un parcours\n    }\n    \n    /**\n     * Échange deux éléments dans un tableau\n     * @param array Le tableau contenant les éléments\n     * @param i L'index du premier élément\n     * @param j L'index du second élément\n     */\n    private void swap(int[] array, int i, int j) {\n        // TODO: Échanger les éléments aux indices i et j dans le tableau\n    }\n}",
+            "filename": "BubbleSort.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "import org.junit.Test;\nimport static org.junit.Assert.*;\n\npublic class BubbleSortTest {\n    \n    @Test\n    public void testEmptyArray() {\n        int[] array = {};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(array);\n        assertArrayEquals(new int[]{}, array);\n    }\n    \n    @Test\n    public void testSingleElement() {\n        int[] array = {5};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(array);\n        assertArrayEquals(new int[]{5}, array);\n    }\n    \n    @Test\n    public void testSortedArray() {\n        int[] array = {1, 2, 3, 4, 5};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(array);\n        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, array);\n    }\n    \n    @Test\n    public void testReverseSortedArray() {\n        int[] array = {5, 4, 3, 2, 1};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(array);\n        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, array);\n    }\n    \n    @Test\n    public void testRandomArray() {\n        int[] array = {3, 1, 4, 1, 5, 9, 2, 6, 5};\n        BubbleSort sorter = new BubbleSort();\n        sorter.sort(array);\n        assertArrayEquals(new int[]{1, 1, 2, 3, 4, 5, 5, 6, 9}, array);\n    }\n}",
+            "filename": "BubbleSortTest.java",
+            "language": "java",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    "_id": UUID("6f7f7aeb-bcd0-4d2b-b8ce-9d483da11156"),
+    "name": "Les principes de l'héritage en Java",
+    "description": "Comprendre et mettre en pratique le concept d'héritage dans la POO Java",
+    "type": "poo",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# L'héritage en Java\n\nL'héritage est un concept fondamental de la programmation orientée objet qui permet à une classe d'acquérir les propriétés (attributs et méthodes) d'une autre classe.\n\n## Points clés :\n\n- Mot-clé `extends` pour créer une relation d'héritage\n- Une classe fille (sous-classe) hérite des membres non-privés de sa classe mère (super-classe)\n- Le mot-clé `super` permet d'accéder aux membres de la classe parente\n- L'héritage favorise la réutilisation du code et établit une relation \"est un\"\n- Java supporte l'héritage simple (une classe ne peut hériter que d'une seule classe)"
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Implémentation de l'héritage\n\nCréez une hiérarchie de classes pour représenter des formes géométriques. Vous devez implémenter une classe abstraite `Shape` et deux classes concrètes `Circle` et `Rectangle`.",
+        "files": [
+          {
+            "content": "/**\n * Classe abstraite représentant une forme géométrique\n */\npublic abstract class Shape {\n    private String color;\n    \n    public Shape(String color) {\n        this.color = color;\n    }\n    \n    public String getColor() {\n        return color;\n    }\n    \n    public void setColor(String color) {\n        this.color = color;\n    }\n    \n    /**\n     * Méthode abstraite pour calculer l'aire de la forme\n     * @return l'aire de la forme\n     */\n    public abstract double calculateArea();\n    \n    /**\n     * Méthode abstraite pour calculer le périmètre de la forme\n     * @return le périmètre de la forme\n     */\n    public abstract double calculatePerimeter();\n    \n    /**\n     * Retourne une description de la forme\n     * @return chaîne décrivant la forme\n     */\n    public String getDescription() {\n        return \"Je suis une forme de couleur \" + color;\n    }\n}",
+            "filename": "Shape.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "/**\n * Classe représentant un cercle\n */\npublic class Circle extends Shape {\n    private double radius;\n    \n    // TODO: Créer un constructeur qui initialise la couleur et le rayon\n    \n    public double getRadius() {\n        return radius;\n    }\n    \n    public void setRadius(double radius) {\n        this.radius = radius;\n    }\n    \n    // TODO: Implémenter la méthode calculateArea() pour calculer l'aire du cercle (π × r²)\n    \n    // TODO: Implémenter la méthode calculatePerimeter() pour calculer le périmètre du cercle (2 × π × r)\n    \n    // TODO: Redéfinir la méthode getDescription() pour inclure des informations sur le rayon\n}",
+            "filename": "Circle.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "/**\n * Classe représentant un rectangle\n */\npublic class Rectangle extends Shape {\n    private double width;\n    private double height;\n    \n    // TODO: Créer un constructeur qui initialise la couleur, la largeur et la hauteur\n    \n    public double getWidth() {\n        return width;\n    }\n    \n    public void setWidth(double width) {\n        this.width = width;\n    }\n    \n    public double getHeight() {\n        return height;\n    }\n    \n    public void setHeight(double height) {\n        this.height = height;\n    }\n    \n    // TODO: Implémenter la méthode calculateArea() pour calculer l'aire du rectangle (largeur × hauteur)\n    \n    // TODO: Implémenter la méthode calculatePerimeter() pour calculer le périmètre du rectangle (2 × (largeur + hauteur))\n    \n    // TODO: Redéfinir la méthode getDescription() pour inclure des informations sur la largeur et la hauteur\n}",
+            "filename": "Rectangle.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "import org.junit.Test;\nimport static org.junit.Assert.*;\n\npublic class ShapeTest {\n    \n    @Test\n    public void testCircleArea() {\n        Circle circle = new Circle(\"rouge\", 5.0);\n        assertEquals(78.54, circle.calculateArea(), 0.01);\n    }\n    \n    @Test\n    public void testCirclePerimeter() {\n        Circle circle = new Circle(\"bleu\", 5.0);\n        assertEquals(31.42, circle.calculatePerimeter(), 0.01);\n    }\n    \n    @Test\n    public void testRectangleArea() {\n        Rectangle rectangle = new Rectangle(\"vert\", 4.0, 5.0);\n        assertEquals(20.0, rectangle.calculateArea(), 0.01);\n    }\n    \n    @Test\n    public void testRectanglePerimeter() {\n        Rectangle rectangle = new Rectangle(\"jaune\", 4.0, 5.0);\n        assertEquals(18.0, rectangle.calculatePerimeter(), 0.01);\n    }\n    \n    @Test\n    public void testShapeInheritance() {\n        Shape circle = new Circle(\"rouge\", 5.0);\n        Shape rectangle = new Rectangle(\"vert\", 4.0, 5.0);\n        \n        assertTrue(circle instanceof Shape);\n        assertTrue(rectangle instanceof Shape);\n        \n        assertNotEquals(circle.getDescription(), rectangle.getDescription());\n        assertEquals(\"rouge\", circle.getColor());\n        assertEquals(\"vert\", rectangle.getColor());\n    }\n}",
+            "filename": "ShapeTest.java",
+            "language": "java",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    "_id": UUID("6f7f7aeb-bcd0-4d2b-b8ce-9d483da11155"),
+    "name": "Encapsulation et polymorphisme en Java",
+    "description": "Maîtriser les concepts d'encapsulation et de polymorphisme dans la POO Java",
+    "type": "poo",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Encapsulation et polymorphisme en Java\n\nL'encapsulation et le polymorphisme sont deux piliers essentiels de la programmation orientée objet en Java.\n\n## Encapsulation\nL'encapsulation consiste à regrouper les données et les méthodes qui les manipulent au sein d'une même unité (la classe) et à restreindre l'accès direct aux données via les modificateurs d'accès.\n\n- Utilisation des modificateurs `private`, `protected`, `public`\n- Création de getters/setters pour contrôler l'accès aux attributs\n- Protection des données contre les modifications accidentelles\n\n## Polymorphisme\nLe polymorphisme permet à un objet de prendre plusieurs formes. En Java, il se manifeste principalement par :\n\n- La redéfinition de méthodes (override)\n- La surcharge de méthodes (overload)\n- L'utilisation de références de type parent pour manipuler des objets de type enfant"
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Mise en pratique de l'encapsulation et du polymorphisme\n\nCréez un système simple de gestion d'employés qui démontre l'encapsulation et le polymorphisme.",
+        "files": [
+          {
+            "content": "/**\n * Classe de base représentant un employé\n */\npublic class Employee {\n    private String name;\n    private int id;\n    protected double baseSalary;\n    \n    public Employee(String name, int id, double baseSalary) {\n        this.name = name;\n        this.id = id;\n        this.baseSalary = baseSalary;\n    }\n    \n    // Getters et setters (encapsulation)\n    public String getName() {\n        return name;\n    }\n    \n    public void setName(String name) {\n        this.name = name;\n    }\n    \n    public int getId() {\n        return id;\n    }\n    \n    // L'ID ne peut pas être modifié après création (encapsulation)\n    \n    public double getBaseSalary() {\n        return baseSalary;\n    }\n    \n    public void setBaseSalary(double baseSalary) {\n        this.baseSalary = baseSalary;\n    }\n    \n    /**\n     * Calcule le salaire de l'employé\n     * @return le salaire calculé\n     */\n    public double calculateSalary() {\n        return baseSalary;\n    }\n    \n    /**\n     * Retourne une description de l'employé\n     * @return la description\n     */\n    public String getDescription() {\n        return \"Employé: \" + name + \" (ID: \" + id + \"), Salaire de base: \" + baseSalary;\n    }\n}",
+            "filename": "Employee.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "/**\n * Classe représentant un manager, qui est un type d'employé\n */\npublic class Manager extends Employee {\n    private double bonus;\n    \n    // TODO: Créer un constructeur qui initialise le nom, l'ID, le salaire de base et le bonus\n    \n    // TODO: Créer des getters et setters pour le bonus (encapsulation)\n    \n    // TODO: Redéfinir la méthode calculateSalary() pour ajouter le bonus au salaire de base\n    \n    // TODO: Redéfinir la méthode getDescription() pour inclure les informations sur le bonus\n}",
+            "filename": "Manager.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "/**\n * Classe représentant un développeur, qui est un type d'employé\n */\npublic class Developer extends Employee {\n    private String programmingLanguage;\n    private double overtimeHours;\n    private double hourlyRate;\n    \n    // TODO: Créer un constructeur qui initialise le nom, l'ID, le salaire de base, le langage de programmation, \n    // les heures supplémentaires et le taux horaire\n    \n    // TODO: Créer des getters et setters pour les attributs (encapsulation)\n    \n    // TODO: Redéfinir la méthode calculateSalary() pour ajouter la rémunération des heures supplémentaires au salaire de base\n    // (formule: salaire_base + heures_supp * taux_horaire)\n    \n    // TODO: Redéfinir la méthode getDescription() pour inclure les informations sur le langage de programmation\n}",
+            "filename": "Developer.java",
+            "language": "java",
+            "type": "file"
+          },
+          {
+            "content": "import org.junit.Test;\nimport static org.junit.Assert.*;\n\npublic class EmployeeTest {\n    \n    @Test\n    public void testEmployeeSalary() {\n        Employee employee = new Employee(\"John Doe\", 1001, 3000.0);\n        assertEquals(3000.0, employee.calculateSalary(), 0.01);\n    }\n    \n    @Test\n    public void testManagerSalary() {\n        Manager manager = new Manager(\"Jane Smith\", 2001, 5000.0, 1000.0);\n        assertEquals(6000.0, manager.calculateSalary(), 0.01);\n        assertTrue(manager.getDescription().contains(\"Bonus\"));\n    }\n    \n    @Test\n    public void testDeveloperSalary() {\n        Developer developer = new Developer(\"Bob Johnson\", 3001, 4000.0, \"Java\", 10.0, 25.0);\n        assertEquals(4250.0, developer.calculateSalary(), 0.01);\n        assertTrue(developer.getDescription().contains(\"Java\"));\n    }\n    \n    @Test\n    public void testPolymorphism() {\n        Employee[] employees = {\n            new Employee(\"John Doe\", 1001, 3000.0),\n            new Manager(\"Jane Smith\", 2001, 5000.0, 1000.0),\n            new Developer(\"Bob Johnson\", 3001, 4000.0, \"Java\", 10.0, 25.0)\n        };\n        \n        double totalSalary = 0;\n        for (Employee emp : employees) {\n            totalSalary += emp.calculateSalary(); // Polymorphisme - appel de la méthode appropriée selon le type\n        }\n        \n        assertEquals(13250.0, totalSalary, 0.01);\n    }\n    \n    @Test\n    public void testEncapsulation() {\n        Employee employee = new Employee(\"John Doe\", 1001, 3000.0);\n        \n        // Test des accesseurs et mutateurs\n        employee.setName(\"John Smith\");\n        assertEquals(\"John Smith\", employee.getName());\n        \n        // L'identifiant ne peut pas être modifié après création (pas de setter)\n        assertEquals(1001, employee.getId());\n        \n        employee.setBaseSalary(3500.0);\n        assertEquals(3500.0, employee.getBaseSalary(), 0.01);\n    }\n}",
+            "filename": "EmployeeTest.java",
+            "language": "java",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    "_id": UUID("4865a0fe-6ac5-4110-b781-3ab9295fbfa8"),
+    "name": "Classes et objets en Python",
+    "description": "Comprendre les fondements de la POO en Python avec les classes et les objets",
+    "type": "langage",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Classes et objets en Python\n\nLa programmation orientée objet (POO) est un paradigme de programmation qui utilise les \"objets\" pour modéliser des entités du monde réel. En Python, tout est objet, et la POO se base sur les classes.\n\n## Points clés :\n\n- Une **classe** est un modèle (blueprint) pour créer des objets\n- Un **objet** est une instance d'une classe\n- Les **attributs** sont les variables appartenant à un objet\n- Les **méthodes** sont les fonctions définies dans une classe\n- La méthode `__init__` est utilisée pour initialiser les attributs lors de la création d'un objet\n- Le paramètre `self` fait référence à l'instance actuelle de la classe"
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Création de classes en Python\n\nCréez une classe `Compte` qui représente un compte bancaire. Cette classe doit permettre de gérer un solde, de faire des dépôts et des retraits.",
+        "files": [
+          {
+            "content": "class Compte:\n    \"\"\"Classe représentant un compte bancaire\"\"\"\n    \n    def __init__(self, titulaire, solde_initial=0):\n        \"\"\"Initialise un nouveau compte bancaire\n        \n        Args:\n            titulaire (str): Le nom du titulaire du compte\n            solde_initial (float, optional): Le solde initial du compte. Par défaut 0.\n        \"\"\"\n        # TODO: Initialiser les attributs titulaire et solde\n        pass\n    \n    def depot(self, montant):\n        \"\"\"Dépose un montant sur le compte\n        \n        Args:\n            montant (float): Le montant à déposer\n            \n        Returns:\n            float: Le nouveau solde du compte\n            \n        Raises:\n            ValueError: Si le montant est négatif\n        \"\"\"\n        # TODO: Vérifier que le montant est positif\n        # TODO: Ajouter le montant au solde et retourner le nouveau solde\n        pass\n    \n    def retrait(self, montant):\n        \"\"\"Retire un montant du compte\n        \n        Args:\n            montant (float): Le montant à retirer\n            \n        Returns:\n            float: Le nouveau solde du compte\n            \n        Raises:\n            ValueError: Si le montant est négatif ou supérieur au solde\n        \"\"\"\n        # TODO: Vérifier que le montant est positif\n        # TODO: Vérifier que le solde est suffisant\n        # TODO: Soustraire le montant du solde et retourner le nouveau solde\n        pass\n    \n    def afficher_info(self):\n        \"\"\"Affiche les informations du compte\n        \n        Returns:\n            str: Une chaîne de caractères décrivant le compte\n        \"\"\"\n        # TODO: Retourner une chaîne de caractères contenant les informations du compte\n        pass",
+            "filename": "compte.py",
+            "language": "python",
+            "type": "file"
+          },
+          {
+            "content": "import pytest\nfrom compte import Compte\n\n@pytest.mark.xfail\ndef test_creation_compte():\n    compte = Compte(\"Jean Dupont\", 1000)\n    assert compte.titulaire == \"Jean Dupont\"\n    assert compte.solde == 1000\n\n@pytest.mark.xfail\ndef test_depot():\n    compte = Compte(\"Jean Dupont\", 1000)\n    nouveau_solde = compte.depot(500)\n    assert nouveau_solde == 1500\n    assert compte.solde == 1500\n\n@pytest.mark.xfail\ndef test_depot_montant_negatif():\n    compte = Compte(\"Jean Dupont\", 1000)\n    with pytest.raises(ValueError):\n        compte.depot(-500)\n\n@pytest.mark.xfail\ndef test_retrait():\n    compte = Compte(\"Jean Dupont\", 1000)\n    nouveau_solde = compte.retrait(300)\n    assert nouveau_solde == 700\n    assert compte.solde == 700\n\n@pytest.mark.xfail\ndef test_retrait_montant_superieur_solde():\n    compte = Compte(\"Jean Dupont\", 1000)\n    with pytest.raises(ValueError):\n        compte.retrait(1500)\n\n@pytest.mark.xfail\ndef test_retrait_montant_negatif():\n    compte = Compte(\"Jean Dupont\", 1000)\n    with pytest.raises(ValueError):\n        compte.retrait(-500)\n\n@pytest.mark.xfail\ndef test_afficher_info():\n    compte = Compte(\"Jean Dupont\", 1000)\n    info = compte.afficher_info()\n    assert \"Jean Dupont\" in info\n    assert \"1000\" in info",
+            "filename": "compteTest.py",
+            "language": "python",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    "_id": UUID("4865a0fe-6ac5-4110-b781-3ab9295fbfa9"),
+    "name": "Héritage et polymorphisme en Python",
+    "description": "Maîtriser les concepts avancés de POO en Python avec l'héritage et le polymorphisme",
+    "type": "langage",
+    "content": [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Héritage et polymorphisme en Python\n\nL'héritage et le polymorphisme sont deux concepts fondamentaux de la programmation orientée objet qui permettent de créer des hiérarchies de classes et de réutiliser du code.\n\n## Héritage\n\n- Permet à une classe (sous-classe) d'hériter des attributs et méthodes d'une autre classe (super-classe)\n- Favorise la réutilisation du code et établit une relation \"est un\"\n- Syntaxe en Python: `class SousClasse(SuperClasse):`\n- La fonction `super()` permet d'accéder aux méthodes de la classe parente\n\n## Polymorphisme\n\n- Permet à des objets de différentes classes d'être traités comme des objets d'une classe commune\n- Les méthodes peuvent être redéfinies dans les sous-classes pour fournir des comportements spécifiques\n- Python utilise le \"duck typing\": \"Si ça marche comme un canard et que ça fait coin-coin comme un canard, alors c'est probablement un canard\""
+      },
+      {
+        "index": 1,
+        "type": "code",
+        "content": "## Implémentation de l'héritage et du polymorphisme\n\nCréez une hiérarchie de classes pour représenter différents types de véhicules. Vous devez implémenter une classe de base `Vehicule` et deux sous-classes: `Voiture` et `Moto`.",
+        "files": [
+          {
+            "content": "class Vehicule:\n    \"\"\"Classe de base pour tous les véhicules\"\"\"\n    \n    def __init__(self, marque, modele, annee, vitesse_max):\n        \"\"\"Initialise un nouveau véhicule\n        \n        Args:\n            marque (str): La marque du véhicule\n            modele (str): Le modèle du véhicule\n            annee (int): L'année de fabrication\n            vitesse_max (float): La vitesse maximale en km/h\n        \"\"\"\n        self.marque = marque\n        self.modele = modele\n        self.annee = annee\n        self.vitesse_max = vitesse_max\n        self.vitesse_actuelle = 0\n    \n    def accelerer(self, increment):\n        \"\"\"Augmente la vitesse actuelle du véhicule\n        \n        Args:\n            increment (float): L'augmentation de vitesse en km/h\n            \n        Returns:\n            float: La nouvelle vitesse actuelle\n            \n        Raises:\n            ValueError: Si l'incrément est négatif\n        \"\"\"\n        if increment < 0:\n            raise ValueError(\"L'augmentation de vitesse doit être positive\")\n        \n        self.vitesse_actuelle = min(self.vitesse_actuelle + increment, self.vitesse_max)\n        return self.vitesse_actuelle\n    \n    def freiner(self, decrement):\n        \"\"\"Diminue la vitesse actuelle du véhicule\n        \n        Args:\n            decrement (float): La diminution de vitesse en km/h\n            \n        Returns:\n            float: La nouvelle vitesse actuelle\n            \n        Raises:\n            ValueError: Si le décrément est négatif\n        \"\"\"\n        if decrement < 0:\n            raise ValueError(\"La diminution de vitesse doit être positive\")\n        \n        self.vitesse_actuelle = max(self.vitesse_actuelle - decrement, 0)\n        return self.vitesse_actuelle\n    \n    def decrire(self):\n        \"\"\"Retourne une description du véhicule\n        \n        Returns:\n            str: Description du véhicule\n        \"\"\"\n        return f\"{self.marque} {self.modele} ({self.annee}), Vitesse actuelle: {self.vitesse_actuelle} km/h\"",
+            "filename": "vehicule.py",
+            "language": "python",
+            "type": "file"
+          },
+          {
+            "content": "from vehicule import Vehicule\n\nclass Voiture(Vehicule):\n    \"\"\"Classe représentant une voiture\"\"\"\n    \n    def __init__(self, marque, modele, annee, vitesse_max, nombre_portes, type_carburant):\n        \"\"\"Initialise une nouvelle voiture\n        \n        Args:\n            marque (str): La marque de la voiture\n            modele (str): Le modèle de la voiture\n            annee (int): L'année de fabrication\n            vitesse_max (float): La vitesse maximale en km/h\n            nombre_portes (int): Le nombre de portes\n            type_carburant (str): Le type de carburant (essence, diesel, électrique, etc.)\n        \"\"\"\n        # TODO: Appeler le constructeur de la classe parent\n        # TODO: Initialiser les attributs supplémentaires spécifiques à une voiture\n        pass\n    \n    def klaxonner(self):\n        \"\"\"Fait klaxonner la voiture\n        \n        Returns:\n            str: Le son du klaxon\n        \"\"\"\n        # TODO: Retourner une chaîne représentant le son du klaxon\n        pass\n    \n    def decrire(self):\n        \"\"\"Retourne une description détaillée de la voiture\n        \n        Returns:\n            str: Description de la voiture\n        \"\"\"\n        # TODO: Surcharger la méthode decrire de la classe parent pour inclure les informations spécifiques à une voiture\n        # Indice: utilisez super().decrire() pour récupérer la description de base\n        pass",
+            "filename": "voiture.py",
+            "language": "python",
+            "type": "file"
+          },
+          {
+            "content": "from vehicule import Vehicule\n\nclass Moto(Vehicule):\n    \"\"\"Classe représentant une moto\"\"\"\n    \n    def __init__(self, marque, modele, annee, vitesse_max, type_moto, cylindree):\n        \"\"\"Initialise une nouvelle moto\n        \n        Args:\n            marque (str): La marque de la moto\n            modele (str): Le modèle de la moto\n            annee (int): L'année de fabrication\n            vitesse_max (float): La vitesse maximale en km/h\n            type_moto (str): Le type de moto (sportive, routière, trail, etc.)\n            cylindree (int): La cylindrée en cm³\n        \"\"\"\n        # TODO: Appeler le constructeur de la classe parent\n        # TODO: Initialiser les attributs supplémentaires spécifiques à une moto\n        pass\n    \n    def faire_wheeling(self):\n        \"\"\"Tente de faire un wheeling avec la moto\n        \n        Returns:\n            bool: True si le wheeling est réussi, False sinon\n            \n        Note:\n            Le wheeling est réussi si la vitesse actuelle est entre 30 et 60 km/h\n        \"\"\"\n        # TODO: Implémenter la logique du wheeling\n        pass\n    \n    def decrire(self):\n        \"\"\"Retourne une description détaillée de la moto\n        \n        Returns:\n            str: Description de la moto\n        \"\"\"\n        # TODO: Surcharger la méthode decrire de la classe parent pour inclure les informations spécifiques à une moto\n        # Indice: utilisez super().decrire() pour récupérer la description de base\n        pass",
+            "filename": "moto.py",
+            "language": "python",
+            "type": "file"
+          },
+          {
+            "content": "import pytest\nfrom vehicule import Vehicule\nfrom voiture import Voiture\nfrom moto import Moto\n\n@pytest.mark.xfail\ndef test_vehicule_base():\n    v = Vehicule(\"Générique\", \"Base\", 2020, 150)\n    assert v.marque == \"Générique\"\n    assert v.modele == \"Base\"\n    assert v.annee == 2020\n    assert v.vitesse_max == 150\n    assert v.vitesse_actuelle == 0\n\n@pytest.mark.xfail\ndef test_voiture_heritage():\n    voiture = Voiture(\"Renault\", \"Clio\", 2018, 180, 5, \"Diesel\")\n    assert voiture.marque == \"Renault\"\n    assert voiture.modele == \"Clio\"\n    assert voiture.annee == 2018\n    assert voiture.vitesse_max == 180\n    assert voiture.nombre_portes == 5\n    assert voiture.type_carburant == \"Diesel\"\n    assert isinstance(voiture, Vehicule)\n\n@pytest.mark.xfail\ndef test_moto_heritage():\n    moto = Moto(\"Honda\", \"CBR\", 2021, 280, \"Sportive\", 1000)\n    assert moto.marque == \"Honda\"\n    assert moto.modele == \"CBR\"\n    assert moto.annee == 2021\n    assert moto.vitesse_max == 280\n    assert moto.type_moto == \"Sportive\"\n    assert moto.cylindree == 1000\n    assert isinstance(moto, Vehicule)\n\n@pytest.mark.xfail\ndef test_acceleration_vehicules():\n    vehicules = [\n        Vehicule(\"Générique\", \"Base\", 2020, 150),\n        Voiture(\"Renault\", \"Clio\", 2018, 180, 5, \"Diesel\"),\n        Moto(\"Honda\", \"CBR\", 2021, 280, \"Sportive\", 1000)\n    ]\n    \n    for v in vehicules:\n        v.accelerer(50)\n        assert v.vitesse_actuelle == 50\n\n@pytest.mark.xfail\ndef test_klaxon_voiture():\n    voiture = Voiture(\"Renault\", \"Clio\", 2018, 180, 5, \"Diesel\")\n    assert \"tut\" in voiture.klaxonner().lower()\n\n@pytest.mark.xfail\ndef test_wheeling_moto():\n    moto = Moto(\"Honda\", \"CBR\", 2021, 280, \"Sportive\", 1000)\n    assert not moto.faire_wheeling()  # vitesse à 0, wheeling impossible\n    moto.accelerer(45)\n    assert moto.faire_wheeling()  # vitesse entre 30 et 60, wheeling réussi\n    moto.accelerer(100)\n    assert not moto.faire_wheeling()  # vitesse > 60, wheeling impossible\n\n@pytest.mark.xfail\ndef test_polymorphisme_decrire():\n    vehicules = [\n        Vehicule(\"Générique\", \"Base\", 2020, 150),\n        Voiture(\"Renault\", \"Clio\", 2018, 180, 5, \"Diesel\"),\n        Moto(\"Honda\", \"CBR\", 2021, 280, \"Sportive\", 1000)\n    ]\n    \n    for v in vehicules:\n        description = v.decrire()\n        assert v.marque in description\n        assert v.modele in description\n        assert str(v.annee) in description\n        \n    # Vérifications spécifiques pour les sous-classes\n    voiture_desc = vehicules[1].decrire()\n    assert \"Diesel\" in voiture_desc\n    assert \"5 portes\" in voiture_desc\n    \n    moto_desc = vehicules[2].decrire()\n    assert \"Sportive\" in moto_desc\n    assert \"1000 cm³\" in moto_desc",
+            "filename": "vehiculesTest.py",
+            "language": "python",
+            "type": "test"
+          }
+        ]
+      }
+    ],
+    "date_update": new Date()
+  },
+  {
+    _id: UUID("2e17a346-573c-4d03-b0dd-b9d53e398fb7"),
+    name: "Automatisation de fichiers avec Python",
+    description: "Apprendre à automatiser la gestion de fichiers en Python",
+    type: "langage",
+    content: [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Automatisation de fichiers en Python\n\nL'automatisation de la gestion des fichiers est une tâche courante en programmation. Python offre plusieurs modules intégrés qui facilitent ce travail.\n\n## Points clés :\n\n- Le module `os` permet d'interagir avec le système d'exploitation\n- Le module `shutil` offre des fonctionnalités avancées pour la manipulation de fichiers\n- L'automatisation des fichiers permet de gagner du temps sur des tâches répétitives"
+      },
+      {
+        index: 1,
+        type: 'code',
+        content: '## Création d\'un script d\'automatisation\n\nCréez une fonction qui permet de trier automatiquement des fichiers par extension.\n\nUtilisez les modules `os` et `shutil` pour déplacer les fichiers.',
+        files: [
+          {
+            content: "import os\nimport shutil\n\ndef sort_files_by_extension(directory_path: str) -> dict:\n    # TODO: Implémenter la fonction qui trie les fichiers par extension\n    # La fonction doit retourner un dictionnaire contenant le nombre de fichiers par extension\n    pass",
+            filename: 'FileAutomation.py',
+            language: 'python',
+            type: 'file'
+          },
+          {
+            content: "import pytest\nimport os\nimport tempfile\nimport shutil\nfrom FileAutomation import sort_files_by_extension\n\n@pytest.mark.xfail\ndef test_sort_files_by_extension():\n    # Créer un répertoire temporaire pour les tests\n    test_dir = tempfile.mkdtemp()\n    try:\n        # Créer des fichiers de test\n        open(os.path.join(test_dir, 'doc1.txt'), 'w').close()\n        open(os.path.join(test_dir, 'doc2.txt'), 'w').close()\n        open(os.path.join(test_dir, 'image.png'), 'w').close()\n        open(os.path.join(test_dir, 'script.py'), 'w').close()\n        \n        # Exécuter la fonction\n        result = sort_files_by_extension(test_dir)\n        \n        # Vérifications\n        assert 'txt' in result and result['txt'] == 2, 'Il devrait y avoir 2 fichiers .txt'\n        assert 'png' in result and result['png'] == 1, 'Il devrait y avoir 1 fichier .png'\n        assert 'py' in result and result['py'] == 1, 'Il devrait y avoir 1 fichier .py'\n        \n        # Vérifier que les dossiers par extension ont été créés\n        assert os.path.isdir(os.path.join(test_dir, 'txt')), 'Le dossier txt devrait exister'\n        assert os.path.isdir(os.path.join(test_dir, 'png')), 'Le dossier png devrait exister'\n        assert os.path.isdir(os.path.join(test_dir, 'py')), 'Le dossier py devrait exister'\n    finally:\n        # Nettoyer après le test\n        shutil.rmtree(test_dir)",
+            filename: 'FileAutomationTest.py',
+            language: 'python',
+            type: 'test'
+          }
+        ]
+      }
+    ],
+    date_update: new Date()
+  },
+  {
+    _id: UUID("2e17a346-573c-4d03-b0dd-b9d53e398fb8"),
+    name: "Automatisation de tâches web avec Python",
+    description: "Apprendre à automatiser des tâches web en utilisant Python",
+    type: "langage",
+    content: [
+      {
+        "index": 0,
+        "type": "text",
+        "content": "# Automatisation web avec Python\n\nL'automatisation des tâches web est une application puissante de Python. Avec les bons modules, vous pouvez extraire des données, remplir des formulaires ou interagir avec des sites web.\n\n## Points clés :\n\n- Le module `requests` permet d'envoyer des requêtes HTTP\n- La bibliothèque `BeautifulSoup` facilite l'extraction de données depuis des pages HTML\n- Python permet d'automatiser des actions répétitives sur le web, économisant ainsi du temps et des efforts"
+      },
+      {
+        index: 1,
+        type: 'code',
+        content: '## Extraction de données web\n\nCréez une fonction qui récupère les titres d\'articles à partir d\'une URL.\n\nUtilisez `requests` pour obtenir la page et `BeautifulSoup` pour extraire les données.',
+        files: [
+          {
+            content: "import requests\nfrom bs4 import BeautifulSoup\n\ndef extract_article_titles(url: str) -> list:\n    # TODO: Implémenter la fonction qui extrait les titres d'articles\n    # La fonction doit retourner une liste de titres\n    pass",
+            filename: 'WebAutomation.py',
+            language: 'python',
+            type: 'file'
+          },
+          {
+            content: "import pytest\nfrom unittest.mock import patch, MagicMock\nfrom WebAutomation import extract_article_titles\n\n@pytest.mark.xfail\ndef test_extract_article_titles():\n    # HTML de test\n    mock_html = '''\n    <html>\n        <body>\n            <article>\n                <h2>Premier Article</h2>\n            </article>\n            <article>\n                <h2>Deuxième Article</h2>\n            </article>\n            <article>\n                <h2>Troisième Article</h2>\n            </article>\n        </body>\n    </html>\n    '''\n    \n    # Simuler la réponse HTTP\n    mock_response = MagicMock()\n    mock_response.text = mock_html\n    mock_response.status_code = 200\n    \n    # Simuler la fonction requests.get\n    with patch('requests.get', return_value=mock_response):\n        titles = extract_article_titles('https://example.com')\n        \n        # Vérifications\n        assert len(titles) == 3, 'Il devrait y avoir 3 titres extraits'\n        assert 'Premier Article' in titles, 'Le premier titre devrait être présent'\n        assert 'Deuxième Article' in titles, 'Le deuxième titre devrait être présent'\n        assert 'Troisième Article' in titles, 'Le troisième titre devrait être présent'",
+            filename: 'WebAutomationTest.py',
+            language: 'python',
+            type: 'test'
+          }
+        ]
+      }
+    ],
+    date_update: new Date()
+  }
 ]);
 
-//fd2f6102-3823-40b8-8aa9-08b19d8c4f85
-//550e8400-e29b-41d4-a716-446655440004
+//550e8400-e29b-41d4-a716-446655440007
 
 db.module_lessons.insertMany([
   {
@@ -650,8 +949,47 @@ db.module_lessons.insertMany([
     _id: UUID("770e8400-e29b-41d4-a716-446655440007"),
     id_module: UUID("550e8400-e29b-41d4-a716-446655440004"),
     id_lesson: UUID("fd2f6102-3823-40b8-8aa9-08b19d8c4f88")
-  }
-
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440008"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440002"),
+    id_lesson: UUID("aec53a95-cc7c-4632-977c-50aca2454f60")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440009"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440002"),
+    id_lesson: UUID("aec53a95-cc7c-4632-977c-50aca2454f61")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440010"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440001"),
+    id_lesson: UUID("6f7f7aeb-bcd0-4d2b-b8ce-9d483da11156")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440011"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440001"),
+    id_lesson: UUID("6f7f7aeb-bcd0-4d2b-b8ce-9d483da11155")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440012"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440005"),
+    id_lesson: UUID("4865a0fe-6ac5-4110-b781-3ab9295fbfa8")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440013"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440005"),
+    id_lesson: UUID("4865a0fe-6ac5-4110-b781-3ab9295fbfa9")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440014"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440007"),
+    id_lesson: UUID("2e17a346-573c-4d03-b0dd-b9d53e398fb8")
+  },
+  {
+    _id: UUID("770e8400-e29b-41d4-a716-446655440015"),
+    id_module: UUID("550e8400-e29b-41d4-a716-446655440007"),
+    id_lesson: UUID("2e17a346-573c-4d03-b0dd-b9d53e398fb7")
+  },
 ]);
 
 db.lesson_erreurs.insertMany([
