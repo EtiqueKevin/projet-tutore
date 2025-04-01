@@ -20,14 +20,14 @@ const currentQuestions = ref([]);
 const newQuestion = ref({
     question: '',
     options: ['', '', '', ''],
-    correctAnswer: ''
+    correctAnswer: null
 });
 const editingIndex = ref(-1);
 
 const addQuestion = () => {
     if (newQuestion.value.question && 
         newQuestion.value.options.every(opt => opt !== '') &&
-        newQuestion.value.correctAnswer) {
+        newQuestion.value.correctAnswer !== null) {
         if (editingIndex.value === -1) {
             currentQuestions.value.push({ ...newQuestion.value });
         } else {
@@ -37,7 +37,7 @@ const addQuestion = () => {
         newQuestion.value = {
             question: '',
             options: ['', '', '', ''],
-            correctAnswer: ''
+            correctAnswer: null
         };
     } else {
         toast.warning('Il faut un titre, 4 options et une bonne réponse !!');
@@ -56,7 +56,7 @@ const removeQuestion = (index) => {
         newQuestion.value = {
             question: '',
             options: ['', '', '', ''],
-            correctAnswer: ''
+            correctAnswer: null
         };
     }
 };
@@ -89,7 +89,10 @@ const cancel = () => {
 
 onMounted(() => {
     currentTitre.value = props.titre;
-    currentQuestions.value = props.questions;
+    currentQuestions.value = props.questions.map(q => ({
+        ...q,
+        correctAnswer: q.options.findIndex(opt => opt === q.correctAnswer)
+    }));
 });
 </script>
 
@@ -132,9 +135,11 @@ onMounted(() => {
             <div class="mb-4">
                 <label class="block text-black dark:text-white text-sm font-bold mb-2">Réponse correcte</label>
                 <select v-model="newQuestion.correctAnswer" class="w-full px-3 py-2 border rounded-lg">
-                    <option value="" disabled>Sélectionnez la bonne réponse</option>
-                    <option v-for="(option, index) in newQuestion.options" :key="index" :value="option">
-                        {{ option }}
+                    <option :value="null" disabled>Sélectionnez la bonne réponse</option>
+                    <option v-for="(option, index) in newQuestion.options" 
+                            :key="index" 
+                            :value="index">
+                        Option {{ index + 1 }}: {{ option }}
                     </option>
                 </select>
             </div>
@@ -158,8 +163,9 @@ onMounted(() => {
                         <div class="flex-grow">
                             <p class="font-bold">{{ q.question }}</p>
                             <ul class="list-disc list-inside mt-2">
-                                <li v-for="(option, indexQ) in q.options" :key="option+'-'+indexQ"
-                                    :class="{ 'text-green-600 font-bold': option === q.correctAnswer }">
+                                <li v-for="(option, indexQ) in q.options" 
+                                    :key="option+'-'+indexQ"
+                                    :class="{ 'text-green-600 font-bold': indexQ === q.correctAnswer }">
                                     {{ option }}
                                 </li>
                             </ul>

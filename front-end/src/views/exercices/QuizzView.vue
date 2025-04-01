@@ -13,17 +13,17 @@ const userAnswers = ref([]);
 const showScore = ref(false);
 const score = ref(0);
 const answerSubmitted = ref(false);
-const selectedAnswer = ref(null);
+const selectedAnswerIndex = ref(null);
 
 const currentQuestion = computed(() => {
   return props.questions[currentQuestionIndex.value];
 });
 
-const handleAnswer = (answer) => {
-  selectedAnswer.value = answer;
+const handleAnswer = (answer, index) => {
+  selectedAnswerIndex.value = index;
   answerSubmitted.value = true;
   
-  if (answer === currentQuestion.value.correctAnswer) {
+  if (index == currentQuestion.value.correctAnswer) {
     score.value++;
   }
 };
@@ -32,7 +32,7 @@ const nextQuestion = () => {
   if (currentQuestionIndex.value < props.questions.length - 1) {
     currentQuestionIndex.value++;
     answerSubmitted.value = false;
-    selectedAnswer.value = null;
+    selectedAnswerIndex.value = null;
   } else {
     showScore.value = true;
   }
@@ -44,7 +44,7 @@ const resetQuiz = () => {
   showScore.value = false;
   score.value = 0;
   answerSubmitted.value = false;
-  selectedAnswer.value = null;
+  selectedAnswerIndex.value = null;
 };
 
 onMounted(() => {
@@ -70,16 +70,16 @@ onMounted(() => {
         
         <div class="grid gap-4">
           <button
-            v-for="option in currentQuestion.options"
-            :key="option"
-            @click="handleAnswer(option)"
+            v-for="(option, index) in currentQuestion.options"
+            :key="index"
+            @click="handleAnswer(option, index)"
             :disabled="answerSubmitted"
             :class="[
               'py-4 px-6 text-left text-lg border-2 rounded-lg transition-all duration-300',
               answerSubmitted ? (
-                option === currentQuestion.correctAnswer 
+                index == currentQuestion.correctAnswer 
                   ? 'bg-green-100 border-green-500 text-green-700'
-                  : option === selectedAnswer
+                  : index == selectedAnswerIndex
                     ? 'bg-red-100 border-red-500 text-red-700'
                     : 'bg-white border-gray-300'
               ) : 'bg-white border-gray-300 hover:border-blue-500 hover:bg-blue-50'
@@ -91,13 +91,13 @@ onMounted(() => {
 
         <div class="mt-6 flex justify-between items-center flex-col">
           <div v-if="answerSubmitted" class="text-lg">
-            <span v-if="selectedAnswer === currentQuestion.correctAnswer" class="text-green-600">
+            <span v-if="selectedAnswerIndex == currentQuestion.correctAnswer" class="text-green-600">
               <i class="fas fa-check-circle"></i>
               Bonne réponse!
             </span>
             <span v-else class="text-red-600">
               <i class="fas fa-times-circle"></i>
-              La bonne réponse était: {{ currentQuestion.correctAnswer }}
+              La bonne réponse était: {{ currentQuestion.options[currentQuestion.correctAnswer] }}
             </span>
           </div>
           
