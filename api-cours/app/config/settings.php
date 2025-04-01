@@ -24,7 +24,7 @@ return  [
     'SECRET_KEY' => getenv('JWT_SECRET_KEY'),
 
     'database' => function (ContainerInterface $c) {
-        $config = parse_ini_file(__DIR__ . '/iniconf/mydatabasedb.ini');
+        $config = parse_ini_file(__DIR__ . '/iniconf/cours.db.ini');
         $uri = "mongodb://{$config['host']}:{$config['port']}";
         $options = [
             "username" => $config['username'],
