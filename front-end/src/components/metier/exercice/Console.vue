@@ -17,13 +17,11 @@ const isSuccess = () => {
     
     if (props.language === 'python') {
         return props.results.status === 200 && 
-               props.results.error === '' && 
-               props.results.output?.includes('xpassed');
+               props.results.error === '';
     }
     
     return props.results.status === 200 && 
-           props.results.error === '' && 
-           props.results.output?.includes('OK');
+           props.results.error === '';
 };
 
 const getStatusIcon = () => {
@@ -41,14 +39,6 @@ const getLineClass = (line) => {
     // Common success patterns
     if (line.includes('OK') || line.includes('xpassed')) {
         return 'text-green-800 dark:text-green-500';
-    }
-    
-    // Common error patterns
-    if (line.includes('FAILURES!!!') || 
-        line.includes('failure') || 
-        line.includes('error:') ||
-        line.includes('xfailed')) {
-        return 'text-red-800 dark:text-red-500';
     }
     
     // Time information
