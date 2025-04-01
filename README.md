@@ -42,9 +42,9 @@ git clone git@github.com:EtiqueKevin/projet-tutore.git
 cd projet-tutore
 ```
 
-3. Lancer le makefile
+3. Lancer le makefile avec droits administrateurs (nécéssaire pour supprimer les dépendances)
 ```bash
-make install
+sudo make install
 ```
 > [!Caution]
 > Répondre "y" lorsque le makefile vous le demande pour configurer les mots de passes des bases de données.
