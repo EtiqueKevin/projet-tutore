@@ -23,7 +23,7 @@ return  [
     },
 
     'jeancademydb.pdo' => function (ContainerInterface $c) {
-        $config = parse_ini_file('iniconf/jeancademydb.db.ini');
+        $config = parse_ini_file('iniconf/utilisateur.db.ini');
         $dsn = "{$config['driver']}:host={$config['host']};port={$config['port']};dbname={$config['database']};";
         $user = $config['username'];
         $password = $config['password'];

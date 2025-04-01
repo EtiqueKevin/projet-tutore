@@ -1,6 +1,5 @@
-host=db
-port=5432
-driver=pgsql
+host=mongo.jeancademie
+port=27017
 database=cours
 username=root
 password=root

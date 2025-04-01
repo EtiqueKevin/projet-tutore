@@ -26,3 +26,38 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 - [API utilisateur](api-utilisateur/README.md)
 - [API gestion des cours](api-cours/README.md)
 - [API d'éxecution de code](api-execution/README.md)
+
+## Installation
+### Prérequis
+- [Docker](https://www.docker.com/)
+- [Make](https://www.gnu.org/software/make/)
+
+### Installation de l'environnement
+1. Cloner le projet
+```bash
+git clone git@github.com:EtiqueKevin/projet-tutore.git
+```
+2. Se placer dans le dossier du projet
+```bash
+cd projet-tutore
+```
+
+3. Lancer le makefile
+```bash
+make install
+```
+> [!Caution]
+> Répondre "y" lorsque le makefile vous le demande pour configurer les mots de passes des bases de données.
+
+
+### Mise à jour des .env et .ini
+1. Se placer dans le dossier du projet
+```bash
+cd projet-tutore
+```
+2. Lancer le makefile
+```bash
+make update
+```
+> [!Caution]
+> Répondre "y" lorsque le makefile vous le demande pour configurer les mots de passes des bases de données.
