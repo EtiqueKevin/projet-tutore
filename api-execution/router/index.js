@@ -43,8 +43,7 @@ async function redisFunction (res, streamName, resultStream, message, lesson, in
                 console.log(`✅ Résultat reçu`);
 
                 if (responseData.status != 200) {
-                
-                    if(responseData.error.type != 'system'){
+                    if(responseData.error.type != 'system' && lesson != undefined) {
                         const errorFunctions = Array.isArray(responseData.error.function) 
                         ? responseData.error.function.map(fn => `"${fn}"`).join(',')
                         : `"${responseData.error.function}"`;
@@ -91,7 +90,6 @@ app.post('/:language', async (req, res) => {
                     fileTest = file.filename;
                 }
             })
-            console.log(testCode, fileTest);
         }
     )
 
@@ -127,10 +125,6 @@ app.post('/:language', async (req, res) => {
 app.post('/teacher/:language', async (req, res) => {
     const { language } = req.params;
     const { codes, fileTest, testCode } = req.body;
-
-    console.log(codes)
-    console.log(fileTest)
-    console.log(testCode)
 
     if (!codes || !fileTest || !testCode) {
         return res.status(400).json({ error: 'Code source manquant GG' });
