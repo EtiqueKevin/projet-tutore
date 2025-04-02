@@ -43,8 +43,13 @@ class GetLessonByIdAction extends AbstractAction
             }
         }
 
-        $lesson = $this->lessonService->getLessonById($dto);
-        $module = $this->moduleService->getModuleByLesson($args['id_lesson']);
+        try{
+            $lesson = $this->lessonService->getLessonById($dto);
+            $module = $this->moduleService->getModuleByLesson($args['id_lesson']);
+        }catch (\Exception $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
+
         $res = [
             'type' => 'resource',
             'lesson' => $lesson,
