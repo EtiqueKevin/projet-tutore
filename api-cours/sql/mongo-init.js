@@ -449,13 +449,37 @@ public class GreeterTest {
         "content": "## Exercice 4.1 : Fonction puissance\n\nCréez une fonction `puissance(a, b)` qui retourne a élevé à la puissance b.",
         "files": [
           {
-            "content": "def puissance(a, b):\n    \"\"\"Calcule a élevé à la puissance b.\n    \n    Args:\n        a (int/float): La base\n        b (int/float): L'exposant\n    \n    Returns:\n        float/int: Le résultat de a^b\n    \"\"\"\n    return a ** b\n\n# Exemples d'utilisation\ndef exemples_puissance():\n    print(f\"2^3 = {puissance(2, 3)}\")  # 8\n    print(f\"5^2 = {puissance(5, 2)}\")  # 25\n    print(f\"10^0 = {puissance(10, 0)}\")  # 1\n    print(f\"2^(-1) = {puissance(2, -1)}\")  # 0.5\n    \n    # Test avec des nombres décimaux\n    print(f\"1.5^2 = {puissance(1.5, 2)}\")  # 2.25\n    \n    return True\n\n# Appeler les exemples si le script est exécuté directement\nif __name__ == \"__main__\":\n    exemples_puissance()",
+            "content": "def puissance(a, b):\n" +
+                "    # À compléter : retourner a élevé à la puissance b\n" +
+                "    pass",
             "filename": "fonction_puissance.py",
             "language": "python",
             "type": "file"
           },
           {
-            "content": "import pytest\nfrom fonction_puissance import puissance\n\n@pytest.mark.parametrize(\"a, b, expected\", [\n    (2, 3, 8),  # Cas de base\n    (5, 2, 25),  # Autre cas simple\n    (10, 0, 1),  # Exposant zéro\n    (2, -1, 0.5),  # Exposant négatif\n    (1.5, 2, 2.25),  # Nombre décimal\n    (0, 5, 0),  # Base zéro\n    (1, 100, 1),  # Exposant grand\n    (3, 3, 27)  # Autre test\n])\n  \n def test_puissance(a, b, expected):\n    # Vérifier avec une tolérance pour les nombres décimaux\n    assert puissance(a, b) == pytest.approx(expected)\n\n@pytest.mark.parametrize(\"a, b\", [\n    (0, 0),  # Cas indéterminé\n])\n  \n def test_puissance_indetermine(a, b):\n    # 0^0 est généralement défini comme 1 en Python, mais c'est mathématiquement indéterminé\n    # On vérifie juste que la fonction ne lève pas d'exception\n    result = puissance(a, b)\n    assert result is not None",
+            "content": "# test_fonction_puissance.py\n" +
+                "import pytest\n" +
+                "from fonction_puissance import puissance  # Import de la fonction puissance\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_puissance_positive():\n" +
+                "    assert puissance(2, 3) == 8\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_puissance_zero():\n" +
+                "    assert puissance(2, 0) == 1\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_puissance_negative():\n" +
+                "    assert puissance(2, -3) == 0.125\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_puissance_negative_base():\n" +
+                "    assert puissance(-2, 3) == -8\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_puissance_large_exponent():\n" +
+                "    assert puissance(2, 1000) == 2 ** 1000\n",
             "filename": "fonction_puissanceTest.py",
             "language": "python",
             "type": "test"
@@ -525,7 +549,7 @@ public class GreeterTest {
         "content": "## Implémentation d'une liste chaînée\n\nCréez une classe `Node` et une classe `LinkedList` pour implémenter une liste chaînée simple.\n\nLa classe LinkedList doit implémenter les méthodes suivantes :\n- `add(int value)` : ajoute un élément à la fin de la liste\n- `get(int index)` : retourne l'élément à l'index spécifié\n- `size()` : retourne la taille de la liste",
         "files": [
           {
-            "content": "public class Node {\n    private int data;\n    private Node next;\n    \n    public Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n    \n    public int getData() {\n        return data;\n    }\n    \n    public void setData(int data) {\n        this.data = data;\n    }\n    \n    public Node getNext() {\n        return next;\n    }\n    \n    public void setNext(Node next) {\n        this.next = next;\n    }\n}\n\npublic class LinkedList {\n    private Node head;\n    private int size;\n    \n    public LinkedList() {\n        this.head = null;\n        this.size = 0;\n    }\n    \n    public void add(int value) {\n        // TODO: Ajouter un nouvel élément à la fin de la liste\n        // Créer un nouveau nœud avec la valeur donnée\n        // Si la liste est vide, le nouveau nœud devient la tête\n        // Sinon, parcourir la liste jusqu'au dernier nœud et l'attacher\n        // N'oubliez pas d'incrémenter la taille\n        pass;\n    }\n    \n    public int get(int index) {\n        // TODO: Retourner l'élément à l'index spécifié\n        // Vérifier si l'index est valide\n        // Parcourir la liste jusqu'à l'index et retourner la valeur\n        return 0;\n    }\n    \n    public int size() {\n        // TODO: Retourner la taille de la liste\n        return 0;\n    }\n}",
+            "content": "class Node {\n    private int data;\n    private Node next;\n    \n    public Node(int data) {\n        this.data = data;\n        this.next = null;\n    }\n    \n    public int getData() {\n        return data;\n    }\n    \n    public void setData(int data) {\n        this.data = data;\n    }\n    \n    public Node getNext() {\n        return next;\n    }\n    \n    public void setNext(Node next) {\n        this.next = next;\n    }\n}\n\nclass LinkedList {\n    private Node head;\n    private int size;\n    \n    public LinkedList() {\n        this.head = null;\n        this.size = 0;\n    }\n    \n    public void add(int value) {\n        // TODO: Ajouter un nouvel élément à la fin de la liste\n        // Créer un nouveau nœud avec la valeur donnée\n        // Si la liste est vide, le nouveau nœud devient la tête\n        // Sinon, parcourir la liste jusqu'au dernier nœud et l'attacher\n        // N'oubliez pas d'incrémenter la taille\n        pass;\n    }\n    \n    public int get(int index) {\n        // TODO: Retourner l'élément à l'index spécifié\n        // Vérifier si l'index est valide\n        // Parcourir la liste jusqu'à l'index et retourner la valeur\n        return 0;\n    }\n    \n    public int size() {\n        // TODO: Retourner la taille de la liste\n        return 0;\n    }\n}",
             "filename": "LinkedList.java",
             "language": "java",
             "type": "file"
