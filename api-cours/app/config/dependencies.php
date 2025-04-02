@@ -41,7 +41,7 @@ return [
         return new PutLessonByIdAction($c->get(LessonServiceInterface::class));
     },
     GetLessonByIdAction::class => function(ContainerInterface $c){
-        return new GetLessonByIdAction($c->get(LessonServiceInterface::class));
+        return new GetLessonByIdAction($c->get(LessonServiceInterface::class), $c->get(ModuleServiceInterface::class));
     },
 
     GetExerciseByIndexByIdLesson::class => function(ContainerInterface $c){

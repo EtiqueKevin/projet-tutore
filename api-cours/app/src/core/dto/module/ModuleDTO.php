@@ -7,7 +7,7 @@ use apiCours\core\domain\entities\module\Module;
 
 class ModuleDTO extends DTO{
 
-    private ?string $id;
+    protected ?string $id;
     private string $name;
     protected string $idCreator;
     protected string $description;

@@ -168,7 +168,7 @@ class ModuleRepository implements ModuleRepositoryInterface {
         }
     }
 
-    public function getModuleByLessonId(string $idLesson)
+    public function getModuleByLessonId(string $idLesson): Module
     {
         try {
             $moduleId = $this->moduleLessonCollection->findOne(["id_lesson" => UUIDConverter::toUUID($idLesson)], ["id_module"]);
@@ -177,7 +177,7 @@ class ModuleRepository implements ModuleRepositoryInterface {
             $moduleEntity->setID(UUIDConverter::fromUUID($module->_id));
             return $moduleEntity;
         }catch (\Exception $e) {
-            throw new ModuleRepositoryException("Impossible de trouver le module.");
+            throw new ModuleRepositoryException("Impossible de trouver le module." . $e->getMessage());
         }
     }
 

@@ -5,6 +5,7 @@ namespace apiCours\application\actions\lesson;
 use apiCours\application\actions\AbstractAction;
 use apiCours\core\dto\lesson\UneLessonDTO;
 use apiCours\core\services\lesson\LessonServiceInterface;
+use apiCours\core\services\module\ModuleServiceInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Respect\Validation\Validator;
@@ -14,9 +15,12 @@ class GetLessonByIdAction extends AbstractAction
 {
     private LessonServiceInterface $lessonService;
 
-    public function __construct(LessonServiceInterface $lessonService)
+    private ModuleServiceInterface $moduleService;
+
+    public function __construct(LessonServiceInterface $lessonService, ModuleServiceInterface $moduleService)
     {
         $this->lessonService = $lessonService;
+        $this->moduleService = $moduleService;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
@@ -40,9 +44,11 @@ class GetLessonByIdAction extends AbstractAction
         }
 
         $lesson = $this->lessonService->getLessonById($dto);
+        $module = $this->moduleService->getModuleByLesson($args['id_lesson']);
         $res = [
             'type' => 'resource',
-            'lesson' => $lesson
+            'lesson' => $lesson,
+            'id_module' => $module->id,
         ];
 
         $rs->getBody()->write(json_encode($res));
