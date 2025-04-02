@@ -108,9 +108,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <main class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+    <main class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 relative">
         <!-- Loading -->
-        <div v-if="isLoading" class="max-w-4xl mx-auto">
+        <div v-if="isLoading" class="max-w-4xl mx-auto mt-6">
             <!-- Header skeleton -->
             <div class="mb-8">
                 <div class="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg w-3/4 mb-4 animate-pulse"></div>
@@ -135,7 +135,7 @@ onMounted(async () => {
         </div>
 
         <!-- Contenu -->
-        <div v-else class="max-w-4xl mx-auto">
+        <div v-else class="max-w-4xl mx-auto mt-6">
             <header class="mb-8">
                 <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
                     {{ cours.title }}
@@ -203,5 +203,14 @@ onMounted(async () => {
         </div>
 
         <ReturnTopButton />
+
+        <RouterLink
+        v-if="!isLoading && cours && cours.idModule"
+          :to="{name: 'modules-by-id', params: {id: cours.idModule}}"
+          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform absolute top-5 left-5"
+          title="Retour au module"
+        >
+          <i class="fas fa-arrow-left"></i> Retour au module
+        </RouterLink>
     </main>
 </template>

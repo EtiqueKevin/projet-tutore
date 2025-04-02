@@ -49,6 +49,7 @@ export function useStudent() {
             const res = await api.get(`/lessons/${id}`+query)
             const currentLesson = {
                 id: res.data.lesson.id,
+                idModule: res.data.id_module,
                 title: res.data.lesson.name,
                 description: res.data.lesson.description,
                 content: res.data.lesson.content,

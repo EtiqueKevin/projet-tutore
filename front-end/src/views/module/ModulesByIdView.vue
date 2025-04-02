@@ -29,8 +29,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <main class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto" >
+    <main class="min-h-screen py-8 px-4 sm:px-6 lg:px-8 relative">
+        <div class="max-w-7xl mx-auto mt-6" >
             <ModuleHeader 
                 :is-loading="isLoading"
                 :module="currentModule"
@@ -45,5 +45,12 @@ onMounted(() => {
         </div>
 
         <ReturnTopButton />
+        <RouterLink
+          :to="{name: 'modules'}"
+          class="text-primary-dark dark:text-primary-light flex items-center gap-2 m-2 hover:scale-105 transition-transform absolute top-5 left-5"
+          title="Retour à la liste des modules"
+        >
+          <i class="fas fa-arrow-left"></i> Retour à la liste des modules
+        </RouterLink>
     </main>
 </template>
