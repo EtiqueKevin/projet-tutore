@@ -41,14 +41,29 @@ async function redisFunction (res, streamName, resultStream, message, lesson, in
                 const responseData = JSON.parse(result[0].messages[0].message.message);
                 await redisClient.xDel(resultStream, result[0].messages[0].id);
                 console.log(`✅ Résultat reçu`);
-                if (responseData.output.includes('FAILURES')){
-                    const failureMessage = responseData.output.match(/\btest\w*\s*\(.*?\)/g)
-                    console.log(failureMessage)
-                    const body = {
-                        index,
-                        error: failureMessage
+
+                if (responseData.status != 200) {
+                
+                    if(responseData.error.type != 'system'){
+                        const errorFunctions = Array.isArray(responseData.error.function) 
+                        ? responseData.error.function.map(fn => `"${fn}"`).join(',')
+                        : `"${responseData.error.function}"`;
+                
+                        const body = `{
+                            "errors": [
+                                {
+                                    "index": ${index},
+                                    "errors": {
+                                        "${responseData.error.filename}": [
+                                            ${errorFunctions}
+                                        ]
+                                    }
+                                }
+                            ]
+                        }`;
+                        await axios.post(`http://api.cours.jeancademie:80/lessons/${lesson}/erreurs`, JSON.parse(body))
                     }
-                    await axios.post(`/lesson/${lesson}/erreurs`, body)
+                    responseData.error = responseData.error.message;
                 }
                 return res.status(200).json(responseData);
             }
