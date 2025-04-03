@@ -20,6 +20,8 @@ Ceci est le répository github du projet tutoré environnement d'apprentisage. C
 
 [CMS](https://grav.paul-bruson.fr/) : Url du CMS pour la gestion de l'avancement du projet
 
+[Jeancadémie](https://jeancademie.paul-bruson.fr/) : Url du site déployé
+
 ## Differents composants du projet
 
 - [Front-end](front-end/README.md)
