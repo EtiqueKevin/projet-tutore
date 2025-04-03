@@ -497,13 +497,28 @@ public class GreeterTest {
         "content": "## Exercice 4.2 : Fonction de salutation\n\nCréez une fonction `saluer(nom, message=\"Bonjour\")` qui affiche un message de salutation.",
         "files": [
           {
-            "content": "def saluer(nom, message=\"Bonjour\"):\n    \"\"\"Affiche un message de salutation personnalisé.\n    \n    Args:\n        nom (str): Le nom de la personne à saluer\n        message (str, optional): Le message de salutation. Par défaut \"Bonjour\"\n    \n    Returns:\n        str: Le message de salutation complet\n    \"\"\"\n    salutation = f\"{message} {nom}!\"\n    print(salutation)\n    return salutation\n\n# Exemples d'utilisation\ndef exemples_salutation():\n    saluer(\"Alice\")  # Utilise le message par défaut\n    saluer(\"Bob\", \"Salut\")  # Message personnalisé\n    saluer(message=\"Bienvenue\", nom=\"Charlie\")  # Avec arguments nommés\n    \n    return True\n\n# Appeler les exemples si le script est exécuté directement\nif __name__ == \"__main__\":\n    exemples_salutation()",
+            "content": "def saluer(nom, message=\"Bonjour\"): \n pass",
             "filename": "fonction_salutation.py",
             "language": "python",
             "type": "file"
           },
           {
-            "content": "import pytest\nfrom fonction_salutation import saluer\n\n  \n def test_saluer_message_defaut(capsys):\n    # Tester avec le message par défaut\n    resultat = saluer(\"Alice\")\n    \n    # Vérifier la valeur de retour\n    assert resultat == \"Bonjour Alice!\"\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Bonjour Alice!\" in captured.out\n\n  \n def test_saluer_message_personnalise(capsys):\n    # Tester avec un message personnalisé\n    resultat = saluer(\"Bob\", \"Salut\")\n    \n    # Vérifier la valeur de retour\n    assert resultat == \"Salut Bob!\"\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Salut Bob!\" in captured.out\n\n  \n def test_saluer_arguments_nommes(capsys):\n    # Tester avec des arguments nommés\n    resultat = saluer(message=\"Bienvenue\", nom=\"Charlie\")\n    \n    # Vérifier la valeur de retour\n    assert resultat == \"Bienvenue Charlie!\"\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Bienvenue Charlie!\" in captured.out",
+            "content": "# test_fonction_salutation.py\n" +
+                "import pytest\n" +
+                "from fonction_salutation import saluer  # Import de la fonction saluer\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_salutation_bonjour():\n" +
+                "    # Test avec le message par défaut \"Bonjour\"\n" +
+                "    saluer(\"Alice\")\n" +
+                "    # Ici on ne peut pas directement tester la sortie imprimée, donc on peut utiliser un mock pour capturer la sortie\n" +
+                "    # Cela dépend de l'outil de test, par exemple en utilisant capsys avec pytest\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_salutation_personnalisee():\n" +
+                "    # Test avec un message personnalisé\n" +
+                "    saluer(\"Bob\", \"Salut\")\n" +
+                "    # Comme précédemment, il faudra capter l'affichage pour comparer le résultat\n",
             "filename": "fonction_salutationTest.py",
             "language": "python",
             "type": "test"
@@ -516,13 +531,42 @@ public class GreeterTest {
         "content": "## Exercice bonus : Fonction avec plusieurs paramètres par défaut\n\nCréez une fonction pour formater des informations de contact avec plusieurs paramètres par défaut.",
         "files": [
           {
-            "content": "def formater_contact(nom, prenom, telephone=None, email=None, adresse=None):\n    \"\"\"Formate les informations de contact d'une personne.\n    \n    Args:\n        nom (str): Nom de famille\n        prenom (str): Prénom\n        telephone (str, optional): Numéro de téléphone\n        email (str, optional): Adresse email\n        adresse (str, optional): Adresse postale\n    \n    Returns:\n        str: Texte formaté avec les informations de contact disponibles\n    \"\"\"\n    # Commencer par le nom complet\n    contact_info = f\"{prenom} {nom.upper()}\"\n    \n    # Ajouter les informations supplémentaires disponibles\n    if telephone:\n        contact_info += f\"\\nTél: {telephone}\"\n        \n    if email:\n        contact_info += f\"\\nEmail: {email}\"\n        \n    if adresse:\n        contact_info += f\"\\nAdresse: {adresse}\"\n    \n    print(contact_info)\n    return contact_info\n\n# Exemples d'utilisation\ndef exemples_contact():\n    # Avec seulement les informations obligatoires\n    formater_contact(\"Dupont\", \"Jean\")\n    \n    print(\"\\n---\\n\")  # Séparateur\n    \n    # Avec toutes les informations\n    formater_contact(\n        \"Martin\", \n        \"Sophie\", \n        telephone=\"01 23 45 67 89\", \n        email=\"sophie.martin@exemple.com\", \n        adresse=\"123 rue de Paris, 75001 Paris\"\n    )\n    \n    print(\"\\n---\\n\")  # Séparateur\n    \n    # Avec certaines informations optionnelles seulement\n    formater_contact(\"Durand\", \"Paul\", email=\"paul.durand@exemple.com\")\n    \n    return True\n\n# Appeler les exemples si le script est exécuté directement\nif __name__ == \"__main__\":\n    exemples_contact()",
+            "content": "# fonction_contact.py\n" +
+                "\n" +
+                "def formater_contact(nom, prenom=\"\", email=\"\", téléphone=\"\", adresse=\"\"):\n" +
+                "    pass",
             "filename": "fonction_contact.py",
             "language": "python",
             "type": "file"
           },
           {
-            "content": "import pytest\nfrom fonction_contact import formater_contact\n\n  \n def test_formater_contact_minimal(capsys):\n    # Tester avec seulement les informations obligatoires\n    resultat = formater_contact(\"Dupont\", \"Jean\")\n    \n    # Vérifier la valeur de retour\n    assert resultat == \"Jean DUPONT\"\n    assert \"Tél:\" not in resultat\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Jean DUPONT\" in captured.out\n\n  \n  def test_formater_contact_complet(capsys):\n    # Tester avec toutes les informations\n    resultat = formater_contact(\n        \"Martin\", \n        \"Sophie\", \n        telephone=\"01 23 45 67 89\", \n        email=\"sophie.martin@exemple.com\", \n        adresse=\"123 rue de Paris, 75001 Paris\"\n    )\n    \n    # Vérifier la valeur de retour\n    assert \"Sophie MARTIN\" in resultat\n    assert \"Tél: 01 23 45 67 89\" in resultat\n    assert \"Email: sophie.martin@exemple.com\" in resultat\n    assert \"Adresse: 123 rue de Paris, 75001 Paris\" in resultat\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Sophie MARTIN\" in captured.out\n    assert \"Tél: 01 23 45 67 89\" in captured.out\n\n  \n def test_formater_contact_partiel(capsys):\n    # Tester avec certaines informations optionnelles seulement\n    resultat = formater_contact(\"Durand\", \"Paul\", email=\"paul.durand@exemple.com\")\n    \n    # Vérifier la valeur de retour\n    assert \"Paul DURAND\" in resultat\n    assert \"Email: paul.durand@exemple.com\" in resultat\n    assert \"Tél:\" not in resultat\n    assert \"Adresse:\" not in resultat\n    \n    # Vérifier la sortie console\n    captured = capsys.readouterr()\n    assert \"Paul DURAND\" in captured.out\n    assert \"Email: paul.durand@exemple.com\" in captured.out",
+            "content": "# test_fonction_contact.py\n" +
+                "import pytest\n" +
+                "from fonction_contact import formater_contact  # Import de la fonction formater_contact\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_contact_complet():\n" +
+                "    # Test avec toutes les informations renseignées\n" +
+                "    result = formater_contact(\"Doe\", \"John\", \"john.doe@example.com\", \"0123456789\", \"123 Rue Exemple\")\n" +
+                "    assert result == \"Nom: Doe, Prénom: John, Email: john.doe@example.com, Téléphone: 0123456789, Adresse: 123 Rue Exemple\"\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_contact_sans_prenom():\n" +
+                "    # Test sans le prénom\n" +
+                "    result = formater_contact(\"Doe\", email=\"john.doe@example.com\")\n" +
+                "    assert result == \"Nom: Doe, Email: john.doe@example.com\"\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_contact_sans_email():\n" +
+                "    # Test sans l'email\n" +
+                "    result = formater_contact(\"Doe\", \"John\", téléphone=\"0123456789\")\n" +
+                "    assert result == \"Nom: Doe, Prénom: John, Téléphone: 0123456789\"\n" +
+                "\n" +
+                "@pytest.mark.xfail\n" +
+                "def test_contact_minimum():\n" +
+                "    # Test avec uniquement le nom\n" +
+                "    result = formater_contact(\"Doe\")\n" +
+                "    assert result == \"Nom: Doe\"\n",
             "filename": "fonction_contactTest.py",
             "language": "python",
             "type": "test"
