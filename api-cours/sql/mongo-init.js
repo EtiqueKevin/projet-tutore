@@ -3,7 +3,7 @@ db = db.getSiblingDB('cours');
 db.modules.insertMany([
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440000"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Introduction à Java",
     description: "Apprentissage des bases de la programmation en Java",
     nblesson: 2,
@@ -11,7 +11,7 @@ db.modules.insertMany([
   },
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440001"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Programmation Orientée Objet en Java",
     description: "Approfondissement des concepts de la POO avec Java",
     nblesson: 2,
@@ -19,7 +19,7 @@ db.modules.insertMany([
   },
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440002"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Structures de Données et Algorithmes en Java",
     description: "Étude des structures de données et des algorithmes classiques en Java",
     nblesson: 2,
@@ -27,7 +27,7 @@ db.modules.insertMany([
   },
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440004"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Introduction à Python",
     description: "Apprentissage des bases de la programmation en Python",
     nblesson: 2,
@@ -35,7 +35,7 @@ db.modules.insertMany([
   },
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440005"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Programmation Orientée Objet en Python",
     description: "Exploration des principes de la POO avec Python",
     nblesson: 2,
@@ -43,7 +43,7 @@ db.modules.insertMany([
   },
   {
     _id: UUID("550e8400-e29b-41d4-a716-446655440007"),
-    id_creator: UUID("85e2662f-fe2a-4bb7-933d-81a6ab467057"),
+    id_creator: UUID("a10a1303-33dd-4307-9273-5016f198709d"),
     name: "Automatisation avec Python",
     description: "Utilisation de Python pour l'automatisation des tâches répétitives",
     nblesson: 2,

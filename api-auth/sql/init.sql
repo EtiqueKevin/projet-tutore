@@ -18,4 +18,4 @@ INSERT INTO "users" ("id", "role", "email", "password") VALUES
     ('6d697d55-0d71-440d-ae82-2a1a59b5f23a', 100, 'etique.kevin@gmail.com', '$2y$10$VTBUMs/oE/V7DdHtF7GUueQpxZ1FE7RfCfabaIWTzBaR7m2l4Rr0u'),
     ('14c73c46-a918-4268-8b12-db809ed49c0c', 100, 'netange.clement@gmail.com', '$2y$10$HJi/xw85ZfBe9fgWAqUFteZbOuu9okObAPQsHQrYRF5ahvs2BJPre'),
     ('85e2662f-fe2a-4bb7-933d-81a6ab467057', 100, 'quilliec.amaury@gmail.com', '$2y$10$B4TJaotShHSmP3b77OVPcu09LmuoLJFjQN9Z6jsVj1KeyxIqdY.PS'),
-    ('a10a1303-33dd-4307-9273-5016f198709d', 10, 'boumaza.amine@gmail.com', '$2y$10$75T2rJWpdxZSY0fhqeB3Bub/jAojWzDjv7uoDHOjyVOdYKpnSsDHy');
+    ('a10a1303-33dd-4307-9273-5016f198709d', 100, 'boumaza.amine@gmail.com', '$2y$10$zQRhT.T5J00K8idGd2p8suzVzMWDjk6ovx8PBlFQFmc8ZYqK142RG');

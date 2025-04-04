@@ -25,9 +25,10 @@ services:
 
     working_dir: /app
     ports:
-      - "44310:5173"
-      # - "44310:4173"
-    command: sh -c "npm install && npm run dev -- --host"
+      # - "44310:5173"
+      - "44310:4173"
+      # command: sh -c "npm install && npm run dev -- --host"
+    command: sh -c "npm install && npm run build && npm run preview -- --host"
 
     networks:
       - jeancademie.net
