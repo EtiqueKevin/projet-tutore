@@ -56,9 +56,9 @@ class Logger {
 Logger.setHandler((messages, context, language) => {
     const formattedMessage = logFormatter(messages, language);
     if (context.level === 'ERROR') {
-        logStreamError.write(formattedMessage + '\n');
+        logStreamError.write(null);
     } else {
-        logStreamInfo.write(formattedMessage + '\n');
+        logStreamInfo.write(null);
     }
 });
 
