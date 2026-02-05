@@ -71,8 +71,10 @@ class Cors{
             }
         }
 
+        // Si pas de header Origin, c'est une requête directe (navigateur, curl, server-to-server)
+        // Pas besoin de vérifier CORS dans ce cas
         if (!$rq->hasHeader('Origin')) {
-            throw new HttpUnauthorizedException($rq, "missing Origin Header (cors)");
+            return $next->handle($rq);
         }
 
         $origin = $rq->getHeaderLine('Origin');
