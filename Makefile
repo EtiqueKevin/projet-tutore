@@ -93,6 +93,21 @@ define frontend_setup
 	fi
 endef
 
+define gateway_setup
+	@echo "\n[5/5] Configuration de la Gateway"
+	@echo "----------------------------------------"
+	$(call copy_exemple,./gateway/env/gateway.env.exemple)
+	@read -p "Configurer les origines CORS? (y/N): " update_cors; \
+	if [ "$${update_cors:-N}" = "y" ]; then \
+		echo "\nOrigines CORS (les réseaux locaux sont automatiquement autorisés)"; \
+		read -p "Domaines autorisés (séparés par des virgules): " cors_origins; \
+		if [ -n "$$cors_origins" ]; then \
+			sed -i "s|CORS_ALLOWED_ORIGINS=.*|CORS_ALLOWED_ORIGINS=$$cors_origins|" ./gateway/env/gateway.env; \
+			echo "✓ Origines CORS mises à jour avec succès!"; \
+		fi; \
+	fi
+endef
+
 define docker_install
 	@echo "\n[1/2] Arrêt des conteneurs Docker"
 	@echo "----------------------------------------"
@@ -155,7 +170,8 @@ REQUIRED_FILES := \
 	./api-cours/app/config/iniconf/cours.db.ini \
 	./api-utilisateur/env/db.env \
 	./api-utilisateur/app/config/iniconf/utilisateur.db.ini \
-	./front-end/.env
+	./front-end/.env \
+	./gateway/env/gateway.env
 
 REQUIRED_VENDORS := \
 	./gateway/vendor \
@@ -317,6 +333,7 @@ install:
 	$(call cours_setup)
 	$(call utilisateur_setup)
 	$(call frontend_setup)
+	$(call gateway_setup)
 	@echo "\nStarting Docker installation..."
 	$(call docker_install)
 	$(call vendor_install)
@@ -337,6 +354,7 @@ update:
 	$(call cours_setup)
 	$(call utilisateur_setup)
 	$(call frontend_setup)
+	$(call gateway_setup)
 	@echo "\n✓ Mise à jour de la configuration terminée!"
 	@echo "==============================================================================="
 
@@ -362,6 +380,7 @@ reset:
 	@rm -f ./api-utilisateur/app/config/iniconf/utilisateur.db.ini
 	@rm -f ./api-utilisateur/env/db.env
 	@rm -f ./front-end/.env
+	@rm -f ./gateway/env/gateway.env
 	@echo "\n✓ Réinitialisation terminée !"
 	@echo "==============================================================================="
 	@echo "Tous les services sont arrêtés et les dépendances ont été supprimées."
