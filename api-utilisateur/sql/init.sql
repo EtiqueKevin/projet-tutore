@@ -16,7 +16,8 @@ INSERT INTO "users" ("id", "name", "surname", "pseudo", "linkpic") VALUES
     ('6d697d55-0d71-440d-ae82-2a1a59b5f23a', 'Kevin', 'Etique', 'Kev', 'default.jpg'),
     ('14c73c46-a918-4268-8b12-db809ed49c0c', 'Clement', 'Netange', 'Clem2', 'default.jpg'),
     ('85e2662f-fe2a-4bb7-933d-81a6ab467057', 'Amaury', 'Quilliec', 'Amau', 'default.jpg'),
-    ('a10a1303-33dd-4307-9273-5016f198709d', 'Amine', 'Boumaza', 'Amine', 'default.jpg');
+    ('a10a1303-33dd-4307-9273-5016f198709d', 'Amine', 'Boumaza', 'Amine', 'default.jpg'),
+    ('1c8e5b9a-7c3d-4f0e-9a1b-2c3d4e5f6a7b', 'Admin', 'Admin', 'Admin', 'default.jpg');
 
 DROP TABLE IF EXISTS "comments";
 CREATE TABLE "public"."comments" (

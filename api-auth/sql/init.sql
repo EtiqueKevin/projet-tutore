@@ -13,6 +13,8 @@ CREATE TABLE "public"."users" (
 ) WITH (oids = false);
 
 INSERT INTO "users" ("id", "role", "email", "password") VALUES
+    ('1c8e5b9a-7c3d-4f0e-9a1b-2c3d4e5f6a7b', 100, 'admin@jeancademie.com', '$2y$10$d/b.Q8hHkPDdfLC1PQAG/uj9XGyWcEb3DOjYheSNrlNhHDY/uX5m2'), 
+    -- Password: Admin!1234
     ('9bc9ec6a-e9c3-483c-b799-ad208c32e6d2', 100, 'brito.clement@gmail.com', '$2y$10$.kJfrhkr2dUCltexeduDfuWFFL/9KLkzA7.LRpnlaAcUkAiKeSpMy'),
     ('e4fb9d21-7dd6-4ce5-b32a-ecdcf936e3da', 100, 'bruson.paul@gmail.com', '$2y$10$xci/KKZ/mlqrDuWfsvp38ehW4fSm5YY2i2pvtrjXIS7eSiSpo0MVW'),
     ('6d697d55-0d71-440d-ae82-2a1a59b5f23a', 100, 'etique.kevin@gmail.com', '$2y$10$VTBUMs/oE/V7DdHtF7GUueQpxZ1FE7RfCfabaIWTzBaR7m2l4Rr0u'),
