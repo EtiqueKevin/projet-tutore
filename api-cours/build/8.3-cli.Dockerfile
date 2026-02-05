@@ -13,7 +13,7 @@ RUN curl -sSLf \
     chmod +x /usr/local/bin/install-php-extensions
 
 # PHP Configuration
-RUN install-php-extensions mongodb-1.19.1
+RUN install-php-extensions mongodb-1.20.0
 RUN install-php-extensions gettext iconv intl  tidy zip sockets
 RUN install-php-extensions pgsql mysqli
 RUN install-php-extensions pdo_mysql pdo_pgsql

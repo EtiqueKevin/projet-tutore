@@ -29,3 +29,5 @@ composer.lock
 *.ini
 
 package-lock.json
+.current_mode
+docker-compose.prod.yaml
