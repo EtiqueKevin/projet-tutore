@@ -94,11 +94,11 @@ define frontend_setup
 endef
 
 define docker_install
-	@echo "\n[1/4] Arrêt des conteneurs Docker"
+	@echo "\n[1/2] Arrêt des conteneurs Docker"
 	@echo "----------------------------------------"
 	@docker compose down
 
-	@echo "\n[2/4] Nettoyage des dépendances existantes"
+	@echo "\n[2/2] Nettoyage des dépendances existantes"
 	@echo "----------------------------------------"
 	@rm -rf ./api-auth/app/vendor
 	@rm -rf ./api-cours/app/vendor
@@ -109,32 +109,204 @@ define docker_install
 	@rm -rf ./api-execution/worker/java/node_modules
 	@rm -rf ./api-execution/worker/python/node_modules
 	@echo "✓ Nettoyage terminé !"
-	
-	@echo "\n[3/4] Installation des dépendances via Docker"
+endef
+
+define vendor_install
+	@echo "\n📦 Installation des dépendances PHP (vendors)"
 	@echo "----------------------------------------"
 	@docker compose up -d gateway.jeancademie && \
 	docker compose exec gateway.jeancademie composer install && \
-	docker compose up -d api.cours.jeancademie && \
+	echo "  ✅ gateway/vendor"
+	@docker compose up -d api.cours.jeancademie && \
 	docker compose exec api.cours.jeancademie composer install && \
-	docker compose up -d api.utilisateur.jeancademie && \
+	echo "  ✅ api-cours/app/vendor"
+	@docker compose up -d api.utilisateur.jeancademie && \
 	docker compose exec api.utilisateur.jeancademie composer install && \
-	docker compose up -d api.auth.jeancademie && \
+	echo "  ✅ api-utilisateur/app/vendor"
+	@docker compose up -d api.auth.jeancademie && \
 	docker compose exec api.auth.jeancademie composer install && \
-	docker compose up -d frontend.jeancademie && \
-	docker compose up -d api.execution && \
-	docker compose up -d java && \
-	docker compose up -d python
+	echo "  ✅ api-auth/app/vendor"
+	@echo "✓ Tous les vendors installés !"
+endef
 
-	@echo "\n[4/4] Démarrage de tous les services"  
+define services_start
+	@echo "\n🚀 Démarrage de tous les services"
 	@echo "----------------------------------------"
+	@docker compose up -d frontend.jeancademie
+	@docker compose up -d api.execution
+	@docker compose up -d java
+	@docker compose up -d python
 	@docker compose up -d --build
-
-	@echo "\n✓ Installation terminée ! Tous les services sont en cours d'exécution."
-	@echo "----------------------------------------"
+	@echo "✓ Tous les services sont en cours d'exécution."
 endef
 
 
-.PHONY: install update
+.PHONY: install update dev prod down status vendor check
+
+# Fichier pour tracker le mode actif
+MODE_FILE := .current_mode
+
+# Fichiers requis pour le fonctionnement
+REQUIRED_FILES := \
+	./api-auth/env/auth.env \
+	./api-auth/env/db.env \
+	./api-auth/app/config/iniconf/auth.db.ini \
+	./api-cours/env/db.env \
+	./api-cours/app/config/iniconf/cours.db.ini \
+	./api-utilisateur/env/db.env \
+	./api-utilisateur/app/config/iniconf/utilisateur.db.ini \
+	./front-end/.env
+
+REQUIRED_VENDORS := \
+	./gateway/vendor \
+	./api-auth/app/vendor \
+	./api-cours/app/vendor \
+	./api-utilisateur/app/vendor
+
+# Fonction pour vérifier si l'installation est complète
+define check_install
+	@missing_files=""; \
+	missing_vendors=""; \
+	for file in $(REQUIRED_FILES); do \
+		if [ ! -f "$$file" ]; then \
+			missing_files="$$missing_files\n  ❌ $$file"; \
+		fi; \
+	done; \
+	for vendor in $(REQUIRED_VENDORS); do \
+		if [ ! -d "$$vendor" ]; then \
+			missing_vendors="$$missing_vendors\n  ❌ $$vendor"; \
+		fi; \
+	done; \
+	if [ -n "$$missing_files" ] || [ -n "$$missing_vendors" ]; then \
+		echo "⚠️  Installation incomplète détectée"; \
+		if [ -n "$$missing_files" ]; then \
+			echo "\nFichiers de configuration manquants:$$missing_files"; \
+		fi; \
+		if [ -n "$$missing_vendors" ]; then \
+			echo "\nDépendances manquantes:$$missing_vendors"; \
+		fi; \
+		echo ""; \
+		read -p "Voulez-vous lancer l'installation complète? (y/N): " do_install; \
+		if [ "$${do_install:-N}" = "y" ]; then \
+			$(MAKE) install; \
+			exit 0; \
+		else \
+			echo "\n⚠️  Vous avez choisi de ne pas installer."; \
+			if [ -n "$$missing_files" ]; then \
+				echo "❌ Impossible de continuer sans les fichiers de configuration."; \
+				echo "   Créez-les manuellement ou lancez 'make install'."; \
+				exit 1; \
+			fi; \
+			if [ -n "$$missing_vendors" ]; then \
+				echo "⚠️  Les vendors sont manquants. Les services peuvent ne pas fonctionner."; \
+				read -p "Continuer quand même? (y/N): " force_continue; \
+				if [ "$${force_continue:-N}" != "y" ]; then \
+					echo "Abandon."; \
+					exit 1; \
+				fi; \
+			fi; \
+		fi; \
+	fi
+endef
+
+# Fonction pour obtenir le mode actif
+get_mode = $(shell cat $(MODE_FILE) 2>/dev/null || echo "none")
+
+dev:
+	$(call check_install)
+	@current_mode=$$(cat $(MODE_FILE) 2>/dev/null || echo "none"); \
+	if [ "$$current_mode" = "dev" ]; then \
+		echo "🔽 Mode DEV actif, arrêt en cours..."; \
+		docker compose down; \
+		rm -f $(MODE_FILE); \
+		echo "✓ Environnement DEV arrêté"; \
+	elif [ "$$current_mode" = "prod" ]; then \
+		echo "🔄 Switch PROD → DEV"; \
+		docker compose -f docker-compose.prod.yaml down; \
+		docker compose up -d; \
+		echo "dev" > $(MODE_FILE); \
+		echo "✓ Environnement DEV démarré"; \
+	else \
+		echo "🚀 Démarrage en mode DEV..."; \
+		docker compose up -d; \
+		echo "dev" > $(MODE_FILE); \
+		echo "✓ Environnement DEV démarré"; \
+	fi
+
+prod:
+	$(call check_install)
+	@current_mode=$$(cat $(MODE_FILE) 2>/dev/null || echo "none"); \
+	if [ "$$current_mode" = "prod" ]; then \
+		echo "🔽 Mode PROD actif, arrêt en cours..."; \
+		docker compose -f docker-compose.prod.yaml down; \
+		rm -f $(MODE_FILE); \
+		echo "✓ Environnement PROD arrêté"; \
+	elif [ "$$current_mode" = "dev" ]; then \
+		echo "🔄 Switch DEV → PROD"; \
+		docker compose down; \
+		docker compose -f docker-compose.prod.yaml up -d; \
+		echo "prod" > $(MODE_FILE); \
+		echo "✓ Environnement PROD démarré"; \
+	else \
+		echo "🚀 Démarrage en mode PROD..."; \
+		docker compose -f docker-compose.prod.yaml up -d; \
+		echo "prod" > $(MODE_FILE); \
+		echo "✓ Environnement PROD démarré"; \
+	fi
+
+down:
+	@current_mode=$$(cat $(MODE_FILE) 2>/dev/null || echo "none"); \
+	if [ "$$current_mode" = "dev" ]; then \
+		docker compose down; \
+	elif [ "$$current_mode" = "prod" ]; then \
+		docker compose -f docker-compose.prod.yaml down; \
+	else \
+		docker compose down 2>/dev/null; \
+		docker compose -f docker-compose.prod.yaml down 2>/dev/null; \
+	fi; \
+	rm -f $(MODE_FILE); \
+	echo "✓ Tous les services arrêtés"
+
+status:
+	@current_mode=$$(cat $(MODE_FILE) 2>/dev/null || echo "none"); \
+	if [ "$$current_mode" = "none" ]; then \
+		echo "⚪ Aucun environnement actif"; \
+	else \
+		echo "🟢 Mode actif: $$current_mode"; \
+		if [ "$$current_mode" = "dev" ]; then \
+			docker compose ps; \
+		else \
+			docker compose -f docker-compose.prod.yaml ps; \
+		fi \
+	fi
+
+check:
+	@echo "🔍 Vérification de l'installation..."
+	@all_ok=true; \
+	echo "\n📁 Fichiers de configuration:"; \
+	for file in $(REQUIRED_FILES); do \
+		if [ -f "$$file" ]; then \
+			echo "  ✅ $$file"; \
+		else \
+			echo "  ❌ $$file"; \
+			all_ok=false; \
+		fi; \
+	done; \
+	echo "\n📦 Dépendances (vendors):"; \
+	for vendor in $(REQUIRED_VENDORS); do \
+		if [ -d "$$vendor" ]; then \
+			echo "  ✅ $$vendor"; \
+		else \
+			echo "  ❌ $$vendor"; \
+			all_ok=false; \
+		fi; \
+	done; \
+	echo ""; \
+	if [ "$$all_ok" = true ]; then \
+		echo "✅ Installation complète !"; \
+	else \
+		echo "⚠️  Installation incomplète. Lancez 'make install' pour corriger."; \
+	fi
 
 install:
 	@echo "==============================================================================="
@@ -147,6 +319,15 @@ install:
 	$(call frontend_setup)
 	@echo "\nStarting Docker installation..."
 	$(call docker_install)
+	$(call vendor_install)
+	$(call services_start)
+	@echo "\n✓ Installation terminée !"
+
+vendor:
+	@echo "==============================================================================="
+	@echo "                  JeanCademie - Installation des vendors                       "
+	@echo "==============================================================================="
+	$(call vendor_install)
 
 update:
 	@echo "==============================================================================="

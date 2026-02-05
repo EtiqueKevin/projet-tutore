@@ -16,17 +16,16 @@ services:
   # BROKER
   redis:
     image: redis:latest
-    container_name: redis
+    container_name: jc-redis
     #    volumes:
     #      - redis-data:/data
     networks:
       - jeancademie.net
 
   # FRONTEND
-
   frontend.jeancademie:
-    image : node:22
-
+    image: node:22
+    container_name: jc-frontend
     volumes:
       - ./front-end:/app
       - /app/node_modules
@@ -36,14 +35,17 @@ services:
 
     networks:
       - jeancademie.net
-
+    
+    # labels:
+    #   - "traefik.enable=true"
+    #   ... 
 
   # API
-
   gateway.jeancademie:
     build:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
+    container_name: jc-gateway
     volumes:
       - ./gateway:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -52,11 +54,15 @@ services:
       - jeancademie.net
     command: php -S 0.0.0.0:80 -t /var/php/public
 
+    # labels:
+    #   - "traefik.enable=true"
+    #   ... 
+
   api.cours.jeancademie:
     build:
       context: ./api-cours/build
       dockerfile: 8.3-cli.Dockerfile
-
+    container_name: jc-api-cours
     volumes:
       - ./api-cours/app:/var/php
 
@@ -70,7 +76,7 @@ services:
     build:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
-
+    container_name: jc-api-utilisateur
     volumes:
       - ./api-utilisateur/app:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -84,7 +90,7 @@ services:
     build:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
-
+    container_name: jc-api-auth
     volumes:
       - ./api-auth/app:/var/php
     
@@ -98,8 +104,8 @@ services:
     command: php -S 0.0.0.0:80 -t /var/php/public
 
   api.execution:
-    build: ./api-execution/router # Dockerfile dans le dossier ./router
-    container_name: router
+    build: ./api-execution/router
+    container_name: jc-api-execution
     environment:
       - REDIS_URL=redis://redis:6379
     volumes:
@@ -111,7 +117,7 @@ services:
 
   java:
     image: yoxan/node-java
-    container_name: java
+    container_name: jc-worker-java
     environment:
       - REDIS_URL=redis://redis:6379
     working_dir: /usr/src/worker/java
@@ -131,7 +137,7 @@ services:
   # Service Python
   python:
     image: yoxan/node-python
-    container_name: python
+    container_name: jc-worker-python
     working_dir: /usr/src/worker/python
     environment:
       - REDIS_URL=redis://redis:6379
@@ -152,7 +158,8 @@ services:
   # DATABASES
 
   db.auth.jeancademie:
-    image: postgres:latest
+    image: postgres:16
+    container_name: jc-db-auth
     networks:
       - jeancademie.net
     env_file: ./api-auth/env/db.env
@@ -161,7 +168,8 @@ services:
       - ./api-auth/sql:/docker-entrypoint-initdb.d
 
   db.utilisateur.jeancademie:
-    image: postgres:latest
+    image: postgres:16
+    container_name: jc-db-utilisateur
     networks:
       - jeancademie.net
     env_file: ./api-utilisateur/env/db.env
@@ -171,6 +179,7 @@ services:
 
   mongo.jeancademie:
     image: mongo
+    container_name: jc-mongo
     env_file:
       - ./api-cours/env/db.env
     volumes:
