@@ -46,6 +46,7 @@ services:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-gateway
+    env_file: ./gateway/env/gateway.env
     volumes:
       - ./gateway:/var/php
       - ./user-pictures:/var/php/public/assets/img/
