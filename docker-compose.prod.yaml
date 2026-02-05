@@ -1,11 +1,11 @@
 # =============================================================================
-# DOCKER COMPOSE - DÉVELOPPEMENT
+# DOCKER COMPOSE - PRODUCTION
 # =============================================================================
-# Tous les ports sont exposés pour faciliter le debug et les tests locaux.
-# Pour la production, utilisez docker-compose.prod.yaml
+# Aucun port exposé. Utilisez un reverse proxy (Traefik, Nginx, etc.)
+# Pour le développement, utilisez docker-compose.yaml
 #
 # Usage:
-#   docker-compose up -d
+#   docker-compose -f docker-compose.prod.yaml up -d
 # =============================================================================
 
 networks:
@@ -17,8 +17,6 @@ services:
   redis:
     image: redis:latest
     container_name: redis
-    ports:
-      - "44319:6379"
     #    volumes:
     #      - redis-data:/data
     networks:
@@ -34,10 +32,6 @@ services:
       - /app/node_modules
 
     working_dir: /app
-    ports:
-      # - "44310:5173"
-      - "44310:4173"
-      # command: sh -c "npm install && npm run dev -- --host"
     command: sh -c "npm install && npm run build && npm run preview -- --host"
 
     networks:
@@ -50,8 +44,6 @@ services:
     build:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
-    ports:
-      - '44311:80'
     volumes:
       - ./gateway:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -70,8 +62,6 @@ services:
 
     working_dir: /var/php
 
-    ports:
-      - "44312:80"
     networks:
       - jeancademie.net
     command: php -S 0.0.0.0:80 -t /var/php/public
@@ -87,8 +77,6 @@ services:
     working_dir: /var/php
     networks:
       - jeancademie.net
-    ports:
-      - "44313:80"
 
     command: php -S 0.0.0.0:80 -t /var/php/public
 
@@ -106,16 +94,12 @@ services:
     working_dir: /var/php
     networks:
       - jeancademie.net
-    ports:
-      - "44314:80"
 
     command: php -S 0.0.0.0:80 -t /var/php/public
 
   api.execution:
     build: ./api-execution/router # Dockerfile dans le dossier ./router
     container_name: router
-    ports:
-      - "44315:3000"
     environment:
       - REDIS_URL=redis://redis:6379
     volumes:
@@ -167,14 +151,6 @@ services:
 
   # DATABASES
 
-  adminer.jeancademie:
-    image: adminer
-    ports:
-      - "44316:8080"
-    networks:
-      - jeancademie.net
-    command: 'php -S 0.0.0.0:8080 -t /var/www/html'
-
   db.auth.jeancademie:
     image: postgres:latest
     networks:
@@ -201,21 +177,7 @@ services:
       - ./api-cours/sql/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - jeancademie.net
-    ports:
-      - "44317:27017"
-
-  mongo-express:
-    image: mongo-express
-    env_file:
-      - ./api-cours/env/mongoexpress.env
-    depends_on:
-      - mongo.jeancademie
-    ports:
-      - "44318:8081"
-    networks:
-      - jeancademie.net
 
 volumes:
   db.auth.jeancademie:
   db.utilisateur.jeancademie:
-  db.cours.jeancademie:
