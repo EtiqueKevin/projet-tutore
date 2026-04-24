@@ -17,6 +17,7 @@ services:
   redis:
     image: redis:latest
     container_name: jc-redis
+    restart: unless-stopped
     ports:
       - "44319:6379"
     #    volumes:
@@ -29,6 +30,7 @@ services:
   frontend.jeancademie:
     image: node:22
     container_name: jc-frontend
+    restart: unless-stopped
     volumes:
       - ./front-end:/app
       - /app/node_modules
@@ -51,6 +53,7 @@ services:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-gateway
+    restart: unless-stopped
     env_file: ./gateway/env/gateway.env
     ports:
       - '44311:80'
@@ -67,6 +70,7 @@ services:
       context: ./api-cours/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-cours
+    restart: unless-stopped
     volumes:
       - ./api-cours/app:/var/php
 
@@ -83,6 +87,7 @@ services:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-utilisateur
+    restart: unless-stopped
     volumes:
       - ./api-utilisateur/app:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -99,6 +104,7 @@ services:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-auth
+    restart: unless-stopped
     volumes:
       - ./api-auth/app:/var/php
     
@@ -116,6 +122,7 @@ services:
   api.execution:
     build: ./api-execution/router
     container_name: jc-api-execution
+    restart: unless-stopped
     ports:
       - "44315:3000"
     environment:
@@ -130,6 +137,7 @@ services:
   java:
     image: yoxan/node-java
     container_name: jc-worker-java
+    restart: unless-stopped
     environment:
       - REDIS_URL=redis://redis:6379
     working_dir: /usr/src/worker/java
@@ -150,6 +158,7 @@ services:
   python:
     image: yoxan/node-python
     container_name: jc-worker-python
+    restart: unless-stopped
     working_dir: /usr/src/worker/python
     environment:
       - REDIS_URL=redis://redis:6379
@@ -172,6 +181,7 @@ services:
   adminer.jeancademie:
     image: adminer
     container_name: jc-adminer
+    restart: unless-stopped
     ports:
       - "44316:8080"
     networks:
@@ -181,6 +191,7 @@ services:
   db.auth.jeancademie:
     image: postgres:16
     container_name: jc-db-auth
+    restart: unless-stopped
     networks:
       - jeancademie.net
     env_file: ./api-auth/env/db.env
@@ -191,6 +202,7 @@ services:
   db.utilisateur.jeancademie:
     image: postgres:16
     container_name: jc-db-utilisateur
+    restart: unless-stopped
     networks:
       - jeancademie.net
     env_file: ./api-utilisateur/env/db.env
@@ -201,6 +213,7 @@ services:
   mongo.jeancademie:
     image: mongo
     container_name: jc-mongo
+    restart: unless-stopped
     env_file:
       - ./api-cours/env/db.env
     volumes:
@@ -213,6 +226,7 @@ services:
   mongo-express:
     image: mongo-express
     container_name: jc-mongo-express
+    restart: unless-stopped
     env_file:
       - ./api-cours/env/mongoexpress.env
     depends_on:

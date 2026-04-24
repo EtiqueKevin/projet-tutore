@@ -17,6 +17,7 @@ services:
   redis:
     image: redis:latest
     container_name: jc-redis
+    restart: unless-stopped
     #    volumes:
     #      - redis-data:/data
     networks:
@@ -26,19 +27,16 @@ services:
   frontend.jeancademie:
     image: node:22
     container_name: jc-frontend
+    restart: unless-stopped
     volumes:
       - ./front-end:/app
       - /app/node_modules
-
     working_dir: /app
     command: sh -c "npm install && npm run build && npm run preview -- --host"
-
+    ports:
+      - "4173:4173"  # Exposer le port
     networks:
       - jeancademie.net
-    
-    # labels:
-    #   - "traefik.enable=true"
-    #   ... 
 
   # API
   gateway.jeancademie:
@@ -46,24 +44,24 @@ services:
       context: gateway/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-gateway
+    restart: unless-stopped
     env_file: ./gateway/env/gateway.env
     volumes:
       - ./gateway:/var/php
       - ./user-pictures:/var/php/public/assets/img/
     working_dir: /var/php
+    ports:
+      - "8080:80"  # Exposer sur un port différent pour éviter les conflits
     networks:
       - jeancademie.net
     command: php -S 0.0.0.0:80 -t /var/php/public
-
-    # labels:
-    #   - "traefik.enable=true"
-    #   ... 
 
   api.cours.jeancademie:
     build:
       context: ./api-cours/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-cours
+    restart: unless-stopped
     volumes:
       - ./api-cours/app:/var/php
 
@@ -78,6 +76,7 @@ services:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-utilisateur
+    restart: unless-stopped
     volumes:
       - ./api-utilisateur/app:/var/php
       - ./user-pictures:/var/php/public/assets/img/
@@ -92,6 +91,7 @@ services:
       context: ./api-utilisateur/build
       dockerfile: 8.3-cli.Dockerfile
     container_name: jc-api-auth
+    restart: unless-stopped
     volumes:
       - ./api-auth/app:/var/php
     
@@ -107,6 +107,7 @@ services:
   api.execution:
     build: ./api-execution/router
     container_name: jc-api-execution
+    restart: unless-stopped
     environment:
       - REDIS_URL=redis://redis:6379
     volumes:
@@ -119,6 +120,7 @@ services:
   java:
     image: yoxan/node-java
     container_name: jc-worker-java
+    restart: unless-stopped
     environment:
       - REDIS_URL=redis://redis:6379
     working_dir: /usr/src/worker/java
@@ -139,6 +141,7 @@ services:
   python:
     image: yoxan/node-python
     container_name: jc-worker-python
+    restart: unless-stopped
     working_dir: /usr/src/worker/python
     environment:
       - REDIS_URL=redis://redis:6379
@@ -161,6 +164,7 @@ services:
   db.auth.jeancademie:
     image: postgres:16
     container_name: jc-db-auth
+    restart: unless-stopped
     networks:
       - jeancademie.net
     env_file: ./api-auth/env/db.env
@@ -171,6 +175,7 @@ services:
   db.utilisateur.jeancademie:
     image: postgres:16
     container_name: jc-db-utilisateur
+    restart: unless-stopped
     networks:
       - jeancademie.net
     env_file: ./api-utilisateur/env/db.env
@@ -181,6 +186,7 @@ services:
   mongo.jeancademie:
     image: mongo
     container_name: jc-mongo
+    restart: unless-stopped
     env_file:
       - ./api-cours/env/db.env
     volumes:
